@@ -1,0 +1,160 @@
+options:
+  parameters:
+    author: SP5WWP
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: M17 Project, Dec 2022
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: m17_streamer
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: M17 data streamer
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 44.0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '192000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 52.0]
+    rotation: 0
+    state: true
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 184.0]
+    rotation: 0
+    state: true
+- name: blocks_throttle_0
+  id: blocks_throttle
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: (6+6+2+14+16)*8*(1000/40)
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [352, 180.0]
+    rotation: 0
+    state: enabled
+- name: blocks_vector_source_x_0_2
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: byte
+    vector: (0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00)
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [128, 164.0]
+    rotation: 0
+    state: true
+- name: m17_m17_coder_0
+  id: m17_m17_coder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    dst_ip: 255.255.255.255
+    maxoutbuf: '0'
+    meta: helloworld
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    src_ip: 0.0.31.36.93.81
+    type: '5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 148.0]
+    rotation: 0
+    state: true
+- name: m17_m17_decoder_0
+  id: m17_m17_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 184.0]
+    rotation: 0
+    state: true
+- name: note_0_2
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: DATA
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 180.0]
+    rotation: 0
+    state: true
+
+connections:
+- [blocks_throttle_0, '0', m17_m17_coder_0, '0']
+- [blocks_vector_source_x_0_2, '0', blocks_throttle_0, '0']
+- [m17_m17_coder_0, '0', m17_m17_decoder_0, '0']
+- [m17_m17_decoder_0, '0', blocks_null_sink_0, '0']
+
+metadata:
+  file_format: 1
