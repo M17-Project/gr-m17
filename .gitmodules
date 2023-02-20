@@ -1,0 +1,3 @@
+[submodule "M17_Implementations"]
+	path = M17_Implementations
+	url = https://github.com/M17-Project/M17_Implementations.git
