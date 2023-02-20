@@ -76,3 +76,10 @@ TODO:
 * Test on 3.8
 * How to handle fixed symbol rate but varying output rate?
 * How to modulate the RF transmitted with the real output?
+
+In case of error related to ``Python bindings for m17_coder.h are out of sync`` after changing
+header files in ``include/gnuradio/m17``, make sure that 
+```
+md5sum include/gnuradio/m17/m17_decoder.h
+```
+match the information in ``python/m17/bindings/*cc``.

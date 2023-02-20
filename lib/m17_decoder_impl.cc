@@ -31,10 +31,10 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "../../inc/m17.h"
-#include "../../m17-decoder/golay.h"
-#include "../../m17-decoder/viterbi.h"
-#include "../../m17-decoder/crc.h"
+#include "../M17_Implementations/SP5WWP/inc/m17.h"
+#include "../M17_Implementations/SP5WWP/m17-decoder/golay.h"
+#include "../M17_Implementations/SP5WWP/m17-decoder/viterbi.h"
+#include "../M17_Implementations/SP5WWP/m17-decoder/crc.h"
 
 #define DECODE_CALLSIGNS
 //#define SHOW_VITERBI_ERRS
