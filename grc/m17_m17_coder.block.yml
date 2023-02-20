@@ -1,0 +1,60 @@
+id: m17_m17_coder
+label: m17_coder
+category: '[m17]'
+
+parameters:
+- id: samp_rate
+  label: samp_rate
+  dtype: float
+  default: samp_rate
+- id: src_id
+  label: Source ID
+  dtype: string
+  default: '01.02.03.04.05.06'
+- id: dst_id
+  label: Destination ID
+  dtype: string
+  default: '255.255.255.255.255.255'
+- id: type
+  label: Type
+  dtype: short
+  default: 0
+- id: meta
+  label: Meta
+  dtype: string
+  default: 'helloworld'
+
+templates:
+  imports: from gnuradio import m17
+  make: m17.m17_coder(${src_id},${dst_id},${type},${meta},${samp_rate})
+  callbacks:
+    - set_meta(${meta})
+    - set_samp_rate(${samp_rate})
+    - set_src_id(${src_id})
+    - set_dst_id(${dst_id})
+    - set_type(${type})
+
+#  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
+#  Keys include:
+#      * label (an identifier for the GUI)
+#      * domain (optional - stream or message. Default is stream)
+#      * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+#      * vlen (optional - data stream vector length. Default is 1)
+#      * optional (optional - set to 1 for optional inputs. Default is 0)
+inputs:
+- label: in
+  domain: stream
+  dtype: byte
+  vlen: 1
+  optional: 0
+
+outputs:
+- label: out
+  domain: stream
+  dtype: float
+  vlen: 1
+  optional: 0
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1
