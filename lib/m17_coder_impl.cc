@@ -30,9 +30,9 @@
 #include <stdint.h>
 #include <unistd.h>
 
-#include "../../inc/m17.h"
-#include "../../m17-coder/golay.h"
-#include "../../m17-coder/crc.h"
+#include "../M17_Implementations/SP5WWP/inc/m17.h"
+#include "../M17_Implementations/SP5WWP/m17-coder/golay.h"
+#include "../M17_Implementations/SP5WWP/m17-coder/crc.h"
 
 namespace gr {
   namespace m17 {
