@@ -26,14 +26,15 @@
 namespace gr {
   namespace m17 {
 
-    class m17_decoder_impl : public m17_decoder
-    {
-     private:
-      // Nothing to declare in this block.
+class m17_decoder_impl : public m17_decoder
+{
+private:
+    bool _debug=false;
 
-     public:
-      m17_decoder_impl();
-      ~m17_decoder_impl();
+public:
+    m17_decoder_impl(bool debug);
+    ~m17_decoder_impl();
+    void set_debug(bool debug);
 
       // Where all the action really happens
       void forecast (int noutput_items, gr_vector_int &ninput_items_required);

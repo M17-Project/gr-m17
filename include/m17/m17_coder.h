@@ -50,7 +50,7 @@ namespace gr {
        virtual void set_src_id(std::string src_id)=0;
        virtual void set_dst_id(std::string dst_id)=0;
        virtual void set_samp_rate(float samp_rate)=0;
-
+       virtual void set_debug(bool debug)=0;
     };
 
   } // namespace m17

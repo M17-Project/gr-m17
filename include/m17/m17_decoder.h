@@ -46,6 +46,7 @@ namespace gr {
        * creating new instances.
        */
       static sptr make();
+      virtual void set_debug(bool debug)=0;
     };
 
   } // namespace m17

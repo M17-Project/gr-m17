@@ -101,21 +101,22 @@ void decode_callsign(uint8_t *outp, const uint8_t *inp)
 }
 
     m17_decoder::sptr
-    m17_decoder::make()
+    m17_decoder::make(bool debug)
     {
       return gnuradio::get_initial_sptr
-        (new m17_decoder_impl());
+        (new m17_decoder_impl(debug));
     }
 
 
     /*
      * The private constructor
      */
-    m17_decoder_impl::m17_decoder_impl()
+    m17_decoder_impl::m17_decoder_impl(bool debug)
       : gr::block("m17_decoder",
               gr::io_signature::make(1, 1, sizeof(float)),
-              gr::io_signature::make(1, 1, sizeof(char)))
-    {}
+              gr::io_signature::make(1, 1, sizeof(char))),
+              _debug(debug)
+    {set_debug(debug);}
 
     /*
      * Our virtual destructor.
@@ -123,6 +124,11 @@ void decode_callsign(uint8_t *outp, const uint8_t *inp)
     m17_decoder_impl::~m17_decoder_impl()
     {
     }
+
+void m17_decoder_impl::set_debug(bool debug)
+{_debug=debug;
+ if (_debug==true) printf("true\n"); else printf("Debug false\n");
+}
 
     void
     m17_decoder_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
@@ -281,6 +287,7 @@ uint8_t pushed;                     //counter for pushed symbols
                         decode_callsign(d_dst, &lsf[0]);
                         decode_callsign(d_src, &lsf[6]);
 
+if (_debug==true) {
                         //DST
                         printf("DST: %-9s ", d_dst);
 
@@ -321,7 +328,7 @@ uint8_t pushed;                     //counter for pushed symbols
                         else
                             printf(" LSF_CRC_OK ");
                         printf("\n");
-
+}
                         lich_chunks_rcvd=0; //reset all flags
                     }
 
@@ -334,6 +341,7 @@ uint8_t pushed;                     //counter for pushed symbols
                     //decode
                     uint32_t e=decodePunctured(frame_data, enc_data, P_2, 272, 12);
 
+if (_debug==true) {
                     //dump data - first byte is empty
                     printf("FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
                     for(uint8_t i=3; i<19; i++)
@@ -345,14 +353,15 @@ uint8_t pushed;                     //counter for pushed symbols
                     #else
                     printf("\n");
                     #endif
-
+}
                     //send codec2 stream to stdout
                     //write(STDOUT_FILENO, &frame_data[3], 16);
                 }
                 else //lsf
                 {
+if (_debug==true) {
                     printf("LSF\n");
-
+}
                     //decode
                     uint32_t e=decodePunctured(lsf, d_soft_bit, P_1, 2*SYM_PER_PLD, 61);
 
@@ -367,6 +376,7 @@ uint8_t pushed;                     //counter for pushed symbols
                     decode_callsign(d_dst, &lsf[0]);
                     decode_callsign(d_src, &lsf[6]);
 
+if (_debug==true) {
                     //DST
                     printf("DST: %-9s ", d_dst);
 
@@ -413,6 +423,7 @@ uint8_t pushed;                     //counter for pushed symbols
                     #else
                     printf("\n");
                     #endif
+}
                 }
 
                 //job done
