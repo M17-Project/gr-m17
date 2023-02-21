@@ -24,6 +24,9 @@ parameters:
   dtype: string
   default: 'helloworld'
 
+asserts:
+    - ${type<256}
+
 templates:
   imports: import m17
   make: m17.m17_coder(${src_ip},${dst_ip},${type},${meta},${samp_rate})
