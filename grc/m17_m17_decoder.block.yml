@@ -2,9 +2,18 @@ id: m17_m17_decoder
 label: m17_decoder
 category: '[m17]'
 
+parameters:
+- id: debug
+  label: Debug
+  dtype: bool
+  default: 'False'
+  options: ['True', 'False']
+
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_decoder()
+  make: m17.m17_decoder(${debug})
+  callbacks:
+    - set_debug(${debug})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:

@@ -261,36 +261,41 @@ uint16_t LSF_CRC(struct LSF *in)
 }
 
     m17_coder::sptr
-    m17_coder::make(std::string src_id,std::string dst_id,short type,std::string meta, float samp_rate)
+    m17_coder::make(std::string src_id,std::string dst_id,short type,std::string meta, float samp_rate,bool debug)
     {
       return gnuradio::get_initial_sptr
-        (new m17_coder_impl(src_id,dst_id,type,meta,samp_rate));
+        (new m17_coder_impl(src_id,dst_id,type,meta,samp_rate,debug));
     }
 
     /*
      * The private constructor
      */
-    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta, float samp_rate)
+    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta, float samp_rate, bool debug)
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
-              ,_meta(meta), _samp_rate(samp_rate)
+              ,_meta(meta), _samp_rate(samp_rate), _debug(debug)
 {    set_meta(meta);
      set_src_id(src_id);
      set_dst_id(dst_id);
      set_samp_rate(samp_rate);
      set_type(type);
+     set_debug(debug);
      uint16_t ccrc=LSF_CRC(&lsf);
      lsf.crc[0]=ccrc>>8;
      lsf.crc[1]=ccrc&0xFF;
      _got_lsf=0;                  //have we filled the LSF struct yet?
      _fn=0;                      //16-bit Frame Number (for the stream mode)
-
 }
 
 void m17_coder_impl::set_samp_rate(float samp_rate)
 {_samp_rate=samp_rate;
  printf("New sampling rate: %f\n",_samp_rate); 
+}
+
+void m17_coder_impl::set_debug(bool debug)
+{_debug=debug;
+ if (_debug==true) printf("true\n"); else printf("Debug false\n"); 
 }
 
 void m17_coder_impl::set_src_id(std::string src_id)

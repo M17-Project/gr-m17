@@ -22,6 +22,7 @@ private:
     short _type;
     int _got_lsf=0;
     uint16_t _fn=0;                      //16-bit Frame Number (for the stream mode)
+    bool _debug=0;
 
 
 public:
@@ -30,7 +31,8 @@ public:
     void set_samp_rate(float samp_rate);
     void set_meta(std::string meta);
     void set_type(short type);
-    m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta,float samp_rate);
+    void set_debug(bool debug);
+    m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta,float samp_rate,bool debug);
     ~m17_coder_impl();
 
     // Where all the action really happens
