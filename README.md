@@ -1,7 +1,8 @@
 ## Compiling for GNU Radio
 
 The default targetted version is GNU Radio 3.10 (``main`` branch). For GNU Radio 3.8,
-insert ``git checkout 3.8`` after the ``git clone ...`` command.
+insert ``git checkout 3.8`` after the ``git clone ...`` command and check the 3.8 branch
+version of the README.md for ``LD_LIBRARY_PATH`` and ``PYTHONPATH`` tested on Debian/stable.
 
 ```
 git clone --recursive https://github.com/M17-Project/gr-m17
@@ -17,7 +18,7 @@ will finish with a statement such as
 ```
 -- Set runtime path of "/usr/local/lib/python3.11/dist-packages/gnuradio/m17/m17_python.cpython-311-x86_64-linux-gnu.so" to ""
 ```
-meaning that variables must be set to help GNU Radio Companion find the Python libraries:
+meaning that variables must be set (tested with Debian/sid) to help GNU Radio Companion find the Python libraries:
 
 ```
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/x86_64-linux-gnu/
@@ -74,14 +75,7 @@ but will end up desynchronizing at some point if not straight from the beginning
 ``from gnuradio import m17``. This has to be changed in the YML files manually as the template
 is erroneous.
 
-
-TODO:
-* Solve short naming issue in 3.8 (int ?)
-* Check non-16 multiple buffer size -- cause of desynchronization? At least avoid crash !
-* Change META as a variable and not a constant in the block
-* Test on 3.8
-* How to handle fixed symbol rate but varying output rate?
-* How to modulate the RF transmitted with the real output?
+## Developer note
 
 In case of error related to ``Python bindings for m17_coder.h are out of sync`` after changing
 header files in ``include/gnuradio/m17``, make sure that 
@@ -89,3 +83,8 @@ header files in ``include/gnuradio/m17``, make sure that
 md5sum include/gnuradio/m17/m17_decoder.h
 ```
 match the information in ``python/m17/bindings/*cc``.
+
+## TODO:
+* Check non-16 multiple buffer size -- cause of desynchronization? At least avoid crash !
+* How to handle fixed symbol rate but varying output rate?
+* How to modulate the RF transmitted with the real output?
