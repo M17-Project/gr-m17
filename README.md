@@ -1,4 +1,7 @@
-## Compiling for GNU Radio 3.10
+## Compiling for GNU Radio
+
+The default targetted version is GNU Radio 3.10 (``main`` branch). For GNU Radio 3.8,
+insert ``git checkout 3.8`` after the ``git clone ...`` command.
 
 ```
 git clone --recursive https://github.com/M17-Project/gr-m17
