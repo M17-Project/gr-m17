@@ -1,6 +1,9 @@
-## Compiling:
+## Compiling for GNU Radio 3.10
 
 ```
+git clone --recursive https://github.com/M17-Project/gr-m17
+cd gr-m17
+mkdir build
 cd build
 cmake ../
 make -j12
@@ -24,7 +27,7 @@ where the ``LD_LIBRARY_PATH`` setting results from
 find /usr/local/ -name libgnuradio-m17.so.1.0.0 -print
 ```
 
-When running the flowgraph found in ``examples`` 
+When running the flowgraph found in ``examples`` with ``gnuradio-companion ../examples/m17_streamer.grc`` 
 
 <img src="examples/m17_streamer.png">
 
