@@ -17,13 +17,15 @@ parameters:
   default: '255.255.255.255.255.255'
 - id: type
   label: Type
-  dtype: short
+  dtype: int
   default: 0
 - id: meta
   label: Meta
   dtype: string
   default: 'helloworld'
 
+asserts:
+    - ${type<256}
 templates:
   imports: from gnuradio import m17
   make: m17.m17_coder(${src_id},${dst_id},${type},${meta},${samp_rate})
