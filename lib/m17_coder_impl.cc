@@ -284,7 +284,7 @@ uint16_t LSF_CRC(struct LSF *in)
      uint16_t ccrc=LSF_CRC(&lsf);
      lsf.crc[0]=ccrc>>8;
      lsf.crc[1]=ccrc&0xFF;
-     _got_lsf=0;                  //have we filled the LSF struct yet?
+     _got_lsf=0;                 //have we filled the LSF struct yet?
      _fn=0;                      //16-bit Frame Number (for the stream mode)
 
 }
@@ -338,7 +338,7 @@ void m17_coder_impl::set_type(short type)
     void
     m17_coder_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = noutput_items/24; // TODO JMF (if 16 inputs -> 384 outputs)
+     ninput_items_required[0] = noutput_items/24; // TODO JMF (if 16 inputs -> 384 outputs)
     }
 
     int
@@ -465,7 +465,6 @@ do {
 
             //encode the rest of the frame
             conv_Encode_Frame(&enc_bits[96], data, _fn);
-
             //reorder bits
             for(uint16_t i=0; i<SYM_PER_PLD*2; i++)
                 rf_bits[i]=enc_bits[intrl_seq[i]];
@@ -481,12 +480,6 @@ do {
                         rf_bits[i]=1;
                 }
             }
-
-            //send dummy symbols (debug)
-            /*float s=0.0;
-            for(uint8_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
-                write(STDOUT_FILENO, (uint8_t*)&s, sizeof(float));*/
-
             float s;
             for(uint16_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
             {
@@ -504,9 +497,6 @@ do {
             //increment the Frame Number
             _fn++;
 
-            //debug-only
-            if(_fn==6*10)
-                return 0;
         }
         else //LSF
         {
@@ -580,14 +570,13 @@ printf("got_lsf=1\n");
             printf("\n");*/
         }
       }
-    } while (countin+16<=noutput_items);
+    } while (countout+16<=noutput_items);
       // Tell runtime system how many input items we consumed on
       // each input stream.
     consume_each (countin);
-//    printf("\nnoutput_items=%d countin=%d countout=%d\n",noutput_items,countin,countout);
       // Tell runtime system how many output items we produced.
-      return countout;
-    }
+    return countout;
+   }
 
   } /* namespace m17 */
 } /* namespace gr */
