@@ -502,10 +502,6 @@ do {
 
             //increment the Frame Number
             _fn++;
-
-            //debug-only
-            if(_fn==6*10)
-                return 0;
         }
         else //LSF
         {
@@ -556,11 +552,6 @@ printf("got_lsf=1\n");
                 countout++;
             }
 
-            //send dummy symbols (debug)
-            /*float s=0.0;
-            for(uint8_t i=0; i<184; i++) //40ms * 4800 - 8 (syncword)
-                write(STDOUT_FILENO, (uint8_t*)&s, sizeof(float));*/
-
             /*printf("DST: ");
             for(uint8_t i=0; i<6; i++)
                 printf("%02X", lsf.dst[i]);
@@ -579,7 +570,7 @@ printf("got_lsf=1\n");
             printf("\n");*/
         }
       }
-    } while (countin+16<=noutput_items);
+    } while (countout+16<=noutput_items);
       // Tell runtime system how many input items we consumed on
       // each input stream.
     consume_each (countin);
