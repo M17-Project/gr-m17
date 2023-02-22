@@ -63,6 +63,10 @@ outputs:
   vlen: 1
   optional: 0
 
+documentation: |-
+     The m17-coder block reads a byte datastream clocked (samp_rate) at 4800 bits/s and will output a real stream at 24 times this input rate. The source and destination fields are 6-bytes separated by a dot, the type field is a 0-255 value and the meta field a free string which can be updated during transmission.
+
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.
 file_format: 1
+
