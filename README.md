@@ -69,13 +69,12 @@ FN: 000D PLD: 00000000000000000000000000000000
 FN: 000E PLD: 00000000000000000000000000000000
 FN: 000F PLD: 00000000000000000000000000000000
 ```
-but will end up desynchronizing at some point if not straight from the beginning.
 
 **Warning**: the default gr_modtool informs GNU Radio Companion to ``import m17`` rather than
 ``from gnuradio import m17``. This has to be changed in the YML files manually as the template
 is erroneous.
 
-## Developer note
+## Developer note1
 
 In case of error related to ``Python bindings for m17_coder.h are out of sync`` after changing
 header files in ``include/gnuradio/m17``, make sure that 
@@ -83,6 +82,12 @@ header files in ``include/gnuradio/m17``, make sure that
 md5sum include/gnuradio/m17/m17_decoder.h
 ```
 match the information in ``python/m17/bindings/*cc``.
+
+## Developer note2
+
+The coder block is an interpolating block outputing 24 more times samples than input symbols. The (well named) ``noutput_items``
+it the **output** buffer size which fills much faster than the input stream so we fill ``out`` until ``noutput_items`` are reached, then
+send this to the GNU Radio scheduler, and consume the few input samples needed to fill the output buffer. The ring buffer mechanism of GNU Radio makes sure the dataflow is consistent.
 
 ## TODO:
 * How to handle fixed symbol rate but varying output rate?
