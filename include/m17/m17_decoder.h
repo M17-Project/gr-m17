@@ -45,7 +45,7 @@ namespace gr {
        * class. m17::m17_decoder::make is the public interface for
        * creating new instances.
        */
-      static sptr make();
+      static sptr make(bool debug);
       virtual void set_debug(bool debug)=0;
     };
 

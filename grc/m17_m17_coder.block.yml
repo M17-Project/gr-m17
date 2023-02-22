@@ -23,19 +23,25 @@ parameters:
   label: Meta
   dtype: string
   default: 'helloworld'
+- id: debug
+  label: Debug
+  dtype: bool
+  default: 'False'
+  options: ['True','False']
 
 asserts:
     - ${type<256}
 
 templates:
   imports: import m17
-  make: m17.m17_coder(${src_ip},${dst_ip},${type},${meta},${samp_rate})
+  make: m17.m17_coder(${src_ip},${dst_ip},${type},${meta},${samp_rate},${debug})
   callbacks:
     - set_meta(${meta})
     - set_samp_rate(${samp_rate})
     - set_src_ip(${src_ip})
     - set_dst_ip(${dst_ip})
     - set_type(${type})
+    - set_debug(${debug})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:

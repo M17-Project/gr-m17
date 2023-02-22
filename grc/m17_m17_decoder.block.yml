@@ -4,7 +4,10 @@ category: '[m17]'
 
 templates:
   imports: import m17
-  make: m17.m17_decoder()
+  make: m17.m17_decoder(${debug})
+  callbacks:
+    - set_debug(${debug})
+
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -13,6 +16,15 @@ templates:
 #      * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
+#
+
+parameters:
+- id: debug
+  label: Debug
+  dtype: bool
+  default: 'False'
+  options: ['True','False']
+
 inputs:
 - label: in
   domain: stream

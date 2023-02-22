@@ -35,7 +35,7 @@ private:
     short _type;
     int _got_lsf=0;
     uint16_t _fn=0;                      //16-bit Frame Number (for the stream mode)
-
+    bool _debug=false;
 
 public:
     void set_src_id(std::string meta);
