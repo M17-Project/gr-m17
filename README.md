@@ -85,6 +85,5 @@ md5sum include/gnuradio/m17/m17_decoder.h
 match the information in ``python/m17/bindings/*cc``.
 
 ## TODO:
-* Check non-16 multiple buffer size -- cause of desynchronization? At least avoid crash !
 * How to handle fixed symbol rate but varying output rate?
 * How to modulate the RF transmitted with the real output?

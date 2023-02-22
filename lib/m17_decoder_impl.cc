@@ -144,6 +144,7 @@ void m17_decoder_impl::set_debug(bool debug)
     {
       const float *in = (const float *) input_items[0];
       char *out = (char *) output_items[0];
+      int countout=0;
 
 float sample;                       //last raw sample from the stdin
 float last[8];                      //look-back buffer for finding syncwords
@@ -347,6 +348,7 @@ if (_debug==true) {
                     for(uint8_t i=3; i<19; i++)
                     {
                         printf("%02X", frame_data[i]);
+                        out[countout]=frame_data[i];countout++;
                     }
                     #ifdef SHOW_VITERBI_ERRS
                     printf(" e=%1.1f\n", (float)e/0xFFFF);
@@ -439,7 +441,7 @@ if (_debug==true) {
       consume_each (noutput_items);
 
       // Tell runtime system how many output items we produced.
-      return 0;
+      return countout;
     }
 
   } /* namespace m17 */
