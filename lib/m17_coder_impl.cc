@@ -360,6 +360,7 @@ uint8_t lich_encoded[12];           //96 bits packed, encoded LICH
 uint8_t data[16];                   //raw payload, packed bits
 uint8_t lich_cnt=0;                 //0..5 LICH counter, derived from the Frame Number
 
+//printf("%d %d -> ",ninput_items[0],noutput_items);
 do {
     if (countin+16<=noutput_items) 
        {if(_got_lsf) //stream frames
@@ -570,11 +571,11 @@ printf("got_lsf=1\n");
             printf("\n");*/
         }
       }
-    } while (countout+16<=noutput_items);
+    } while (countout+16*24<=noutput_items);
       // Tell runtime system how many input items we consumed on
       // each input stream.
     consume_each (countin);
-//    printf("\nnoutput_items=%d countin=%d countout=%d\n",noutput_items,countin,countout);
+//    printf(" noutput_items=%d countin=%d countout=%d\n",noutput_items,countin,countout);
       // Tell runtime system how many output items we produced.
       return countout;
     }
