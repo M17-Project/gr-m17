@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [48, 44.0]
+    coordinate: [8, 40.0]
     rotation: 0
     state: enabled
 
@@ -37,40 +37,38 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '4800'
+    value: 4800/8
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 52.0]
+    coordinate: [200, 48.0]
     rotation: 0
     state: true
-- name: analog_nbfm_tx_0
-  id: analog_nbfm_tx
+- name: analog_frequency_modulator_fc_0
+  id: analog_frequency_modulator_fc
   parameters:
     affinity: ''
     alias: ''
-    audio_rate: samp_rate*24
     comment: ''
-    fh: '-1.0'
-    max_dev: 5e3
     maxoutbuf: '0'
     minoutbuf: '0'
-    quad_rate: samp_rate*24*12
-    tau: 75e-6
+    sensitivity: (2.0*math.pi*800.0)/(4800.0*10.0)
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 256.0]
+    coordinate: [872, 184.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: blocks_throttle_0
   id: blocks_throttle
   parameters:
     affinity: ''
     alias: ''
-    comment: (6+6+2+14+16)*8*(1000/40)
+    comment: 'samp_rate=input bit rate
+
+      output=24*samp_rate'
     ignoretag: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -81,9 +79,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [352, 184.0]
+    coordinate: [280, 184.0]
     rotation: 0
-    state: bypassed
+    state: disabled
 - name: blocks_vector_source_x_0_2
   id: blocks_vector_source_x
   parameters:
@@ -102,7 +100,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [128, 168.0]
+    coordinate: [80, 168.0]
     rotation: 0
     state: true
 - name: iio_pluto_sink_0
@@ -121,16 +119,29 @@ blocks:
     frequency: '434000000'
     fstop: '0'
     len_tag_key: ''
-    samplerate: samp_rate*24*10
+    samplerate: int(4800.0*10.0*16)
     type: fc32
     uri: ''
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1032, 228.0]
+    coordinate: [1232, 124.0]
     rotation: 0
     state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 40.0]
+    rotation: 0
+    state: true
 - name: m17_m17_coder_0
   id: m17_m17_coder
   parameters:
@@ -149,9 +160,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 144.0]
+    coordinate: [440, 144.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: m17_m17_decoder_0
   id: m17_m17_decoder
   parameters:
@@ -165,9 +176,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 56.0]
+    coordinate: [536, 56.0]
     rotation: 180
-    state: disabled
+    state: enabled
 - name: note_0_2
   id: note
   parameters:
@@ -178,7 +189,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 180.0]
+    coordinate: [8, 184.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
@@ -199,7 +210,7 @@ blocks:
     autoscale: 'False'
     average: '1.0'
     axislabels: 'True'
-    bw: samp_rate
+    bw: int(4800.0*10.0*16)
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -239,7 +250,7 @@ blocks:
     tr_level: '0.0'
     tr_mode: qtgui.TRIG_MODE_FREE
     tr_tag: '""'
-    type: float
+    type: complex
     units: dB
     update_time: '0.10'
     width1: '1'
@@ -259,7 +270,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 168.0]
+    coordinate: [1232, 40.0]
     rotation: 0
     state: true
 - name: qtgui_number_sink_0
@@ -322,9 +333,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [416, 32.0]
+    coordinate: [352, 32.0]
     rotation: 180
-    state: disabled
+    state: enabled
 - name: qtgui_time_sink_x_0
   id: qtgui_time_sink_x
   parameters:
@@ -381,7 +392,7 @@ blocks:
     name: '""'
     nconnections: '1'
     size: '1024'
-    srate: samp_rate
+    srate: 4800*10
     stemplot: 'False'
     style1: '1'
     style10: '1'
@@ -419,19 +430,65 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 80.0]
+    coordinate: [888, 96.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '16'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1040, 160.0]
     rotation: 0
     state: true
+- name: root_raised_cosine_filter_1
+  id: root_raised_cosine_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: '0.5'
+    comment: ''
+    decim: '10'
+    gain: '1'
+    interp: '10'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ntaps: '81'
+    samp_rate: '10'
+    sym_rate: '1.0'
+    type: interp_fir_filter_fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 144.0]
+    rotation: 0
+    state: enabled
 
 connections:
-- [analog_nbfm_tx_0, '0', iio_pluto_sink_0, '0']
+- [analog_frequency_modulator_fc_0, '0', rational_resampler_xxx_0, '0']
 - [blocks_throttle_0, '0', m17_m17_coder_0, '0']
 - [blocks_vector_source_x_0_2, '0', blocks_throttle_0, '0']
-- [m17_m17_coder_0, '0', analog_nbfm_tx_0, '0']
+- [blocks_vector_source_x_0_2, '0', m17_m17_coder_0, '0']
 - [m17_m17_coder_0, '0', m17_m17_decoder_0, '0']
-- [m17_m17_coder_0, '0', qtgui_freq_sink_x_0, '0']
-- [m17_m17_coder_0, '0', qtgui_time_sink_x_0, '0']
+- [m17_m17_coder_0, '0', root_raised_cosine_filter_1, '0']
 - [m17_m17_decoder_0, '0', qtgui_number_sink_0, '0']
+- [rational_resampler_xxx_0, '0', iio_pluto_sink_0, '0']
+- [rational_resampler_xxx_0, '0', qtgui_freq_sink_x_0, '0']
+- [root_raised_cosine_filter_1, '0', analog_frequency_modulator_fc_0, '0']
+- [root_raised_cosine_filter_1, '0', qtgui_time_sink_x_0, '0']
 
 metadata:
   file_format: 1
