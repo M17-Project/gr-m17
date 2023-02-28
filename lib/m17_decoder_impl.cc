@@ -40,9 +40,11 @@
 //#define SHOW_VITERBI_ERRS
 //
 
-#define XCORR_THRESHOLD 0.90
-#define CODE_MEAN      -0.75
-#define CODE_STD        8.78
+#define XCORR_THRESHOLD 0.90 // arbitrary threshold between 0 and 1: might be tunable from GNU Radio Block for flexibility
+#define CODE_MEAN      -0.75 // mean(str_sync)
+#define CODE_STD        8.78 // std(str_sync)*sqrt(length(str_sync))
+// see ../M17_Implementations/SP5WWP/inc/m17.h for const int8_t str_sync[8]={-3, -3, -3, -3, +3, +3, -3, +3};
+
 
 namespace gr {
   namespace m17 {
