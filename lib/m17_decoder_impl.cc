@@ -39,6 +39,9 @@
 #define DECODE_CALLSIGNS
 //#define SHOW_VITERBI_ERRS
 //
+
+#define XCORR_THRESHOLD 0.90
+
 namespace gr {
   namespace m17 {
 
@@ -149,6 +152,8 @@ void m17_decoder_impl::set_debug(bool debug)
 float sample;                       //last raw sample from the stdin
 float last[8];                      //look-back buffer for finding syncwords
 float xcorr;                        //cross correlation for finding syncwords
+float meanx;                        //mean value
+float normx;                        //cross correlation normalization
 float pld[SYM_PER_PLD];             //raw frame symbols
 uint16_t soft_bit[2*SYM_PER_PLD];   //raw frame soft bits
 uint16_t d_soft_bit[2*SYM_PER_PLD]; //deinterleaved soft bits
@@ -166,7 +171,7 @@ uint8_t syncd=0;                    //syncword found?
 uint8_t fl=0;                       //Frame=0 of LSF=1
 uint8_t pushed;                     //counter for pushed symbols
       // Do <+signal processing+>
-    for (int counterin=0;counterin<noutput_items;counterin++)
+    for (int counterin=0;counterin<ninput_items[0];counterin++)
     {
         //wait for another symbol
         sample=in[counterin];
@@ -182,22 +187,26 @@ uint8_t pushed;                     //counter for pushed symbols
             last[7]=sample;
 
             //calculate cross-correlation
-            xcorr=0;
+            meanx=0.;
+            for(uint8_t i=0; i<8; i++) meanx+=last[i];     // sum(last)
+            meanx/=8.;
+            xcorr=0.;
+            normx=0.;
             for(uint8_t i=0; i<8; i++)
             {
-                xcorr+=last[i]*str_sync[i];
+                xcorr+=(last[i]-meanx)*(str_sync[i]+0.75); // -0.75=mean(str_sync)
+                normx+=(last[i]-meanx)*(last[i]-meanx);    // sum(last^2)
             }
+            xcorr/=(sqrt(normx)*8.78); // 8.78=std(str_sync)*sqrt(length(str_sync))
+            // printf("%f\n", xcorr);
 
-            //printf("%f\n", xcorr);
-
-
-            if(xcorr>62.0) //Frame syncword detected
+            if(xcorr>XCORR_THRESHOLD) //Frame syncword detected
             {
                 syncd=1;
                 pushed=0;
                 fl=0;
             }
-            else if(xcorr<-62) //LSF syncword
+            else if(xcorr<-XCORR_THRESHOLD) //LSF syncword
             {
                 syncd=1;
                 pushed=0;
@@ -438,7 +447,7 @@ if (_debug==true) {
     }
       // Tell runtime system how many input items we consumed on
       // each input stream.
-      consume_each (noutput_items);
+      consume_each (ninput_items[0]);
 
       // Tell runtime system how many output items we produced.
       return countout;
