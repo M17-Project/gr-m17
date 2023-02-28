@@ -41,6 +41,8 @@
 //
 
 #define XCORR_THRESHOLD 0.90
+#define CODE_MEAN      -0.75
+#define CODE_STD        8.78
 
 namespace gr {
   namespace m17 {
@@ -194,10 +196,10 @@ uint8_t pushed;                     //counter for pushed symbols
             normx=0.;
             for(uint8_t i=0; i<8; i++)
             {
-                xcorr+=(last[i]-meanx)*(str_sync[i]+0.75); // -0.75=mean(str_sync)
+                xcorr+=(last[i]-meanx)*(str_sync[i]-CODE_MEAN); // -0.75=mean(str_sync)
                 normx+=(last[i]-meanx)*(last[i]-meanx);    // sum(last^2)
             }
-            xcorr/=(sqrt(normx)*8.78); // 8.78=std(str_sync)*sqrt(length(str_sync))
+            xcorr/=(sqrt(normx)*CODE_STD); // 8.78=std(str_sync)*sqrt(length(str_sync))
             // printf("%f\n", xcorr);
 
             if(xcorr>XCORR_THRESHOLD) //Frame syncword detected
