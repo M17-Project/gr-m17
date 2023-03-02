@@ -16,12 +16,14 @@ namespace m17 {
 class m17_decoder_impl : public m17_decoder
 {
 private:
-    bool _debug=false;
+    bool _debug_data=false;
+    bool _debug_ctrl=false;
 
 public:
-    m17_decoder_impl(bool debug);
+    m17_decoder_impl(bool debug_data,bool debug_ctrl);
     ~m17_decoder_impl();
-    void set_debug(bool debug);
+    void set_debug_data(bool debug);
+    void set_debug_ctrl(bool debug);
 
     // Where all the action really happens
     void forecast(int noutput_items, gr_vector_int& ninput_items_required);

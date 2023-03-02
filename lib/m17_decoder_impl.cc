@@ -108,22 +108,23 @@ void decode_callsign(uint8_t *outp, const uint8_t *inp)
 }
 
     m17_decoder::sptr
-    m17_decoder::make(bool debug)
+    m17_decoder::make(bool debug_data,bool debug_ctrl)
     {
       return gnuradio::get_initial_sptr
-        (new m17_decoder_impl(debug));
+        (new m17_decoder_impl(debug_data,debug_ctrl));
     }
 
 
     /*
      * The private constructor
      */
-    m17_decoder_impl::m17_decoder_impl(bool debug)
+    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl)
       : gr::block("m17_decoder",
               gr::io_signature::make(1, 1, sizeof(float)),
               gr::io_signature::make(1, 1, sizeof(char))),
-              _debug(debug)
-    {set_debug(debug);}
+              _debug_data(debug_data), _debug_ctrl(debug_ctrl)
+    {set_debug_data(debug_data);
+     set_debug_ctrl(debug_ctrl);}
 
     /*
      * Our virtual destructor.
@@ -132,9 +133,14 @@ void decode_callsign(uint8_t *outp, const uint8_t *inp)
     {
     }
 
-void m17_decoder_impl::set_debug(bool debug)
-{_debug=debug;
- if (_debug==true) printf("true\n"); else printf("Debug false\n");
+void m17_decoder_impl::set_debug_data(bool debug)
+{_debug_data=debug;
+ if (_debug_data==true) printf("Data debug: true\n"); else printf("Data debug: false\n");
+}
+
+void m17_decoder_impl::set_debug_ctrl(bool debug)
+{_debug_ctrl=debug;
+ if (_debug_ctrl==true) printf("Debug control: true\n"); else printf("Debug control: false\n");
 }
 
     void
@@ -301,7 +307,7 @@ uint8_t pushed;                     //counter for pushed symbols
                         decode_callsign(d_dst, &lsf[0]);
                         decode_callsign(d_src, &lsf[6]);
 
-if (_debug==true) {
+if (_debug_ctrl==true) {
                         //DST
                         printf("DST: %-9s ", d_dst);
 
@@ -353,9 +359,9 @@ if (_debug==true) {
                     }
 
                     //decode
-                    uint32_t e=decodePunctured(frame_data, enc_data, P_2, 272, 12);
+                    decodePunctured(frame_data, enc_data, P_2, 272, 12);
 
-if (_debug==true) {
+if (_debug_data==true) {
                     //dump data - first byte is empty
                     printf("FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
                     for(uint8_t i=3; i<19; i++)
@@ -367,18 +373,18 @@ if (_debug==true) {
                     printf(" e=%1.1f\n", (float)e/0xFFFF);
                     #else
                     printf("\n");
-                    #endif
 }
+                    #endif
                     //send codec2 stream to stdout
                     //write(STDOUT_FILENO, &frame_data[3], 16);
                 }
                 else //lsf
                 {
-if (_debug==true) {
+if (_debug_ctrl==true) {
                     printf("LSF\n");
 }
                     //decode
-                    uint32_t e=decodePunctured(lsf, d_soft_bit, P_1, 2*SYM_PER_PLD, 61);
+                    decodePunctured(lsf, d_soft_bit, P_1, 2*SYM_PER_PLD, 61);
 
                     //shift the buffer 1 position left - get rid of the encoded flushing bits
                     for(uint8_t i=0; i<30; i++)
@@ -391,7 +397,7 @@ if (_debug==true) {
                     decode_callsign(d_dst, &lsf[0]);
                     decode_callsign(d_src, &lsf[6]);
 
-if (_debug==true) {
+                  if (_debug_ctrl==true) {
                     //DST
                     printf("DST: %-9s ", d_dst);
 
@@ -437,7 +443,7 @@ if (_debug==true) {
                     #else
                     printf("\n");
                     #endif
-}
+                  }
                 }
 
                 //job done
