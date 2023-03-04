@@ -28,11 +28,56 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [48, 44.0]
+    coordinate: [112, 40.0]
     rotation: 0
     state: enabled
 
 blocks:
+- name: dst_id
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    type: string
+    value: RECEIV
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 288.0]
+    rotation: 0
+    state: true
+- name: meta
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    type: string
+    value: metastring
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [376, 288.0]
+    rotation: 0
+    state: true
+- name: mtype
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    type: int
+    value: '5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [792, 288.0]
+    rotation: 0
+    state: true
 - name: samp_rate
   id: variable
   parameters:
@@ -42,7 +87,22 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 52.0]
+    coordinate: [280, 40.0]
+    rotation: 0
+    state: true
+- name: src_id
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    type: string
+    value: EMITTR
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [528, 288.0]
     rotation: 0
     state: true
 - name: blocks_throttle_0
@@ -55,13 +115,13 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samples_per_second: samp_rate
-    type: byte
+    type: float
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [352, 184.0]
+    coordinate: [568, 184.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_source_x_0_2
@@ -82,7 +142,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [128, 168.0]
+    coordinate: [168, 168.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -92,18 +152,18 @@ blocks:
     alias: ''
     comment: ''
     debug: 'False'
-    dst_id: 255.255.255.255.255.255
+    dst_id: RECEIV
     maxoutbuf: '0'
-    meta: helloworld
+    meta: meta
     minoutbuf: '0'
     samp_rate: samp_rate
-    src_id: 01.02.03.04.05.06
-    type: '5'
+    src_id: EMITTR
+    type: mtype
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 144.0]
+    coordinate: [368, 144.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -112,14 +172,15 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    debug: 'False'
+    debug_ctrl: 'True'
+    debug_data: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 56.0]
+    coordinate: [568, 56.0]
     rotation: 180
     state: true
 - name: note_0_2
@@ -132,7 +193,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 180.0]
+    coordinate: [208, 256.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0
@@ -276,15 +337,15 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [416, 32.0]
+    coordinate: [368, 40.0]
     rotation: 180
     state: true
 
 connections:
-- [blocks_throttle_0, '0', m17_m17_coder_0, '0']
-- [blocks_vector_source_x_0_2, '0', blocks_throttle_0, '0']
-- [m17_m17_coder_0, '0', m17_m17_decoder_0, '0']
-- [m17_m17_coder_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_throttle_0, '0', m17_m17_decoder_0, '0']
+- [blocks_throttle_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_vector_source_x_0_2, '0', m17_m17_coder_0, '0']
+- [m17_m17_coder_0, '0', blocks_throttle_0, '0']
 - [m17_m17_decoder_0, '0', qtgui_number_sink_0, '0']
 
 metadata:
