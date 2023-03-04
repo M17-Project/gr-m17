@@ -10,11 +10,11 @@ parameters:
 - id: src_id
   label: Source ID
   dtype: string
-  default: '01.02.03.04.05.06'
+  default: 'EMITTR'
 - id: dst_id
   label: Destination ID
   dtype: string
-  default: '255.255.255.255.255.255'
+  default: 'RECVER'
 - id: type
   label: Type
   dtype: int
@@ -30,7 +30,7 @@ parameters:
   options: ['True', 'False']
 
 asserts:
-    - ${type<256}
+    - ${ type < 65536 }
 templates:
   imports: from gnuradio import m17
   make: m17.m17_coder(${src_id},${dst_id},${type},${meta},${samp_rate},${debug})
@@ -64,7 +64,7 @@ outputs:
   optional: 0
 
 documentation: |-
-     The m17-coder block reads a byte datastream clocked (samp_rate) at 4800 bits/s and will output a real stream at 24 times this input rate. The source and destination fields are 6-bytes separated by a dot, the type field is a 0-255 value and the meta field a free string which can be updated during transmission.
+     The m17-coder block reads a byte datastream clocked (samp_rate) at 200 bits/s and will output a real stream at 24 times this input rate. The source and destination fields are 6-character strings, the type field is a 0-255 value and the meta field a free string which can be updated during transmission.
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.

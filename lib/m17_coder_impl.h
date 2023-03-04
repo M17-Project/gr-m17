@@ -26,8 +26,8 @@ private:
 
 
 public:
-    void set_src_id(std::string meta);
-    void set_dst_id(std::string meta);
+    void set_src_id(std::string src_id);
+    void set_dst_id(std::string dst_id);
     void set_samp_rate(float samp_rate);
     void set_meta(std::string meta);
     void set_type(short type);

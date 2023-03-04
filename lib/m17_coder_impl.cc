@@ -274,7 +274,7 @@ uint16_t LSF_CRC(struct LSF *in)
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
-              ,_meta(meta), _samp_rate(samp_rate), _debug(debug)
+              ,_samp_rate(samp_rate), _meta(meta),_type(type), _debug(debug)
 {    set_meta(meta);
      set_src_id(src_id);
      set_dst_id(dst_id);
@@ -299,31 +299,47 @@ void m17_coder_impl::set_debug(bool debug)
 }
 
 void m17_coder_impl::set_src_id(std::string src_id)
-{for (int i=0;i<6;i++) {_src_id[i]=0;}
- sscanf(src_id.c_str(), "%hhu.%hhu.%hhu.%hhu.%hhu.%hhu", &_src_id[0], &_src_id[1], &_src_id[2], &_src_id[3],&_src_id[4],&_src_id[5]);
+{int length;
+ for (int i=0;i<6;i++) {_src_id[i]=' ';}
+ if (src_id.length()>6) length=6; else length=src_id.length();
+ for (int i=0;i<length;i++) {_src_id[i]=src_id.c_str()[i];}
  for (int i=0;i<6;i++) {lsf.src[i]=_src_id[i];}
- printf("new SRC ID: %hhu %hhu %hhu %hhu %hhu %hhu\n",_src_id[0],_src_id[1],_src_id[2],_src_id[3],_src_id[4],_src_id[5]);fflush(stdout);
+ uint16_t ccrc=LSF_CRC(&lsf);
+ lsf.crc[0]=ccrc>>8;
+ lsf.crc[1]=ccrc&0xFF;
+ printf("new SRC ID: %c%c%c%c%c%c\n",_src_id[0],_src_id[1],_src_id[2],_src_id[3],_src_id[4],_src_id[5]);fflush(stdout);
 }
 
 void m17_coder_impl::set_dst_id(std::string dst_id)
-{for (int i=0;i<6;i++) {_dst_id[i]=0;}
- sscanf(dst_id.c_str(), "%hhu.%hhu.%hhu.%hhu.%hhu.%hhu", &_dst_id[0], &_dst_id[1], &_dst_id[2], &_dst_id[3],&_dst_id[4],&_dst_id[5]);
+{int length;
+ for (int i=0;i<6;i++) {_dst_id[i]=0;}
+ if (dst_id.length()>6) length=6; else length=dst_id.length();
+ for (int i=0;i<length;i++) {_dst_id[i]=dst_id.c_str()[i];}
  for (int i=0;i<6;i++) {lsf.dst[i]=_dst_id[i];}
- printf("new DST ID: %hhu %hhu %hhu %hhu %hhu %hhu\n",_dst_id[0],_dst_id[1],_dst_id[2],_dst_id[3],_dst_id[4],_dst_id[5]);fflush(stdout);
+ uint16_t ccrc=LSF_CRC(&lsf);
+ lsf.crc[0]=ccrc>>8;
+ lsf.crc[1]=ccrc&0xFF;
+ printf("new DST ID: %c%c%c%c%c%c\n",_dst_id[0],_dst_id[1],_dst_id[2],_dst_id[3],_dst_id[4],_dst_id[5]);fflush(stdout);
 }
 
 void m17_coder_impl::set_meta(std::string meta)
 {int length;
  printf("new meta: %s\n",meta.c_str());fflush(stdout);
- _meta=meta;
+ _meta.assign(meta);
  if (meta.length()<14) length=meta.length(); else length=14;
  for (int i=0;i<length;i++) {lsf.meta[i]=_meta[i];}
+ uint16_t ccrc=LSF_CRC(&lsf);
+ lsf.crc[0]=ccrc>>8;
+ lsf.crc[1]=ccrc&0xFF;
 }
 
 void m17_coder_impl::set_type(short type)
 {_type=type;
- lsf.type[0]=_type&0xff;
- lsf.type[1]=_type>>8;
+ lsf.type[0]=_type>>8;   // MSB
+ lsf.type[1]=_type&0xff; // LSB
+ uint16_t ccrc=LSF_CRC(&lsf);
+ lsf.crc[0]=ccrc>>8;
+ lsf.crc[1]=ccrc&0xFF;
  printf("new type: %hhd %hhd\n",lsf.type[1],lsf.type[0]);fflush(stdout);
 }
 
