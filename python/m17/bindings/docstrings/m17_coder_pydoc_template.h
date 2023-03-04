@@ -14,14 +14,22 @@
   and will be overwritten during the build process
  */
 
+static const char *__doc_gr_m17_m17_coder = R"doc()doc";
 
+static const char *__doc_gr_m17_m17_coder_m17_coder_0 = R"doc()doc";
 
- static const char *__doc_gr_m17_m17_coder = R"doc()doc";
+static const char *__doc_gr_m17_m17_coder_m17_coder_1 = R"doc()doc";
 
+static const char *__doc_gr_m17_m17_coder_make = R"doc()doc";
 
- static const char *__doc_gr_m17_m17_coder_m17_coder = R"doc()doc";
+static const char *__doc_gr_m17_m17_coder_set_meta = R"doc()doc";
 
+static const char *__doc_gr_m17_m17_coder_set_src_id = R"doc()doc";
 
- static const char *__doc_gr_m17_m17_coder_make = R"doc()doc";
+static const char *__doc_gr_m17_m17_coder_set_dst_id = R"doc()doc";
 
-  
+static const char *__doc_gr_m17_m17_coder_set_samp_rate = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_coder_set_debug = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_coder_set_type = R"doc()doc";

@@ -83,6 +83,13 @@ md5sum include/gnuradio/m17/m17_decoder.h
 ```
 match the information in ``python/m17/bindings/*cc``.
 
+Rather than manually changing the md5sum, the proper way of handling bindings in the Python directory is to execute
+```
+gr_modtool bind m17_decoder
+gr_modtool bind m17_coder
+``` from the gr-m17 directory, assuming ``gr_modtool bind`` works, otherwise check https://github.com/gnuradio/gnuradio/issues/6477
+
+
 ## Developer note2
 
 The coder block is an interpolating block outputing 24 more times samples than input symbols. The (well named) ``noutput_items``

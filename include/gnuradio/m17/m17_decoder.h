@@ -33,12 +33,8 @@ public:
      * creating new instances.
      */
     static sptr make(bool debug_data,bool debug_ctrl);
-/*
     virtual void set_debug_data(bool debug)=0;
     virtual void set_debug_ctrl(bool debug)=0;
-*/
-    void set_debug_data(bool debug);
-    void set_debug_ctrl(bool debug);
 };
 
 } // namespace m17
