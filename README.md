@@ -87,7 +87,8 @@ Rather than manually changing the md5sum, the proper way of handling bindings in
 ```
 gr_modtool bind m17_decoder
 gr_modtool bind m17_coder
-``` from the gr-m17 directory, assuming ``gr_modtool bind`` works, otherwise check https://github.com/gnuradio/gnuradio/issues/6477
+``` 
+from the ``gr-m17`` directory, assuming ``gr_modtool bind`` works, otherwise check https://github.com/gnuradio/gnuradio/issues/6477
 
 
 ## Developer note2
