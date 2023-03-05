@@ -46,13 +46,12 @@ struct LSF
 	uint8_t crc[2];
 } lsf;
 
-void send_Preamble(const uint8_t type,float *out, int *counterout, float samp_rate)
+void send_Preamble(const uint8_t type,float *out, int *counterout)
 {
     float symb;
 
     if(type) //pre-BERT
     {
-        // for(uint16_t i=0; i<(int)(40e-3*samp_rate)/2; i++) //40ms * 4800 = 192 TODO JMF
         for(uint16_t i=0; i<(int)(192/2); i++) //40ms * 4800 = 192
         {
             symb=-3.0;
@@ -67,7 +66,6 @@ void send_Preamble(const uint8_t type,float *out, int *counterout, float samp_ra
     }
     else //pre-LSF
     {
-        // for(uint16_t i=0; i<(int)(40e-3*samp_rate)/2; i++) //40ms * 4800 = 192 TODO JMF
         for(uint16_t i=0; i<(int)(192/2); i++) //40ms * 4800 = 192
         {
             symb=+3.0;
@@ -261,24 +259,23 @@ uint16_t LSF_CRC(struct LSF *in)
 }
 
     m17_coder::sptr
-    m17_coder::make(std::string src_id,std::string dst_id,short type,std::string meta, float samp_rate,bool debug)
+    m17_coder::make(std::string src_id,std::string dst_id,short type,std::string meta, bool debug)
     {
       return gnuradio::get_initial_sptr
-        (new m17_coder_impl(src_id,dst_id,type,meta,samp_rate,debug));
+        (new m17_coder_impl(src_id,dst_id,type,meta,debug));
     }
 
     /*
      * The private constructor
      */
-    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta, float samp_rate, bool debug)
+    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta, bool debug)
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
-              ,_samp_rate(samp_rate), _meta(meta),_type(type), _debug(debug)
+              , _meta(meta),_type(type), _debug(debug)
 {    set_meta(meta);
      set_src_id(src_id);
      set_dst_id(dst_id);
-     set_samp_rate(samp_rate);
      set_type(type);
      set_debug(debug);
      uint16_t ccrc=LSF_CRC(&lsf);
@@ -286,11 +283,6 @@ uint16_t LSF_CRC(struct LSF *in)
      lsf.crc[1]=ccrc&0xFF;
      _got_lsf=0;                  //have we filled the LSF struct yet?
      _fn=0;                      //16-bit Frame Number (for the stream mode)
-}
-
-void m17_coder_impl::set_samp_rate(float samp_rate)
-{_samp_rate=samp_rate;
- printf("New sampling rate: %f\n",_samp_rate); 
 }
 
 void m17_coder_impl::set_debug(bool debug)
@@ -540,7 +532,7 @@ printf("got_lsf=1\n");
             conv_Encode_LSF(enc_bits, &lsf);
 
             //send out the preamble and LSF
-            send_Preamble(0,out,&countout,_samp_rate); //0 - LSF preamble, as opposed to 1 - BERT preamble
+            send_Preamble(0,out,&countout); //0 - LSF preamble, as opposed to 1 - BERT preamble
 
             //send LSF syncword
             send_Syncword(SYNC_LSF,out,&countout);

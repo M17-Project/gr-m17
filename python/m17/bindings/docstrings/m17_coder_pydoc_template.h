@@ -28,8 +28,6 @@ static const char *__doc_gr_m17_m17_coder_set_src_id = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_coder_set_dst_id = R"doc()doc";
 
-static const char *__doc_gr_m17_m17_coder_set_samp_rate = R"doc()doc";
-
 static const char *__doc_gr_m17_m17_coder_set_debug = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_coder_set_type = R"doc()doc";

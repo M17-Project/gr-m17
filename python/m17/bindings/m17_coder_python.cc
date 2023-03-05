@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_coder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(c37cf1a142598d1cf96b7a93c85559f2) */
+/* BINDTOOL_HEADER_FILE_HASH(178a26e09118551324bf48782db38a1b) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -37,8 +37,8 @@ void bind_m17_coder(py::module &m) {
       m, "m17_coder", D(m17_coder))
 
       .def(py::init(&m17_coder::make), py::arg("src_id"), py::arg("dst_id"),
-           py::arg("type"), py::arg("meta"), py::arg("samp_rate"),
-           py::arg("debug"), D(m17_coder, make))
+           py::arg("type"), py::arg("meta"), py::arg("debug"),
+           D(m17_coder, make))
 
       .def("set_meta", &m17_coder::set_meta, py::arg("meta"),
            D(m17_coder, set_meta))
@@ -48,9 +48,6 @@ void bind_m17_coder(py::module &m) {
 
       .def("set_dst_id", &m17_coder::set_dst_id, py::arg("dst_id"),
            D(m17_coder, set_dst_id))
-
-      .def("set_samp_rate", &m17_coder::set_samp_rate, py::arg("samp_rate"),
-           D(m17_coder, set_samp_rate))
 
       .def("set_debug", &m17_coder::set_debug, py::arg("debug"),
            D(m17_coder, set_debug))

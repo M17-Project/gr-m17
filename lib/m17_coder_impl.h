@@ -18,7 +18,6 @@ class m17_coder_impl : public m17_coder
 private:
     std::string _meta;
     unsigned char _src_id[6],_dst_id[6];
-    float _samp_rate=0.;
     short _type;
     int _got_lsf=0;
     uint16_t _fn=0;                      //16-bit Frame Number (for the stream mode)
@@ -28,11 +27,10 @@ private:
 public:
     void set_src_id(std::string src_id);
     void set_dst_id(std::string dst_id);
-    void set_samp_rate(float samp_rate);
     void set_meta(std::string meta);
     void set_type(short type);
     void set_debug(bool debug);
-    m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta,float samp_rate,bool debug);
+    m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta,bool debug);
     ~m17_coder_impl();
 
     // Where all the action really happens
