@@ -27,6 +27,8 @@ parameters:
 
 asserts:
     - ${ type < 65536 }
+    - ${ len(dst_id) < 10 }
+    - ${ len(src_id) < 10 }
 templates:
   imports: from gnuradio import m17
   make: m17.m17_coder(${src_id},${dst_id},${type},${meta},${debug})
