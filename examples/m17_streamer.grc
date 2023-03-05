@@ -97,7 +97,7 @@ blocks:
     gui_hint: ''
     label: ''
     type: string
-    value: EMITTR
+    value: EMITTER
   states:
     bus_sink: false
     bus_source: false
@@ -152,18 +152,17 @@ blocks:
     alias: ''
     comment: ''
     debug: 'False'
-    dst_id: RECEIV
+    dst_id: ALL
     maxoutbuf: '0'
     meta: meta
     minoutbuf: '0'
-    samp_rate: samp_rate
-    src_id: EMITTR
+    src_id: EMITTER
     type: mtype
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 144.0]
+    coordinate: [376, 152.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0

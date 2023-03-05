@@ -258,6 +258,33 @@ uint16_t LSF_CRC(struct LSF *in)
     return CRC_M17(d, 28);
 }
 
+//encode 9-char callsign to a 6-byte long array 
+// EMITTR -> 0x000070FE024D
+// RECEIV -> 0x000087AB859A
+void encode_callsign(uint8_t *outp, const uint8_t *inp,int length)
+{int i;
+ uint64_t encoded=0;
+ char val;
+ if (strcmp((char*)inp,"ALL")==0) 
+     {for (i=0;i<6;i++) {outp[i]=0xff;}
+      printf("Broadcast\n");
+      return;
+     }
+ else
+     for (i=0;i<length;i++) 
+      {val=inp[length-i-1];
+       if (val=='.') encoded=encoded*40+39; // last char
+         else if (val==' ') encoded=encoded*40+0; 
+           else if (val=='/') encoded=encoded*40+38; 
+             else if (val=='-') encoded=encoded*40+37; 
+               else if (val>='A') encoded=encoded*40+(val-'A'+1); 
+                 else if (val>='0') encoded=encoded*40+(val-'0'+27); 
+                   else encoded=encoded*40; // invalid characters are forced to 0
+      }
+      printf("Encoded callsign %s -> %lx\n",inp,encoded);
+      for (i=0;i<6;i++) outp[i]=(encoded>>(8*i))&0xff;
+}
+
     m17_coder::sptr
     m17_coder::make(std::string src_id,std::string dst_id,short type,std::string meta, bool debug)
     {
@@ -292,26 +319,24 @@ void m17_coder_impl::set_debug(bool debug)
 
 void m17_coder_impl::set_src_id(std::string src_id)
 {int length;
- for (int i=0;i<6;i++) {_src_id[i]=' ';}
- if (src_id.length()>6) length=6; else length=src_id.length();
- for (int i=0;i<length;i++) {_src_id[i]=src_id.c_str()[i];}
- for (int i=0;i<6;i++) {lsf.src[i]=_src_id[i];}
+ for (int i=0;i<10;i++) {_src_id[i]=0;}
+ if (src_id.length()>9) length=9; else length=src_id.length();
+ for (int i=0;i<length;i++) {_src_id[i]=toupper(src_id.c_str()[i]);}
+ encode_callsign(lsf.src,_src_id,length); // 6 byte ID <- 9 char callsign
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
- printf("new SRC ID: %c%c%c%c%c%c\n",_src_id[0],_src_id[1],_src_id[2],_src_id[3],_src_id[4],_src_id[5]);fflush(stdout);
 }
 
 void m17_coder_impl::set_dst_id(std::string dst_id)
 {int length;
- for (int i=0;i<6;i++) {_dst_id[i]=0;}
- if (dst_id.length()>6) length=6; else length=dst_id.length();
- for (int i=0;i<length;i++) {_dst_id[i]=dst_id.c_str()[i];}
- for (int i=0;i<6;i++) {lsf.dst[i]=_dst_id[i];}
+ for (int i=0;i<10;i++) {_dst_id[i]=0;}
+ if (dst_id.length()>9) length=9; else length=dst_id.length();
+ for (int i=0;i<length;i++) {_dst_id[i]=toupper(dst_id.c_str()[i]);}
+ encode_callsign(lsf.dst,_dst_id,length); // 6 byte ID <- 9 char callsign
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
- printf("new DST ID: %c%c%c%c%c%c\n",_dst_id[0],_dst_id[1],_dst_id[2],_dst_id[3],_dst_id[4],_dst_id[5]);fflush(stdout);
 }
 
 void m17_coder_impl::set_meta(std::string meta)

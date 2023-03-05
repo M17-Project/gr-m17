@@ -17,7 +17,7 @@ class m17_coder_impl : public m17_coder
 {
 private:
     std::string _meta;
-    unsigned char _src_id[6],_dst_id[6];
+    unsigned char _src_id[10],_dst_id[10]; // 9 character callsign
     short _type;
     int _got_lsf=0;
     uint16_t _fn=0;                      //16-bit Frame Number (for the stream mode)
