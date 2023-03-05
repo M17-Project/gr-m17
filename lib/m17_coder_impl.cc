@@ -282,7 +282,7 @@ void encode_callsign(uint8_t *outp, const uint8_t *inp,int length)
                    else encoded=encoded*40; // invalid characters are forced to 0
       }
       printf("Encoded callsign %s -> %lx\n",inp,encoded);
-      for (i=0;i<6;i++) outp[i]=(encoded>>(8*i))&0xff;
+      for (i=0;i<6;i++) outp[5-i]=(encoded>>(8*i))&0xff;
 }
 
     m17_coder::sptr
