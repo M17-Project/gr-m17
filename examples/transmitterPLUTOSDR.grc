@@ -42,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 48.0]
+    coordinate: [184, 40.0]
     rotation: 0
     state: true
 - name: analog_frequency_modulator_fc_0
@@ -58,7 +58,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 184.0]
+    coordinate: [872, 176.0]
     rotation: 0
     state: true
 - name: blocks_throttle_0
@@ -79,7 +79,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 184.0]
+    coordinate: [280, 232.0]
     rotation: 0
     state: disabled
 - name: blocks_vector_source_x_0_2
@@ -100,7 +100,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [80, 168.0]
+    coordinate: [80, 160.0]
     rotation: 0
     state: true
 - name: iio_pluto_sink_0
@@ -126,7 +126,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1232, 124.0]
+    coordinate: [1232, 116.0]
     rotation: 0
     state: enabled
 - name: import_0
@@ -149,12 +149,11 @@ blocks:
     alias: ''
     comment: ''
     debug: 'False'
-    dst_id: 255.255.255.255.255.255
+    dst_id: RECEIVER
     maxoutbuf: '0'
     meta: helloworld
     minoutbuf: '0'
-    samp_rate: samp_rate
-    src_id: 01.02.03.04.05.06
+    src_id: TRANSMIT
     type: '5'
   states:
     bus_sink: false
@@ -169,14 +168,15 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    debug: 'False'
+    debug_ctrl: 'False'
+    debug_data: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 56.0]
+    coordinate: [480, 48.0]
     rotation: 180
     state: enabled
 - name: note_0_2
@@ -270,7 +270,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1232, 40.0]
+    coordinate: [1232, 32.0]
     rotation: 0
     state: true
 - name: qtgui_number_sink_0
@@ -333,7 +333,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [352, 32.0]
+    coordinate: [296, 32.0]
     rotation: 180
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -430,7 +430,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 96.0]
+    coordinate: [872, 88.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0
@@ -450,7 +450,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 160.0]
+    coordinate: [1040, 152.0]
     rotation: 0
     state: true
 - name: root_raised_cosine_filter_1
@@ -473,7 +473,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 144.0]
+    coordinate: [656, 136.0]
     rotation: 0
     state: enabled
 

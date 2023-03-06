@@ -156,7 +156,7 @@ blocks:
     maxoutbuf: '0'
     meta: meta
     minoutbuf: '0'
-    src_id: EMITTER
+    src_id: EMITTER1
     type: mtype
   states:
     bus_sink: false
