@@ -40,7 +40,7 @@
 //#define SHOW_VITERBI_ERRS
 //
 
-#define XCORR_THRESHOLD 0.90 // arbitrary threshold between 0 and 1: might be tunable from GNU Radio Block for flexibility
+//#define XCORR_THRESHOLD 0.90 // arbitrary threshold between 0 and 1: might be tunable from GNU Radio Block for flexibility
 #define CODE_MEAN      -0.75 // mean(str_sync)
 #define CODE_STD        8.78 // std(str_sync)*sqrt(length(str_sync))
 // see ../M17_Implementations/SP5WWP/inc/m17.h for const int8_t str_sync[8]={-3, -3, -3, -3, +3, +3, -3, +3};
@@ -108,23 +108,25 @@ void decode_callsign(uint8_t *outp, const uint8_t *inp)
 }
 
     m17_decoder::sptr
-    m17_decoder::make(bool debug_data,bool debug_ctrl)
+    m17_decoder::make(bool debug_data,bool debug_ctrl,float threshold)
     {
       return gnuradio::get_initial_sptr
-        (new m17_decoder_impl(debug_data,debug_ctrl));
+        (new m17_decoder_impl(debug_data,debug_ctrl,threshold));
     }
 
 
     /*
      * The private constructor
      */
-    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl)
+    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold)
       : gr::block("m17_decoder",
               gr::io_signature::make(1, 1, sizeof(float)),
               gr::io_signature::make(1, 1, sizeof(char))),
-              _debug_data(debug_data), _debug_ctrl(debug_ctrl)
+              _debug_data(debug_data), _debug_ctrl(debug_ctrl), _threshold(threshold)
     {set_debug_data(debug_data);
-     set_debug_ctrl(debug_ctrl);}
+     set_debug_ctrl(debug_ctrl);
+     set_threshold(threshold);
+    }
 
     /*
      * Our virtual destructor.
@@ -132,6 +134,11 @@ void decode_callsign(uint8_t *outp, const uint8_t *inp)
     m17_decoder_impl::~m17_decoder_impl()
     {
     }
+
+void m17_decoder_impl::set_threshold(float threshold)
+{_threshold=threshold;
+ printf("Threshold: %f\n",_threshold);
+}
 
 void m17_decoder_impl::set_debug_data(bool debug)
 {_debug_data=debug;
@@ -210,13 +217,13 @@ uint8_t pushed;                     //counter for pushed symbols
             xcorr/=(sqrt(normx)*CODE_STD); // 8.78=std(str_sync)*sqrt(length(str_sync))
             // printf("%f\n", xcorr);
 
-            if(xcorr>XCORR_THRESHOLD) //Frame syncword detected
+            if(xcorr>_threshold) // XCORR_THRESHOLD) //Frame syncword detected
             {
                 syncd=1;
                 pushed=0;
                 fl=0;
             }
-            else if(xcorr<-XCORR_THRESHOLD) //LSF syncword
+            else if(xcorr<-_threshold) // XCORR_THRESHOLD) //LSF syncword
             {
                 syncd=1;
                 pushed=0;
