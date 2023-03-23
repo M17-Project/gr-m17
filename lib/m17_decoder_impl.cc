@@ -314,51 +314,51 @@ uint8_t pushed;                     //counter for pushed symbols
                         decode_callsign(d_dst, &lsf[0]);
                         decode_callsign(d_src, &lsf[6]);
 
-if (_debug_ctrl==true) {
-                        //DST
-                        printf("DST: %-9s ", d_dst);
-
-                        //SRC
-                        printf("SRC: %-9s ", d_src);
-                        #else
-                        //DST
-                        printf("DST: ");
-                        for(uint8_t i=0; i<6; i++)
-                            printf("%02X", lsf[i]);
-                        printf(" ");
-
-                        //SRC
-                        printf("SRC: ");
-                        for(uint8_t i=0; i<6; i++)
-                            printf("%02X", lsf[6+i]);
-                        printf(" ");
-                        #endif
-
-                        //TYPE
-                        printf("TYPE: ");
-                        for(uint8_t i=0; i<2; i++)
-                            printf("%02X", lsf[12+i]);
-                        printf(" ");
-
-                        //META
-                        printf("META: ");
-                        for(uint8_t i=0; i<14; i++)
-                            printf("%02X", lsf[14+i]);
-                        //printf(" ");
-
-                        //CRC
-                        //printf("CRC: ");
-                        //for(uint8_t i=0; i<2; i++)
-                            //printf("%02X", lsf[28+i]);
-                        if(CRC_M17(lsf, 30))
-                            printf(" LSF_CRC_ERR");
-                        else
-                            printf(" LSF_CRC_OK ");
-                        printf("\n");
-}
+                        if (_debug_ctrl==true) {
+                          //DST
+                          printf("DST: %-9s ", d_dst);
+  
+                          //SRC
+                          printf("SRC: %-9s ", d_src);
+                          #else
+                          //DST
+                          printf("DST: ");
+                          for(uint8_t i=0; i<6; i++)
+                              printf("%02X", lsf[i]);
+                          printf(" ");
+  
+                          //SRC
+                          printf("SRC: ");
+                          for(uint8_t i=0; i<6; i++)
+                              printf("%02X", lsf[6+i]);
+                          printf(" ");
+                          #endif
+  
+                          //TYPE
+                          printf("TYPE: ");
+                          for(uint8_t i=0; i<2; i++)
+                              printf("%02X", lsf[12+i]);
+                          printf(" ");
+  
+                          //META
+                          printf("META: ");
+                          for(uint8_t i=0; i<14; i++)
+                              printf("%02X", lsf[14+i]);
+                          //printf(" ");
+  
+                          //CRC
+                          //printf("CRC: ");
+                          //for(uint8_t i=0; i<2; i++)
+                              //printf("%02X", lsf[28+i]);
+                          if(CRC_M17(lsf, 30))
+                              printf(" LSF_CRC_ERR");
+                          else
+                              printf(" LSF_CRC_OK ");
+                          printf("\n");
+                        }
                         lich_chunks_rcvd=0; //reset all flags
                     }
-
+  
                     //extract data
                     for(uint16_t i=0; i<272; i++)
                     {
@@ -368,24 +368,24 @@ if (_debug_ctrl==true) {
                     //decode
                     decodePunctured(frame_data, enc_data, P_2, 272, 12);
 
-if (_debug_data==true) {
+                    if (_debug_data==true) {
                     //dump data - first byte is empty
-                    printf("FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
-}
+                       printf("FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
+                    }
                     for(uint8_t i=3; i<19; i++)
                     {
-if (_debug_data==true) {
-                        printf("%02X", frame_data[i]);
-}
-                        out[countout]=frame_data[i];countout++;
+                     if (_debug_data==true) {
+                         printf("%02X", frame_data[i]);
+                        }
+                     out[countout]=frame_data[i];countout++;
                     }
-if (_debug_data==true) {
-                    #ifdef SHOW_VITERBI_ERRS
-                    printf(" e=%1.1f\n", (float)e/0xFFFF);
-                    #else
-                    printf("\n");
-}
-                    #endif
+                    if (_debug_data==true) {
+                      #ifdef SHOW_VITERBI_ERRS
+                      printf(" e=%1.1f\n", (float)e/0xFFFF);
+                      #else
+                      printf("\n");
+                      #endif
+                    }
                     //send codec2 stream to stdout
                     //write(STDOUT_FILENO, &frame_data[3], 16);
                 }
