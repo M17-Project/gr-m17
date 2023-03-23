@@ -371,11 +371,15 @@ if (_debug_ctrl==true) {
 if (_debug_data==true) {
                     //dump data - first byte is empty
                     printf("FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
+}
                     for(uint8_t i=3; i<19; i++)
                     {
+if (_debug_data==true) {
                         printf("%02X", frame_data[i]);
+}
                         out[countout]=frame_data[i];countout++;
                     }
+if (_debug_data==true) {
                     #ifdef SHOW_VITERBI_ERRS
                     printf(" e=%1.1f\n", (float)e/0xFFFF);
                     #else
