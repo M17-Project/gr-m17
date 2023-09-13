@@ -105,6 +105,7 @@ void decode_callsign(uint8_t *outp, const uint8_t *inp)
 		encoded/=40;
 		i++;
 	}
+	outp[i] = 0;
 }
 
     m17_decoder::sptr
