@@ -70,11 +70,16 @@ FN: 000E PLD: 00000000000000000000000000000000
 FN: 000F PLD: 00000000000000000000000000000000
 ```
 
-**Warning**: the default gr_modtool informs GNU Radio Companion to ``import m17`` rather than
-``from gnuradio import m17``. This has to be changed in the YML files manually as the template
-is erroneous.
+Notice that due to the verbose output of gr-m17 and the slow console of GNU Radio Companion, I 
+would strongly advise generating the Python script from GNU Radio Companion and then execute 
+``python3 m17_streamer.py`` from a terminal to avoid waiting for a long time for GNU Radio 
+Companion to flush all messages.
 
 ## Developer note1
+
+**Warning**: the default ``gr_modtool`` output informs GNU Radio Companion to ``import m17`` rather 
+than ``from gnuradio import m17``. This has to be changed in the YML files manually as the template
+is erroneous.
 
 In case of error related to ``Python bindings for m17_coder.h are out of sync`` after changing
 header files in ``include/gnuradio/m17``, make sure that 
