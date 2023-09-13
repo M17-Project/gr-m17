@@ -25,6 +25,7 @@ private:
     bool _debug_ctrl=false;
     float _threshold=0.9;
 
+    float last[8] = {0};                //look-back buffer for finding syncwords
     float pld[SYM_PER_PLD];             //raw frame symbols
     uint16_t soft_bit[2*SYM_PER_PLD];   //raw frame soft bits
     uint16_t d_soft_bit[2*SYM_PER_PLD]; //deinterleaved soft bits

@@ -168,7 +168,6 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
      int countout=0;
 
      float sample;                       //last raw sample from the stdin
-     float last[8];                      //look-back buffer for finding syncwords
      float xcorr;                        //cross correlation for finding syncwords
      float meanx;                        //mean value
      float normx;                        //cross correlation normalization
@@ -302,7 +301,7 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
                         if (_debug_ctrl==true) {
                           //DST
                           printf("DST: %-9s ", d_dst);
-  
+
                           //SRC
                           printf("SRC: %-9s ", d_src);
                           #else
@@ -311,26 +310,26 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
                           for(uint8_t i=0; i<6; i++)
                               printf("%02X", lsf[i]);
                           printf(" ");
-  
+
                           //SRC
                           printf("SRC: ");
                           for(uint8_t i=0; i<6; i++)
                               printf("%02X", lsf[6+i]);
                           printf(" ");
                           #endif
-  
+
                           //TYPE
                           printf("TYPE: ");
                           for(uint8_t i=0; i<2; i++)
                               printf("%02X", lsf[12+i]);
                           printf(" ");
-  
+
                           //META
                           printf("META: ");
                           for(uint8_t i=0; i<14; i++)
                               printf("%02X", lsf[14+i]);
                           //printf(" ");
-  
+
                           //CRC
                           //printf("CRC: ");
                           //for(uint8_t i=0; i<2; i++)
@@ -343,7 +342,7 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
                         }
                         lich_chunks_rcvd=0; //reset all flags
                     }
-  
+
                     //extract data
                     for(uint16_t i=0; i<272; i++)
                     {
