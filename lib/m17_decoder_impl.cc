@@ -162,34 +162,18 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
-      const float *in = (const float *) input_items[0];
-      char *out = (char *) output_items[0];
-      int countout=0;
+     const float *in = (const float *) input_items[0];
+     char *out = (char *) output_items[0];
+     int countout=0;
 
-float sample;                       //last raw sample from the stdin
-float last[8];                      //look-back buffer for finding syncwords
-float xcorr;                        //cross correlation for finding syncwords
-float meanx;                        //mean value
-float normx;                        //cross correlation normalization
-float pld[SYM_PER_PLD];             //raw frame symbols
-uint16_t soft_bit[2*SYM_PER_PLD];   //raw frame soft bits
-uint16_t d_soft_bit[2*SYM_PER_PLD]; //deinterleaved soft bits
+     float sample;                       //last raw sample from the stdin
+     float last[8];                      //look-back buffer for finding syncwords
+     float xcorr;                        //cross correlation for finding syncwords
+     float meanx;                        //mean value
+     float normx;                        //cross correlation normalization
 
-uint8_t lsf[30+1];                  //complete LSF (one byte extra needed for the Viterbi decoder)
-uint16_t lich_chunk[96];            //raw, soft LSF chunk extracted from the LICH
-uint8_t lich_b[6];                  //48-bit decoded LICH
-uint8_t lich_cnt;                   //LICH_CNT
-uint8_t lich_chunks_rcvd=0;         //flags set for each LSF chunk received
-
-uint16_t enc_data[272];             //raw frame data soft bits
-uint8_t frame_data[19];             //decoded frame data, 144 bits (16+128), plus 4 flushing bits
-
-uint8_t syncd=0;                    //syncword found?
-uint8_t fl=0;                       //Frame=0 of LSF=1
-uint8_t pushed;                     //counter for pushed symbols
-      // Do <+signal processing+>
-    for (int counterin=0;counterin<ninput_items[0];counterin++)
-    {
+     for (int counterin=0;counterin<ninput_items[0];counterin++)
+     {
         //wait for another symbol
         sample=in[counterin];
 
@@ -465,13 +449,13 @@ if (_debug_ctrl==true) {
                     last[i]=0.0;
             }
         }
-    }
-      // Tell runtime system how many input items we consumed on
-      // each input stream.
-      consume_each (ninput_items[0]);
+     }
+     // Tell runtime system how many input items we consumed on
+     // each input stream.
+     consume_each (ninput_items[0]);
 
-      // Tell runtime system how many output items we produced.
-      return countout;
+     // Tell runtime system how many output items we produced.
+     return countout;
     }
 
   } /* namespace m17 */
