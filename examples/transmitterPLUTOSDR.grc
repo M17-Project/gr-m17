@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: m17_streamer
+    id: transmitterPLUTOSDR
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -187,7 +187,7 @@ blocks:
     bus_structure: null
     coordinate: [16, 444.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -206,27 +206,22 @@ blocks:
     coordinate: [896, 300.0]
     rotation: 0
     state: true
-- name: blocks_throttle2_0
-  id: blocks_throttle2
+- name: blocks_pack_k_bits_bb_0
+  id: blocks_pack_k_bits_bb
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    ignoretag: 'True'
-    limit: auto
-    maximum: '0.1'
+    k: '8'
     maxoutbuf: '0'
     minoutbuf: '0'
-    samples_per_second: '4800'
-    type: float
-    vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 292.0]
-    rotation: 0
-    state: enabled
+    coordinate: [232, 412.0]
+    rotation: 180
+    state: true
 - name: blocks_vector_source_x_0_2
   id: blocks_vector_source_x
   parameters:
@@ -263,7 +258,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [224, 416.0]
+    coordinate: [384, 416.0]
     rotation: 180
     state: enabled
 - name: iio_pluto_sink_0_0
@@ -322,7 +317,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 268.0]
+    coordinate: [304, 268.0]
     rotation: 0
     state: enabled
 - name: note_0_2
@@ -336,19 +331,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [48, 364.0]
-    rotation: 0
-    state: true
-- name: note_0_2_0
-  id: note
-  parameters:
-    alias: ''
-    comment: ''
-    note: This throttle block shoult **NOT** be required
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [344, 356.0]
     rotation: 0
     state: true
 - name: note_0_2_1
@@ -640,10 +622,10 @@ connections:
 - [analog_frequency_modulator_fc_0_0, '0', blocks_multiply_const_vxx_0, '0']
 - [analog_sig_source_x_0, '0', vocoder_codec2_encode_sp_0, '0']
 - [blocks_multiply_const_vxx_0, '0', rational_resampler_xxx_0_0, '0']
-- [blocks_throttle2_0, '0', root_raised_cosine_filter_0, '0']
+- [blocks_pack_k_bits_bb_0, '0', m17_m17_coder_0_0, '0']
 - [blocks_vector_source_x_0_2, '0', m17_m17_coder_0_0, '0']
-- [blocks_vector_to_stream_0, '0', m17_m17_coder_0_0, '0']
-- [m17_m17_coder_0_0, '0', blocks_throttle2_0, '0']
+- [blocks_vector_to_stream_0, '0', blocks_pack_k_bits_bb_0, '0']
+- [m17_m17_coder_0_0, '0', root_raised_cosine_filter_0, '0']
 - [rational_resampler_xxx_0_0, '0', iio_pluto_sink_0_0, '0']
 - [rational_resampler_xxx_0_0, '0', qtgui_freq_sink_x_0_0, '0']
 - [root_raised_cosine_filter_0, '0', analog_frequency_modulator_fc_0_0, '0']
