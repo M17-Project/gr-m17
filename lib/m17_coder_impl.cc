@@ -258,27 +258,27 @@ uint16_t LSF_CRC(struct LSF *in)
     return CRC_M17(d, 28);
 }
 
-//encode 9-char callsign to a 6-byte long array 
+//encode 9-char callsign to a 6-byte long array
 // EMITTR -> 0x000070FE024D
 // RECEIV -> 0x000087AB859A
 void encode_callsign(uint8_t *outp, const uint8_t *inp,int length)
 {int i;
  uint64_t encoded=0;
  char val;
- if (strcmp((char*)inp,"ALL")==0) 
+ if (strcmp((char*)inp,"ALL")==0)
      {for (i=0;i<6;i++) {outp[i]=0xff;}
       printf("Broadcast\n");
       return;
      }
  else
-     for (i=0;i<length;i++) 
+     for (i=0;i<length;i++)
       {val=inp[length-i-1];
        if (val=='.') encoded=encoded*40+39; // last char
-         else if (val==' ') encoded=encoded*40+0; 
-           else if (val=='/') encoded=encoded*40+38; 
-             else if (val=='-') encoded=encoded*40+37; 
-               else if (val>='A') encoded=encoded*40+(val-'A'+1); 
-                 else if (val>='0') encoded=encoded*40+(val-'0'+27); 
+         else if (val==' ') encoded=encoded*40+0;
+           else if (val=='/') encoded=encoded*40+38;
+             else if (val=='-') encoded=encoded*40+37;
+               else if (val>='A') encoded=encoded*40+(val-'A'+1);
+                 else if (val>='0') encoded=encoded*40+(val-'0'+27);
                    else encoded=encoded*40; // invalid characters are forced to 0
       }
       printf("Encoded callsign %s -> %lx\n",inp,encoded);
@@ -305,6 +305,7 @@ void encode_callsign(uint8_t *outp, const uint8_t *inp,int length)
      set_dst_id(dst_id);
      set_type(type);
      set_debug(debug);
+     set_output_multiple(192);
      uint16_t ccrc=LSF_CRC(&lsf);
      lsf.crc[0]=ccrc>>8;
      lsf.crc[1]=ccrc&0xFF;
@@ -314,7 +315,7 @@ void encode_callsign(uint8_t *outp, const uint8_t *inp,int length)
 
 void m17_coder_impl::set_debug(bool debug)
 {_debug=debug;
- if (_debug==true) printf("true\n"); else printf("Debug false\n"); 
+ if (_debug==true) printf("true\n"); else printf("Debug false\n");
 }
 
 void m17_coder_impl::set_src_id(std::string src_id)
@@ -370,7 +371,7 @@ void m17_coder_impl::set_type(short type)
     void
     m17_coder_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = noutput_items/24; // TODO JMF (if 16 inputs -> 384 outputs)
+      ninput_items_required[0] = noutput_items/12; // TODO JMF (if 16 inputs -> 384 outputs)
     }
 
     int
@@ -393,9 +394,8 @@ uint8_t lich_encoded[12];           //96 bits packed, encoded LICH
 uint8_t data[16];                   //raw payload, packed bits
 uint8_t lich_cnt=0;                 //0..5 LICH counter, derived from the Frame Number
 
-//printf("%d %d -> ",ninput_items[0],noutput_items);
-do {
-    if (countin+16<=noutput_items) 
+while (countout<noutput_items) {
+    if (countin+16<=noutput_items)
        {if(_got_lsf) //stream frames
           {
             //we could discard the data we already have
@@ -604,7 +604,7 @@ printf("got_lsf=1\n");
             printf("\n");*/
         }
       }
-    } while (countout+16*24<=noutput_items);
+    }
       // Tell runtime system how many input items we consumed on
       // each input stream.
     consume_each (countin);
