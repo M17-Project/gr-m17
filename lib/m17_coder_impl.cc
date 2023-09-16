@@ -315,7 +315,7 @@ void encode_callsign(uint8_t *outp, const uint8_t *inp,int length)
 
 void m17_coder_impl::set_debug(bool debug)
 {_debug=debug;
- if (_debug==true) printf("true\n"); else printf("Debug false\n");
+ if (_debug==true) printf("Debug true\n"); else printf("Debug false\n");
 }
 
 void m17_coder_impl::set_src_id(std::string src_id)
@@ -371,7 +371,7 @@ void m17_coder_impl::set_type(short type)
     void
     m17_coder_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = noutput_items/12; // TODO JMF (if 16 inputs -> 384 outputs)
+      ninput_items_required[0] = noutput_items/12; // 16 inputs -> 192 outputs
     }
 
     int
@@ -383,21 +383,21 @@ void m17_coder_impl::set_type(short type)
       const char *in = (const char *) input_items[0];
       float *out = (float *) output_items[0];
 
-int countin=0;
-int countout=0;
-
-uint8_t enc_bits[SYM_PER_PLD*2];    //type-2 bits, unpacked
-uint8_t rf_bits[SYM_PER_PLD*2];     //type-4 bits, unpacked
-uint8_t lich[6];                    //48 bits packed raw, unencoded LICH
-uint8_t lich_encoded[12];           //96 bits packed, encoded LICH
-
-uint8_t data[16];                   //raw payload, packed bits
-uint8_t lich_cnt=0;                 //0..5 LICH counter, derived from the Frame Number
-
-while (countout<noutput_items) {
-    if (countin+16<=noutput_items)
-       {if(_got_lsf) //stream frames
-          {
+      int countin=0;
+      int countout=0;
+      
+      uint8_t enc_bits[SYM_PER_PLD*2];    //type-2 bits, unpacked
+      uint8_t rf_bits[SYM_PER_PLD*2];     //type-4 bits, unpacked
+      uint8_t lich[6];                    //48 bits packed raw, unencoded LICH
+      uint8_t lich_encoded[12];           //96 bits packed, encoded LICH
+      
+      uint8_t data[16];                   //raw payload, packed bits
+      uint8_t lich_cnt=0;                 //0..5 LICH counter, derived from the Frame Number
+      
+      while (countout<noutput_items) {
+        if (countin+16<=noutput_items)
+         {if(_got_lsf) //stream frames
+           {
             //we could discard the data we already have
 //	    for (int i=0;i<6;i++) {lsf.dst[i]=in[countin];countin++;}
 //	    for (int i=0;i<6;i++) {lsf.src[i]=in[countin];countin++;}
@@ -536,9 +536,9 @@ while (countout<noutput_items) {
 
             //increment the Frame Number
             _fn++;
-        }
-        else //LSF
-        {
+           }
+           else //LSF
+           {
 //	    for (int i=0;i<6;i++) {lsf.dst[i]=in[countin];countin++;}
 //	    for (int i=0;i<6;i++) {lsf.src[i]=in[countin];countin++;}
 //	    for (int i=0;i<2;i++) {lsf.type[i]=in[countin];countin++;}
@@ -551,7 +551,7 @@ while (countout<noutput_items) {
 //            lsf.crc[1]=ccrc&0xFF;
 
             _got_lsf=1;
-printf("got_lsf=1\n");
+// printf("got_lsf=1\n");
 
             //encode LSF data
             conv_Encode_LSF(enc_bits, &lsf);
@@ -602,9 +602,9 @@ printf("got_lsf=1\n");
             for(uint8_t i=0; i<2; i++)
                 printf("%02X", lsf.crc[i]);
             printf("\n");*/
-        }
-      }
-    }
+           }
+         }
+     }
       // Tell runtime system how many input items we consumed on
       // each input stream.
     consume_each (countin);
