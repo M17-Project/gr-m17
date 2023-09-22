@@ -157,6 +157,18 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
       ninput_items_required[0] = 0; //  noutput_items;
     }
 
+float eucl_norm(const float* in1, const int8_t* in2, uint8_t len)
+{
+    float tmp = 0.0f;
+
+    for(uint8_t i=0; i<len; i++)
+    {
+        tmp += powf(in1[i]-(float)in2[i], 2.0f);
+    }
+
+    return sqrt(tmp);
+}
+
     int
     m17_decoder_impl::general_work (int noutput_items,
                        gr_vector_int &ninput_items,
@@ -168,9 +180,11 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
      int countout=0;
 
      float sample;                       //last raw sample from the stdin
-     float xcorr;                        //cross correlation for finding syncwords
-     float meanx;                        //mean value
-     float normx;                        //cross correlation normalization
+     float dist;                         //Euclidean distance for finding syncwords in the symbol stream
+     // float xcorr;                        //cross correlation for finding syncwords
+     // float meanx;                        //mean value
+     // float normx;                        //cross correlation normalization
+
 
      for (int counterin=0;counterin<ninput_items[0];counterin++)
      {
@@ -187,7 +201,31 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
 
             last[7]=sample;
 
-            //calculate cross-correlation
+            //calculate euclidean norm
+            dist = eucl_norm(last, str_sync, 8);
+
+            if(dist<DIST_THRESH) //frame syncword detected
+            {
+                //fprintf(stderr, "str_sync dist: %3.5f\n", dist);
+                syncd=1;
+                pushed=0;
+                fl=0;
+            }
+            else
+            {
+                //calculate euclidean norm again, this time against LSF syncword
+                dist = eucl_norm(last, lsf_sync, 8);
+
+                if(dist<DIST_THRESH) //LSF syncword
+                {
+                    //fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
+                    syncd=1;
+                    pushed=0;
+                    fl=1;
+                }
+            }
+        }
+/*            //calculate cross-correlation
             meanx=0.;
             for(uint8_t i=0; i<8; i++) meanx+=last[i];     // sum(last)
             meanx/=8.;
@@ -214,6 +252,7 @@ void m17_decoder_impl::set_debug_ctrl(bool debug)
                 fl=1;
             }
         }
+*/
         else
         {
             pld[pushed++]=sample;
