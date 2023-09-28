@@ -40,7 +40,6 @@
 //#define SHOW_VITERBI_ERRS
 //
 
-//#define XCORR_THRESHOLD 0.90 // arbitrary threshold between 0 and 1: might be tunable from GNU Radio Block for flexibility
 #define CODE_MEAN      -0.75 // mean(str_sync)
 #define CODE_STD        8.21583836f //std(str_sync)*sqrt(length(str_sync)-1)
 // see ../M17_Implementations/SP5WWP/inc/m17.h for const int8_t str_sync[8]={-3, -3, -3, -3, +3, +3, -3, +3};
@@ -204,7 +203,7 @@ float eucl_norm(const float* in1, const int8_t* in2, uint8_t len)
             //calculate euclidean norm
             dist = eucl_norm(last, str_sync, 8);
 
-            if(dist<_threshold) // DIST_THRESH) //frame syncword detected
+            if(dist<_threshold)     //frame syncword detected
             {
                 //fprintf(stderr, "str_sync dist: %3.5f\n", dist);
                 syncd=1;
@@ -216,7 +215,7 @@ float eucl_norm(const float* in1, const int8_t* in2, uint8_t len)
                 //calculate euclidean norm again, this time against LSF syncword
                 dist = eucl_norm(last, lsf_sync, 8);
 
-                if(dist<_threshold) // DIST_THRESH) //LSF syncword
+                if(dist<_threshold) //LSF syncword
                 {
                     //fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
                     syncd=1;
@@ -225,34 +224,6 @@ float eucl_norm(const float* in1, const int8_t* in2, uint8_t len)
                 }
             }
         }
-/*            //calculate cross-correlation
-            meanx=0.;
-            for(uint8_t i=0; i<8; i++) meanx+=last[i];     // sum(last)
-            meanx/=8.;
-            xcorr=0.;
-            normx=0.;
-            for(uint8_t i=0; i<8; i++)
-            {
-                xcorr+=(last[i]-meanx)*(str_sync[i]-CODE_MEAN); // -0.75=mean(str_sync)
-                normx+=(last[i]-meanx)*(last[i]-meanx);    // sum(last^2)
-            }
-            xcorr/=(sqrt(normx)*CODE_STD); // 8.78=std(str_sync)*sqrt(length(str_sync))
-            // printf("%f\n", xcorr);
-
-            if(xcorr>_threshold) // XCORR_THRESHOLD) //Frame syncword detected
-            {
-                syncd=1;
-                pushed=0;
-                fl=0;
-            }
-            else if(xcorr<-_threshold) // XCORR_THRESHOLD) //LSF syncword
-            {
-                syncd=1;
-                pushed=0;
-                fl=1;
-            }
-        }
-*/
         else
         {
             pld[pushed++]=sample;

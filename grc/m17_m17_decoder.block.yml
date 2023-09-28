@@ -16,7 +16,7 @@ parameters:
 - id: threshold
   label: Threshold
   dtype: float
-  default: 0.9
+  default: 2.0
 
 templates:
   imports: from gnuradio import m17
@@ -46,6 +46,9 @@ outputs:
   dtype: byte
   vlen: 1
   optional: 0
+
+documentation: |-
+     The decoder block accepts two boolean debugging flags defining which messages are displayed in the console when messages are received, and a threshold parameter. This threshold defines a value below which the incoming message is detected. Ideally the correlation would reach 0.0 for an ideal match. A default threshold value of 2.0 is selected.
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.
