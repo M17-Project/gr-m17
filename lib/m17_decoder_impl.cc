@@ -204,7 +204,7 @@ float eucl_norm(const float* in1, const int8_t* in2, uint8_t len)
             //calculate euclidean norm
             dist = eucl_norm(last, str_sync, 8);
 
-            if(dist<DIST_THRESH) //frame syncword detected
+            if(dist<_threshold) // DIST_THRESH) //frame syncword detected
             {
                 //fprintf(stderr, "str_sync dist: %3.5f\n", dist);
                 syncd=1;
@@ -216,7 +216,7 @@ float eucl_norm(const float* in1, const int8_t* in2, uint8_t len)
                 //calculate euclidean norm again, this time against LSF syncword
                 dist = eucl_norm(last, lsf_sync, 8);
 
-                if(dist<DIST_THRESH) //LSF syncword
+                if(dist<_threshold) // DIST_THRESH) //LSF syncword
                 {
                     //fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
                     syncd=1;
