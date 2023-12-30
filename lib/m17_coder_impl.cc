@@ -340,7 +340,7 @@ void m17_coder_impl::set_type(short type)
             printf("\n");*/
 
             //increment the Frame Number
-            _fn++;
+            _fn = (_fn + 1) % 0x8000;
            }
            else //LSF
            {

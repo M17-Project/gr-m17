@@ -74,6 +74,7 @@ namespace gr {
     {set_debug_data(debug_data);
      set_debug_ctrl(debug_ctrl);
      set_threshold(threshold);
+     _expected_next_fn=0;
     }
 
     /*
@@ -219,6 +220,38 @@ namespace gr {
                 //if it is a frame
                 if(!fl)
                 {
+                    //extract data
+                    for(uint16_t i=0; i<272; i++)
+                    {
+                        enc_data[i]=d_soft_bit[96+i];
+                    }
+
+                    //decode
+                    uint32_t e=viterbi_decode_punctured(frame_data, enc_data, puncture_pattern_2, 272, 12);
+
+                    uint16_t fn = (frame_data[1] << 8) | frame_data[2];
+
+                    if (_debug_data==true) {
+                    //dump data - first byte is empty
+                       printf("FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
+                    }
+                    for(uint8_t i=3; i<19; i++)
+                    {
+                     if (_debug_data==true) {
+                         printf("%02X", frame_data[i]);
+                        }
+                        out[countout]=frame_data[i];countout++;
+                    }
+                    if (_debug_data==true) {
+                      #ifdef SHOW_VITERBI_ERRS
+                      printf(" e=%1.1f\n", (float)e/0xFFFF);
+                      #else
+                      printf("\n");
+                      #endif
+                    }
+                    //send codec2 stream to stdout
+                    //write(STDOUT_FILENO, &frame_data[3], 16);
+
                     //extract LICH
                     for(uint16_t i=0; i<96; i++)
                     {
@@ -228,6 +261,11 @@ namespace gr {
                     //Golay decoder
                     decode_LICH(lich_b, lich_chunk);
                     lich_cnt=lich_b[5]>>5;
+
+                    //If we're at the start of a superframe, or we missed a frame, reset the LICH state
+                    if((lich_cnt==0) || ((fn % 0x8000)!=_expected_next_fn))
+                        lich_chunks_rcvd=0;
+
                     lich_chunks_rcvd|=(1<<lich_cnt);
                     memcpy(&lsf[lich_cnt*5], lich_b, 5);
 
@@ -285,35 +323,7 @@ namespace gr {
                         lich_chunks_rcvd=0; //reset all flags
                     }
 
-                    //extract data
-                    for(uint16_t i=0; i<272; i++)
-                    {
-                        enc_data[i]=d_soft_bit[96+i];
-                    }
-
-                    //decode
-                    viterbi_decode_punctured(frame_data, enc_data, puncture_pattern_2, 272, 12);
-
-                    if (_debug_data==true) {
-                    //dump data - first byte is empty
-                       printf("FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
-                    }
-                    for(uint8_t i=3; i<19; i++)
-                    {
-                     if (_debug_data==true) {
-                         printf("%02X", frame_data[i]);
-                        }
-                     out[countout]=frame_data[i];countout++;
-                    }
-                    if (_debug_data==true) {
-                      #ifdef SHOW_VITERBI_ERRS
-                      printf(" e=%1.1f\n", (float)e/0xFFFF);
-                      #else
-                      printf("\n");
-                      #endif
-                    }
-                    //send codec2 stream to stdout
-                    //write(STDOUT_FILENO, &frame_data[3], 16);
+                    _expected_next_fn = (fn + 1) % 0x8000;
                 }
                 else //lsf
                 {

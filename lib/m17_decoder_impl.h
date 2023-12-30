@@ -30,6 +30,7 @@ private:
     float pld[SYM_PER_PLD];             //raw frame symbols
     uint16_t soft_bit[2*SYM_PER_PLD];   //raw frame soft bits
     uint16_t d_soft_bit[2*SYM_PER_PLD]; //deinterleaved soft bits
+    uint16_t _expected_next_fn;
     
     uint8_t lsf[30+1];                  //complete LSF (one byte extra needed for the Viterbi decoder)
     uint16_t lich_chunk[96];            //raw, soft LSF chunk extracted from the LICH
