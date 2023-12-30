@@ -227,7 +227,7 @@ namespace gr {
                     }
 
                     //decode
-                    uint32_t e=viterbi_decode_punctured(frame_data, enc_data, puncture_pattern_2, 272, 12);
+                    viterbi_decode_punctured(frame_data, enc_data, puncture_pattern_2, 272, 12);
 
                     uint16_t fn = (frame_data[1] << 8) | frame_data[2];
 
