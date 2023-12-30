@@ -9,11 +9,12 @@
 #define INCLUDED_M17_M17_DECODER_IMPL_H
 
 #include <gnuradio/m17/m17_decoder.h>
+#include "../M17_Implementations/SP5WWP/lib/lib.h"
 
-#include "../M17_Implementations/SP5WWP/inc/m17.h"
-#include "../M17_Implementations/SP5WWP/m17-decoder/golay.h"
-#include "../M17_Implementations/SP5WWP/m17-decoder/viterbi.h"
-#include "../M17_Implementations/SP5WWP/m17-decoder/crc.h"
+//#include "../M17_Implementations/SP5WWP/inc/m17.h"
+//#include "../M17_Implementations/SP5WWP/m17-decoder/golay.h"
+//#include "../M17_Implementations/SP5WWP/m17-decoder/viterbi.h"
+//#include "../M17_Implementations/SP5WWP/m17-decoder/crc.h"
 
 namespace gr {
 namespace m17 {

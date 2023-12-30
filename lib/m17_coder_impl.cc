@@ -30,21 +30,21 @@
 #include <stdint.h>
 #include <unistd.h>
 
-#include "../M17_Implementations/SP5WWP/inc/m17.h"
-#include "../M17_Implementations/SP5WWP/m17-coder/golay.h"
-#include "../M17_Implementations/SP5WWP/m17-coder/crc.h"
+#include "../M17_Implementations/SP5WWP/lib/lib.h"
+#include "../M17_Implementations/SP5WWP/lib/math/golay.h"
+#include "../M17_Implementations/SP5WWP/lib/payload/crc.h"
+#include "../M17_Implementations/SP5WWP/lib/encode/symbols.h"
+#include "../M17_Implementations/SP5WWP/lib/phy/sync.h"
+#include "../M17_Implementations/SP5WWP/lib/encode/convol.h"
+#include "../M17_Implementations/SP5WWP/lib/payload/call.h"
+#include "../M17_Implementations/SP5WWP/lib/payload/lsf.h"
+#include "../M17_Implementations/SP5WWP/lib/phy/interleave.h"
+#include "../M17_Implementations/SP5WWP/lib/phy/randomize.h"
 
 namespace gr {
   namespace m17 {
 
-struct LSF
-{
-	uint8_t dst[6];
-	uint8_t src[6];
-	uint8_t type[2];
-	uint8_t meta[112/8];
-	uint8_t crc[2];
-} lsf;
+struct LSF lsf;
 
 void send_Preamble(const uint8_t type,float *out, int *counterout)
 {
@@ -80,6 +80,7 @@ void send_Preamble(const uint8_t type,float *out, int *counterout)
     }
 }
 
+// now ../M17_Implementations/SP5WWP/lib/lib.c:void send_syncword(const uint16_t syncword)
 void send_Syncword(const uint16_t sword, float *out, int *counterout)
 {
     float symb;
@@ -91,198 +92,6 @@ void send_Syncword(const uint16_t sword, float *out, int *counterout)
         out[*counterout]=symb;
         *counterout=(*counterout)+1;
     }
-}
-
-//out - unpacked bits
-//in - packed raw bits
-//fn - frame number
-void conv_Encode_Frame(uint8_t* out, uint8_t* in, uint16_t fn)
-{
-	uint8_t pp_len = sizeof(P_2);
-	uint8_t p=0;			//puncturing pattern index
-	uint16_t pb=0;			//pushed punctured bits
-	uint8_t ud[144+4+4];	//unpacked data
-
-	memset(ud, 0, 144+4+4);
-
-	//unpack frame number
-	for(uint8_t i=0; i<16; i++)
-	{
-		ud[4+i]=(fn>>(15-i))&1;
-	}
-
-	//unpack data
-	for(uint8_t i=0; i<16; i++)
-	{
-		for(uint8_t j=0; j<8; j++)
-		{
-			ud[4+16+i*8+j]=(in[i]>>(7-j))&1;
-		}
-	}
-
-	//encode
-	for(uint8_t i=0; i<144+4; i++)
-	{
-		uint8_t G1=(ud[i+4]                +ud[i+1]+ud[i+0])%2;
-        uint8_t G2=(ud[i+4]+ud[i+3]+ud[i+2]        +ud[i+0])%2;
-
-		//printf("%d%d", G1, G2);
-
-		if(P_2[p])
-		{
-			out[pb]=G1;
-			pb++;
-		}
-
-		p++;
-		p%=pp_len;
-
-		if(P_2[p])
-		{
-			out[pb]=G2;
-			pb++;
-		}
-
-		p++;
-		p%=pp_len;
-	}
-
-	//printf("pb=%d\n", pb);
-}
-
-//out - unpacked bits
-//in - packed raw bits (LSF struct)
-void conv_Encode_LSF(uint8_t* out, struct LSF *in)
-{
-	uint8_t pp_len = sizeof(P_1);
-	uint8_t p=0;			//puncturing pattern index
-	uint16_t pb=0;			//pushed punctured bits
-	uint8_t ud[240+4+4];	//unpacked data
-
-	memset(ud, 0, 240+4+4);
-
-	//unpack DST
-	for(uint8_t i=0; i<8; i++)
-	{
-		ud[4+i]   =((in->dst[0])>>(7-i))&1;
-		ud[4+i+8] =((in->dst[1])>>(7-i))&1;
-		ud[4+i+16]=((in->dst[2])>>(7-i))&1;
-		ud[4+i+24]=((in->dst[3])>>(7-i))&1;
-		ud[4+i+32]=((in->dst[4])>>(7-i))&1;
-		ud[4+i+40]=((in->dst[5])>>(7-i))&1;
-	}
-
-	//unpack SRC
-	for(uint8_t i=0; i<8; i++)
-	{
-		ud[4+i+48]=((in->src[0])>>(7-i))&1;
-		ud[4+i+56]=((in->src[1])>>(7-i))&1;
-		ud[4+i+64]=((in->src[2])>>(7-i))&1;
-		ud[4+i+72]=((in->src[3])>>(7-i))&1;
-		ud[4+i+80]=((in->src[4])>>(7-i))&1;
-		ud[4+i+88]=((in->src[5])>>(7-i))&1;
-	}
-
-	//unpack TYPE
-	for(uint8_t i=0; i<8; i++)
-	{
-		ud[4+i+96] =((in->type[0])>>(7-i))&1;
-		ud[4+i+104]=((in->type[1])>>(7-i))&1;
-	}
-
-	//unpack META
-	for(uint8_t i=0; i<8; i++)
-	{
-		ud[4+i+112]=((in->meta[0])>>(7-i))&1;
-		ud[4+i+120]=((in->meta[1])>>(7-i))&1;
-		ud[4+i+128]=((in->meta[2])>>(7-i))&1;
-		ud[4+i+136]=((in->meta[3])>>(7-i))&1;
-		ud[4+i+144]=((in->meta[4])>>(7-i))&1;
-		ud[4+i+152]=((in->meta[5])>>(7-i))&1;
-		ud[4+i+160]=((in->meta[6])>>(7-i))&1;
-		ud[4+i+168]=((in->meta[7])>>(7-i))&1;
-		ud[4+i+176]=((in->meta[8])>>(7-i))&1;
-		ud[4+i+184]=((in->meta[9])>>(7-i))&1;
-		ud[4+i+192]=((in->meta[10])>>(7-i))&1;
-		ud[4+i+200]=((in->meta[11])>>(7-i))&1;
-		ud[4+i+208]=((in->meta[12])>>(7-i))&1;
-		ud[4+i+216]=((in->meta[13])>>(7-i))&1;
-	}
-
-	//unpack CRC
-	for(uint8_t i=0; i<8; i++)
-	{
-		ud[4+i+224]=((in->crc[0])>>(7-i))&1;
-		ud[4+i+232]=((in->crc[1])>>(7-i))&1;
-	}
-
-	//encode
-	for(uint8_t i=0; i<240+4; i++)
-	{
-		uint8_t G1=(ud[i+4]                +ud[i+1]+ud[i+0])%2;
-        uint8_t G2=(ud[i+4]+ud[i+3]+ud[i+2]        +ud[i+0])%2;
-
-		//printf("%d%d", G1, G2);
-
-		if(P_1[p])
-		{
-			out[pb]=G1;
-			pb++;
-		}
-
-		p++;
-		p%=pp_len;
-
-		if(P_1[p])
-		{
-			out[pb]=G2;
-			pb++;
-		}
-
-		p++;
-		p%=pp_len;
-	}
-
-	//printf("pb=%d\n", pb);
-}
-
-uint16_t LSF_CRC(struct LSF *in)
-{
-    uint8_t d[28];
-
-    memcpy(&d[0], in->dst, 6);
-    memcpy(&d[6], in->src, 6);
-    memcpy(&d[12], in->type, 2);
-    memcpy(&d[14], in->meta, 14);
-
-    return CRC_M17(d, 28);
-}
-
-//encode 9-char callsign to a 6-byte long array
-// EMITTR -> 0x000070FE024D
-// RECEIV -> 0x000087AB859A
-void encode_callsign(uint8_t *outp, const uint8_t *inp,int length)
-{int i;
- uint64_t encoded=0;
- char val;
- if (strcmp((char*)inp,"ALL")==0)
-     {for (i=0;i<6;i++) {outp[i]=0xff;}
-      printf("Broadcast\n");
-      return;
-     }
- else
-     for (i=0;i<length;i++)
-      {val=inp[length-i-1];
-       if (val=='.') encoded=encoded*40+39; // last char
-         else if (val==' ') encoded=encoded*40+0;
-           else if (val=='/') encoded=encoded*40+38;
-             else if (val=='-') encoded=encoded*40+37;
-               else if (val>='A') encoded=encoded*40+(val-'A'+1);
-                 else if (val>='0') encoded=encoded*40+(val-'0'+27);
-                   else encoded=encoded*40; // invalid characters are forced to 0
-      }
-      printf("Encoded callsign %s -> %lx\n",inp,encoded);
-      for (i=0;i<6;i++) outp[5-i]=(encoded>>(8*i))&0xff;
 }
 
     m17_coder::sptr
@@ -323,7 +132,7 @@ void m17_coder_impl::set_src_id(std::string src_id)
  for (int i=0;i<10;i++) {_src_id[i]=0;}
  if (src_id.length()>9) length=9; else length=src_id.length();
  for (int i=0;i<length;i++) {_src_id[i]=toupper(src_id.c_str()[i]);}
- encode_callsign(lsf.src,_src_id,length); // 6 byte ID <- 9 char callsign
+ encode_callsign((uint64_t*)lsf.src,_src_id); // 6 byte ID <- 9 char callsign
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
@@ -334,7 +143,7 @@ void m17_coder_impl::set_dst_id(std::string dst_id)
  for (int i=0;i<10;i++) {_dst_id[i]=0;}
  if (dst_id.length()>9) length=9; else length=dst_id.length();
  for (int i=0;i<length;i++) {_dst_id[i]=toupper(dst_id.c_str()[i]);}
- encode_callsign(lsf.dst,_dst_id,length); // 6 byte ID <- 9 char callsign
+ encode_callsign((uint64_t*)lsf.dst,_dst_id); // 6 byte ID <- 9 char callsign
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
@@ -399,10 +208,6 @@ void m17_coder_impl::set_type(short type)
          {if(_got_lsf) //stream frames
            {
             //we could discard the data we already have
-//	    for (int i=0;i<6;i++) {lsf.dst[i]=in[countin];countin++;}
-//	    for (int i=0;i<6;i++) {lsf.src[i]=in[countin];countin++;}
-//	    for (int i=0;i<2;i++) {lsf.type[i]=in[countin];countin++;}
-//	    for (int i=0;i<14;i++) {lsf.meta[i]=in[countin];countin++;}
 	    for (int i=0;i<16;i++) {data[i]=in[countin];countin++;}
 
             //send stream frame syncword
@@ -497,7 +302,7 @@ void m17_coder_impl::set_type(short type)
             }
 
             //encode the rest of the frame
-            conv_Encode_Frame(&enc_bits[96], data, _fn);
+            conv_encode_stream_frame(&enc_bits[96], data, _fn);
 
             //reorder bits
             for(uint16_t i=0; i<SYM_PER_PLD*2; i++)
@@ -554,7 +359,7 @@ void m17_coder_impl::set_type(short type)
 // printf("got_lsf=1\n");
 
             //encode LSF data
-            conv_Encode_LSF(enc_bits, &lsf);
+            conv_encode_LSF(enc_bits, &lsf);
 
             //send out the preamble and LSF
             send_Preamble(0,out,&countout); //0 - LSF preamble, as opposed to 1 - BERT preamble

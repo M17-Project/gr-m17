@@ -14,10 +14,19 @@ include(GrPlatform) #define LIB_SUFFIX
 list(APPEND m17_sources
     m17_coder_impl.cc
     m17_decoder_impl.cc
-../M17_Implementations/SP5WWP/m17-coder/golay.c
-../M17_Implementations/SP5WWP/m17-decoder/crc.c
-../M17_Implementations/SP5WWP/m17-decoder/golay.c
-../M17_Implementations/SP5WWP/m17-decoder/viterbi.c
+    ../M17_Implementations/SP5WWP/lib/lib.c
+    ../M17_Implementations/SP5WWP/lib/decode/symbols.c
+    ../M17_Implementations/SP5WWP/lib/decode/viterbi.c
+    ../M17_Implementations/SP5WWP/lib/encode/symbols.c
+    ../M17_Implementations/SP5WWP/lib/encode/convol.c
+    ../M17_Implementations/SP5WWP/lib/math/golay.c
+    ../M17_Implementations/SP5WWP/lib/math/math.c
+    ../M17_Implementations/SP5WWP/lib/math/rrc.c
+    ../M17_Implementations/SP5WWP/lib/payload/call.c
+    ../M17_Implementations/SP5WWP/lib/payload/crc.c
+    ../M17_Implementations/SP5WWP/lib/phy/interleave.c
+    ../M17_Implementations/SP5WWP/lib/phy/randomize.c
+    ../M17_Implementations/SP5WWP/lib/phy/sync.c
 )
 
 set(m17_sources "${m17_sources}" PARENT_SCOPE)
@@ -30,6 +39,7 @@ add_library(gnuradio-m17 SHARED ${m17_sources})
 target_link_libraries(gnuradio-m17 gnuradio::gnuradio-runtime)
 target_include_directories(gnuradio-m17
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/SP5WWP/lib>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
 set_target_properties(gnuradio-m17 PROPERTIES DEFINE_SYMBOL "gnuradio_m17_EXPORTS")
