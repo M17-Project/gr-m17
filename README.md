@@ -99,5 +99,5 @@ from the ``gr-m17`` directory, assuming ``gr_modtool bind`` works, otherwise che
 ## Developer note2
 
 The coder block is an interpolating block outputing 24 more times samples than input symbols. The (well named) ``noutput_items``
-it the **output** buffer size which fills much faster than the input stream so we fill ``out`` until ``noutput_items`` are reached, then
+is the **output** buffer size which fills much faster than the input stream so we fill ``out`` until ``noutput_items`` are reached, then
 send this to the GNU Radio scheduler, and consume the few input samples needed to fill the output buffer. The ring buffer mechanism of GNU Radio makes sure the dataflow is consistent.
