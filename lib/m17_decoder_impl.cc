@@ -168,21 +168,21 @@ namespace gr {
                 for(uint8_t i=0; i<SYM_PER_PLD; i++)
                 {
                     //bit 0
-                    if(pld[i]>=symbol_map[3])
+                    if(pld[i]>=symbol_levels[3])
                     {
                         soft_bit[i*2+1]=0xFFFF;
                     }
-                    else if(pld[i]>=symbol_map[2])
+                    else if(pld[i]>=symbol_levels[2])
                     {
                         soft_bit[i*2+1]=-(float)0xFFFF/(symbol_map[3]-symbol_map[2])*symbol_map[2]+pld[i]*(float)0xFFFF/(symbol_map[3]-symbol_map[2]);
                     }
-                    else if(pld[i]>=symbol_map[1])
+                    else if(pld[i]>=symbol_levels[1])
                     {
                         soft_bit[i*2+1]=0x0000;
                     }
-                    else if(pld[i]>=symbol_map[0])
+                    else if(pld[i]>=symbol_levels[0])
                     {
-                        soft_bit[i*2+1]=(float)0xFFFF/(symbol_map[1]-symbol_map[0])*symbol_map[1]-pld[i]*(float)0xFFFF/(symbol_map[1]-symbol_map[0]);
+                        soft_bit[i*2+1]=(float)0xFFFF/(symbol_levels[1]-symbol_levels[0])*symbol_levels[1]-pld[i]*(float)0xFFFF/(symbol_levels[1]-symbol_levels[0]);
                     }
                     else
                     {
@@ -190,13 +190,13 @@ namespace gr {
                     }
 
                     //bit 1
-                    if(pld[i]>=symbol_map[2])
+                    if(pld[i]>=symbol_levels[2])
                     {
                         soft_bit[i*2]=0x0000;
                     }
-                    else if(pld[i]>=symbol_map[1])
+                    else if(pld[i]>=symbol_levels[1])
                     {
-                        soft_bit[i*2]=0x7FFF-pld[i]*(float)0xFFFF/(symbol_map[2]-symbol_map[1]);
+                        soft_bit[i*2]=0x7FFF-pld[i]*(float)0xFFFF/(symbol_levels[2]-symbol_levels[1]);
                     }
                     else
                     {
