@@ -87,6 +87,23 @@ blocks:
     coordinate: [192, 12.0]
     rotation: 0
     state: enabled
+- name: variable_qtgui_check_box_0
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0.0'
+    gui_hint: ''
+    label: AFC
+    'true': '1.0'
+    type: real
+    value: '0.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 12.0]
+    rotation: 0
+    state: true
 - name: analog_quadrature_demod_cf_0
   id: analog_quadrature_demod_cf
   parameters:
@@ -137,7 +154,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 420.0]
+    coordinate: [432, 420.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: variable_qtgui_check_box_0
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [600, 444.0]
     rotation: 0
     state: true
 - name: blocks_packed_to_unpacked_xx_0
@@ -156,7 +191,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1416, 284.0]
+    coordinate: [1432, 284.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0
@@ -209,7 +244,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 328.0]
+    coordinate: [672, 328.0]
     rotation: 0
     state: true
 - name: digital_symbol_sync_xx_0
@@ -236,7 +271,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [968, 284.0]
+    coordinate: [984, 284.0]
     rotation: 0
     state: enabled
 - name: import_0
@@ -262,12 +297,12 @@ blocks:
     debug_data: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
-    threshold: '0.98'
+    threshold: '2.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1248, 276.0]
+    coordinate: [1264, 276.0]
     rotation: 0
     state: enabled
 - name: qtgui_eye_sink_x_0
@@ -363,7 +398,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [968, 172.0]
+    coordinate: [984, 172.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -557,7 +592,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1248, 172.0]
+    coordinate: [1264, 172.0]
     rotation: 0
     state: disabled
 - name: rational_resampler_xxx_0_0
@@ -620,7 +655,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 300.0]
+    coordinate: [776, 300.0]
     rotation: 0
     state: enabled
 - name: soapy_rtlsdr_source_0
@@ -666,7 +701,8 @@ blocks:
 connections:
 - [analog_quadrature_demod_cf_0, '0', blocks_moving_average_xx_0, '0']
 - [analog_quadrature_demod_cf_0, '0', blocks_sub_xx_0, '0']
-- [blocks_moving_average_xx_0, '0', blocks_sub_xx_0, '1']
+- [blocks_moving_average_xx_0, '0', blocks_multiply_const_vxx_0, '0']
+- [blocks_multiply_const_vxx_0, '0', blocks_sub_xx_0, '1']
 - [blocks_packed_to_unpacked_xx_0, '0', blocks_stream_to_vector_0, '0']
 - [blocks_short_to_float_0, '0', rational_resampler_xxx_1, '0']
 - [blocks_stream_to_vector_0, '0', vocoder_codec2_decode_ps_0, '0']
