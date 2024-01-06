@@ -257,7 +257,7 @@ blocks:
     comment: ''
     constellation: digital.constellation_bpsk().base()
     damping: '1.0'
-    loop_bw: 0.0015*math.pi
+    loop_bw: 2.0*math.pi*0.0015
     max_dev: '0.05'
     maxoutbuf: '0'
     minoutbuf: '0'
