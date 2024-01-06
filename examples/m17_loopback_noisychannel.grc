@@ -127,7 +127,7 @@ blocks:
     gui_hint: ''
     label: ''
     type: real
-    value: '0.85'
+    value: '2.0'
   states:
     bus_sink: false
     bus_source: false
@@ -152,9 +152,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 320.0]
+    coordinate: [912, 324.0]
     rotation: 0
-    state: true
+    state: bypassed
 - name: analog_frequency_modulator_fc_0
   id: analog_frequency_modulator_fc
   parameters:
@@ -184,7 +184,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [520, 344.0]
+    coordinate: [520, 348.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -207,7 +207,7 @@ blocks:
     bus_structure: null
     coordinate: [376, 168.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_vector_source_x_0
   id: blocks_vector_source_x
   parameters:
@@ -246,9 +246,36 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 304.0]
+    coordinate: [320, 308.0]
     rotation: 0
     state: bypassed
+- name: digital_symbol_sync_xx_0
+  id: digital_symbol_sync_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: digital.constellation_bpsk().base()
+    damping: '1.0'
+    loop_bw: 0.0015*math.pi
+    max_dev: '0.05'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nfilters: '128'
+    osps: '1'
+    pfb_mf_taps: '[]'
+    resamp_type: digital.IR_MMSE_8TAP
+    sps: '10'
+    ted_gain: '1.0'
+    ted_type: digital.TED_GARDNER
+    type: ff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1064, 292.0]
+    rotation: 0
+    state: true
 - name: iio_pluto_sink_0
   id: iio_pluto_sink
   parameters:
@@ -303,7 +330,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 340.0]
+    coordinate: [16, 404.0]
     rotation: 0
     state: disabled
 - name: import_0
@@ -346,7 +373,7 @@ blocks:
     alias: ''
     comment: ''
     debug_ctrl: 'True'
-    debug_data: 'False'
+    debug_data: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
     threshold: threshold
@@ -354,9 +381,105 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1096, 328.0]
+    coordinate: [1360, 284.0]
     rotation: 0
     state: enabled
+- name: qtgui_eye_sink_x_0
+  id: qtgui_eye_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: blue
+    color10: blue
+    color2: blue
+    color3: blue
+    color4: blue
+    color5: blue
+    color6: blue
+    color7: blue
+    color8: blue
+    color9: blue
+    comment: ''
+    ctrlpanel: 'False'
+    entags: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label1: Signal 1
+    label10: Signal 10
+    label2: Signal 2
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
+    legend: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    nconnections: '1'
+    samp_per_symbol: '10'
+    size: '4800'
+    srate: '48000'
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
+    tr_chan: '0'
+    tr_delay: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: float
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    ylabel: Amplitude
+    ymax: '5'
+    ymin: '-5'
+    yunit: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1392, 172.0]
+    rotation: 0
+    state: disabled
 - name: qtgui_number_sink_0
   id: qtgui_number_sink
   parameters:
@@ -417,9 +540,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 320.0]
+    coordinate: [1528, 276.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: root_raised_cosine_filter_0
   id: root_raised_cosine_filter
   parameters:
@@ -450,8 +573,8 @@ blocks:
     alias: ''
     alpha: '0.5'
     comment: ''
-    decim: '10'
-    gain: '10'
+    decim: '1'
+    gain: '1'
     interp: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -463,7 +586,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [696, 304.0]
+    coordinate: [696, 308.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0
@@ -489,18 +612,20 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [176, 344.0]
+    coordinate: [184, 348.0]
     rotation: 0
     state: enabled
 
 connections:
-- [analog_agc_xx_0, '0', m17_m17_decoder_0, '0']
+- [analog_agc_xx_0, '0', digital_symbol_sync_xx_0, '0']
 - [analog_frequency_modulator_fc_0, '0', iio_pluto_sink_0, '0']
 - [analog_frequency_modulator_fc_0, '0', virtual_sink_0, '0']
 - [analog_quadrature_demod_cf_0, '0', root_raised_cosine_filter_0_0, '0']
 - [blocks_throttle2_0, '0', root_raised_cosine_filter_0, '0']
 - [blocks_vector_source_x_0, '0', m17_m17_coder_0, '0']
 - [channels_channel_model_0, '0', analog_quadrature_demod_cf_0, '0']
+- [digital_symbol_sync_xx_0, '0', m17_m17_decoder_0, '0']
+- [digital_symbol_sync_xx_0, '0', qtgui_eye_sink_x_0, '0']
 - [iio_pluto_source_0, '0', analog_quadrature_demod_cf_0, '0']
 - [m17_m17_coder_0, '0', blocks_throttle2_0, '0']
 - [m17_m17_decoder_0, '0', qtgui_number_sink_0, '0']
