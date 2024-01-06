@@ -84,7 +84,8 @@ void m17_coder_impl::set_src_id(std::string src_id)
  for (int i=0;i<10;i++) {_src_id[i]=0;}
  if (src_id.length()>9) length=9; else length=src_id.length();
  for (int i=0;i<length;i++) {_src_id[i]=toupper(src_id.c_str()[i]);}
- encode_callsign((uint64_t*)lsf.src,_src_id); // 6 byte ID <- 9 char callsign
+ encode_callsign_bytes(lsf.src, _src_id); // 6 byte ID <- 9 char callsign
+
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
@@ -95,7 +96,7 @@ void m17_coder_impl::set_dst_id(std::string dst_id)
  for (int i=0;i<10;i++) {_dst_id[i]=0;}
  if (dst_id.length()>9) length=9; else length=dst_id.length();
  for (int i=0;i<length;i++) {_dst_id[i]=toupper(dst_id.c_str()[i]);}
- encode_callsign((uint64_t*)lsf.dst,_dst_id); // 6 byte ID <- 9 char callsign
+ encode_callsign_bytes(lsf.dst, _dst_id); // 6 byte ID <- 9 char callsign
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
