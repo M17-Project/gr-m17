@@ -46,54 +46,6 @@ namespace gr {
 
 struct LSF lsf;
 
-void send_Preamble(const uint8_t type,float *out, int *counterout)
-{
-    float symb;
-
-    if(type) //pre-BERT
-    {
-        for(uint16_t i=0; i<(int)(192/2); i++) //40ms * 4800 = 192
-        {
-            symb=-3.0;
-            // write(STDOUT_FILENO, (uint8_t*)&symb,  sizeof(float));
-            out[*counterout]=symb;
-            *counterout=(*counterout)+1;
-            symb=+3.0;
-            // write(STDOUT_FILENO, (uint8_t*)&symb,  sizeof(float));
-            out[*counterout]=symb;
-            *counterout=(*counterout)+1;
-        }
-    }
-    else //pre-LSF
-    {
-        for(uint16_t i=0; i<(int)(192/2); i++) //40ms * 4800 = 192
-        {
-            symb=+3.0;
-            // write(STDOUT_FILENO, (uint8_t*)&symb,  sizeof(float));
-            out[*counterout]=symb;
-            *counterout=(*counterout)+1;
-            symb=-3.0;
-            // write(STDOUT_FILENO, (uint8_t*)&symb,  sizeof(float));
-            out[*counterout]=symb;
-            *counterout=(*counterout)+1;
-        }
-    }
-}
-
-// now ../M17_Implementations/SP5WWP/lib/lib.c:void send_syncword(const uint16_t syncword)
-void send_Syncword(const uint16_t sword, float *out, int *counterout)
-{
-    float symb;
-
-    for(uint8_t i=0; i<16; i+=2)
-    {
-        symb=symbol_map[(sword>>(14-i))&3];
-        // write(STDOUT_FILENO, (uint8_t*)&symb,  sizeof(float));
-        out[*counterout]=symb;
-        *counterout=(*counterout)+1;
-    }
-}
-
     m17_coder::sptr
     m17_coder::make(std::string src_id,std::string dst_id,short type,std::string meta, bool debug)
     {
@@ -193,7 +145,7 @@ void m17_coder_impl::set_type(short type)
       float *out = (float *) output_items[0];
 
       int countin=0;
-      int countout=0;
+      uint32_t countout=0;
       
       uint8_t enc_bits[SYM_PER_PLD*2];    //type-2 bits, unpacked
       uint8_t rf_bits[SYM_PER_PLD*2];     //type-4 bits, unpacked
@@ -203,7 +155,7 @@ void m17_coder_impl::set_type(short type)
       uint8_t data[16];                   //raw payload, packed bits
       uint8_t lich_cnt=0;                 //0..5 LICH counter, derived from the Frame Number
       
-      while (countout<noutput_items) {
+      while (countout<(uint32_t)noutput_items) {
         if (countin+16<=noutput_items)
          {if(_got_lsf) //stream frames
            {
@@ -211,7 +163,7 @@ void m17_coder_impl::set_type(short type)
 	    for (int i=0;i<16;i++) {data[i]=in[countin];countin++;}
 
             //send stream frame syncword
-            send_Syncword(SYNC_STR,out,&countout);
+            send_syncword(out,&countout,SYNC_STR);
 
             //derive the LICH_CNT from the Frame Number
             lich_cnt=_fn%6;
@@ -362,10 +314,11 @@ void m17_coder_impl::set_type(short type)
             conv_encode_LSF(enc_bits, &lsf);
 
             //send out the preamble and LSF
-            send_Preamble(0,out,&countout); //0 - LSF preamble, as opposed to 1 - BERT preamble
+            //send_Preamble(0,out,&countout); //0 - LSF preamble, as opposed to 1 - BERT preamble
+            send_preamble(out, &countout, 0);
 
             //send LSF syncword
-            send_Syncword(SYNC_LSF,out,&countout);
+            send_syncword(out,&countout,SYNC_LSF);
 
             //reorder bits
             for(uint16_t i=0; i<SYM_PER_PLD*2; i++)
