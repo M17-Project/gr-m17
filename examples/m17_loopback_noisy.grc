@@ -37,6 +37,7 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
+    entry_signal: editingFinished
     gui_hint: ''
     label: DST
     type: string
@@ -45,13 +46,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 12.0]
+    coordinate: [568, 8.0]
     rotation: 0
     state: true
 - name: meta_str
   id: variable_qtgui_entry
   parameters:
     comment: ''
+    entry_signal: editingFinished
     gui_hint: ''
     label: META
     type: string
@@ -60,7 +62,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 12.0]
+    coordinate: [296, 8.0]
     rotation: 0
     state: true
 - name: noise_ampl
@@ -75,13 +77,13 @@ blocks:
     start: '0.0'
     step: '0.01'
     stop: '2.0'
-    value: '0.0'
+    value: '.01'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 116.0]
+    coordinate: [888, 8.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -93,13 +95,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 12.0]
+    coordinate: [200, 8.0]
     rotation: 0
     state: true
 - name: src_str
   id: variable_qtgui_entry
   parameters:
     comment: ''
+    entry_signal: editingFinished
     gui_hint: ''
     label: SRC
     type: string
@@ -108,13 +111,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 12.0]
+    coordinate: [424, 8.0]
     rotation: 0
     state: true
 - name: type_val
   id: variable_qtgui_entry
   parameters:
     comment: ''
+    entry_signal: editingFinished
     gui_hint: ''
     label: TYPE
     type: int
@@ -123,7 +127,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 12.0]
+    coordinate: [712, 8.0]
     rotation: 0
     state: true
 - name: analog_noise_source_x_0
@@ -142,8 +146,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 340.0]
-    rotation: 180
+    coordinate: [312, 232.0]
+    rotation: 0
     state: true
 - name: blocks_add_xx_0
   id: blocks_add_xx
@@ -160,8 +164,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608.0, 280]
-    rotation: 90
+    coordinate: [752, 152.0]
+    rotation: 0
     state: true
 - name: blocks_file_sink_0
   id: blocks_file_sink
@@ -178,8 +182,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 172.0]
-    rotation: 180
+    coordinate: [992, 144.0]
+    rotation: 0
     state: enabled
 - name: blocks_null_sink_0
   id: blocks_null_sink
@@ -195,8 +199,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [272, 256.0]
-    rotation: 180
+    coordinate: [1056, 104.0]
+    rotation: 0
     state: disabled
 - name: blocks_throttle2_0
   id: blocks_throttle2
@@ -216,7 +220,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [448, 348.0]
+    coordinate: [528, 136.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -237,7 +241,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 340.0]
+    coordinate: [8, 128.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -257,7 +261,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [224, 324.0]
+    coordinate: [312, 112.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -275,8 +279,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 172.0]
-    rotation: 180
+    coordinate: [840, 144.0]
+    rotation: 0
     state: true
 - name: note_0_2
   id: note
@@ -288,7 +292,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 292.0]
+    coordinate: [816, 8.0]
     rotation: 0
     state: true
 - name: qtgui_eye_sink_x_0
@@ -384,7 +388,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [720, 164.0]
+    coordinate: [896, 232.0]
     rotation: 0
     state: true
 
@@ -400,4 +404,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0
+  grc_version: 3.10.9.2
