@@ -31,19 +31,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "../M17_Implementations/SP5WWP/lib/lib.h"
-#include "../M17_Implementations/SP5WWP/lib/math/golay.h"
-#include "../M17_Implementations/SP5WWP/lib/payload/crc.h"
-#include "../M17_Implementations/SP5WWP/lib/payload/call.h"
-#include "../M17_Implementations/SP5WWP/lib/phy/sync.h"
-#include "../M17_Implementations/SP5WWP/lib/decode/viterbi.h"
-#include "../M17_Implementations/SP5WWP/lib/payload/lsf.h"
-#include "../M17_Implementations/SP5WWP/lib/phy/interleave.h"
-#include "../M17_Implementations/SP5WWP/lib/phy/randomize.h"
-#include "../M17_Implementations/SP5WWP/lib/decode/symbols.h"
-#include "../M17_Implementations/SP5WWP/lib/encode/symbols.h"
-#include "../M17_Implementations/SP5WWP/lib/encode/convol.h"
-#include "../M17_Implementations/SP5WWP/lib/math/math.h"
+#include "m17.h"
 
 #define DECODE_CALLSIGNS
 //#define SHOW_VITERBI_ERRS
