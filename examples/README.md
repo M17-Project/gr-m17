@@ -9,5 +9,15 @@ M17 receiver with RTL SDR. Automatic Frequency Correction can be enabled as an o
 ### m17_streamer.grc
 Old loopback demo.
 
+<img src="m17_loopback.png">
+
 ### m17_loopback_noisychannel.grc
-Loopback demo with a noisy channel.
+Loopback demo with the addition of noise, no modulation/no channnel.
+
+<img src="m17_loopback_noisy.png">
+
+### m17_loopback_noisychannel.grc
+Loopback demo with a noisy channel, including full modulation & demodulation.
+
+<img src="m17_loopback_noisychannel.png">
+
