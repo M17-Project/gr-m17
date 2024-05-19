@@ -33,7 +33,7 @@ void bind_m17_coder(py::module &m) {
 
   using m17_coder = ::gr::m17::m17_coder;
 
-  py::class_<m17_coder, gr::block, gr::basic_block, std::shared_ptr<m17_coder>>(
+  py::class_<m17_coder, gr::sync_interpolator, gr::basic_block, std::shared_ptr<m17_coder>>(
       m, "m17_coder", D(m17_coder))
 
       .def(py::init(&m17_coder::make), py::arg("src_id"), py::arg("dst_id"),

@@ -24,8 +24,10 @@ list(APPEND m17_sources
     ../M17_Implementations/libm17/math/rrc.c
     ../M17_Implementations/libm17/payload/call.c
     ../M17_Implementations/libm17/payload/crc.c
+    ../M17_Implementations/libm17/payload/lich.c
     ../M17_Implementations/libm17/phy/interleave.c
     ../M17_Implementations/libm17/phy/randomize.c
+    ../M17_Implementations/libm17/phy/slice.c
     ../M17_Implementations/libm17/phy/sync.c
 )
 
