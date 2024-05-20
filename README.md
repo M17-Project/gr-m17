@@ -31,6 +31,9 @@ where the ``LD_LIBRARY_PATH`` setting results from
 find /usr/local/ -name libgnuradio-m17.so.1.0.0 -print
 ```
 
+to solve any issue related to ``ImportError: libgnuradio-m17.so.1.0.0: cannot open shared object file: No such file or directory``
+(which means that ``/usr/local`` is not part of the GNU Radio Companion paths)
+
 When running the flowgraph found in ``examples`` with ``gnuradio-companion ../examples/m17_streamer.grc`` 
 
 <img src="examples/m17_streamer.png">
