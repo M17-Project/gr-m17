@@ -138,8 +138,6 @@ void m17_coder_impl::set_type(short type)
 
       int countin=0;
       uint32_t countout=0;
-//      float frame_buff_tmp[192];
-//      uint32_t frame_buff_count_tmp;
       
       uint8_t enc_bits[SYM_PER_PLD*2];    //type-2 bits, unpacked
       uint8_t rf_bits[SYM_PER_PLD*2];     //type-4 bits, unpacked
@@ -189,12 +187,14 @@ void m17_coder_impl::set_type(short type)
                 out[countout]=s;
                 countout++;
             }
-
-            /*printf("\tDATA: ");
-            for(uint8_t i=0; i<16; i++)
-                printf("%02X", data[i]);
-            printf("\n");*/
-
+/*            
+            if (_debug==true)
+               {printf("\tTX DATA: ");
+                for(uint8_t i=0; i<16; i++)
+                   printf("%02X", data[i]);
+                printf("\n");
+               }
+*/
             //increment the Frame Number
             _fn = (_fn + 1) % 0x8000;
 
@@ -203,30 +203,13 @@ void m17_coder_impl::set_type(short type)
            }
            else //LSF
            {
-
             _got_lsf=1;
 
             //send out the preamble and LSF
             send_preamble(out, &countout, 0); //0 - LSF preamble, as opposed to 1 - BERT preamble
-/* REMOVE JMF
-            send_preamble(frame_buff_tmp, &frame_buff_count_tmp, 0); //0 - LSF preamble, as opposed to 1 - BERT preamble
-            for(uint16_t i=0; i<SYM_PER_FRA; i++) //40ms * 4800 - 8 (syncword)
-            {
-                out[countout]=frame_buff_tmp[i];
-                countout++;
-            }
-*/
 
             //send LSF syncword
             send_syncword(out, &countout,SYNC_LSF);
-/* REMOVE JMF
-            send_syncword(frame_buff_tmp,&frame_buff_count_tmp,SYNC_LSF);
-            for(uint16_t i=0; i<SYM_PER_SWD; i++) //40ms * 4800 - 8 (syncword)
-            {
-                out[countout]=frame_buff_tmp[i];
-                countout++;
-            }
-*/
             
             //encode LSF data
             conv_encode_LSF(enc_bits, &lsf);
@@ -237,33 +220,27 @@ void m17_coder_impl::set_type(short type)
             //randomize
             randomize_bits(rf_bits);
 
-			//send LSF data
+	    //send LSF data
 	    send_data(out, &countout, rf_bits);
-/* REMOVE JMF            
-	    send_data(frame_buff_tmp, &frame_buff_count_tmp, rf_bits);
-            for(uint16_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
-            {
-                out[countout]=frame_buff_tmp[i];
-                countout++;
-            }
-*/
 
-            /*printf("DST: ");
-            for(uint8_t i=0; i<6; i++)
-                printf("%02X", lsf.dst[i]);
-            printf(" SRC: ");
-            for(uint8_t i=0; i<6; i++)
-                printf("%02X", lsf.src[i]);
-            printf(" TYPE: ");
-            for(uint8_t i=0; i<2; i++)
-                printf("%02X", lsf.type[i]);
-            printf(" META: ");
-            for(uint8_t i=0; i<14; i++)
-                printf("%02X", lsf.meta[i]);
-            printf(" CRC: ");
-            for(uint8_t i=0; i<2; i++)
-                printf("%02X", lsf.crc[i]);
-            printf("\n");*/
+            if (_debug==true)
+            {printf("TX DST: ");
+             for(uint8_t i=0; i<6; i++)
+                 printf("%02X", lsf.dst[i]);
+             printf(" SRC: ");
+             for(uint8_t i=0; i<6; i++)
+                 printf("%02X", lsf.src[i]);
+             printf(" TYPE: ");
+             for(uint8_t i=0; i<2; i++)
+                 printf("%02X", lsf.type[i]);
+             printf(" META: ");
+             for(uint8_t i=0; i<14; i++)
+                 printf("%02X", lsf.meta[i]);
+             printf(" CRC: ");
+             for(uint8_t i=0; i<2; i++)
+                 printf("%02X", lsf.crc[i]);
+             printf("\n");
+            }
            }
          }
      }
