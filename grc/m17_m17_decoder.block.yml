@@ -1,6 +1,6 @@
 id: m17_m17_decoder
-label: m17_decoder
-category: '[m17]'
+label: M17 Decoder
+category: '[M17]'
 
 parameters:
 - id: debug_data
