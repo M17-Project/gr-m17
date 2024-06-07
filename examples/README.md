@@ -1,5 +1,9 @@
 ## gr-m17 examples
 
+For a first test, jump to ``m17_streamer.grc`` which does not use external tools but is GNU Radio only.
+The two ``m17_rx.grc`` and ``m17_tx.grc`` are for debugging and validation purposes of the conversion
+from ``libm17`` to GNU Radio block.
+
 ### m17_rx.grc
 
 <img src="m17_rx.png">
@@ -82,13 +86,21 @@ Loopback demo with a noisy channel, including full modulation & demodulation.
 
 <img src="m17_loopback_noisychannel.png">
 
-## TO BE DEBUGGED AND VALIDATED
-
 ### transmitterPLUTOSDR.grc
 
-M17 transmitter with ADALM Pluto SDR.
+M17 transmitter with ADALM Pluto SDR or Ettus Research B210.
+
+<img src="transmitterPLUTOSDR.png">
 
 ### receiverRTLSDR.grc
 
-M17 receiver with RTL SDR. Automatic Frequency Correction can be enabled as an option.
+M17 receiver with RTL-SDR. Automatic Frequency Correction can be enabled as an option.
 
+<img src="receiverRTLSDR.png">
+
+### Complete demonstration
+
+Resulting demonstration of wireless communication between a B210 emitting the signal and RTL-SDR dongle
+as receiver.
+
+<img src="2024-06-07-132848_2704x1050_scrot.png">

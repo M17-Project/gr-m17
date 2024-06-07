@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [48, 24.0]
     rotation: 0
     state: enabled
 
@@ -42,16 +42,16 @@ blocks:
     min_len: '200'
     orient: QtCore.Qt.Horizontal
     rangeType: float
-    start: '-10'
+    start: '-100'
     step: '0.1'
-    stop: '10'
+    stop: '100'
     value: '0'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 12.0]
+    coordinate: [344, 32.0]
     rotation: 0
     state: true
 - name: rf_gain
@@ -72,7 +72,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [416, 12.0]
+    coordinate: [456, 32.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -84,7 +84,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 12.0]
+    coordinate: [232, 32.0]
     rotation: 0
     state: enabled
 - name: variable_qtgui_check_box_0
@@ -101,7 +101,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 12.0]
+    coordinate: [576, 24.0]
     rotation: 0
     state: true
 - name: analog_quadrature_demod_cf_0
@@ -117,7 +117,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 324.0]
+    coordinate: [528, 216.0]
     rotation: 0
     state: enabled
 - name: audio_sink_0
@@ -134,7 +134,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2240, 292.0]
+    coordinate: [384, 480.0]
     rotation: 0
     state: enabled
 - name: blocks_moving_average_xx_0
@@ -154,7 +154,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [432, 420.0]
+    coordinate: [776, 192.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -172,7 +172,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 444.0]
+    coordinate: [1008, 216.0]
     rotation: 0
     state: true
 - name: blocks_packed_to_unpacked_xx_0
@@ -191,8 +191,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1432, 284.0]
-    rotation: 0
+    coordinate: [432, 304.0]
+    rotation: 180
     state: enabled
 - name: blocks_short_to_float_0
   id: blocks_short_to_float
@@ -208,7 +208,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1936, 292.0]
+    coordinate: [64, 480.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_0
@@ -226,8 +226,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1592, 296.0]
-    rotation: 0
+    coordinate: [272, 320.0]
+    rotation: 180
     state: enabled
 - name: blocks_sub_xx_0
   id: blocks_sub_xx
@@ -244,7 +244,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 328.0]
+    coordinate: [1240, 192.0]
     rotation: 0
     state: true
 - name: digital_symbol_sync_xx_0
@@ -271,8 +271,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 284.0]
-    rotation: 0
+    coordinate: [872, 300.0]
+    rotation: 180
     state: enabled
 - name: import_0
   id: import
@@ -284,7 +284,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 100.0]
+    coordinate: [48, 128.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0_0
@@ -293,7 +293,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    debug_ctrl: 'False'
+    debug_ctrl: 'True'
     debug_data: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -302,8 +302,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 276.0]
-    rotation: 0
+    coordinate: [664, 296.0]
+    rotation: 180
     state: enabled
 - name: qtgui_eye_sink_x_0
   id: qtgui_eye_sink_x
@@ -398,8 +398,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 172.0]
-    rotation: 0
+    coordinate: [920, 472.0]
+    rotation: 180
     state: enabled
 - name: qtgui_time_sink_x_0
   id: qtgui_time_sink_x
@@ -495,7 +495,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2232, 180.0]
+    coordinate: [528, 392.0]
     rotation: 0
     state: disabled
 - name: qtgui_time_sink_x_0_0
@@ -592,8 +592,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 172.0]
-    rotation: 0
+    coordinate: [664, 392.0]
+    rotation: 180
     state: disabled
 - name: rational_resampler_xxx_0_0
   id: rational_resampler_xxx
@@ -612,7 +612,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 300.0]
+    coordinate: [304, 192.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_1
@@ -632,7 +632,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2072, 268.0]
+    coordinate: [208, 456.0]
     rotation: 0
     state: enabled
 - name: root_raised_cosine_filter_0
@@ -655,8 +655,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 300.0]
-    rotation: 0
+    coordinate: [1176, 320.0]
+    rotation: 180
     state: enabled
 - name: soapy_rtlsdr_source_0
   id: soapy_rtlsdr_source
@@ -665,6 +665,7 @@ blocks:
     agc: 'False'
     alias: ''
     bias: 'False'
+    bufflen: '16384'
     center_freq: int(433475000*(1+ppm*1e-6))
     comment: ''
     dev_args: ''
@@ -678,7 +679,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [32, 316.0]
+    coordinate: [48, 208.0]
     rotation: 0
     state: true
 - name: vocoder_codec2_decode_ps_0
@@ -694,8 +695,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1744, 292.0]
-    rotation: 0
+    coordinate: [80, 312.0]
+    rotation: 180
     state: enabled
 
 connections:
@@ -720,4 +721,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0
+  grc_version: 3.10.10.0
