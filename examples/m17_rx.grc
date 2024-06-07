@@ -69,7 +69,9 @@ blocks:
     affinity: ''
     alias: ''
     begin_tag: pmt.PMT_NIL
-    comment: ''
+    comment: '/tmp/fifo2 was created with
+
+      mkfifo /tmp/fifo2'
     file: /tmp/fifo2
     length: '0'
     maxoutbuf: '0'

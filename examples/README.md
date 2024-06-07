@@ -70,6 +70,12 @@ DST: AB2CDE    SRC: AB1CDE    TYPE: 0005 META: 48656C6C6F210000000000000000 LSF_
 DST: AB2CDE    SRC: AB1CDE    TYPE: 0005 META: 48656C6C6F210000000000000000 LSF_CRC_OK 
 ```
 
+### m17_loopback_noisychannel.grc
+
+Loopback demo with a noisy channel, including full modulation & demodulation.
+
+<img src="m17_loopback_noisychannel.png">
+
 ## TO BE DEBUGGED AND VALIDATED
 
 ### transmitterPLUTOSDR.grc
@@ -82,9 +88,4 @@ M17 receiver with RTL SDR. Automatic Frequency Correction can be enabled as an o
 Loopback demo with the addition of noise, no modulation/no channnel.
 
 <img src="m17_loopback_noisy.png">
-
-### m17_loopback_noisychannel.grc
-Loopback demo with a noisy channel, including full modulation & demodulation.
-
-<img src="m17_loopback_noisychannel.png">
 

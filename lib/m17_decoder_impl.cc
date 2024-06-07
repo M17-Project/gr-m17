@@ -177,7 +177,7 @@ namespace gr {
 
                     if (_debug_data==true) {
                     //dump data - first byte is empty
-                       printf("FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
+                       printf("RX FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
                     }
                     for(uint8_t i=3; i<19; i++)
                     {
