@@ -1,6 +1,6 @@
 id: m17_m17_coder
-label: m17_coder
-category: '[m17]'
+label: M17 Encoder
+category: '[M17]'
 
 parameters:
 - id: src_id
