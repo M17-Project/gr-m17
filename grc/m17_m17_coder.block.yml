@@ -15,6 +15,8 @@ parameters:
   label: Type
   dtype: int
   default: 0
+  options: [0, 1, 2, 3, 4, 5]
+  option_labels: ['option 0', 'option 1', 'option 2', 'option 3', 'option 4', 'option 5']
 - id: meta
   label: Meta
   dtype: string
