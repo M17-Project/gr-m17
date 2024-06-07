@@ -1,8 +1,7 @@
 ## Compiling for GNU Radio
 
-The default targetted version is GNU Radio 3.10 (``main`` branch). For GNU Radio 3.8,
-insert ``git checkout 3.8`` after the ``git clone ...`` command and check the 3.8 branch
-version of the README.md for ``LD_LIBRARY_PATH`` and ``PYTHONPATH`` tested on Debian/stable.
+The default targetted version is GNU Radio 3.10 (``main`` branch). Tested on Debian/GNU Linux sid with GNU Radio 
+3.10.10.0 (Python 3.11.9)
 
 ```
 git clone --recursive https://github.com/M17-Project/gr-m17
@@ -71,3 +70,13 @@ from the ``gr-m17`` directory, assuming ``gr_modtool bind`` works, otherwise che
 The coder block is an interpolating block outputing 24 more times samples than input symbols. The (well named) ``noutput_items``
 is the **output** buffer size which fills much faster than the input stream so we fill ``out`` until ``noutput_items`` are reached, then
 send this to the GNU Radio scheduler, and consume the few input samples needed to fill the output buffer. The ring buffer mechanism of GNU Radio makes sure the dataflow is consistent.
+
+## TODO
+
+The 3.8 version is probably broken and for sure is not using ``libm17``: should be updated upon request
+
+Old README section about 3.8: 
+```
+For GNU Radio 3.8, insert ``git checkout 3.8`` after the ``git clone ...`` command and check the 3.8 branch
+version of the README.md for ``LD_LIBRARY_PATH`` and ``PYTHONPATH`` tested on Debian/stable.
+```
