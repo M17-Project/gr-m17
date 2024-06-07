@@ -36,44 +36,11 @@ to solve any issue related to ``ImportError: libgnuradio-m17.so.1.0.0: cannot op
 
 When running the flowgraph found in ``examples`` with ``gnuradio-companion ../examples/m17_streamer.grc`` 
 
-<img src="examples/m17_streamer.png">
+<img src="examples/m17_loopback.png">
 
-the output should be
+See <a href="examples/README.md">examples/README.md</a> for the expected output and unit testing examples.
 
-```
-Generating: '.../M17_Implementations/SP5WWP/gr-m17/examples/m17_streamer.py'
-
-Executing: /usr/bin/python3 -u .../M17_Implementations/SP5WWP/gr-m17/examples/m17_streamer.py
-
-new meta: helloworld
-new SRC ID: 1 2 3 4 5 6
-new DST ID: 255 255 255 255 255 255
-New sampling rate: 8800.000000
-new type: 0 0
-got_lsf=1
-LSF
-DST: #BCAST    SRC: FPR-4U3F  TYPE: 0000 META: 68656C6C6F776F726C6400000000 LSF_CRC_OK 
-FN: 0000 PLD: 00000000000000000000000000000000
-FN: 0001 PLD: 00000000000000000000000000000000
-FN: 0002 PLD: 00000000000000000000000000000000
-FN: 0003 PLD: 00000000000000000000000000000000
-FN: 0004 PLD: 00000000000000000000000000000000
-DST: #BCAST    SRC: FPR-4U3F  TYPE: 0000 META: 68656C6C6F776F726C6400000000 LSF_CRC_OK 
-FN: 0005 PLD: 00000000000000000000000000000000
-FN: 0006 PLD: 00000000000000000000000000000000
-FN: 0007 PLD: 00000000000000000000000000000000
-FN: 0008 PLD: 00000000000000000000000000000000
-FN: 0009 PLD: 00000000000000000000000000000000
-FN: 000A PLD: 00000000000000000000000000000000
-DST: #BCAST    SRC: FPR-4U3F  TYPE: 0000 META: 68656C6C6F776F726C6400000000 LSF_CRC_OK 
-FN: 000B PLD: 00000000000000000000000000000000
-FN: 000C PLD: 00000000000000000000000000000000
-FN: 000D PLD: 00000000000000000000000000000000
-FN: 000E PLD: 00000000000000000000000000000000
-FN: 000F PLD: 00000000000000000000000000000000
-```
-
-Notice that due to the verbose output of gr-m17 and the slow console of GNU Radio Companion, I 
+Notice that due to the verbose output of ``gr-m17`` and the slow console of GNU Radio Companion, I 
 would strongly advise generating the Python script from GNU Radio Companion and then execute 
 ``python3 m17_streamer.py`` from a terminal to avoid waiting for a long time for GNU Radio 
 Companion to flush all messages.
