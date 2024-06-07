@@ -171,7 +171,10 @@ namespace gr {
                     }
 
                     //decode
-                    uint32_t e=viterbi_decode_punctured(frame_data, enc_data, puncture_pattern_2, 272, 12);
+                    #ifdef SHOW_VITERBI_ERRS
+                    uint32_t e=
+                    #endif
+                    viterbi_decode_punctured(frame_data, enc_data, puncture_pattern_2, 272, 12);
 
                     uint16_t fn = (frame_data[1] << 8) | frame_data[2];
 
@@ -274,7 +277,11 @@ namespace gr {
                         printf("LSF\n");
                     }
                     //decode
-                    uint32_t e=viterbi_decode_punctured(lsf, d_soft_bit, puncture_pattern_1, 2*SYM_PER_PLD, 61);
+                    #ifdef SHOW_VITERBI_ERRS
+                    uint32_t e=
+                    #endif
+                    viterbi_decode_punctured(lsf, d_soft_bit, puncture_pattern_1, 2*SYM_PER_PLD, 61);
+
 
                     //shift the buffer 1 position left - get rid of the encoded flushing bits
                     for(uint8_t i=0; i<30; i++)

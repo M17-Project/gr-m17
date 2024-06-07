@@ -197,12 +197,14 @@ void m17_coder_impl::set_type(short type)
 
             //increment the Frame Number
             _fn = (_fn + 1) % 0x8000;
+
+            //increment the LICH counter
+            lich_cnt = (lich_cnt + 1) % 6;
            }
            else //LSF
            {
 
             _got_lsf=1;
-// printf("got_lsf=1\n");
 
             //send out the preamble and LSF
             send_preamble(frame_buff_tmp, &frame_buff_count_tmp, 0); //0 - LSF preamble, as opposed to 1 - BERT preamble
