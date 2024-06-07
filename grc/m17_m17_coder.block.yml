@@ -4,23 +4,45 @@ category: '[m17]'
 
 parameters:
 - id: src_id
-  label: Source ID
+  label: Source callsign
   dtype: string
-  default: 'EMITTR'
+  default: 'N0CALL'
 - id: dst_id
-  label: Destination ID
+  label: Destination callsign
   dtype: string
-  default: 'RECVER'
+  default: 'ALL'
+- id: mode
+  label: Mode
+  dtype: int
+  default: 1
+  options: [1, 0]
+  option_labels: ['Stream', 'Packet']
 - id: type
   label: Type
   dtype: int
+  default: 2
+  options: [0, 1, 2, 3]
+  option_labels: ['Reserved', 'Data', 'Voice', 'Voice+Data']
+- id: encr_type
+  label: Encr. type
+  dtype: int
   default: 0
-  options: [0, 1, 2, 3, 4, 5]
-  option_labels: ['option 0', 'option 1', 'option 2', 'option 3', 'option 4', 'option 5']
+  options: [0, 1, 2, 3]
+  option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
+- id: encr_subtype
+  label: Encr. subtype
+  dtype: int
+  default: 0
+  options: [0, 1, 2, 3]
+  option_labels: ['Text', 'Geolocation', 'Extended callsign data', 'Reserved']
+- id: can
+  label: CAN
+  dtype: int
+  default: 0
 - id: meta
   label: Meta
   dtype: string
-  default: 'helloworld'
+  default: ''
 - id: debug
   label: Debug
   dtype: bool
@@ -28,7 +50,7 @@ parameters:
   options: ['True', 'False']
 
 asserts:
-    - ${ type < 65536 }
+    - ${ can <= 15 }
     - ${ len(dst_id) < 10 }
     - ${ len(src_id) < 10 }
 templates:
