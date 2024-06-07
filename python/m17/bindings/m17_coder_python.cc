@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Free Software Foundation, Inc.
+ * Copyright 2023 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_coder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(d4ec4e9e846a24851a970e6fc0098657) */
+/* BINDTOOL_HEADER_FILE_HASH(178a26e09118551324bf48782db38a1b) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -33,7 +33,7 @@ void bind_m17_coder(py::module &m) {
 
   using m17_coder = ::gr::m17::m17_coder;
 
-  py::class_<m17_coder, gr::sync_interpolator, std::shared_ptr<m17_coder>>(
+  py::class_<m17_coder, gr::block, gr::basic_block, std::shared_ptr<m17_coder>>(
       m, "m17_coder", D(m17_coder))
 
       .def(py::init(&m17_coder::make), py::arg("src_id"), py::arg("dst_id"),

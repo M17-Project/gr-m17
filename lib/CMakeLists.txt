@@ -27,8 +27,8 @@ list(APPEND m17_sources
     ../M17_Implementations/libm17/payload/lich.c
     ../M17_Implementations/libm17/phy/interleave.c
     ../M17_Implementations/libm17/phy/randomize.c
-    ../M17_Implementations/libm17/phy/slice.c
     ../M17_Implementations/libm17/phy/sync.c
+    ../M17_Implementations/libm17/phy/slice.c
 )
 
 set(m17_sources "${m17_sources}" PARENT_SCOPE)

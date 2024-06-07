@@ -8,7 +8,7 @@
 #ifndef INCLUDED_M17_M17_CODER_H
 #define INCLUDED_M17_M17_CODER_H
 
-#include <gnuradio/sync_interpolator.h>
+#include <gnuradio/block.h>
 #include <gnuradio/m17/api.h>
 
 namespace gr {
@@ -19,7 +19,7 @@ namespace m17 {
  * \ingroup m17
  *
  */
-class M17_API m17_coder : virtual public gr::sync_interpolator
+class M17_API m17_coder : virtual public gr::block
 {
 public:
     typedef std::shared_ptr<m17_coder> sptr;

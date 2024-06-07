@@ -18,8 +18,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#define GRC_DEBUG
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -37,32 +35,34 @@
 namespace gr {
   namespace m17 {
 
+struct LSF lsf;
+
     m17_coder::sptr
     m17_coder::make(std::string src_id,std::string dst_id,short type,std::string meta, bool debug)
     {
-      return gnuradio::make_block_sptr<m17_coder_impl>(src_id,dst_id,type,meta,debug);
+      return gnuradio::get_initial_sptr
+        (new m17_coder_impl(src_id,dst_id,type,meta,debug));
     }
 
     /*
      * The private constructor
      */
     m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta, bool debug)
-      : gr::sync_interpolator("m17_coder",
+      : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
-              gr::io_signature::make(1, 1, sizeof(float)),
-              12) // interpolation factor // 192/16
+              gr::io_signature::make(1, 1, sizeof(float)))
               , _meta(meta),_type(type), _debug(debug)
-{    set_debug(debug);
-     set_meta(meta);
+{    set_meta(meta);
      set_src_id(src_id);
      set_dst_id(dst_id);
      set_type(type);
+     set_debug(debug);
      set_output_multiple(192);
+     uint16_t ccrc=LSF_CRC(&lsf);
+     lsf.crc[0]=ccrc>>8;
+     lsf.crc[1]=ccrc&0xFF;
      _got_lsf=0;                  //have we filled the LSF struct yet?
      _fn=0;                      //16-bit Frame Number (for the stream mode)
-     _countin=0;
-     _countout=0;
-     _lich_cnt=0;
 }
 
 void m17_coder_impl::set_debug(bool debug)
@@ -75,16 +75,11 @@ void m17_coder_impl::set_src_id(std::string src_id)
  for (int i=0;i<10;i++) {_src_id[i]=0;}
  if (src_id.length()>9) length=9; else length=src_id.length();
  for (int i=0;i<length;i++) {_src_id[i]=toupper(src_id.c_str()[i]);}
- encode_callsign_bytes(_lsf.src, _src_id); // 6 byte ID <- 9 char callsign
+ encode_callsign_bytes(lsf.src, _src_id); // 6 byte ID <- 9 char callsign
 
- uint16_t ccrc=LSF_CRC(&_lsf);
- _lsf.crc[0]=ccrc>>8;
- _lsf.crc[1]=ccrc&0xFF;
- if (_debug==true)
-   {printf("src id:%s ->",src_id.c_str());
-    for (int k=0;k<6;k++) printf(" %hhx",_lsf.src[k]);
-    printf("\n");
-   }
+ uint16_t ccrc=LSF_CRC(&lsf);
+ lsf.crc[0]=ccrc>>8;
+ lsf.crc[1]=ccrc&0xFF;
 }
 
 void m17_coder_impl::set_dst_id(std::string dst_id)
@@ -92,15 +87,10 @@ void m17_coder_impl::set_dst_id(std::string dst_id)
  for (int i=0;i<10;i++) {_dst_id[i]=0;}
  if (dst_id.length()>9) length=9; else length=dst_id.length();
  for (int i=0;i<length;i++) {_dst_id[i]=toupper(dst_id.c_str()[i]);}
- encode_callsign_bytes(_lsf.dst, _dst_id); // 6 byte ID <- 9 char callsign
- uint16_t ccrc=LSF_CRC(&_lsf);
- _lsf.crc[0]=ccrc>>8;
- _lsf.crc[1]=ccrc&0xFF;
- if (_debug==true)
-   {printf("dst id:%s ->",dst_id.c_str());
-    for (int k=0;k<6;k++) printf(" %hhx",_lsf.dst[k]);
-    printf("\n");
-   }
+ encode_callsign_bytes(lsf.dst, _dst_id); // 6 byte ID <- 9 char callsign
+ uint16_t ccrc=LSF_CRC(&lsf);
+ lsf.crc[0]=ccrc>>8;
+ lsf.crc[1]=ccrc&0xFF;
 }
 
 void m17_coder_impl::set_meta(std::string meta)
@@ -108,20 +98,20 @@ void m17_coder_impl::set_meta(std::string meta)
  printf("new meta: %s\n",meta.c_str());fflush(stdout);
  _meta.assign(meta);
  if (meta.length()<14) length=meta.length(); else length=14;
- for (int i=0;i<length;i++) {_lsf.meta[i]=_meta[i];}
- uint16_t ccrc=LSF_CRC(&_lsf);
- _lsf.crc[0]=ccrc>>8;
- _lsf.crc[1]=ccrc&0xFF;
+ for (int i=0;i<length;i++) {lsf.meta[i]=_meta[i];}
+ uint16_t ccrc=LSF_CRC(&lsf);
+ lsf.crc[0]=ccrc>>8;
+ lsf.crc[1]=ccrc&0xFF;
 }
 
 void m17_coder_impl::set_type(short type)
 {_type=type;
- _lsf.type[0]=_type>>8;   // MSB
- _lsf.type[1]=_type&0xff; // LSB
- uint16_t ccrc=LSF_CRC(&_lsf);
- _lsf.crc[0]=ccrc>>8;
- _lsf.crc[1]=ccrc&0xFF;
- printf("new type: %hhd%hhd\n",_lsf.type[0],_lsf.type[1]);fflush(stdout);
+ lsf.type[0]=_type>>8;   // MSB
+ lsf.type[1]=_type&0xff; // LSB
+ uint16_t ccrc=LSF_CRC(&lsf);
+ lsf.crc[0]=ccrc>>8;
+ lsf.crc[1]=ccrc&0xFF;
+ printf("new type: %hhd %hhd\n",lsf.type[1],lsf.type[0]);fflush(stdout);
 }
 
     /*
@@ -138,144 +128,27 @@ void m17_coder_impl::set_type(short type)
     }
 
     int
-    m17_coder_impl::work (int noutput_items,
+    m17_coder_impl::general_work (int noutput_items,
+                       gr_vector_int &ninput_items,
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
       const char *in = (const char *) input_items[0];
       float *out = (float *) output_items[0];
 
+      int countin=0;
+      uint32_t countout=0;
+      
       uint8_t enc_bits[SYM_PER_PLD*2];    //type-2 bits, unpacked
       uint8_t rf_bits[SYM_PER_PLD*2];     //type-4 bits, unpacked
       uint8_t lich[6];                    //48 bits packed raw, unencoded LICH
       uint8_t lich_encoded[12];           //96 bits packed, encoded LICH
       
-      uint8_t data[16];    //raw payload, packed bits
-    //debug
-    //printf("%06X\n", golay24_encode(1)); //golay encoder codeword test
-    //printf("%d -> %d -> %d\n", 1, intrl_seq[1], intrl_seq[intrl_seq[1]]); //interleaver bijective reciprocality test, f(f(x))=x
-    //return 0;
-    _countin=0;
-    _countout=0;
-#ifdef GRC_DEBUG
-printf("first item: %x %x %x ",in[0],in[1],in[2]);
-#endif
-    while (_countout+16<=(uint32_t)noutput_items) {
-       //    memcpy(&_next_lsf.dst,&in[_countin],6); _countin+=6;
-       //    memcpy(&_next_lsf.src,&in[_countin],6); _countin+=6;
-       //    memcpy(&_next_lsf.type,&in[_countin],2); _countin+=2;
-       //    memcpy(&_next_lsf.meta,&in[_countin],14); _countin+=14;
-           memcpy(data,&in[_countin],16); _countin+=16;
-        if(_lich_cnt == 0)
-        {
-//            _lsf = _next_lsf; // JMF cannot understand this
-
-            //calculate LSF CRC
-            uint16_t ccrc=LSF_CRC(&_lsf);
-            _lsf.crc[0]=ccrc>>8;
-            _lsf.crc[1]=ccrc&0xFF;
-        }
-
-        if(_got_lsf) //stream frames
-        {
-            //send stream frame syncword
-            send_syncword(&out[_countout], &_countout, SYNC_STR);
-
-            //extract LICH from the whole LSF
-            extract_LICH(lich, _lich_cnt, &_lsf);
-
-            //encode the LICH
-            encode_LICH(lich_encoded, lich);
-
-            //unpack LICH (12 bytes)
-            unpack_LICH(enc_bits, lich_encoded);
-
-            //encode the rest of the frame (starting at bit 96 - 0..95 are filled with LICH)
-            conv_encode_stream_frame(&enc_bits[96], data, (_fn | 0x8000) );
-
-            //reorder bits
-            reorder_bits(rf_bits, enc_bits);
-
-            //randomize
-            randomize_bits(rf_bits);
-
-            //send dummy symbols (debug)
-            /*float s=0.0;
-            for(uint8_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
-                fwrite((uint8_t*)&s, sizeof(float), 1, stdout);*/
-
-			//send frame data
-	    send_data(&out[_countout], &_countout, rf_bits);
-//            fwrite((uint8_t*)frame_buff, SYM_PER_FRA*sizeof(float), 1, stdout);
-        
-/*            if (_debug==true)
-              {printf("\tTX DATA: ");
-               for(uint8_t i=0; i<16; i++)
-                  printf("%02X", data[i]);
-               printf("\n");
-              }
-*/
-
-            //increment the Frame Number
-            _fn = (_fn + 1) % 0x8000;
-
-            //increment the LICH counter
-            _lich_cnt = (_lich_cnt + 1) % 6;
-
-            //debug-only
-			#ifdef FN60_DEBUG
-            if(_fn==6*10)
-                return 0;
-			#endif
-        }
-        else //LSF
-        {
-            _got_lsf=1;
-
-            //send out the preamble
-	    send_preamble(&out[_countout], &_countout, 0); //0 - LSF preamble, as opposed to 1 - BERT preamble
-
-            //send LSF syncword
-	    send_syncword(&out[_countout], &_countout, SYNC_LSF);
-
-            //encode LSF data
-            conv_encode_LSF(enc_bits, &_lsf);
-
-            //reorder bits
-            reorder_bits(rf_bits, enc_bits);
-
-            //randomize
-            randomize_bits(rf_bits);
-
-			//send LSF data
-	    send_data(&out[_countout], &_countout, rf_bits);
-
-            //send dummy symbols (debug)
-            /*float s=0.0;
-            for(uint8_t i=0; i<184; i++) //40ms * 4800 - 8 (syncword)
-                write((uint8_t*)&s, sizeof(float), 1, stdout);*/
-
-            if (_debug==true)
-             {printf("TX DST: ");
-              for(uint8_t i=0; i<6; i++)
-                  printf("%02X", _lsf.dst[i]);
-              printf(" SRC: ");
-              for(uint8_t i=0; i<6; i++)
-                  printf("%02X", _lsf.src[i]);
-              printf(" TYPE: ");
-              for(uint8_t i=0; i<2; i++)
-                  printf("%02X", _lsf.type[i]);
-              printf(" META: ");
-              for(uint8_t i=0; i<14; i++)
-                  printf("%02X", _lsf.meta[i]);
-              printf(" CRC: ");
-              for(uint8_t i=0; i<2; i++)
-                  printf("%02X", _lsf.crc[i]);
-	      printf("\n");
-             }
-	}
-
-/* 
+      uint8_t data[16];                   //raw payload, packed bits
+      uint8_t lich_cnt=0;                 //0..5 LICH counter, derived from the Frame Number
+      
+      while (countout<(uint32_t)noutput_items) {
+        if (countin+16<=noutput_items)
          {if(_got_lsf) //stream frames
            {
             //we could discard the data we already have
@@ -392,9 +265,9 @@ printf("first item: %x %x %x ",in[0],in[1],in[2]);
             }
 
             //send dummy symbols (debug)
-            // float s=0.0;
-            // for(uint8_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
-            //     write(STDOUT_FILENO, (uint8_t*)&s, sizeof(float));
+            /*float s=0.0;
+            for(uint8_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
+                write(STDOUT_FILENO, (uint8_t*)&s, sizeof(float));*/
 
             float s;
             for(uint16_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
@@ -405,10 +278,10 @@ printf("first item: %x %x %x ",in[0],in[1],in[2]);
                 countout++;
             }
 
-            // printf("\tDATA: ");
-            // for(uint8_t i=0; i<16; i++)
-            //     printf("%02X", data[i]);
-            // printf("\n");
+            /*printf("\tDATA: ");
+            for(uint8_t i=0; i<16; i++)
+                printf("%02X", data[i]);
+            printf("\n");*/
 
             //increment the Frame Number
             _fn = (_fn + 1) % 0x8000;
@@ -463,34 +336,32 @@ printf("first item: %x %x %x ",in[0],in[1],in[2]);
                 countout++;
             }
 
-//            printf("DST: ");
-//            for(uint8_t i=0; i<6; i++)
-//                printf("%02X", lsf.dst[i]);
-//            printf(" SRC: ");
-//            for(uint8_t i=0; i<6; i++)
-//                printf("%02X", lsf.src[i]);
-//            printf(" TYPE: ");
-//            for(uint8_t i=0; i<2; i++)
-//                printf("%02X", lsf.type[i]);
-//            printf(" META: ");
-//            for(uint8_t i=0; i<14; i++)
-//                printf("%02X", lsf.meta[i]);
-//            printf(" CRC: ");
-//            for(uint8_t i=0; i<2; i++)
-//                printf("%02X", lsf.crc[i]);
-//            printf("\n");
+            /*printf("DST: ");
+            for(uint8_t i=0; i<6; i++)
+                printf("%02X", lsf.dst[i]);
+            printf(" SRC: ");
+            for(uint8_t i=0; i<6; i++)
+                printf("%02X", lsf.src[i]);
+            printf(" TYPE: ");
+            for(uint8_t i=0; i<2; i++)
+                printf("%02X", lsf.type[i]);
+            printf(" META: ");
+            for(uint8_t i=0; i<14; i++)
+                printf("%02X", lsf.meta[i]);
+            printf(" CRC: ");
+            for(uint8_t i=0; i<2; i++)
+                printf("%02X", lsf.crc[i]);
+            printf("\n");*/
            }
          }
-*/
      }
       // Tell runtime system how many input items we consumed on
       // each input stream.
-#ifdef GRC_DEBUG
-printf("last item: %x %x -> coutin  %d/noutput_items %d countout %d\n",in[_countin],in[_countin+1],_countin,noutput_items,_countout);
-#endif
-      consume_each (_countin);
+    consume_each (countin);
+//    printf(" noutput_items=%d countin=%d countout=%d\n",noutput_items,countin,countout);
       // Tell runtime system how many output items we produced.
-      return _countout;
-   }
+      return countout;
+    }
+
   } /* namespace m17 */
 } /* namespace gr */
