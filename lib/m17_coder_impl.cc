@@ -103,7 +103,6 @@ void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if enc
     }
  else 
     {length=meta.size();
-     printf("%d bytes -> ",length);
      int i=0,j=0;
      do
        {if ((unsigned int)meta.data()[i]<0xc2) // https://www.utf8-chartable.de/
