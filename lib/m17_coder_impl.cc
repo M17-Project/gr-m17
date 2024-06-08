@@ -111,7 +111,7 @@ void m17_coder_impl::set_type(int mode,int type,int encr_type,int encr_subtype,i
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
- printf("new type: %hhd %hhd\n",lsf.type[1],lsf.type[0]);fflush(stdout);
+ printf("new type: %02X%02X\n",lsf.type[0],lsf.type[1]);fflush(stdout);
 }
 
     /*
