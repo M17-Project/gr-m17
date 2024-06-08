@@ -17,7 +17,7 @@ class m17_coder_impl : public m17_coder
 {
 private:
     unsigned char _src_id[10],_dst_id[10]; // 9 character callsign
-    int _mode,_type,_encr_type,_encr_subtype,_can;
+    int _mode,_data,_encr_type,_encr_subtype,_can;
 
     std::string _meta;
     int _got_lsf=0;
@@ -29,14 +29,14 @@ public:
     void set_src_id(std::string src_id);
     void set_dst_id(std::string dst_id);
     void set_meta(std::string meta);
-    void set_alltype(int mode,int type,int encr_type,int encr_subtype,int can);
+    void set_type(int mode,int data,int encr_type,int encr_subtype,int can);
     void set_mode(int mode);
-    void set_type(int type);
+    void set_data(int data);
     void set_encr_type(int encr_type);
     void set_encr_subtype(int encr_subtype);
     void set_can(int can);
     void set_debug(bool debug);
-    m17_coder_impl(std::string src_id,std::string dst_id,int mode,int type,int encr_type,int encr_subtype,int can,std::string meta, bool debug);
+    m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, bool debug);
     ~m17_coder_impl();
 
     // Where all the action really happens

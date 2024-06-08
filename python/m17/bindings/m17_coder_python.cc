@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_coder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(22e075cc500dfd1668a98fbf968906fc) */
+/* BINDTOOL_HEADER_FILE_HASH(14e1973d699725f2a2502c854f1af466) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -37,7 +37,7 @@ void bind_m17_coder(py::module &m) {
       m, "m17_coder", D(m17_coder))
 
       .def(py::init(&m17_coder::make), py::arg("src_id"), py::arg("dst_id"),
-           py::arg("mode"), py::arg("type"), py::arg("encr_type"),
+           py::arg("mode"), py::arg("data"), py::arg("encr_type"),
            py::arg("encr_subtype"), py::arg("can"), py::arg("meta"),
            py::arg("debug"), D(m17_coder, make))
 
@@ -53,15 +53,15 @@ void bind_m17_coder(py::module &m) {
       .def("set_debug", &m17_coder::set_debug, py::arg("debug"),
            D(m17_coder, set_debug))
 
-      .def("set_alltype", &m17_coder::set_alltype, py::arg("mode"),
-           py::arg("type"), py::arg("encr_type"), py::arg("encr_subtype"),
-           py::arg("can"), D(m17_coder, set_alltype))
+      .def("set_type", &m17_coder::set_type, py::arg("mode"), py::arg("data"),
+           py::arg("encr_type"), py::arg("encr_subtype"), py::arg("can"),
+           D(m17_coder, set_type))
 
       .def("set_mode", &m17_coder::set_mode, py::arg("mode"),
            D(m17_coder, set_mode))
 
-      .def("set_type", &m17_coder::set_type, py::arg("type"),
-           D(m17_coder, set_type))
+      .def("set_data", &m17_coder::set_data, py::arg("data"),
+           D(m17_coder, set_data))
 
       .def("set_encr_type", &m17_coder::set_encr_type, py::arg("encr_type"),
            D(m17_coder, set_encr_type))

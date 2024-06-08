@@ -38,21 +38,21 @@ namespace gr {
 struct LSF lsf;
 
     m17_coder::sptr
-    m17_coder::make(std::string src_id,std::string dst_id,int mode,int type,int encr_type,int encr_subtype,int can,std::string meta, bool debug)
+    m17_coder::make(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, bool debug)
     {
       return gnuradio::get_initial_sptr
-        (new m17_coder_impl(src_id,dst_id,mode,type,encr_type,encr_subtype,can,meta,debug));
+        (new m17_coder_impl(src_id,dst_id,mode,data,encr_type,encr_subtype,can,meta,debug));
     }
 
     /*
      * The private constructor
      */
-    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int type,int encr_type,int encr_subtype,int can,std::string meta, bool debug)
+    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, bool debug)
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
-              , _mode(mode),_type(type),_encr_type(encr_type),_encr_subtype(encr_subtype), _can(can),_meta(meta), _debug(debug)
-{    set_alltype(mode, type, encr_type, encr_subtype, can);
+              , _mode(mode),_data(data),_encr_type(encr_type),_encr_subtype(encr_subtype), _can(can),_meta(meta), _debug(debug)
+{    set_type(mode, data, encr_type, encr_subtype, can);
      set_meta(meta); // depends on   ^^^ encr_subtype
      set_src_id(src_id);
      set_dst_id(dst_id);
@@ -98,13 +98,14 @@ void m17_coder_impl::set_meta(std::string meta)
  const char *c;
  printf("new meta: ");
  if (_encr_subtype==1) // meta is \0-terminated string
-    {printf("%s\n",meta.c_str());
-     if (meta.length()<14) length=meta.length(); else length=14;
+    {if (meta.length()<14) length=meta.length(); else {length=14;meta[length]=0;}
+     printf("%s\n",meta.c_str());
      for (int i=0;i<length;i++) {lsf.meta[i]=meta[i];}
     }
  else 
     {c=meta.data();
-     if (sizeof(c)<14) length=sizeof(c); else length=14;
+printf("%d %d --- ",meta.size(),meta.length());
+     if (meta.size()<14) length=meta.size(); else length=14;
      printf("%d bytes: ",length);
      for (int i=0;i<length;i++) 
         {printf("%02X ",c[i]);
@@ -121,42 +122,42 @@ void m17_coder_impl::set_meta(std::string meta)
 void m17_coder_impl::set_mode(int mode)
 {_mode=mode;
  printf("new mode: %02x -> ",_mode);
- set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+ set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
-void m17_coder_impl::set_type(int type)
-{_type=type;
- printf("new type: %02x -> ",_type);
- set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+void m17_coder_impl::set_data(int data)
+{_data=data;
+ printf("new data type: %02x -> ",_data);
+ set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
 void m17_coder_impl::set_encr_type(int encr_type)
 {_encr_type=encr_type;
  printf("new encr type: %02x -> ",_encr_type);
- set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+ set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
 void m17_coder_impl::set_encr_subtype(int encr_subtype)
 {_encr_subtype=encr_subtype;
  printf("new encr subtype: %02x -> ",_encr_subtype);
- set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+ set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
 void m17_coder_impl::set_can(int can)
 {_can=can;
  printf("new CAN: %02x -> ",_can);
- set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+ set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
-void m17_coder_impl::set_alltype(int mode,int type,int encr_type,int encr_subtype,int can)
+void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,int can)
 {short tmptype;
- tmptype = mode | (type<<1) | (encr_type<<3) | (encr_subtype<<5) | (can<<7);
+ tmptype = mode | (data<<1) | (encr_type<<3) | (encr_subtype<<5) | (can<<7);
  lsf.type[0]=tmptype>>8;   // MSB
  lsf.type[1]=tmptype&0xff; // LSB
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
- printf("mask: %02X%02X\n",lsf.type[0],lsf.type[1]);fflush(stdout);
+ printf("type: %02X%02X\n",lsf.type[0],lsf.type[1]);fflush(stdout);
 }
 
     /*
