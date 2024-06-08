@@ -112,7 +112,7 @@ void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if enc
            {lsf.meta[j]=(meta.data()[i]-0xc2)*0x40+meta.data()[i+1];i+=2;j++;}
        }
        while ((j<=14) && (i<=length));
-       length=j-1; // remove last increment
+       length=j;
        printf("%d bytes: ",length);
        for (i=0;i<length;i++) printf("%hhX ",lsf.meta[i]);
      printf("\n");
