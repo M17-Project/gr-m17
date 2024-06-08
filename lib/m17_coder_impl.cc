@@ -161,7 +161,7 @@ void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,i
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
- printf("type: %hhX%hhX\n",lsf.type[0],lsf.type[1]);fflush(stdout);
+ printf("Transmission type: 0x%hhX%hhX\n",lsf.type[0],lsf.type[1]);fflush(stdout);
 }
 
     /*
