@@ -93,23 +93,28 @@ void m17_coder_impl::set_dst_id(std::string dst_id)
  lsf.crc[1]=ccrc&0xFF;
 }
 
-void m17_coder_impl::set_meta(std::string meta)
+void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array
 {int length;
- const char *c;
  printf("new meta: ");
- if (_encr_subtype==1) // meta is \0-terminated string
+ if (_encr_subtype==0) // meta is \0-terminated string
     {if (meta.length()<14) length=meta.length(); else {length=14;meta[length]=0;}
      printf("%s\n",meta.c_str());
      for (int i=0;i<length;i++) {lsf.meta[i]=meta[i];}
     }
  else 
-    {c=meta.data();
-     if (meta.size()<14) length=meta.size(); else length=14;
-     printf("%d bytes: ",length);
-     for (int i=0;i<length;i++) 
-        {printf("%hhX ",c[i]);
-         lsf.meta[i]=c[i];
-        }
+    {length=meta.size();
+     printf("%d bytes -> ",length);
+     int i=0,j=0;
+     do
+       {if ((unsigned int)meta.data()[i]<0xc2) // https://www.utf8-chartable.de/
+           {lsf.meta[j]=meta.data()[i];i++;j++;}
+        else
+           {lsf.meta[j]=(meta.data()[i]-0xc2)*0x40+meta.data()[i+1];i+=2;j++;}
+       }
+       while ((j<=14) && (i<=length));
+       length=j-1; // remove last increment
+       printf("%d bytes: ",length);
+       for (i=0;i<length;i++) printf("%hhX ",lsf.meta[i]);
      printf("\n");
     }
  fflush(stdout);
@@ -120,31 +125,31 @@ void m17_coder_impl::set_meta(std::string meta)
 
 void m17_coder_impl::set_mode(int mode)
 {_mode=mode;
- printf("new mode: %02x -> ",_mode);
+ printf("new mode: %x -> ",_mode);
  set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
 void m17_coder_impl::set_data(int data)
 {_data=data;
- printf("new data type: %02x -> ",_data);
+ printf("new data type: %x -> ",_data);
  set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
 void m17_coder_impl::set_encr_type(int encr_type)
 {_encr_type=encr_type;
- printf("new encr type: %02x -> ",_encr_type);
+ printf("new encr type: %x -> ",_encr_type);
  set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
 void m17_coder_impl::set_encr_subtype(int encr_subtype)
 {_encr_subtype=encr_subtype;
- printf("new encr subtype: %02x -> ",_encr_subtype);
+ printf("new encr subtype: %x -> ",_encr_subtype);
  set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
 void m17_coder_impl::set_can(int can)
 {_can=can;
- printf("new CAN: %02x -> ",_can);
+ printf("new CAN: %x -> ",_can);
  set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
@@ -156,7 +161,7 @@ void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,i
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
- printf("type: %02X%02X\n",lsf.type[0],lsf.type[1]);fflush(stdout);
+ printf("type: %hhX%hhX\n",lsf.type[0],lsf.type[1]);fflush(stdout);
 }
 
     /*
@@ -271,19 +276,19 @@ void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,i
             if (_debug==true)
             {printf("TX DST: ");
              for(uint8_t i=0; i<6; i++)
-                 printf("%02X", lsf.dst[i]);
+                 printf("%hhX", lsf.dst[i]);
              printf(" SRC: ");
              for(uint8_t i=0; i<6; i++)
-                 printf("%02X", lsf.src[i]);
+                 printf("%hhX", lsf.src[i]);
              printf(" TYPE: ");
              for(uint8_t i=0; i<2; i++)
-                 printf("%02X", lsf.type[i]);
+                 printf("%hhX", lsf.type[i]);
              printf(" META: ");
              for(uint8_t i=0; i<14; i++)
-                 printf("%02X", lsf.meta[i]);
+                 printf("%hhX", lsf.meta[i]);
              printf(" CRC: ");
              for(uint8_t i=0; i<2; i++)
-                 printf("%02X", lsf.crc[i]);
+                 printf("%hhX", lsf.crc[i]);
              printf("\n");
             }
            }

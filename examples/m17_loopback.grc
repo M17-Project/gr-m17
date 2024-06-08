@@ -70,7 +70,7 @@ blocks:
     options: '[0, 1, 2]'
     orient: Qt.QVBoxLayout
     type: int
-    value: '0'
+    value: '1'
     widget: combo_box
   states:
     bus_sink: false
@@ -288,7 +288,7 @@ blocks:
     encr_subtype: enc_subtype
     encr_type: enc_type
     maxoutbuf: '0'
-    meta: '"\x00\x00abcde"'
+    meta: '''\x00\x00\x65\x41\xb0\x93\xff\x00\x00\x00\x00\x00\x00\x00\x00'''
     minoutbuf: '0'
     mode: mode
     src_id: src_str
