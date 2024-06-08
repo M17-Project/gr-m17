@@ -30,4 +30,14 @@ static const char *__doc_gr_m17_m17_coder_set_dst_id = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_coder_set_debug = R"doc()doc";
 
+static const char *__doc_gr_m17_m17_coder_set_alltype = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_coder_set_mode = R"doc()doc";
+
 static const char *__doc_gr_m17_m17_coder_set_type = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_coder_set_encr_type = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_coder_set_encr_subtype = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_coder_set_can = R"doc()doc";

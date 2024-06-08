@@ -38,7 +38,7 @@ blocks:
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: ''
+    gui_hint: 1,0,1,1
     label: DST
     type: string
     value: AB2CDE
@@ -46,15 +46,75 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 12.0]
+    coordinate: [544, 16.0]
     rotation: 0
     state: true
+- name: enc_subtype
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: 6,0,1,1
+    label: Encr. Subtype
+    label0: Text
+    label1: Geolocation
+    label2: Extended callsign data
+    label3: Reserved
+    label4: ''
+    labels: '[]'
+    num_opts: '4'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[0, 1, 2]'
+    orient: Qt.QVBoxLayout
+    type: int
+    value: '0'
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [384, 292.0]
+    rotation: 0
+    state: enabled
+- name: enc_type
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: 5,0,1,1
+    label: Encr. Type
+    label0: None
+    label1: Scrambler
+    label2: AES
+    label3: Other/Reserved
+    label4: ''
+    labels: '[]'
+    num_opts: '4'
+    option0: '0'
+    option1: '1'
+    option2: '2'
+    option3: '3'
+    option4: '4'
+    options: '[0, 1, 2]'
+    orient: Qt.QVBoxLayout
+    type: int
+    value: '0'
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 292.0]
+    rotation: 0
+    state: enabled
 - name: meta_str
   id: variable_qtgui_entry
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: ''
+    gui_hint: 2,0,1,1
     label: META
     type: string
     value: Hello!
@@ -62,9 +122,39 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 12.0]
+    coordinate: [288, 16.0]
     rotation: 0
     state: true
+- name: mode
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: 3,0,1,1
+    label: Mode
+    label0: Stream
+    label1: Packet
+    label2: Data + Voice
+    label3: Reserved
+    label4: ''
+    labels: '[]'
+    num_opts: '2'
+    option0: '1'
+    option1: '2'
+    option2: '5'
+    option3: '0'
+    option4: '4'
+    options: '[0, 1, 2]'
+    orient: Qt.QVBoxLayout
+    type: int
+    value: '1'
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 292.0]
+    rotation: 0
+    state: enabled
 - name: samp_rate
   id: variable
   parameters:
@@ -82,7 +172,7 @@ blocks:
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: ''
+    gui_hint: 0,0,1,1
     label: SRC
     type: string
     value: AB1CDE
@@ -90,25 +180,39 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 12.0]
+    coordinate: [408, 16.0]
     rotation: 0
     state: true
 - name: type_val
-  id: variable_qtgui_entry
+  id: variable_qtgui_chooser
   parameters:
     comment: ''
-    entry_signal: editingFinished
-    gui_hint: ''
-    label: TYPE
+    gui_hint: 4,0,1,1
+    label: Type
+    label0: Data
+    label1: Voice
+    label2: Data + Voice
+    label3: Reserved
+    label4: ''
+    labels: '[]'
+    num_opts: '4'
+    option0: '1'
+    option1: '2'
+    option2: '3'
+    option3: '0'
+    option4: '4'
+    options: '[0, 1, 2]'
+    orient: Qt.QVBoxLayout
     type: int
-    value: '5'
+    value: '2'
+    widget: combo_box
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 12.0]
+    coordinate: [120, 292.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -195,12 +299,12 @@ blocks:
     comment: ''
     debug: 'False'
     dst_id: dst_str
-    encr_subtype: '0'
-    encr_type: '0'
+    encr_subtype: enc_subtype
+    encr_type: enc_type
     maxoutbuf: '0'
     meta: meta_str
     minoutbuf: '0'
-    mode: '1'
+    mode: mode
     src_id: src_str
     type: type_val
   states:
@@ -216,7 +320,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    debug_ctrl: 'True'
+    debug_ctrl: 'False'
     debug_data: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'

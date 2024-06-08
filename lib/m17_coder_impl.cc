@@ -51,11 +51,11 @@ struct LSF lsf;
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
-              , _meta(meta), _debug(debug)
-{    set_meta(meta);
+              , _mode(mode),_type(type),_encr_type(encr_type),_encr_subtype(encr_subtype), _can(can),_meta(meta), _debug(debug)
+{    set_alltype(mode, type, encr_type, encr_subtype, can);
+     set_meta(meta); // depends on   ^^^ encr_subtype
      set_src_id(src_id);
      set_dst_id(dst_id);
-     set_type(mode, type, encr_type, encr_subtype, can);
      set_debug(debug);
      set_output_multiple(192);
      uint16_t ccrc=LSF_CRC(&lsf);
@@ -95,23 +95,68 @@ void m17_coder_impl::set_dst_id(std::string dst_id)
 
 void m17_coder_impl::set_meta(std::string meta)
 {int length;
- printf("new meta: %s\n",meta.c_str());fflush(stdout);
- _meta.assign(meta);
- if (meta.length()<14) length=meta.length(); else length=14;
- for (int i=0;i<length;i++) {lsf.meta[i]=_meta[i];}
+ const char *c;
+ printf("new meta: ");
+ if (_encr_subtype==1) // meta is \0-terminated string
+    {printf("%s\n",meta.c_str());
+     if (meta.length()<14) length=meta.length(); else length=14;
+     for (int i=0;i<length;i++) {lsf.meta[i]=meta[i];}
+    }
+ else 
+    {c=meta.data();
+     if (sizeof(c)<14) length=sizeof(c); else length=14;
+     printf("%d bytes: ",length);
+     for (int i=0;i<length;i++) 
+        {printf("%02X ",c[i]);
+         lsf.meta[i]=c[i];
+        }
+     printf("\n");
+    }
+ fflush(stdout);
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
 }
 
-void m17_coder_impl::set_type(int mode,int type,int encr_type,int encr_subtype,int can)
-{_type = mode | (type<<1) | (encr_type<<3) | (encr_subtype<<5) | (can<<7);
- lsf.type[0]=_type>>8;   // MSB
- lsf.type[1]=_type&0xff; // LSB
+void m17_coder_impl::set_mode(int mode)
+{_mode=mode;
+ printf("new mode: %02x -> ",_mode);
+ set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+}
+
+void m17_coder_impl::set_type(int type)
+{_type=type;
+ printf("new type: %02x -> ",_type);
+ set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+}
+
+void m17_coder_impl::set_encr_type(int encr_type)
+{_encr_type=encr_type;
+ printf("new encr type: %02x -> ",_encr_type);
+ set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+}
+
+void m17_coder_impl::set_encr_subtype(int encr_subtype)
+{_encr_subtype=encr_subtype;
+ printf("new encr subtype: %02x -> ",_encr_subtype);
+ set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+}
+
+void m17_coder_impl::set_can(int can)
+{_can=can;
+ printf("new CAN: %02x -> ",_can);
+ set_alltype(_mode,_type,_encr_type,_encr_subtype,_can);
+}
+
+void m17_coder_impl::set_alltype(int mode,int type,int encr_type,int encr_subtype,int can)
+{short tmptype;
+ tmptype = mode | (type<<1) | (encr_type<<3) | (encr_subtype<<5) | (can<<7);
+ lsf.type[0]=tmptype>>8;   // MSB
+ lsf.type[1]=tmptype&0xff; // LSB
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
- printf("new type: %02X%02X\n",lsf.type[0],lsf.type[1]);fflush(stdout);
+ printf("mask: %02X%02X\n",lsf.type[0],lsf.type[1]);fflush(stdout);
 }
 
     /*

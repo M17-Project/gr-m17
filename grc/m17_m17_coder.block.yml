@@ -60,7 +60,11 @@ templates:
     - set_meta(${meta})
     - set_src_id(${src_id})
     - set_dst_id(${dst_id})
+    - set_mode(${mode})
     - set_type(${type})
+    - set_encr_type(${encr_type})
+    - set_encr_subtype(${encr_subtype})
+    - set_can(${can})
     - set_debug(${debug})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
