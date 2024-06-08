@@ -104,7 +104,6 @@ void m17_coder_impl::set_meta(std::string meta)
     }
  else 
     {c=meta.data();
-printf("%d %d --- ",meta.size(),meta.length());
      if (meta.size()<14) length=meta.size(); else length=14;
      printf("%d bytes: ",length);
      for (int i=0;i<length;i++) 

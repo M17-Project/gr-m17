@@ -46,7 +46,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 16.0]
+    coordinate: [424, 8.0]
     rotation: 0
     state: true
 - name: enc_subtype
@@ -76,7 +76,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 292.0]
+    coordinate: [384, 332.0]
     rotation: 0
     state: enabled
 - name: enc_type
@@ -106,25 +106,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 292.0]
+    coordinate: [248, 332.0]
     rotation: 0
     state: enabled
-- name: meta_str
-  id: variable_qtgui_entry
-  parameters:
-    comment: ''
-    entry_signal: editingFinished
-    gui_hint: 2,0,1,1
-    label: META
-    type: string
-    value: Hello!
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [288, 16.0]
-    rotation: 0
-    state: true
 - name: mode
   id: variable_qtgui_chooser
   parameters:
@@ -152,7 +136,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 292.0]
+    coordinate: [16, 332.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -180,7 +164,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 16.0]
+    coordinate: [288, 8.0]
     rotation: 0
     state: true
 - name: type_val
@@ -210,7 +194,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [120, 292.0]
+    coordinate: [120, 332.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -296,13 +280,15 @@ blocks:
     affinity: ''
     alias: ''
     can: '0'
-    comment: ''
+    comment: 'since Meta can be a byte array, it cannot be fed with a QT GUI Entry
+
+      string but must be a "\x00" string in the Encoder block'
     debug: 'False'
     dst_id: dst_str
     encr_subtype: enc_subtype
     encr_type: enc_type
     maxoutbuf: '0'
-    meta: meta_str
+    meta: '"\x00\x00abcde"'
     minoutbuf: '0'
     mode: mode
     src_id: src_str
