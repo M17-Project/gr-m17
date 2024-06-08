@@ -113,7 +113,7 @@ void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if enc
        while ((j<=14) && (i<=length));
        length=j;
        printf("%d bytes: ",length);
-       for (i=0;i<length;i++) printf("%hhX ",lsf.meta[i]);
+       for (i=0;i<length;i++) printf("%02X ",lsf.meta[i]);
      printf("\n");
     }
  fflush(stdout);
@@ -160,7 +160,7 @@ void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,i
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
- printf("Transmission type: 0x%hhX%hhX\n",lsf.type[0],lsf.type[1]);fflush(stdout);
+ printf("Transmission type: 0x%02X%02X\n",lsf.type[0],lsf.type[1]);fflush(stdout);
 }
 
     /*
