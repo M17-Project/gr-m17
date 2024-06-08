@@ -107,7 +107,7 @@ void m17_coder_impl::set_meta(std::string meta)
      if (meta.size()<14) length=meta.size(); else length=14;
      printf("%d bytes: ",length);
      for (int i=0;i<length;i++) 
-        {printf("%02X ",c[i]);
+        {printf("%hhX ",c[i]);
          lsf.meta[i]=c[i];
         }
      printf("\n");
