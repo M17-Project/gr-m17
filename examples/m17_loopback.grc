@@ -124,7 +124,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [920, 144.0]
+    coordinate: [952, 152.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -141,7 +141,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 104.0]
+    coordinate: [1016, 104.0]
     rotation: 0
     state: disabled
 - name: blocks_throttle2_0
@@ -162,7 +162,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 152.0]
+    coordinate: [568, 160.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -183,7 +183,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 144.0]
+    coordinate: [16, 152.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -191,19 +191,23 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    can: '0'
     comment: ''
     debug: 'False'
     dst_id: dst_str
+    encr_subtype: '0'
+    encr_type: '0'
     maxoutbuf: '0'
     meta: meta_str
     minoutbuf: '0'
+    mode: '1'
     src_id: src_str
     type: type_val
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 128.0]
+    coordinate: [320, 100.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -221,7 +225,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 144.0]
+    coordinate: [784, 152.0]
     rotation: 0
     state: true
 - name: note_0_2
@@ -247,4 +251,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.9.2
+  grc_version: 3.10.10.0

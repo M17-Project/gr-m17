@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Free Software Foundation, Inc.
+ * Copyright 2024 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_coder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(178a26e09118551324bf48782db38a1b) */
+/* BINDTOOL_HEADER_FILE_HASH(4ca705105687afff1b51b1b6aa3ff5d8) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -37,8 +37,9 @@ void bind_m17_coder(py::module &m) {
       m, "m17_coder", D(m17_coder))
 
       .def(py::init(&m17_coder::make), py::arg("src_id"), py::arg("dst_id"),
-           py::arg("type"), py::arg("meta"), py::arg("debug"),
-           D(m17_coder, make))
+           py::arg("mode"), py::arg("type"), py::arg("encr_type"),
+           py::arg("encr_subtype"), py::arg("can"), py::arg("meta"),
+           py::arg("debug"), D(m17_coder, make))
 
       .def("set_meta", &m17_coder::set_meta, py::arg("meta"),
            D(m17_coder, set_meta))
@@ -52,7 +53,8 @@ void bind_m17_coder(py::module &m) {
       .def("set_debug", &m17_coder::set_debug, py::arg("debug"),
            D(m17_coder, set_debug))
 
-      .def("set_type", &m17_coder::set_type, py::arg("type"),
+      .def("set_type", &m17_coder::set_type, py::arg("mode"), py::arg("type"),
+           py::arg("encr_type"), py::arg("encr_subtype"), py::arg("can"),
            D(m17_coder, set_type))
 
       ;

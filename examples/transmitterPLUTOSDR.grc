@@ -33,12 +33,33 @@ options:
     state: enabled
 
 blocks:
+- name: audio_frequency
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Audio frequency
+    min_len: '100'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '50'
+    step: '1'
+    stop: '1000'
+    value: '440'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [976, 8.0]
+    rotation: 0
+    state: true
 - name: dst
   id: variable_qtgui_entry
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: qtgui_tab_widget_0@0:0,0
+    gui_hint: ''
     label: Destination callsign
     type: string
     value: ALL
@@ -46,7 +67,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [152, 108.0]
+    coordinate: [1112, 96.0]
     rotation: 0
     state: true
 - name: freq
@@ -54,22 +75,22 @@ blocks:
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: qtgui_tab_widget_0@0:1,0
-    label: Frequency
+    gui_hint: ''
+    label: RF Frequency
     type: int
     value: '433475000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [432, 16.0]
+    coordinate: [432, 8.0]
     rotation: 0
     state: true
 - name: ppm
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: qtgui_tab_widget_0@0:1,1
+    gui_hint: ''
     label: Frequency error (ppm)
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -83,14 +104,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [584, 16.0]
+    coordinate: [576, 8.0]
     rotation: 0
     state: true
 - name: pwr
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: qtgui_tab_widget_0@0:2,0,1,2
+    gui_hint: ''
     label: RF power out
     min_len: '100'
     orient: QtCore.Qt.Horizontal
@@ -104,7 +125,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 16.0]
+    coordinate: [736, 8.0]
     rotation: 0
     state: true
 - name: rf_on
@@ -112,7 +133,7 @@ blocks:
   parameters:
     comment: ''
     'false': '0'
-    gui_hint: qtgui_tab_widget_0@1:0,0
+    gui_hint: ''
     label: RF out
     'true': '1'
     type: real
@@ -121,7 +142,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 16.0]
+    coordinate: [856, 8.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -141,7 +162,7 @@ blocks:
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: qtgui_tab_widget_0@0:0,1
+    gui_hint: ''
     label: Source callsign
     type: string
     value: AB1CDE
@@ -149,7 +170,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 108.0]
+    coordinate: [1112, 8.0]
     rotation: 0
     state: true
 - name: analog_frequency_modulator_fc_0_0
@@ -165,7 +186,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 240.0]
+    coordinate: [728, 208.0]
     rotation: 0
     state: true
 - name: analog_sig_source_x_0
@@ -175,7 +196,7 @@ blocks:
     alias: ''
     amp: '20000'
     comment: ''
-    freq: '1000'
+    freq: audio_frequency
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
@@ -188,7 +209,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [120, 384.0]
+    coordinate: [120, 368.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -206,7 +227,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [976, 240.0]
+    coordinate: [976, 208.0]
     rotation: 0
     state: true
 - name: blocks_pack_k_bits_bb_0
@@ -222,7 +243,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 344.0]
+    coordinate: [336, 328.0]
     rotation: 180
     state: true
 - name: blocks_vector_source_x_0_2
@@ -243,7 +264,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 224.0]
+    coordinate: [8, 192.0]
     rotation: 0
     state: disabled
 - name: blocks_vector_to_stream_0
@@ -261,7 +282,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 352.0]
+    coordinate: [488, 336.0]
     rotation: 180
     state: enabled
 - name: iio_pluto_sink_0_0
@@ -287,7 +308,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1296, 180.0]
+    coordinate: [1296, 148.0]
     rotation: 0
     state: disabled
 - name: import_0
@@ -308,19 +329,23 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    can: '0'
     comment: ''
     debug: 'False'
     dst_id: dst
+    encr_subtype: '0'
+    encr_type: '0'
     maxoutbuf: '0'
     meta: ''
     minoutbuf: '0'
+    mode: '1'
     src_id: src
     type: '5'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 208.0]
+    coordinate: [328, 140.0]
     rotation: 0
     state: enabled
 - name: note_0_2
@@ -333,7 +358,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [160, 312.0]
+    coordinate: [160, 280.0]
     rotation: 0
     state: true
 - name: note_0_2_1
@@ -346,7 +371,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [0, 312.0]
+    coordinate: [0, 280.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0_0
@@ -384,7 +409,7 @@ blocks:
     fftsize: '4096'
     freqhalf: 'True'
     grid: 'True'
-    gui_hint: qtgui_tab_widget_0@1:2,0
+    gui_hint: ''
     label: Relative Gain
     label1: ''
     label10: ''''''
@@ -427,43 +452,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1304, 360.0]
+    coordinate: [1304, 328.0]
     rotation: 0
     state: enabled
-- name: qtgui_tab_widget_0
-  id: qtgui_tab_widget
-  parameters:
-    alias: ''
-    comment: ''
-    gui_hint: ''
-    label0: Settings
-    label1: Baseband && RF spectrum
-    label10: Tab 10
-    label11: Tab 11
-    label12: Tab 12
-    label13: Tab 13
-    label14: Tab 14
-    label15: Tab 15
-    label16: Tab 16
-    label17: Tab 17
-    label18: Tab 18
-    label19: Tab 19
-    label2: Tab 2
-    label3: Tab 3
-    label4: Tab 4
-    label5: Tab 5
-    label6: Tab 6
-    label7: Tab 7
-    label8: Tab 8
-    label9: Tab 9
-    num_tabs: '2'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [872, 16.0]
-    rotation: 0
-    state: true
 - name: qtgui_time_sink_x_0_0
   id: qtgui_time_sink_x
   parameters:
@@ -495,7 +486,7 @@ blocks:
     ctrlpanel: 'False'
     entags: 'True'
     grid: 'True'
-    gui_hint: qtgui_tab_widget_0@1:1,0
+    gui_hint: ''
     label1: ''
     label10: Signal 10
     label2: Signal 2
@@ -558,7 +549,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 304.0]
+    coordinate: [776, 320.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0_0
@@ -578,7 +569,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 216.0]
+    coordinate: [1128, 184.0]
     rotation: 0
     state: true
 - name: root_raised_cosine_filter_0
@@ -601,7 +592,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 200.0]
+    coordinate: [528, 168.0]
     rotation: 0
     state: true
 - name: uhd_usrp_sink_0
@@ -878,7 +869,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1344, 56.0]
+    coordinate: [1344, 24.0]
     rotation: 0
     state: enabled
 - name: vocoder_codec2_encode_sp_0
@@ -894,7 +885,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 424.0]
+    coordinate: [456, 408.0]
     rotation: 0
     state: enabled
 

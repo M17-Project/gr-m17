@@ -38,24 +38,24 @@ namespace gr {
 struct LSF lsf;
 
     m17_coder::sptr
-    m17_coder::make(std::string src_id,std::string dst_id,short type,std::string meta, bool debug)
+    m17_coder::make(std::string src_id,std::string dst_id,int mode,int type,int encr_type,int encr_subtype,int can,std::string meta, bool debug)
     {
       return gnuradio::get_initial_sptr
-        (new m17_coder_impl(src_id,dst_id,type,meta,debug));
+        (new m17_coder_impl(src_id,dst_id,mode,type,encr_type,encr_subtype,can,meta,debug));
     }
 
     /*
      * The private constructor
      */
-    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta, bool debug)
+    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int type,int encr_type,int encr_subtype,int can,std::string meta, bool debug)
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
-              , _meta(meta),_type(type), _debug(debug)
+              , _meta(meta), _debug(debug)
 {    set_meta(meta);
      set_src_id(src_id);
      set_dst_id(dst_id);
-     set_type(type);
+     set_type(mode, type, encr_type, encr_subtype, can);
      set_debug(debug);
      set_output_multiple(192);
      uint16_t ccrc=LSF_CRC(&lsf);
@@ -104,8 +104,8 @@ void m17_coder_impl::set_meta(std::string meta)
  lsf.crc[1]=ccrc&0xFF;
 }
 
-void m17_coder_impl::set_type(short type)
-{_type=type;
+void m17_coder_impl::set_type(int mode,int type,int encr_type,int encr_subtype,int can)
+{_type = mode | (type<<1) | (encr_type<<3) | (encr_subtype<<5) | (can<<7);
  lsf.type[0]=_type>>8;   // MSB
  lsf.type[1]=_type&0xff; // LSB
  uint16_t ccrc=LSF_CRC(&lsf);

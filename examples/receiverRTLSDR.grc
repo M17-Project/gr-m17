@@ -51,7 +51,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 32.0]
+    coordinate: [328, 32.0]
     rotation: 0
     state: true
 - name: rf_gain
@@ -72,7 +72,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 32.0]
+    coordinate: [432, 32.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -96,12 +96,12 @@ blocks:
     label: AFC
     'true': '1.0'
     type: real
-    value: '0.0'
+    value: '1.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 24.0]
+    coordinate: [544, 32.0]
     rotation: 0
     state: true
 - name: analog_quadrature_demod_cf_0
@@ -293,8 +293,8 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    debug_ctrl: 'True'
-    debug_data: 'True'
+    debug_ctrl: 'False'
+    debug_data: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
     threshold: '2.0'
@@ -497,7 +497,7 @@ blocks:
     bus_structure: null
     coordinate: [528, 392.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_time_sink_x_0_0
   id: qtgui_time_sink_x
   parameters:

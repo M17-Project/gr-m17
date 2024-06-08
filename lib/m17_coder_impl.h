@@ -28,9 +28,9 @@ public:
     void set_src_id(std::string src_id);
     void set_dst_id(std::string dst_id);
     void set_meta(std::string meta);
-    void set_type(short type);
+    void set_type(int mode,int type,int encr_type,int encr_subtype,int can);
     void set_debug(bool debug);
-    m17_coder_impl(std::string src_id,std::string dst_id,short type,std::string meta,bool debug);
+    m17_coder_impl(std::string src_id,std::string dst_id,int mode,int type,int encr_type,int encr_subtype,int can,std::string meta, bool debug);
     ~m17_coder_impl();
 
     // Where all the action really happens
