@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [24, 40.0]
     rotation: 0
     state: enabled
 
@@ -51,19 +51,40 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 8.0]
+    coordinate: [264, 40.0]
     rotation: 0
     state: enabled
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: '48000'
+    value: '8000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [160, 8.0]
+    coordinate: [176, 40.0]
+    rotation: 0
+    state: enabled
+- name: x
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '.01'
+    stop: '1'
+    value: '.5'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [384, 40.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0
@@ -86,7 +107,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 96.0]
+    coordinate: [24, 128.0]
     rotation: 0
     state: enabled
 - name: audio_sink_0
@@ -96,14 +117,50 @@ blocks:
     alias: ''
     comment: ''
     device_name: ''
-    num_inputs: '1'
+    num_inputs: '2'
     ok_to_block: 'True'
-    samp_rate: samp_rate
+    samp_rate: samp_rate*6
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 136.0]
+    coordinate: [1216, 248.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: 1-x
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1016, 272.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: x
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1016, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0
@@ -120,7 +177,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 136.0]
+    coordinate: [672, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0_0
@@ -137,7 +194,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 48.0]
+    coordinate: [664, 64.0]
+    rotation: 0
+    state: enabled
+- name: blocks_short_to_float_0_1
+  id: blocks_short_to_float
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: '32767'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [672, 272.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -158,7 +232,7 @@ blocks:
     autoscale: 'False'
     average: '1.0'
     axislabels: 'True'
-    bw: samp_rate
+    bw: samp_rate*6
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -218,7 +292,67 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [848, 48.0]
+    coordinate: [1160, 64.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '6'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 144.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '6'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 40.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0_1
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '6'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 248.0]
     rotation: 0
     state: enabled
 - name: vocoder_codec2_decode_ps_0
@@ -234,7 +368,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 136.0]
+    coordinate: [480, 168.0]
     rotation: 0
     state: enabled
 - name: vocoder_codec2_encode_sp_0
@@ -250,16 +384,23 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [272, 136.0]
+    coordinate: [288, 168.0]
     rotation: 0
     state: enabled
 
 connections:
 - [analog_sig_source_x_0, '0', blocks_short_to_float_0_0, '0']
+- [analog_sig_source_x_0, '0', blocks_short_to_float_0_1, '0']
 - [analog_sig_source_x_0, '0', vocoder_codec2_encode_sp_0, '0']
-- [blocks_short_to_float_0, '0', audio_sink_0, '0']
-- [blocks_short_to_float_0, '0', qtgui_freq_sink_x_0, '1']
-- [blocks_short_to_float_0_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_multiply_const_vxx_0, '0', audio_sink_0, '1']
+- [blocks_multiply_const_vxx_0_0, '0', audio_sink_0, '0']
+- [blocks_short_to_float_0, '0', rational_resampler_xxx_0, '0']
+- [blocks_short_to_float_0_0, '0', rational_resampler_xxx_0_0, '0']
+- [blocks_short_to_float_0_1, '0', rational_resampler_xxx_0_1, '0']
+- [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_0_0, '0']
+- [rational_resampler_xxx_0, '0', qtgui_freq_sink_x_0, '1']
+- [rational_resampler_xxx_0_0, '0', qtgui_freq_sink_x_0, '0']
+- [rational_resampler_xxx_0_1, '0', blocks_multiply_const_vxx_0, '0']
 - [vocoder_codec2_decode_ps_0, '0', blocks_short_to_float_0, '0']
 - [vocoder_codec2_encode_sp_0, '0', vocoder_codec2_decode_ps_0, '0']
 
