@@ -1,8 +1,13 @@
 ## Compiling for GNU Radio
 
 The default targetted version is GNU Radio 3.10 (``main`` branch). Tested on Debian/GNU Linux sid with GNU Radio 
-3.10.10.0 (Python 3.11.9)
+3.10.10.0 (Python 3.11.9) assuming the following dependencies are installed:
 
+```
+sudo apt install git cmake build-essential doxygen gnuradio
+```
+
+For compiling ``gr-m17``:
 ```
 git clone --recursive https://github.com/M17-Project/gr-m17
 cd gr-m17
