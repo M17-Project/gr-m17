@@ -126,7 +126,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 144.0]
+    coordinate: [776, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -147,7 +147,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 152.0]
+    coordinate: [560, 176.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -168,7 +168,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 144.0]
+    coordinate: [8, 168.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -176,19 +176,23 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    can: '0'
     comment: ''
     debug: 'False'
     dst_id: dst_str
+    encr_subtype: '0'
+    encr_type: '0'
     maxoutbuf: '0'
     meta: meta_str
     minoutbuf: '0'
+    mode: '1'
     src_id: src_str
     type: type_val
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 128.0]
+    coordinate: [312, 116.0]
     rotation: 0
     state: true
 - name: note_0_2

@@ -38,7 +38,7 @@ find /usr/local/ -name libgnuradio-m17.so.1.0.0 -print
 to solve any issue related to ``ImportError: libgnuradio-m17.so.1.0.0: cannot open shared object file: No such file or directory``
 (which means that ``/usr/local`` is not part of the GNU Radio Companion paths)
 
-When running the flowgraph found in ``examples`` with ``gnuradio-companion ../examples/m17_streamer.grc`` 
+When running the flowgraph found in ``examples`` with ``gnuradio-companion ../examples/m17_loopback.grc`` 
 
 <img src="examples/m17_loopback.png">
 
@@ -46,7 +46,7 @@ See <a href="examples/README.md">examples/README.md</a> for the expected output 
 
 Notice that due to the verbose output of ``gr-m17`` and the slow console of GNU Radio Companion, I 
 would strongly advise generating the Python script from GNU Radio Companion and then execute 
-``python3 m17_streamer.py`` from a terminal to avoid waiting for a long time for GNU Radio 
+``python3 m17_loopback.py`` from a terminal to avoid waiting for a long time for GNU Radio 
 Companion to flush all messages.
 
 ## Developer note1

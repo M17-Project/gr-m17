@@ -1,6 +1,6 @@
 ## gr-m17 examples
 
-For a first test, jump to ``m17_streamer.grc`` which does not use external tools but is GNU Radio only.
+For a first test, jump to ``m17_loopback.grc`` which does not use external tools but is GNU Radio only.
 The two ``m17_rx.grc`` and ``m17_tx.grc`` are for debugging and validation purposes of the conversion
 from ``libm17`` to GNU Radio block.
 
@@ -57,7 +57,7 @@ DST: AB2CDE    SRC: AB1CDE    TYPE: 0005 META: 48656C6C6F210000000000000000 LSF_
 FN: 001E PLD: 01020304050600000000000000000000 e=0.0
 ```
 
-### m17_streamer.grc
+### m17_loopback.grc
 
 Loopback demo with TX and RX both in GNU Radio.
 
