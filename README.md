@@ -49,6 +49,15 @@ would strongly advise generating the Python script from GNU Radio Companion and 
 ``python3 m17_loopback.py`` from a terminal to avoid waiting for a long time for GNU Radio 
 Companion to flush all messages.
 
+## About the Meta field
+
+The Meta field in the M17 Encoder can be of two types:
+* an ASCII string, maximum 14-character long, if ``Encr. Type`` is set to ``None`` and if ``Encr. Subtype`` is set to ``Text``
+* a byte array otherwise. In case of a byte array, in order to be compatible with Python string encoding as UTF-8, the ``std::string`` read
+by M17 Encoder is expected to be UTF-8 encoded. This is important if using ``gr-m17`` outside from GNU Radio Companion but directly linked
+from a C++ application. From Python, the UTF-8 byte array is generated with e.g. ``'\x00\x00\x65\x41\xB0\x93\x02\x44\xE2\x47\x29\x77\x00\x00'`` (notice
+the single or double quote around the byte array definition) in the M17 Encoder Meta field.
+
 ## Developer note1
 
 **Warning**: the default ``gr_modtool`` output informs GNU Radio Companion to ``import m17`` rather 
