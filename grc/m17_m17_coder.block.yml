@@ -89,7 +89,7 @@ outputs:
   optional: 0
 
 documentation: |-
-     The encoder block reads a datastream (as 16-byte vectors) clocked at 3200 bits/s and outputs a stream of symbols (as floats) at 4800 Hz. The source and destination fields are 9-character callsign strings, the TYPE field is generated based on drop-down menu entries and the META field a free string or byte array that can be updated at runtime.
+     The encoder block reads a datastream (as 16-byte vectors) clocked at 3200 bits/s and outputs a stream of symbols (as floats) at 4800 Hz. The source and destination fields are 9-character callsign strings, the TYPE field is generated based on drop-down menu entries and the META field is a string or a byte array that can be updated at runtime.
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.
