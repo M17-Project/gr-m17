@@ -33,10 +33,6 @@
 
 #include "m17.h"
 
-#define DECODE_CALLSIGNS
-//#define SHOW_VITERBI_ERRS
-//
-
 #define CODE_MEAN      -0.75        // mean(str_sync_symbols)
 #define CODE_STD        8.21583836f //std(str_sync_symbols)*sqrt(length(str_sync_symbols)-1)
 
@@ -44,24 +40,25 @@ namespace gr {
   namespace m17 {
 
     m17_decoder::sptr
-    m17_decoder::make(bool debug_data,bool debug_ctrl,float threshold)
+    m17_decoder::make(bool debug_data,bool debug_ctrl,float threshold,bool callsign)
     {
       return gnuradio::get_initial_sptr
-        (new m17_decoder_impl(debug_data,debug_ctrl,threshold));
+        (new m17_decoder_impl(debug_data,debug_ctrl,threshold,callsign));
     }
 
 
     /*
      * The private constructor
      */
-    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold)
+    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign)
       : gr::block("m17_decoder",
               gr::io_signature::make(1, 1, sizeof(float)),
               gr::io_signature::make(1, 1, sizeof(char))),
-              _debug_data(debug_data), _debug_ctrl(debug_ctrl), _threshold(threshold)
+              _debug_data(debug_data), _debug_ctrl(debug_ctrl), _threshold(threshold), _callsign(callsign)
     {set_debug_data(debug_data);
      set_debug_ctrl(debug_ctrl);
      set_threshold(threshold);
+     set_callsign(callsign);
      _expected_next_fn=0;
     }
 
@@ -87,6 +84,11 @@ namespace gr {
      if (_debug_ctrl==true) printf("Debug control: true\n"); else printf("Debug control: false\n");
     }
     
+    void m17_decoder_impl::set_callsign(bool callsign)
+    {_callsign=callsign;
+     if (_callsign==true) printf("Display callsign\n"); else printf("Do not display callsign\n");
+    }
+
     void
     m17_decoder_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
@@ -171,30 +173,23 @@ namespace gr {
                     }
 
                     //decode
-                    #ifdef SHOW_VITERBI_ERRS
-                    uint32_t e=
-                    #endif
-                    viterbi_decode_punctured(frame_data, enc_data, puncture_pattern_2, 272, 12);
+                    uint32_t e=viterbi_decode_punctured(frame_data, enc_data, puncture_pattern_2, 272, 12);
 
                     uint16_t fn = (frame_data[1] << 8) | frame_data[2];
 
-                    if (_debug_data==true) {
-                    //dump data - first byte is empty
-                       printf("RX FN: %02X%02X PLD: ", frame_data[1], frame_data[2]);
+                    if (_debug_data==true) {   //dump data - first byte is empty
+                       printf("RX FN: %04X PLD: ", fn);
                     }
+
                     for(uint8_t i=3; i<19; i++)
                     {
                      if (_debug_data==true) {
                          printf("%02X", frame_data[i]);
                         }
-                        out[countout]=frame_data[i];countout++;
+                     out[countout]=frame_data[i];countout++;
                     }
                     if (_debug_data==true) {
-                      #ifdef SHOW_VITERBI_ERRS
                       printf(" e=%1.1f\n", (float)e/0xFFFF);
-                      #else
-                      printf("\n");
-                      #endif
                     }
                     //send codec2 stream to stdout
                     //write(STDOUT_FILENO, &frame_data[3], 16);
@@ -219,128 +214,133 @@ namespace gr {
                     //debug - dump LICH
                     if(lich_chunks_rcvd==0x3F) //all 6 chunks received?
                     {
-                        #ifdef DECODE_CALLSIGNS
-                        uint8_t d_dst[12], d_src[12]; //decoded strings
-
-                        decode_callsign_bytes(d_dst, &lsf[0]);
-                        decode_callsign_bytes(d_src, &lsf[6]);
-
-                        if (_debug_ctrl==true) {
-                          //DST
-                          printf("DST: %-9s ", d_dst);
-
-                          //SRC
-                          printf("SRC: %-9s ", d_src);
-                          #else
-                          //DST
-                          printf("DST: ");
-                          for(uint8_t i=0; i<6; i++)
+                      if (_debug_ctrl==true)
+                        {if (_callsign==true)
+                           {decode_callsign_bytes(d_dst, &lsf[0]);
+                            decode_callsign_bytes(d_src, &lsf[6]);
+                            printf("DST: %-9s ", d_dst); //DST
+                            printf("SRC: %-9s ", d_src); //SRC
+                           } 
+                        else
+                           {printf("DST: ");   //DST
+                            for(uint8_t i=0; i<6; i++)
                               printf("%02X", lsf[i]);
-                          printf(" ");
-
-                          //SRC
-                          printf("SRC: ");
-                          for(uint8_t i=0; i<6; i++)
+                            printf(" ");
+                            printf("SRC: ");   //SRC
+                            for(uint8_t i=0; i<6; i++)
                               printf("%02X", lsf[6+i]);
-                          printf(" ");
-                          #endif
+                            printf(" ");
+                           }
+                        }
 
-                          //TYPE
-                          printf("TYPE: ");
-                          for(uint8_t i=0; i<2; i++)
-                              printf("%02X", lsf[12+i]);
-                          printf(" ");
+                      //TYPE
+                      uint16_t type=(uint16_t)lsf[12]*0x100+lsf[13]; //big-endian
+                      if (_debug_ctrl==true)
+                        {printf("TYPE: %04X (", type);
+                         if(type&&1)
+                            printf("STREAM: ");
+                         else
+                            printf("PACKET: "); //shouldn't happen
+                         if(((type>>1)&3)==1)
+                            printf("DATA, ");
+                         else if(((type>>1)&3)==2)
+                            printf("VOICE, ");
+                         else if(((type>>1)&3)==3)
+                            printf("VOICE+DATA, "); 
+                         printf("ENCR: ");
+                         if(((type>>3)&3)==0)
+                            printf("PLAIN, ");
+                         else if(((type>>3)&3)==1)
+                           {
+                            printf("SCRAM ");
+                            if(((type>>5)&3)==1)
+                               printf("8-bit, ");
+                            else if(((type>>5)&3)==2)
+                               printf("16-bit, ");
+                            else if(((type>>5)&3)==3)
+                               printf("24-bit, ");
+                           }
+                           else if(((type>>3)&3)==2)
+                               printf("AES, ");
+                           else
+                               printf("UNK, ");
+                           printf("CAN: %d", (type>>7)&0xF);
+                           if((type>>11)&1)
+                               printf(", SIGNED");
+                           printf(") ");
+                        }
 
-                          //META
-                          printf("META: ");
-                          for(uint8_t i=0; i<14; i++)
-                              printf("%02X", lsf[14+i]);
-                          //printf(" ");
+                      //META
+                      if (_debug_ctrl==true)
+                        {printf("META: ");
+                         for(uint8_t i=0; i<14; i++)
+                            printf("%02X", lsf[14+i]);
 
-                          //CRC
-                          //printf("CRC: ");
-                          //for(uint8_t i=0; i<2; i++)
-                              //printf("%02X", lsf[28+i]);
-                          if(CRC_M17(lsf, 30))
+                          if(CRC_M17(lsf, 30)) //CRC
                               printf(" LSF_CRC_ERR");
                           else
                               printf(" LSF_CRC_OK ");
                           printf("\n");
                         }
                     }
-
                     _expected_next_fn = (fn + 1) % 0x8000;
                 }
                 else //lsf
                 {
                     if (_debug_ctrl==true) {
-                        printf("LSF\n");
+                        printf("{LSF}\n");
                     }
                     //decode
-                    #ifdef SHOW_VITERBI_ERRS
-                    uint32_t e=
-                    #endif
-                    viterbi_decode_punctured(lsf, d_soft_bit, puncture_pattern_1, 2*SYM_PER_PLD, 61);
-
+                    uint32_t e=viterbi_decode_punctured(lsf, d_soft_bit, puncture_pattern_1, 2*SYM_PER_PLD, 61);
 
                     //shift the buffer 1 position left - get rid of the encoded flushing bits
                     for(uint8_t i=0; i<30; i++)
                         lsf[i]=lsf[i+1];
 
                     //dump data
-#ifdef DECODE_CALLSIGNS
-                    uint8_t d_dst[12], d_src[12]; //decoded strings
-
-                    decode_callsign_bytes(d_dst, &lsf[0]);
-                    decode_callsign_bytes(d_src, &lsf[6]);
-
-                    if (_debug_ctrl==true) {
-                      //DST
-                      printf("DST: %-9s ", d_dst);
+                    if (_debug_ctrl==true) 
+                      {if (_callsign==true) 
+                         {decode_callsign_bytes(d_dst, &lsf[0]);
+                          decode_callsign_bytes(d_src, &lsf[6]);
+                          printf("DST: %-9s ", d_dst); //DST
+                          printf("SRC: %-9s ", d_src); //SRC
+                         }
+                         else
+                         {printf("DST: "); //DST
+                          for(uint8_t i=0; i<6; i++)
+                            printf("%02X", lsf[i]);
+                          printf(" ");
   
-                      //SRC
-                      printf("SRC: %-9s ", d_src);
-#else
-                      //DST
-                      printf("DST: ");
-                      for(uint8_t i=0; i<6; i++)
-                          printf("%02X", lsf[i]);
-                      printf(" ");
+                          //SRC
+                          printf("SRC: ");
+                          for(uint8_t i=0; i<6; i++)
+                            printf("%02X", lsf[6+i]);
+                          printf(" ");
+                         }
   
-                      //SRC
-                      printf("SRC: ");
-                      for(uint8_t i=0; i<6; i++)
-                          printf("%02X", lsf[6+i]);
-                      printf(" ");
-#endif
-  
-                      //TYPE
-                      printf("TYPE: ");
-                      for(uint8_t i=0; i<2; i++)
+                       //TYPE
+                       printf("TYPE: ");
+                       for(uint8_t i=0; i<2; i++)
                           printf("%02X", lsf[12+i]);
-                      printf(" ");
+                       printf(" ");
   
-                      //META
-                      printf("META: ");
-                      for(uint8_t i=0; i<14; i++)
+                       //META
+                       printf("META: ");
+                       for(uint8_t i=0; i<14; i++)
                           printf("%02X", lsf[14+i]);
-                      printf(" ");
+                       printf(" ");
   
-                      //CRC
-                      //printf("CRC: ");
-                      //for(uint8_t i=0; i<2; i++)
+                       //CRC
+                       //printf("CRC: ");
+                       //for(uint8_t i=0; i<2; i++)
                           //printf("%02X", lsf[28+i]);
-                      if(CRC_M17(lsf, 30))
+                       if(CRC_M17(lsf, 30))
                           printf("LSF_CRC_ERR");
-                      else
+                       else
                           printf("LSF_CRC_OK ");
-                      //Viterbi decoder errors
-#ifdef SHOW_VITERBI_ERRS
-                      printf(" e=%1.1f\n", (float)e/0xFFFF);
-#else
-                      printf("\n");
-#endif
-                  }
+                       //Viterbi decoder errors
+                       printf(" e=%1.1f\n", (float)e/0xFFFF);
+                      }
                 }
 
                 //job done

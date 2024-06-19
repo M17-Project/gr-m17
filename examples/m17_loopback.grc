@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: m17_streamer
+    id: m17_loopback
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -70,7 +70,7 @@ blocks:
     options: '[0, 1, 2]'
     orient: Qt.QVBoxLayout
     type: int
-    value: '1'
+    value: '0'
     widget: combo_box
   states:
     bus_sink: false
@@ -212,7 +212,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [952, 152.0]
+    coordinate: [960, 152.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -283,12 +283,13 @@ blocks:
     comment: 'since Meta can be a byte array, it cannot be fed with a QT GUI Entry
 
       string but must be a "\x00" string in the Encoder block'
-    debug: 'False'
+    debug: 'True'
     dst_id: dst_str
     encr_subtype: enc_subtype
     encr_type: enc_type
+    key: '''\x00\x00\x65\x41\xb0\x93\xff\x00'''
     maxoutbuf: '0'
-    meta: '''\x00\x00\x65\x41\xb0\x93\xff\x00\x00\x00\x00\x00\x00\x00\x00'''
+    meta: '''\x00\x00\x65\x41\xb0\x93\xff\x00'''
     minoutbuf: '0'
     mode: mode
     src_id: src_str
@@ -297,7 +298,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 100.0]
+    coordinate: [320, 92.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -305,9 +306,10 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    callsign: 'False'
     comment: ''
-    debug_ctrl: 'False'
-    debug_data: 'False'
+    debug_ctrl: 'True'
+    debug_data: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
     threshold: '2.0'
@@ -315,7 +317,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 152.0]
+    coordinate: [784, 144.0]
     rotation: 0
     state: true
 - name: note_0_2

@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_decoder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(74e8e77389b1889023dbed48ecb9523e) */
+/* BINDTOOL_HEADER_FILE_HASH(265f7a49ed1b66cdd021af3149d8dc4b) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -37,13 +37,17 @@ void bind_m17_decoder(py::module &m) {
              std::shared_ptr<m17_decoder>>(m, "m17_decoder", D(m17_decoder))
 
       .def(py::init(&m17_decoder::make), py::arg("debug_data"),
-           py::arg("debug_ctrl"), py::arg("threshold"), D(m17_decoder, make))
+           py::arg("debug_ctrl"), py::arg("threshold"), py::arg("callsign"),
+           D(m17_decoder, make))
 
       .def("set_debug_data", &m17_decoder::set_debug_data, py::arg("debug"),
            D(m17_decoder, set_debug_data))
 
       .def("set_debug_ctrl", &m17_decoder::set_debug_ctrl, py::arg("debug"),
            D(m17_decoder, set_debug_ctrl))
+
+      .def("set_callsign", &m17_decoder::set_callsign, py::arg("callsign"),
+           D(m17_decoder, set_callsign))
 
       .def("set_threshold", &m17_decoder::set_threshold, py::arg("threshold"),
            D(m17_decoder, set_threshold))

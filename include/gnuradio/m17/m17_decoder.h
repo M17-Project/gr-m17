@@ -32,9 +32,10 @@ public:
      * class. m17::m17_decoder::make is the public interface for
      * creating new instances.
      */
-    static sptr make(bool debug_data,bool debug_ctrl,float threshold);
+    static sptr make(bool debug_data,bool debug_ctrl,float threshold,bool callsign);
     virtual void set_debug_data(bool debug)=0;
     virtual void set_debug_ctrl(bool debug)=0;
+    virtual void set_callsign(bool callsign)=0;
     virtual void set_threshold(float threshold)=0;
 };
 

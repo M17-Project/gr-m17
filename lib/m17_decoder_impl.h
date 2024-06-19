@@ -20,6 +20,7 @@ private:
     bool _debug_data=false;
     bool _debug_ctrl=false;
     float _threshold=0.9;
+    bool _callsign=false;
 
     float last[8] = {0};                //look-back buffer for finding syncwords
     float pld[SYM_PER_PLD];             //raw frame symbols
@@ -40,11 +41,14 @@ private:
     uint8_t fl=0;                       //Frame=0 of LSF=1
     uint8_t pushed;                     //counter for pushed symbols
 
+    uint8_t d_dst[12], d_src[12]; //decoded strings
+
 public:
-    m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold);
+    m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign);
     ~m17_decoder_impl();
     void set_debug_data(bool debug);
     void set_debug_ctrl(bool debug);
+    void set_callsign(bool callsign);
     void set_threshold(float threshold);
 
     // Where all the action really happens

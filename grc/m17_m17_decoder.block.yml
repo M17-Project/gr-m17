@@ -13,6 +13,11 @@ parameters:
   dtype: bool
   default: 'False'
   options: ['True', 'False']
+- id: callsign
+  label: Display Callsign
+  dtype: bool
+  default: 'False'
+  options: ['True', 'False']
 - id: threshold
   label: Threshold
   dtype: float
@@ -20,11 +25,12 @@ parameters:
 
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold})
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold},${callsign})
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
     - set_threshold(${threshold})
+    - set_callsign(${callsign})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:

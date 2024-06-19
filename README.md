@@ -1,7 +1,7 @@
 ## Compiling for GNU Radio
 
 The default targetted version is GNU Radio 3.10 (``main`` branch). Tested on Debian/GNU Linux sid with GNU Radio 
-3.10.10.0 (Python 3.11.9) assuming the following dependencies are installed:
+3.10.10.0 (Python 3.11.9) and Ubuntu 24.04 LTS with GNU Radio 3.10.9.2, assuming the following dependencies are installed:
 
 ```
 sudo apt install git cmake build-essential doxygen gnuradio
@@ -22,7 +22,8 @@ will finish with a statement such as
 ```
 -- Set runtime path of "/usr/local/lib/python3.11/dist-packages/gnuradio/m17/m17_python.cpython-311-x86_64-linux-gnu.so" to ""
 ```
-meaning that variables must be set (tested with Debian/sid) to help GNU Radio Companion find the Python libraries:
+Depending on Linux distribution, variables might have to be set (tested with Debian/sid, but not needed with Ubuntu 24.04 LTS) 
+to help GNU Radio Companion find the Python libraries:
 
 ```
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/x86_64-linux-gnu/
