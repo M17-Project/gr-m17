@@ -336,12 +336,13 @@ blocks:
     debug_data: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
+    signed_str: 'False'
     threshold: '2.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 152.0]
+    coordinate: [784, 144.0]
     rotation: 0
     state: true
 - name: note_0_2

@@ -40,25 +40,26 @@ namespace gr {
   namespace m17 {
 
     m17_decoder::sptr
-    m17_decoder::make(bool debug_data,bool debug_ctrl,float threshold,bool callsign)
+    m17_decoder::make(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str)
     {
       return gnuradio::get_initial_sptr
-        (new m17_decoder_impl(debug_data,debug_ctrl,threshold,callsign));
+        (new m17_decoder_impl(debug_data,debug_ctrl,threshold,callsign,signed_str));
     }
 
 
     /*
      * The private constructor
      */
-    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign)
+    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str)
       : gr::block("m17_decoder",
               gr::io_signature::make(1, 1, sizeof(float)),
               gr::io_signature::make(1, 1, sizeof(char))),
-              _debug_data(debug_data), _debug_ctrl(debug_ctrl), _threshold(threshold), _callsign(callsign)
+              _debug_data(debug_data), _debug_ctrl(debug_ctrl), _threshold(threshold), _callsign(callsign), _signed_str(signed_str)
     {set_debug_data(debug_data);
      set_debug_ctrl(debug_ctrl);
      set_threshold(threshold);
      set_callsign(callsign);
+     set_signed(signed_str);
      _expected_next_fn=0;
     }
 
@@ -87,6 +88,11 @@ namespace gr {
     void m17_decoder_impl::set_callsign(bool callsign)
     {_callsign=callsign;
      if (_callsign==true) printf("Display callsign\n"); else printf("Do not display callsign\n");
+    }
+    
+    void m17_decoder_impl::set_signed(bool signed_str)
+    {_signed_str=signed_str;
+     if (_callsign==true) printf("Signed\n"); else printf("Unsigned\n");
     }
 
     void
@@ -192,7 +198,22 @@ namespace gr {
                       printf(" e=%1.1f\n", (float)e/0xFFFF);
                     }
                     //send codec2 stream to stdout
-                    //write(STDOUT_FILENO, &frame_data[3], 16);
+                    //fwrite(&frame_data[3], 16, 1, stdout);
+
+                    //if the stream is signed
+                    if(_signed_str && fn<0x7FFC)
+                    {
+                        //if thats the first frame (fn=0)
+                        if(fn==0)
+                            memcpy(digest, &frame_data[3], sizeof(digest));
+
+                        for(uint8_t i=0; i<sizeof(digest); i++)
+                            digest[i]^=frame_data[3+i];
+                        uint8_t tmp=digest[0];
+                        for(uint8_t i=0; i<sizeof(digest)-1; i++)
+                            digest[i]=digest[i+1];
+                        digest[sizeof(digest)-1]=tmp;
+                    }
 
                     //extract LICH
                     for(uint16_t i=0; i<96; i++)

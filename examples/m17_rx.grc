@@ -42,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 12.0]
+    coordinate: [8, 128.0]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -60,7 +60,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 104.0]
+    coordinate: [592, 56.0]
     rotation: 0
     state: disabled
 - name: blocks_file_source_0
@@ -84,7 +84,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 88.0]
+    coordinate: [176, 40.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -101,7 +101,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [616, 64.0]
+    coordinate: [616, 8.0]
     rotation: 0
     state: enabled
 - name: m17_m17_decoder_0
@@ -109,6 +109,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    callsign: 'False'
     comment: ''
     debug_ctrl: 'True'
     debug_data: 'False'
@@ -119,7 +120,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 104.0]
+    coordinate: [392, 48.0]
     rotation: 0
     state: enabled
 

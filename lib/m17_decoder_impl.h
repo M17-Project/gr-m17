@@ -21,6 +21,7 @@ private:
     bool _debug_ctrl=false;
     float _threshold=0.9;
     bool _callsign=false;
+    bool _signed_str=false;
 
     float last[8] = {0};                //look-back buffer for finding syncwords
     float pld[SYM_PER_PLD];             //raw frame symbols
@@ -36,6 +37,7 @@ private:
     
     uint16_t enc_data[272];             //raw frame data soft bits
     uint8_t frame_data[19];             //decoded frame data, 144 bits (16+128), plus 4 flushing bits
+    uint8_t digest[16]={0};
     
     uint8_t syncd=0;                    //syncword found?
     uint8_t fl=0;                       //Frame=0 of LSF=1
@@ -44,12 +46,13 @@ private:
     uint8_t d_dst[12], d_src[12]; //decoded strings
 
 public:
-    m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign);
+    m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign, bool signed_str);
     ~m17_decoder_impl();
     void set_debug_data(bool debug);
     void set_debug_ctrl(bool debug);
     void set_callsign(bool callsign);
     void set_threshold(float threshold);
+    void set_signed(bool signed_str);
 
     // Where all the action really happens
     void forecast(int noutput_items, gr_vector_int& ninput_items_required);
