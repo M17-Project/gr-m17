@@ -29,6 +29,7 @@ list(APPEND m17_sources
     ../M17_Implementations/libm17/phy/randomize.c
     ../M17_Implementations/libm17/phy/sync.c
     ../M17_Implementations/libm17/phy/slice.c
+#    ../M17_Implementations/tiny-AES-c/aes.c
 )
 
 set(m17_sources "${m17_sources}" PARENT_SCOPE)
@@ -42,6 +43,7 @@ target_link_libraries(gnuradio-m17 gnuradio::gnuradio-runtime)
 target_include_directories(gnuradio-m17
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/libm17/>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/tiny-AES-c/>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
 set_target_properties(gnuradio-m17 PROPERTIES DEFINE_SYMBOL "gnuradio_m17_EXPORTS")

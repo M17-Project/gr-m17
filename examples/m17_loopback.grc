@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 4.0]
+    coordinate: [16, 8.0]
     rotation: 0
     state: enabled
 
@@ -76,7 +76,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 332.0]
+    coordinate: [384, 348.0]
     rotation: 0
     state: enabled
 - name: enc_type
@@ -106,7 +106,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 332.0]
+    coordinate: [248, 348.0]
     rotation: 0
     state: enabled
 - name: mode
@@ -136,7 +136,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 332.0]
+    coordinate: [16, 348.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -151,6 +151,29 @@ blocks:
     coordinate: [192, 12.0]
     rotation: 0
     state: true
+- name: signed_str
+  id: variable_qtgui_toggle_button_msg
+  parameters:
+    comment: ''
+    gui_hint: ''
+    initPressed: 'False'
+    label: SignedStr
+    outputmsgname: value
+    pressBackgroundColor: default
+    pressFontColor: default
+    pressed: 'True'
+    relBackgroundColor: default
+    relFontColor: default
+    released: 'False'
+    type: bool
+    value: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [544, 352.0]
+    rotation: 0
+    state: enabled
 - name: src_str
   id: variable_qtgui_entry
   parameters:
@@ -194,7 +217,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [120, 332.0]
+    coordinate: [120, 348.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -212,7 +235,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 152.0]
+    coordinate: [960, 160.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -250,7 +273,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 160.0]
+    coordinate: [568, 168.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -271,7 +294,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 152.0]
+    coordinate: [16, 160.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -292,6 +315,7 @@ blocks:
     meta: '''\x00\x00\x65\x41\xb0\x93\xff\x00'''
     minoutbuf: '0'
     mode: mode
+    signed_str: signed_str
     src_id: src_str
     type: type_val
   states:
@@ -317,7 +341,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 144.0]
+    coordinate: [784, 152.0]
     rotation: 0
     state: true
 - name: note_0_2

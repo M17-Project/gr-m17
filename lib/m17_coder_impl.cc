@@ -18,6 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
+// 240620: todo uncomment #idef AES for cryptography and #ifdef ECC for signature
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -32,30 +34,39 @@
 
 #include "m17.h"
 
+#ifdef AES
+#include "aes.hpp"
+#endif
+
+#ifdef ECC
+#include "../../micro-ecc/uECC.h"
+#endif
+
 namespace gr {
   namespace m17 {
 
 struct LSF lsf;
 
     m17_coder::sptr
-    m17_coder::make(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, bool debug)
+    m17_coder::make(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug, bool signed_str)
     {
       return gnuradio::get_initial_sptr
-        (new m17_coder_impl(src_id,dst_id,mode,data,encr_type,encr_subtype,can,meta,debug));
+        (new m17_coder_impl(src_id,dst_id,mode,data,encr_type,encr_subtype,can,meta,key,debug,signed_str));
     }
 
     /*
      * The private constructor
      */
-    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, bool debug)
+    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug,bool signed_str)
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
-              , _mode(mode),_data(data),_encr_type(encr_type),_encr_subtype(encr_subtype), _can(can),_meta(meta), _debug(debug)
+              , _mode(mode),_data(data),_encr_type(encr_type),_encr_subtype(encr_subtype), _can(can), _meta(meta), _debug(debug), _signed_str(signed_str)
 {    set_type(mode, data, encr_type, encr_subtype, can);
      set_meta(meta); // depends on   ^^^ encr_subtype
      set_src_id(src_id);
      set_dst_id(dst_id);
+     set_signed(signed_str);
      set_debug(debug);
      set_output_multiple(192);
      uint16_t ccrc=LSF_CRC(&lsf);
@@ -63,6 +74,22 @@ struct LSF lsf;
      lsf.crc[1]=ccrc&0xFF;
      _got_lsf=0;                  //have we filled the LSF struct yet?
      _fn=0;                      //16-bit Frame Number (for the stream mode)
+     _finished=false;
+     if(_encr_type==2)
+      {
+        set_key(key); // read key
+#ifdef AES
+        AES_init_ctx(&_ctx, _key);
+#endif
+        *((int32_t*)&iv[0])=(uint32_t)time(NULL)-(uint32_t)epoch; //timestamp
+        for(uint8_t i=4; i<4+10; i++) iv[i]=0; //10 random bytes TODO: replace with a rand() or pass through an additional arg
+      }
+
+}
+
+void m17_coder_impl::set_signed(bool signed_str)
+{_signed_str=signed_str;
+ if (_signed_str==true) printf("Signed\n"); else printf("Unsigned\n");
 }
 
 void m17_coder_impl::set_debug(bool debug)
@@ -91,6 +118,24 @@ void m17_coder_impl::set_dst_id(std::string dst_id)
  uint16_t ccrc=LSF_CRC(&lsf);
  lsf.crc[0]=ccrc>>8;
  lsf.crc[1]=ccrc&0xFF;
+}
+
+void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
+{int length;
+ printf("new key: ");
+ length=arg.size();
+ int i=0,j=0;
+ while ((j<32) && (i<length))
+    {if ((unsigned int)arg.data()[i]<0xc2) // https://www.utf8-chartable.de/
+         {_key[j]=arg.data()[i];i++;j++;}
+     else
+         {_key[j]=(arg.data()[i]-0xc2)*0x40+arg.data()[i+1];i+=2;j++;}
+    }
+ length=j; // index from 0 to length-1
+ printf("%d bytes: ",length);
+ for (i=0;i<length;i++) printf("%02X ",_key[i]);
+ printf("\n");
+ fflush(stdout);
 }
 
 void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array
@@ -213,8 +258,13 @@ void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,i
             unpack_LICH(enc_bits, lich_encoded);
 
             //encode the rest of the frame (starting at bit 96 - 0..95 are filled with LICH)
-            // conv_encode_stream_frame(&enc_bits[96], data, finished ? (_fn | 0x8000) : _fn); JMF review
-            conv_encode_stream_frame(&enc_bits[96], data, _fn);
+
+            if(!_signed_str)
+                conv_encode_stream_frame(&enc_bits[96], data, _finished ? (_fn|0x8000) : _fn);
+            else //dont set the MSB is the stream is signed
+            {
+                conv_encode_stream_frame(&enc_bits[96], data, _fn);
+            }
 
             //reorder bits
             reorder_bits(rf_bits, enc_bits);
@@ -222,32 +272,40 @@ void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,i
             //randomize
             randomize_bits(rf_bits);
 
-            //send dummy symbols (debug)
-            /*float s=0.0;
-            for(uint8_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
-                write(STDOUT_FILENO, (uint8_t*)&s, sizeof(float));*/
+            //send frame data
+	    send_data(out, &countout, rf_bits);
 
-            float s;
-            for(uint16_t i=0; i<SYM_PER_PLD; i++) //40ms * 4800 - 8 (syncword)
-            {
-                s=symbol_map[rf_bits[2*i]*2+rf_bits[2*i+1]];
-                // write(STDOUT_FILENO, (uint8_t*)&s, sizeof(float));
-                out[countout]=s;
-                countout++;
-            }
-/*            
-            if (_debug==true)
-               {printf("\tTX DATA: ");
-                for(uint8_t i=0; i<16; i++)
-                   printf("%02X", data[i]);
-                printf("\n");
-               }
-*/
             //increment the Frame Number
             _fn = (_fn + 1) % 0x8000;
 
             //increment the LICH counter
             lich_cnt = (lich_cnt + 1) % 6;
+
+            if(_finished && _signed_str) //if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
+            {
+                for(uint8_t i=0; i<sizeof(_priv_key); i++) //test fill
+                    _priv_key[i]=i;
+#ifdef ECC
+                uECC_sign(priv_key, digest, sizeof(digest), _sig, curve);
+#endif
+
+                //4 frames with 512-bit signature
+                _fn = 0x7FFC; //signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
+                for(uint8_t i=0; i<4; i++)
+                {
+                    send_syncword(out, &countout, SYNC_STR);
+                    extract_LICH(lich, lich_cnt, &lsf); //continue with next LICH_CNT
+                    encode_LICH(lich_encoded, lich);
+                    unpack_LICH(enc_bits, lich_encoded);
+                    conv_encode_stream_frame(&enc_bits[96], &_sig[i*16], _fn);
+                    reorder_bits(rf_bits, enc_bits);
+                    randomize_bits(rf_bits);
+	            send_data(out, &countout, rf_bits);
+                    _fn = (_fn<0x7FFE) ? _fn+1 : (0x7FFF|0x8000);
+                    lich_cnt = (lich_cnt + 1) % 6;
+                }
+            }
+
            }
            else //LSF
            {
@@ -272,23 +330,23 @@ void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,i
 	    send_data(out, &countout, rf_bits);
 
             if (_debug==true)
-            {printf("TX DST: ");
-             for(uint8_t i=0; i<6; i++)
-                 printf("%hhX", lsf.dst[i]);
-             printf(" SRC: ");
-             for(uint8_t i=0; i<6; i++)
-                 printf("%hhX", lsf.src[i]);
-             printf(" TYPE: ");
-             for(uint8_t i=0; i<2; i++)
-                 printf("%hhX", lsf.type[i]);
-             printf(" META: ");
-             for(uint8_t i=0; i<14; i++)
-                 printf("%hhX", lsf.meta[i]);
-             printf(" CRC: ");
-             for(uint8_t i=0; i<2; i++)
-                 printf("%hhX", lsf.crc[i]);
-             printf("\n");
-            }
+              {printf("TX DST: ");
+               for(uint8_t i=0; i<6; i++)
+                   printf("%hhX", lsf.dst[i]);
+               printf(" SRC: ");
+               for(uint8_t i=0; i<6; i++)
+                   printf("%hhX", lsf.src[i]);
+               printf(" TYPE: ");
+               for(uint8_t i=0; i<2; i++)
+                   printf("%hhX", lsf.type[i]);
+               printf(" META: ");
+               for(uint8_t i=0; i<14; i++)
+                   printf("%hhX", lsf.meta[i]);
+               printf(" CRC: ");
+               for(uint8_t i=0; i<2; i++)
+                   printf("%hhX", lsf.crc[i]);
+               printf("\n");
+              }
            }
          }
      }
