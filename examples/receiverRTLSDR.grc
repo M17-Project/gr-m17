@@ -33,6 +33,18 @@ options:
     state: enabled
 
 blocks:
+- name: freq
+  id: variable
+  parameters:
+    comment: ''
+    value: '433475000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 148.0]
+    rotation: 0
+    state: true
 - name: ppm
   id: variable_qtgui_range
   parameters:
@@ -684,7 +696,7 @@ blocks:
     agc: 'False'
     alias: ''
     bias: 'False'
-    center_freq: int(144875000*(1.0+ppm*1e-6))
+    center_freq: int(freq*(1.0+ppm*1e-6))
     comment: ''
     dev_args: ''
     freq_correction: '0'
