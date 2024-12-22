@@ -187,6 +187,7 @@ blocks:
     meta: meta_str
     minoutbuf: '0'
     mode: '1'
+    priv_key: ''
     signed_str: 'False'
     src_id: src_str
     type: type_val
@@ -194,7 +195,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 116.0]
+    coordinate: [312, 108.0]
     rotation: 0
     state: true
 - name: note_0_2
@@ -218,4 +219,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.10.0
+  grc_version: 3.10.11.0
