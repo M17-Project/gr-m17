@@ -47,6 +47,10 @@ parameters:
   label: AES Key
   dtype: string
   default: ''
+- id: priv_key
+  label: Private Key
+  dtype: string
+  default: ''
 - id: signed_str
   label: SignedStr
   dtype: bool
@@ -61,11 +65,12 @@ parameters:
 asserts:
     - ${ can <= 15 }
     - ${ len(key) <= 32 }
+    - ${ len(priv_key) <= 32 }
     - ${ len(dst_id) < 10 }
     - ${ len(src_id) < 10 }
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${can},${meta},${key},${debug},${signed_str})
+  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str})
   callbacks:
     - set_meta(${meta})
     - set_src_id(${src_id})
@@ -76,6 +81,7 @@ templates:
     - set_encr_subtype(${encr_subtype})
     - set_can(${can})
     - set_key(${key})
+    - set_priv_key(${priv_key})
     - set_debug(${debug})
     - set_signed(${signed_str})
 

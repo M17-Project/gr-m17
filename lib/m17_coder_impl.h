@@ -57,7 +57,7 @@ time_t epoch = 1577836800L; //Jan 1, 2020, 00:00:00 UTC
     bool _signed_str=false,_finished=false;
 
 uint8_t _digest[16]={0};             //16-byte field for the stream digest
-uint8_t _priv_key_loaded=0;          //do we have a sig key loaded?
+bool _priv_key_loaded=false;          //do we have a sig key loaded?
 uint8_t _priv_key[32]={0};           //private key
 uint8_t _sig[64]={0};                //ECDSA signature
 
@@ -76,6 +76,7 @@ public:
     void set_src_id(std::string src_id);
     void set_dst_id(std::string dst_id);
     void set_key(std::string key);
+    void set_priv_key(std::string key);
     void set_meta(std::string meta);
     void set_type(int mode,int data,encr_t encr_type,int encr_subtype,int can);
     void set_mode(int mode);
@@ -85,7 +86,7 @@ public:
     void set_can(int can);
     void set_debug(bool debug);
     void set_signed(bool signed_str);
-    m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug,bool signed_str);
+    m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key,std::string priv_key, bool debug,bool signed_str);
     ~m17_coder_impl();
 
     // Where all the action really happens

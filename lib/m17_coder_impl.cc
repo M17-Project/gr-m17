@@ -48,16 +48,16 @@ namespace gr {
   namespace m17 {
 
     m17_coder::sptr
-    m17_coder::make(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug, bool signed_str)
+    m17_coder::make(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key, std::string priv_key,bool debug, bool signed_str)
     {
       return gnuradio::get_initial_sptr
-        (new m17_coder_impl(src_id,dst_id,mode,data,encr_type,encr_subtype,can,meta,key,debug,signed_str));
+        (new m17_coder_impl(src_id,dst_id,mode,data,encr_type,encr_subtype,can,meta,key,priv_key,debug,signed_str));
     }
 
     /*
      * The private constructor
      */
-    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug,bool signed_str)
+    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key,std::string priv_key, bool debug,bool signed_str)
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
@@ -119,6 +119,25 @@ namespace gr {
      uint16_t ccrc=LSF_CRC(&_lsf);
      _lsf.crc[0]=ccrc>>8;
      _lsf.crc[1]=ccrc&0xFF;
+    }
+    
+    void m17_coder_impl::set_priv_key(std::string arg) // *UTF-8* encoded byte array
+    {int length;
+     printf("new private key: ");
+     length=arg.size();
+     _priv_key_loaded=true;
+     int i=0,j=0;
+     while ((j<32) && (i<length))
+        {if ((unsigned int)arg.data()[i]<0xc2) // https://www.utf8-chartable.de/
+             {_priv_key[j]=arg.data()[i];i++;j++;}
+         else
+             {_priv_key[j]=(arg.data()[i]-0xc2)*0x40+arg.data()[i+1];i+=2;j++;}
+        }
+     length=j; // index from 0 to length-1
+     printf("%d bytes: ",length);
+     for (i=0;i<length;i++) printf("%02X ",_priv_key[i]);
+     printf("\n");
+     fflush(stdout);
     }
     
     void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
@@ -385,8 +404,8 @@ namespace gr {
             _got_lsf=1;
            }
 
-                  if(_debug==true)
-        {   
+         if(_debug==true)
+           {   
             //destination set to "ALL"
             memset(_next_lsf.dst, 0xFF, 6*sizeof(uint8_t));
 
@@ -421,7 +440,7 @@ namespace gr {
             }
 
             //a signature key is loaded, OR this bit
-            if(_priv_key_loaded)
+            if(_priv_key_loaded==true)
                 _next_lsf.type[0] |= 0x8;
 
             _finished = false;
@@ -447,238 +466,236 @@ namespace gr {
 */
 
     //AES encryption enabled - use 112 bits of IV
-    if(_encr_type==ENCR_AES)
-    {   
-        memcpy(&(_lsf.meta), _iv, 14);
-        _iv[14] = (_fn >> 8) & 0x7F;
-        _iv[15] = (_fn >> 0) & 0xFF;
-
-        //re-calculate LSF CRC with IV insertion
-        uint16_t ccrc=LSF_CRC(&_lsf);
-        _lsf.crc[0]=ccrc>>8;
-        _lsf.crc[1]=ccrc&0xFF;
-    }
-
-    while(_finished==false)
-    {   
-        if(!_got_lsf)
-        {   
-            //debug
-            //fprintf(stderr, "LSF\n");
-
-            //send LSF syncword
-            send_syncword(out, &countout, SYNC_LSF);
-
-            //encode LSF data
-            conv_encode_LSF(enc_bits, &_lsf);
-
-            //reorder bits
-            reorder_bits(rf_bits, enc_bits);
-
-            //randomize
-            randomize_bits(rf_bits);
-
-                        //send LSF data
-	    send_data(out, &countout, rf_bits);
-
-            //check the SIGNED STREAM flag
-            _signed_str=(_lsf.type[0]>>3)&1;
-
-            //set the flag
-            _got_lsf=1;
-        }
-
-        if(_debug==true)
-        {
-            //destination set to "ALL"
-            memset(_next_lsf.dst, 0xFF, 6*sizeof(uint8_t));
-
-            //source  set to "N0CALL"
-            _next_lsf.src[0] = 0x00;
-            _next_lsf.src[1] = 0x00;
-            _next_lsf.src[2] = 0x4B;
-            _next_lsf.src[3] = 0x13;
-            _next_lsf.src[4] = 0xD1;
-            _next_lsf.src[5] = 0x06;
-
-            if(_encr_type==ENCR_AES) //AES ENC, 3200 voice
-            {
-                _next_lsf.type[0] = 0x03;
-                _next_lsf.type[1] = 0x95;
-            }
-            else if(_encr_type==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
-            {
-                _next_lsf.type[0] = 0x00;
-                _next_lsf.type[1] = 0x00;
-                if (scrambler_subtype==0)
-                    _next_lsf.type[1] = 0x0D;
-                else if (scrambler_subtype==1)
-                    _next_lsf.type[1] = 0x2D;
-                else if (scrambler_subtype==2)
-                    _next_lsf.type[1] = 0x4D;
-            }
-            else //no enc or subtype field, normal 3200 voice
-            {
-                _next_lsf.type[0] = 0x00;
-                _next_lsf.type[1] = 0x05;
-            }
-
-            //a signature key is loaded, OR this bit
-            if(_priv_key_loaded)
-                _next_lsf.type[0] |= 0x8;
-
-            _finished = false;
-
-            memset(next_data, 0, sizeof(next_data));
-            memcpy(data, next_data, sizeof(data));
-            if(_fn == 60)
-                _finished = 1;
-
-            //debug sig with random payloads (don't play the audio)
-            for(uint8_t i = 0; i < 16; i++)
-                data[i] = 0x69; //rand() & 0xFF;
-
-        }
-        else
-        {
-/*
-            //check if theres any more data
-            if(fread(&(next_lsf.dst), 6, 1, stdin)<1) finished=1;
-            if(fread(&(next_lsf.src), 6, 1, stdin)<1) finished=1;
-            if(fread(&(next_lsf.type), 2, 1, stdin)<1) finished=1;
-            if(fread(&(next_lsf.meta), 14, 1, stdin)<1) finished=1;
-*/
-            if(fread(next_data, 16, 1, stdin)<1) _finished=true;
-        }
-
-        //AES
         if(_encr_type==ENCR_AES)
-        {
-            memcpy(&(_next_lsf.meta), _iv, 14);
+        {   
+            memcpy(&(_lsf.meta), _iv, 14);
             _iv[14] = (_fn >> 8) & 0x7F;
             _iv[15] = (_fn >> 0) & 0xFF;
-            aes_ctr_bytewise_payload_crypt(_iv, _key, data, AES128); //hardcoded for now
+    
+            //re-calculate LSF CRC with IV insertion
+            uint16_t ccrc=LSF_CRC(&_lsf);
+            _lsf.crc[0]=ccrc>>8;
+            _lsf.crc[1]=ccrc&0xFF;
         }
-
-        //Scrambler
-        else if(_encr_type==ENCR_SCRAM)
+    
+        while(_finished==false)
         {   
-            scrambler_sequence_generator();
-            for(uint8_t i=0; i<16; i++)
-            {
-                data[i] ^= scr_bytes[i];
+            if(!_got_lsf)
+            {//debug
+             //fprintf(stderr, "LSF\n");
+    
+             //send LSF syncword
+             send_syncword(out, &countout, SYNC_LSF);
+    
+             //encode LSF data
+             conv_encode_LSF(enc_bits, &_lsf);
+    
+             //reorder bits
+             reorder_bits(rf_bits, enc_bits);
+    
+             //randomize
+             randomize_bits(rf_bits);
+    
+             //send LSF data
+    	     send_data(out, &countout, rf_bits);
+    
+             //check the SIGNED STREAM flag
+             _signed_str=(_lsf.type[0]>>3)&1;
+    
+             //set the flag
+             _got_lsf=1;
             }
-        }
-
-        if(_finished==false)
-        {
-            send_syncword(out, &countout, SYNC_STR);
-            extract_LICH(lich, _lich_cnt, &_lsf);
-            encode_LICH(lich_encoded, lich);
-            unpack_LICH(enc_bits, lich_encoded);
-            conv_encode_stream_frame(&enc_bits[96], data, _fn);
-            reorder_bits(rf_bits, enc_bits);
-            randomize_bits(rf_bits);
-	    send_data(out, &countout, rf_bits);
-            _fn = (_fn + 1) % 0x8000; //increment FN
-            _lich_cnt = (_lich_cnt + 1) % 6; //continue with next LICH_CNT
-
-            //update the stream digest if required
-            if(_signed_str)
+    
+            if(_debug==true)
             {
-                for(uint8_t i=0; i<sizeof(_digest); i++)
-                    _digest[i]^=data[i];
-                uint8_t tmp=_digest[0];
-                for(uint8_t i=0; i<sizeof(_digest)-1; i++)
-                    _digest[i]=_digest[i+1];
-                _digest[sizeof(_digest)-1]=tmp;
-            }
-
-            //update LSF every 6 frames (superframe boundary)
-            if(_fn>0 && _lich_cnt==0)
-            {
-                _lsf = _next_lsf;
-
-                //calculate LSF CRC
-                uint16_t ccrc=LSF_CRC(&_lsf);
-                _lsf.crc[0]=ccrc>>8;
-                _lsf.crc[1]=ccrc&0xFF;
-            }
-
-            memcpy(data, next_data, 16);
-        }
-        else //send last frame(s)
-        {   
-            send_syncword(out, &countout, SYNC_STR);
-            extract_LICH(lich, _lich_cnt, &_lsf);
-            encode_LICH(lich_encoded, lich);
-            unpack_LICH(enc_bits, lich_encoded);
-            if(!_signed_str)
-                conv_encode_stream_frame(&enc_bits[96], data, (_fn | 0x8000));
-            else
-                conv_encode_stream_frame(&enc_bits[96], data, _fn);
-            reorder_bits(rf_bits, enc_bits);
-            randomize_bits(rf_bits);
-	    send_data(out, &countout, rf_bits);
-            _lich_cnt = (_lich_cnt + 1) % 6; //continue with next LICH_CNT
-
-            //if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
-            if(_signed_str)
-            {   
-                //update digest
-                for(uint8_t i=0; i<sizeof(_digest); i++)
-                    _digest[i]^=data[i];
-                uint8_t tmp=_digest[0];
-                for(uint8_t i=0; i<sizeof(_digest)-1; i++)
-                    _digest[i]=_digest[i+1];
-                _digest[sizeof(_digest)-1]=tmp;
-
-                //sign the digest
-                uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
-
-                //4 frames with 512-bit signature
-                _fn = 0x7FFC; //signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
-                for(uint8_t i=0; i<4; i++)
-                {   
-                    send_syncword(out, &countout, SYNC_STR);
-                    extract_LICH(lich, _lich_cnt, &_lsf);
-                    encode_LICH(lich_encoded, lich);
-                    unpack_LICH(enc_bits, lich_encoded);
-                    conv_encode_stream_frame(&enc_bits[96], &_sig[i*16], _fn);
-                    reorder_bits(rf_bits, enc_bits);
-                    randomize_bits(rf_bits);
-	            send_data(out, &countout, rf_bits);
-                    _fn = (_fn<0x7FFE) ? _fn+1 : (0x7FFF|0x8000);
-                    _lich_cnt = (_lich_cnt + 1) % 6; //continue with next LICH_CNT
-                }
-                if(_debug == true)
+             //destination set to "ALL"
+             memset(_next_lsf.dst, 0xFF, 6*sizeof(uint8_t));
+    
+             //source  set to "N0CALL"
+             _next_lsf.src[0] = 0x00;
+             _next_lsf.src[1] = 0x00;
+             _next_lsf.src[2] = 0x4B;
+             _next_lsf.src[3] = 0x13;
+             _next_lsf.src[4] = 0xD1;
+             _next_lsf.src[5] = 0x06;
+   
+             if(_encr_type==ENCR_AES) //AES ENC, 3200 voice
                 {
-                fprintf(stderr, "Signature: ");
-                for(uint8_t i=0; i<sizeof(_sig); i++)
-                {   
-                    if(i == 16 || i == 32 || i == 48)
-                        fprintf(stderr, "\n           ");
-                    fprintf(stderr, "%02X", _sig[i]);
+                    _next_lsf.type[0] = 0x03;
+                    _next_lsf.type[1] = 0x95;
                 }
-
-                fprintf(stderr, "\n");
+             else if(_encr_type==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
+                {
+                 _next_lsf.type[0] = 0x00;
+                 _next_lsf.type[1] = 0x00;
+                 if (scrambler_subtype==0)
+                   _next_lsf.type[1] = 0x0D;
+                 else if (scrambler_subtype==1)
+                   _next_lsf.type[1] = 0x2D;
+                 else if (scrambler_subtype==2)
+                   _next_lsf.type[1] = 0x4D;
+                }
+                else //no enc or subtype field, normal 3200 voice
+                {
+                   _next_lsf.type[0] = 0x00;
+                   _next_lsf.type[1] = 0x05;
+                }
+    
+                //a signature key is loaded, OR this bit
+                if(_priv_key_loaded==true)
+                    _next_lsf.type[0] |= 0x8;
+    
+                _finished = false;
+    
+                memset(next_data, 0, sizeof(next_data));
+                memcpy(data, next_data, sizeof(data));
+                if(_fn == 60)
+                    _finished = 1;
+    
+                //debug sig with random payloads (don't play the audio)
+                for(uint8_t i = 0; i < 16; i++)
+                    data[i] = 0x69; //rand() & 0xFF;
+    
+            } // end of debug==true
+            else
+            {
+    /*
+                //check if theres any more data
+                if(fread(&(next_lsf.dst), 6, 1, stdin)<1) finished=1;
+                if(fread(&(next_lsf.src), 6, 1, stdin)<1) finished=1;
+                if(fread(&(next_lsf.type), 2, 1, stdin)<1) finished=1;
+                if(fread(&(next_lsf.meta), 14, 1, stdin)<1) finished=1;
+                if(fread(next_data, 16, 1, stdin)<1) _finished=true;
+    */
+            }
+    
+            //AES
+            if(_encr_type==ENCR_AES)
+            {
+                memcpy(&(_next_lsf.meta), _iv, 14);
+                _iv[14] = (_fn >> 8) & 0x7F;
+                _iv[15] = (_fn >> 0) & 0xFF;
+                aes_ctr_bytewise_payload_crypt(_iv, _key, data, AES128); //hardcoded for now
+            }
+    
+            //Scrambler
+            else if(_encr_type==ENCR_SCRAM)
+            {   
+                scrambler_sequence_generator();
+                for(uint8_t i=0; i<16; i++)
+                {
+                    data[i] ^= scr_bytes[i];
                 }
             }
-
-            //send EOT frame
-	    send_eot(out, &countout);
-            //fprintf(stderr, "Stream has ended. Exiting.\n");
-        }
+    
+            if(_finished==false)
+            {
+                send_syncword(out, &countout, SYNC_STR);
+                extract_LICH(lich, _lich_cnt, &_lsf);
+                encode_LICH(lich_encoded, lich);
+                unpack_LICH(enc_bits, lich_encoded);
+                conv_encode_stream_frame(&enc_bits[96], data, _fn);
+                reorder_bits(rf_bits, enc_bits);
+                randomize_bits(rf_bits);
+                send_data(out, &countout, rf_bits);
+                _fn = (_fn + 1) % 0x8000; //increment FN
+                _lich_cnt = (_lich_cnt + 1) % 6; //continue with next LICH_CNT
+    
+                //update the stream digest if required
+                if(_signed_str)
+                {
+                    for(uint8_t i=0; i<sizeof(_digest); i++)
+                        _digest[i]^=data[i];
+                    uint8_t tmp=_digest[0];
+                    for(uint8_t i=0; i<sizeof(_digest)-1; i++)
+                        _digest[i]=_digest[i+1];
+                    _digest[sizeof(_digest)-1]=tmp;
+                }
+    
+                //update LSF every 6 frames (superframe boundary)
+                if(_fn>0 && _lich_cnt==0)
+                {
+                    _lsf = _next_lsf;
+    
+                    //calculate LSF CRC
+                    uint16_t ccrc=LSF_CRC(&_lsf);
+                    _lsf.crc[0]=ccrc>>8;
+                    _lsf.crc[1]=ccrc&0xFF;
+                }
+    
+                memcpy(data, next_data, 16);
+            }
+            else //send last frame(s)
+            {   
+                send_syncword(out, &countout, SYNC_STR);
+                extract_LICH(lich, _lich_cnt, &_lsf);
+                encode_LICH(lich_encoded, lich);
+                unpack_LICH(enc_bits, lich_encoded);
+                if(!_signed_str)
+                    conv_encode_stream_frame(&enc_bits[96], data, (_fn | 0x8000));
+                else
+                    conv_encode_stream_frame(&enc_bits[96], data, _fn);
+                reorder_bits(rf_bits, enc_bits);
+                randomize_bits(rf_bits);
+                send_data(out, &countout, rf_bits);
+                _lich_cnt = (_lich_cnt + 1) % 6; //continue with next LICH_CNT
+    
+                //if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
+                if(_signed_str)
+                {   
+                    //update digest
+                    for(uint8_t i=0; i<sizeof(_digest); i++)
+                        _digest[i]^=data[i];
+                    uint8_t tmp=_digest[0];
+                    for(uint8_t i=0; i<sizeof(_digest)-1; i++)
+                        _digest[i]=_digest[i+1];
+                    _digest[sizeof(_digest)-1]=tmp;
+    
+                    //sign the digest
+                    uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
+    
+                    //4 frames with 512-bit signature
+                    _fn = 0x7FFC; //signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
+                    for(uint8_t i=0; i<4; i++)
+                    {   
+                        send_syncword(out, &countout, SYNC_STR);
+                        extract_LICH(lich, _lich_cnt, &_lsf);
+                        encode_LICH(lich_encoded, lich);
+                        unpack_LICH(enc_bits, lich_encoded);
+                        conv_encode_stream_frame(&enc_bits[96], &_sig[i*16], _fn);
+                        reorder_bits(rf_bits, enc_bits);
+                        randomize_bits(rf_bits);
+                        send_data(out, &countout, rf_bits);
+                        _fn = (_fn<0x7FFE) ? _fn+1 : (0x7FFF|0x8000);
+                        _lich_cnt = (_lich_cnt + 1) % 6; //continue with next LICH_CNT
+                    }
+                    if(_debug == true)
+                      {
+                       fprintf(stderr, "Signature: ");
+                       for(uint8_t i=0; i<sizeof(_sig); i++)
+                         {   
+                          if(i == 16 || i == 32 || i == 48)
+                            fprintf(stderr, "\n           ");
+                          fprintf(stderr, "%02X", _sig[i]);
+                         }
+    
+                       fprintf(stderr, "\n");
+                      }
+                }
+             //send EOT frame
+    	     send_eot(out, &countout);
+             //fprintf(stderr, "Stream has ended. Exiting.\n");
+            } // finished == true
+        } // finished == false
+      }  // in enough data left
+     }  // loop on input data
+     // Tell runtime system how many input items we consumed on
+     // each input stream.
+     consume_each (countin);
+     //    printf(" noutput_items=%d countin=%d countout=%d\n",noutput_items,countin,countout);
+     // Tell runtime system how many output items we produced.
+     return countout;
     }
-  }
-}
-    // Tell runtime system how many input items we consumed on
-    // each input stream.
-    consume_each (countin);
-//    printf(" noutput_items=%d countin=%d countout=%d\n",noutput_items,countin,countout);
-      // Tell runtime system how many output items we produced.
-    return countout;
-   }
-
+    
   } /* namespace m17 */
 } /* namespace gr */
