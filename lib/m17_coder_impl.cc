@@ -62,7 +62,7 @@ namespace gr {
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
               , _mode(mode),_data(data),_encr_type(encr_type),_encr_subtype(encr_subtype), _can(can), _meta(meta), _debug(debug), _signed_str(signed_str)
-{    set_type(mode, data, encr_type, encr_subtype, can);
+    {set_type(mode, data, encr_type, encr_subtype, can);
      set_meta(meta); // depends on   ^^^ encr_subtype
      set_src_id(src_id);
      set_dst_id(dst_id);
@@ -86,261 +86,260 @@ namespace gr {
         *((int32_t*)&_iv[0])=(uint32_t)time(NULL)-(uint32_t)epoch; //timestamp
         for(uint8_t i=4; i<4+10; i++) _iv[i]=0; //10 random bytes TODO: replace with a rand() or pass through an additional arg
       }
-}
-
-void m17_coder_impl::set_signed(bool signed_str)
-{_signed_str=signed_str;
- if (_signed_str==true) printf("Signed\n"); else printf("Unsigned\n");
-}
-
-void m17_coder_impl::set_debug(bool debug)
-{_debug=debug;
- if (_debug==true) printf("Debug true\n"); else printf("Debug false\n");
-}
-
-void m17_coder_impl::set_src_id(std::string src_id)
-{int length;
- for (int i=0;i<10;i++) {_src_id[i]=0;}
- if (src_id.length()>9) length=9; else length=src_id.length();
- for (int i=0;i<length;i++) {_src_id[i]=toupper(src_id.c_str()[i]);}
- encode_callsign_bytes(_lsf.src, _src_id); // 6 byte ID <- 9 char callsign
-
- uint16_t ccrc=LSF_CRC(&_lsf);
- _lsf.crc[0]=ccrc>>8;
- _lsf.crc[1]=ccrc&0xFF;
-}
-
-void m17_coder_impl::set_dst_id(std::string dst_id)
-{int length;
- for (int i=0;i<10;i++) {_dst_id[i]=0;}
- if (dst_id.length()>9) length=9; else length=dst_id.length();
- for (int i=0;i<length;i++) {_dst_id[i]=toupper(dst_id.c_str()[i]);}
- encode_callsign_bytes(_lsf.dst, _dst_id); // 6 byte ID <- 9 char callsign
- uint16_t ccrc=LSF_CRC(&_lsf);
- _lsf.crc[0]=ccrc>>8;
- _lsf.crc[1]=ccrc&0xFF;
-}
-
-void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
-{int length;
- printf("new key: ");
- length=arg.size();
- int i=0,j=0;
- while ((j<32) && (i<length))
-    {if ((unsigned int)arg.data()[i]<0xc2) // https://www.utf8-chartable.de/
-         {_key[j]=arg.data()[i];i++;j++;}
-     else
-         {_key[j]=(arg.data()[i]-0xc2)*0x40+arg.data()[i+1];i+=2;j++;}
     }
- length=j; // index from 0 to length-1
- printf("%d bytes: ",length);
- for (i=0;i<length;i++) printf("%02X ",_key[i]);
- printf("\n");
- fflush(stdout);
-}
-
-void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array
-{int length;
- printf("new meta: ");
- if (_encr_subtype==0) // meta is \0-terminated string
-    {if (meta.length()<14) length=meta.length(); else {length=14;meta[length]=0;}
-     printf("%s\n",meta.c_str());
-     for (int i=0;i<length;i++) {_lsf.meta[i]=meta[i];}
+    
+    void m17_coder_impl::set_signed(bool signed_str)
+    {_signed_str=signed_str;
+     if (_signed_str==true) printf("Signed\n"); else printf("Unsigned\n");
     }
- else 
-    {length=meta.size();
+    
+    void m17_coder_impl::set_debug(bool debug)
+    {_debug=debug;
+     if (_debug==true) printf("Debug true\n"); else printf("Debug false\n");
+    }
+    
+    void m17_coder_impl::set_src_id(std::string src_id)
+    {int length;
+     for (int i=0;i<10;i++) {_src_id[i]=0;}
+     if (src_id.length()>9) length=9; else length=src_id.length();
+     for (int i=0;i<length;i++) {_src_id[i]=toupper(src_id.c_str()[i]);}
+     encode_callsign_bytes(_lsf.src, _src_id); // 6 byte ID <- 9 char callsign
+    
+     uint16_t ccrc=LSF_CRC(&_lsf);
+     _lsf.crc[0]=ccrc>>8;
+     _lsf.crc[1]=ccrc&0xFF;
+    }
+    
+    void m17_coder_impl::set_dst_id(std::string dst_id)
+    {int length;
+     for (int i=0;i<10;i++) {_dst_id[i]=0;}
+     if (dst_id.length()>9) length=9; else length=dst_id.length();
+     for (int i=0;i<length;i++) {_dst_id[i]=toupper(dst_id.c_str()[i]);}
+     encode_callsign_bytes(_lsf.dst, _dst_id); // 6 byte ID <- 9 char callsign
+     uint16_t ccrc=LSF_CRC(&_lsf);
+     _lsf.crc[0]=ccrc>>8;
+     _lsf.crc[1]=ccrc&0xFF;
+    }
+    
+    void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
+    {int length;
+     printf("new key: ");
+     length=arg.size();
      int i=0,j=0;
-     while ((j<14) && (i<length))
-       {if ((unsigned int)meta.data()[i]<0xc2) // https://www.utf8-chartable.de/
-           {_lsf.meta[j]=meta.data()[i];i++;j++;}
-        else
-           {_lsf.meta[j]=(meta.data()[i]-0xc2)*0x40+meta.data()[i+1];i+=2;j++;}
-       }
-       length=j; // index from 0 to length-1
-       printf("%d bytes: ",length);
-       for (i=0;i<length;i++) printf("%02X ",_lsf.meta[i]);
+     while ((j<32) && (i<length))
+        {if ((unsigned int)arg.data()[i]<0xc2) // https://www.utf8-chartable.de/
+             {_key[j]=arg.data()[i];i++;j++;}
+         else
+             {_key[j]=(arg.data()[i]-0xc2)*0x40+arg.data()[i+1];i+=2;j++;}
+        }
+     length=j; // index from 0 to length-1
+     printf("%d bytes: ",length);
+     for (i=0;i<length;i++) printf("%02X ",_key[i]);
      printf("\n");
+     fflush(stdout);
     }
- fflush(stdout);
- uint16_t ccrc=LSF_CRC(&_lsf);
- _lsf.crc[0]=ccrc>>8;
- _lsf.crc[1]=ccrc&0xFF;
-}
-
-void m17_coder_impl::set_mode(int mode)
-{_mode=mode;
- printf("new mode: %x -> ",_mode);
- set_type(_mode,_data,_encr_type,_encr_subtype,_can);
-}
-
-void m17_coder_impl::set_data(int data)
-{_data=data;
- printf("new data type: %x -> ",_data);
- set_type(_mode,_data,_encr_type,_encr_subtype,_can);
-}
-
-void m17_coder_impl::set_encr_type(encr_t encr_type)
-{_encr_type=encr_type;
- printf("new encr type: %x -> ",_encr_type);
- set_type(_mode,_data,_encr_type,_encr_subtype,_can);
-}
-
-void m17_coder_impl::set_encr_subtype(int encr_subtype)
-{_encr_subtype=encr_subtype;
- printf("new encr subtype: %x -> ",_encr_subtype);
- set_type(_mode,_data,_encr_type,_encr_subtype,_can);
-}
-
-void m17_coder_impl::set_can(int can)
-{_can=can;
- printf("new CAN: %x -> ",_can);
- set_type(_mode,_data,_encr_type,_encr_subtype,_can);
-}
-
-void m17_coder_impl::set_type(int mode,int data,encr_t encr_type,int encr_subtype,int can)
-{short tmptype;
- tmptype = mode | (data<<1) | (encr_type<<3) | (encr_subtype<<5) | (can<<7);
- _lsf.type[0]=tmptype>>8;   // MSB
- _lsf.type[1]=tmptype&0xff; // LSB
- uint16_t ccrc=LSF_CRC(&_lsf);
- _lsf.crc[0]=ccrc>>8;
- _lsf.crc[1]=ccrc&0xFF;
- printf("Transmission type: 0x%02X%02X\n",_lsf.type[0],_lsf.type[1]);fflush(stdout);
-}
-
-
-    /*
-     * Our virtual destructor.
-     */
-    m17_coder_impl::~m17_coder_impl()
-    {
+    
+    void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array
+    {int length;
+     printf("new meta: ");
+     if (_encr_subtype==0) // meta is \0-terminated string
+        {if (meta.length()<14) length=meta.length(); else {length=14;meta[length]=0;}
+         printf("%s\n",meta.c_str());
+         for (int i=0;i<length;i++) {_lsf.meta[i]=meta[i];}
+        }
+     else 
+        {length=meta.size();
+         int i=0,j=0;
+         while ((j<14) && (i<length))
+           {if ((unsigned int)meta.data()[i]<0xc2) // https://www.utf8-chartable.de/
+               {_lsf.meta[j]=meta.data()[i];i++;j++;}
+            else
+               {_lsf.meta[j]=(meta.data()[i]-0xc2)*0x40+meta.data()[i+1];i+=2;j++;}
+           }
+           length=j; // index from 0 to length-1
+           printf("%d bytes: ",length);
+           for (i=0;i<length;i++) printf("%02X ",_lsf.meta[i]);
+         printf("\n");
+        }
+     fflush(stdout);
+     uint16_t ccrc=LSF_CRC(&_lsf);
+     _lsf.crc[0]=ccrc>>8;
+     _lsf.crc[1]=ccrc&0xFF;
     }
-
+    
+    void m17_coder_impl::set_mode(int mode)
+    {_mode=mode;
+     printf("new mode: %x -> ",_mode);
+     set_type(_mode,_data,_encr_type,_encr_subtype,_can);
+    }
+        
+    void m17_coder_impl::set_data(int data)
+    {_data=data;
+     printf("new data type: %x -> ",_data);
+     set_type(_mode,_data,_encr_type,_encr_subtype,_can);
+    }
+    
+    void m17_coder_impl::set_encr_type(encr_t encr_type)
+    {_encr_type=encr_type;
+     printf("new encr type: %x -> ",_encr_type);
+     set_type(_mode,_data,_encr_type,_encr_subtype,_can);
+    }
+    
+    void m17_coder_impl::set_encr_subtype(int encr_subtype)
+    {_encr_subtype=encr_subtype;
+     printf("new encr subtype: %x -> ",_encr_subtype);
+     set_type(_mode,_data,_encr_type,_encr_subtype,_can);
+    }
+    
+    void m17_coder_impl::set_can(int can)
+    {_can=can;
+     printf("new CAN: %x -> ",_can);
+     set_type(_mode,_data,_encr_type,_encr_subtype,_can);
+    }
+    
+        void m17_coder_impl::set_type(int mode,int data,encr_t encr_type,int encr_subtype,int can)
+        {short tmptype;
+         tmptype = mode | (data<<1) | (encr_type<<3) | (encr_subtype<<5) | (can<<7);
+         _lsf.type[0]=tmptype>>8;   // MSB
+         _lsf.type[1]=tmptype&0xff; // LSB
+         uint16_t ccrc=LSF_CRC(&_lsf);
+         _lsf.crc[0]=ccrc>>8;
+         _lsf.crc[1]=ccrc&0xFF;
+         printf("Transmission type: 0x%02X%02X\n",_lsf.type[0],_lsf.type[1]);fflush(stdout);
+        }
+        
+        /*
+         * Our virtual destructor.
+         */
+        m17_coder_impl::~m17_coder_impl()
+        {
+        }
+    
     void
     m17_coder_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
       ninput_items_required[0] = noutput_items/12; // 16 inputs -> 192 outputs
     }
-
-//scrambler pn sequence generation
-void m17_coder_impl::scrambler_sequence_generator()
-{
-  int i = 0;
-  uint32_t lfsr, bit;
-  lfsr = scrambler_seed;
-
-  //only set if not initially set (first run), it is possible (and observed) that the scrambler_subtype can 
-  //change on subsequent passes if the current SEED for the LFSR falls below one of these thresholds
-  if(scrambler_subtype == -1)
-  {
-    if      (lfsr > 0 && lfsr <= 0xFF)          scrambler_subtype = 0; // 8-bit key
-    else if (lfsr > 0xFF && lfsr <= 0xFFFF)     scrambler_subtype = 1; //16-bit key
-    else if (lfsr > 0xFFFF && lfsr <= 0xFFFFFF) scrambler_subtype = 2; //24-bit key
-    else                                        scrambler_subtype = 0; // 8-bit key (default)
-  }
-
-  //TODO: Set Frame Type based on scrambler_subtype value
-  if(_debug==true)
-  {
-    fprintf (stderr, "\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;", scrambler_seed, lfsr, scrambler_subtype);
-    fprintf (stderr, "\n pN: ");
-  }
-  
-  //run pN sequence with taps specified
-  for(i=0; i<128; i++)
-  {
-    //get feedback bit with specified taps, depending on the scrambler_subtype
-    if(scrambler_subtype == 0)
-      bit = (lfsr >> 7) ^ (lfsr >> 5) ^ (lfsr >> 4) ^ (lfsr >> 3);
-    else if(scrambler_subtype == 1)
-      bit = (lfsr >> 15) ^ (lfsr >> 14) ^ (lfsr >> 12) ^ (lfsr >> 3);
-    else if(scrambler_subtype == 2)
-      bit = (lfsr >> 23) ^ (lfsr >> 22) ^ (lfsr >> 21) ^ (lfsr >> 16);
-    else bit = 0; //should never get here, but just in case
     
-    bit &= 1; //truncate bit to 1 bit (required since I didn't do it above)
-    lfsr = (lfsr << 1) | bit; //shift LFSR left once and OR bit onto LFSR's LSB
-    lfsr &= 0xFFFFFF; //truncate lfsr to 24-bit (really doesn't matter)
-    scrambler_pn[i] = bit;
-
-  }
-  //pack bit array into byte array for easy data XOR
-  pack_bit_array_into_byte_array(scrambler_pn, scr_bytes, 16);
-
-  //save scrambler seed for next round
-  scrambler_seed = lfsr;
-
-  //truncate seed so subtype will continue to set properly on subsequent passes
-  if(scrambler_subtype == 0)      scrambler_seed &= 0xFF;
-  else if(scrambler_subtype == 1) scrambler_seed &= 0xFFFF;
-  else if(scrambler_subtype == 2) scrambler_seed &= 0xFFFFFF;
-
-  if(_debug==true)
-  {
-    //debug packed bytes
-    for(i = 0; i < 16; i++)
-        fprintf (stderr, " %02X", scr_bytes[i]);
-    fprintf (stderr, "\n");
-  }
-  
-}
-
-//convert a user string (as hex octets) into a uint8_t array for key
-void m17_coder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
-{
-    uint16_t len = strlen(inp);
-
-    if(len==0) return; //return silently and pretend nothing happened
-
-    memset(dest, 0, len/2); //one character represents half of a byte
-
-    if(!(len%2)) //length even?
+    //scrambler pn sequence generation
+    void m17_coder_impl::scrambler_sequence_generator()
     {
-        for(uint8_t i=0; i<len; i+=2)
+      int i = 0;
+      uint32_t lfsr, bit;
+      lfsr = scrambler_seed;
+    
+      //only set if not initially set (first run), it is possible (and observed) that the scrambler_subtype can 
+      //change on subsequent passes if the current SEED for the LFSR falls below one of these thresholds
+      if(scrambler_subtype == -1)
+      {
+        if      (lfsr > 0 && lfsr <= 0xFF)          scrambler_subtype = 0; // 8-bit key
+        else if (lfsr > 0xFF && lfsr <= 0xFFFF)     scrambler_subtype = 1; //16-bit key
+        else if (lfsr > 0xFFFF && lfsr <= 0xFFFFFF) scrambler_subtype = 2; //24-bit key
+        else                                        scrambler_subtype = 0; // 8-bit key (default)
+      }
+    
+      //TODO: Set Frame Type based on scrambler_subtype value
+      if(_debug==true)
+      {
+        fprintf (stderr, "\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;", scrambler_seed, lfsr, scrambler_subtype);
+        fprintf (stderr, "\n pN: ");
+      }
+      
+      //run pN sequence with taps specified
+      for(i=0; i<128; i++)
+      {
+        //get feedback bit with specified taps, depending on the scrambler_subtype
+        if(scrambler_subtype == 0)
+          bit = (lfsr >> 7) ^ (lfsr >> 5) ^ (lfsr >> 4) ^ (lfsr >> 3);
+        else if(scrambler_subtype == 1)
+          bit = (lfsr >> 15) ^ (lfsr >> 14) ^ (lfsr >> 12) ^ (lfsr >> 3);
+        else if(scrambler_subtype == 2)
+          bit = (lfsr >> 23) ^ (lfsr >> 22) ^ (lfsr >> 21) ^ (lfsr >> 16);
+        else bit = 0; //should never get here, but just in case
+        
+        bit &= 1; //truncate bit to 1 bit (required since I didn't do it above)
+        lfsr = (lfsr << 1) | bit; //shift LFSR left once and OR bit onto LFSR's LSB
+        lfsr &= 0xFFFFFF; //truncate lfsr to 24-bit (really doesn't matter)
+        scrambler_pn[i] = bit;
+    
+      }
+      //pack bit array into byte array for easy data XOR
+      pack_bit_array_into_byte_array(scrambler_pn, scr_bytes, 16);
+    
+      //save scrambler seed for next round
+      scrambler_seed = lfsr;
+    
+      //truncate seed so subtype will continue to set properly on subsequent passes
+      if(scrambler_subtype == 0)      scrambler_seed &= 0xFF;
+      else if(scrambler_subtype == 1) scrambler_seed &= 0xFFFF;
+      else if(scrambler_subtype == 2) scrambler_seed &= 0xFFFFFF;
+    
+      if(_debug==true)
+      {
+        //debug packed bytes
+        for(i = 0; i < 16; i++)
+            fprintf (stderr, " %02X", scr_bytes[i]);
+        fprintf (stderr, "\n");
+      }
+      
+    }
+    
+    //convert a user string (as hex octets) into a uint8_t array for key
+    void m17_coder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
+    {
+        uint16_t len = strlen(inp);
+    
+        if(len==0) return; //return silently and pretend nothing happened
+    
+        memset(dest, 0, len/2); //one character represents half of a byte
+    
+        if(!(len%2)) //length even?
         {
-            if(inp[i]>='a')
-                dest[i/2]|=(inp[i]-'a'+10)*0x10;
-            else if(inp[i]>='A')
-                dest[i/2]|=(inp[i]-'A'+10)*0x10;
-            else if(inp[i]>='0')
-                dest[i/2]|=(inp[i]-'0')*0x10;
-            
-            if(inp[i+1]>='a')
-                dest[i/2]|=inp[i+1]-'a'+10;
-            else if(inp[i+1]>='A')
-                dest[i/2]|=inp[i+1]-'A'+10;
-            else if(inp[i+1]>='0')
-                dest[i/2]|=inp[i+1]-'0';
+            for(uint8_t i=0; i<len; i+=2)
+            {
+                if(inp[i]>='a')
+                    dest[i/2]|=(inp[i]-'a'+10)*0x10;
+                else if(inp[i]>='A')
+                    dest[i/2]|=(inp[i]-'A'+10)*0x10;
+                else if(inp[i]>='0')
+                    dest[i/2]|=(inp[i]-'0')*0x10;
+                
+                if(inp[i+1]>='a')
+                    dest[i/2]|=inp[i+1]-'a'+10;
+                else if(inp[i+1]>='A')
+                    dest[i/2]|=inp[i+1]-'A'+10;
+                else if(inp[i+1]>='0')
+                    dest[i/2]|=inp[i+1]-'0';
+            }
+        }
+        else
+        {
+            if(inp[0]>='a')
+                dest[0]|=inp[0]-'a'+10;
+            else if(inp[0]>='A')
+                dest[0]|=inp[0]-'A'+10;
+            else if(inp[0]>='0')
+                dest[0]|=inp[0]-'0';
+    
+            for(uint8_t i=1; i<len-1; i+=2)
+            {
+                if(inp[i]>='a')
+                    dest[i/2+1]|=(inp[i]-'a'+10)*0x10;
+                else if(inp[i]>='A')
+                    dest[i/2+1]|=(inp[i]-'A'+10)*0x10;
+                else if(inp[i]>='0')
+                    dest[i/2+1]|=(inp[i]-'0')*0x10;
+    
+                if(inp[i+1]>='a')
+                    dest[i/2+1]|=inp[i+1]-'a'+10;
+                else if(inp[i+1]>='A')
+                    dest[i/2+1]|=inp[i+1]-'A'+10;
+                else if(inp[i+1]>='0')
+                    dest[i/2+1]|=inp[i+1]-'0';
+            }
         }
     }
-    else
-    {
-        if(inp[0]>='a')
-            dest[0]|=inp[0]-'a'+10;
-        else if(inp[0]>='A')
-            dest[0]|=inp[0]-'A'+10;
-        else if(inp[0]>='0')
-            dest[0]|=inp[0]-'0';
-
-        for(uint8_t i=1; i<len-1; i+=2)
-        {
-            if(inp[i]>='a')
-                dest[i/2+1]|=(inp[i]-'a'+10)*0x10;
-            else if(inp[i]>='A')
-                dest[i/2+1]|=(inp[i]-'A'+10)*0x10;
-            else if(inp[i]>='0')
-                dest[i/2+1]|=(inp[i]-'0')*0x10;
-
-            if(inp[i+1]>='a')
-                dest[i/2+1]|=inp[i+1]-'a'+10;
-            else if(inp[i+1]>='A')
-                dest[i/2+1]|=inp[i+1]-'A'+10;
-            else if(inp[i+1]>='0')
-                dest[i/2+1]|=inp[i+1]-'0';
-        }
-    }
-}
-
+    
     int
     m17_coder_impl::general_work (int noutput_items,
                        gr_vector_int &ninput_items,
@@ -349,7 +348,6 @@ void m17_coder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
     {
       const char *in = (const char *) input_items[0];
       float *out = (float *) output_items[0];
-
       int countin=0;
       uint32_t countout=0;
       
