@@ -29,7 +29,25 @@ class m17_coder_impl : public m17_coder
 {
 private:
     unsigned char _src_id[10],_dst_id[10]; // 9 character callsign
-    int _mode,_data,_encr_type,_encr_subtype,_can;
+    int _mode,_data;
+//encryption
+#ifdef AES
+//encryption
+const struct uECC_Curve_t* _curve = uECC_secp256r1();
+encr_t _encr_type=ENCR_NONE;
+//AES
+typedef enum
+{
+    AES128,
+    AES192,
+    AES256
+} aes_t;
+uint8_t _key[32];
+uint8_t _iv[16];
+time_t epoch = 1577836800L; //Jan 1, 2020, 00:00:00 UTC
+#endif
+
+    int _encr_subtype,_can;
     lsf_t _lsf, _next_lsf;
     std::string _meta;
     int _got_lsf=0;
@@ -43,31 +61,6 @@ uint8_t _priv_key_loaded=0;          //do we have a sig key loaded?
 uint8_t _priv_key[32]={0};           //private key
 uint8_t _sig[64]={0};                //ECDSA signature
 
-//encryption
-#ifdef AES
-//encryption
-const struct uECC_Curve_t* _curve = uECC_secp256r1();
-
-typedef enum
-{
-    ENCR_NONE,
-    ENCR_SCRAM,
-    ENCR_AES,
-    ENCR_RES //reserved
-} encr_t;
-encr_t _encryption=ENCR_NONE;
-
-//AES
-typedef enum
-{
-    AES128,
-    AES192,
-    AES256
-} aes_t;
-uint8_t _key[32];
-uint8_t _iv[16];
-time_t epoch = 1577836800L; //Jan 1, 2020, 00:00:00 UTC
-#endif
 
 #ifdef ECC
 //Scrambler
@@ -84,15 +77,15 @@ public:
     void set_dst_id(std::string dst_id);
     void set_key(std::string key);
     void set_meta(std::string meta);
-    void set_type(int mode,int data,int encr_type,int encr_subtype,int can);
+    void set_type(int mode,int data,encr_t encr_type,int encr_subtype,int can);
     void set_mode(int mode);
     void set_data(int data);
-    void set_encr_type(int encr_type);
+    void set_encr_type(encr_t encr_type);
     void set_encr_subtype(int encr_subtype);
     void set_can(int can);
     void set_debug(bool debug);
     void set_signed(bool signed_str);
-    m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug,bool signed_str);
+    m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug,bool signed_str);
     ~m17_coder_impl();
 
     // Where all the action really happens

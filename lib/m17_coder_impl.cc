@@ -48,7 +48,7 @@ namespace gr {
   namespace m17 {
 
     m17_coder::sptr
-    m17_coder::make(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug, bool signed_str)
+    m17_coder::make(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug, bool signed_str)
     {
       return gnuradio::get_initial_sptr
         (new m17_coder_impl(src_id,dst_id,mode,data,encr_type,encr_subtype,can,meta,key,debug,signed_str));
@@ -57,7 +57,7 @@ namespace gr {
     /*
      * The private constructor
      */
-    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug,bool signed_str)
+    m17_coder_impl::m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,encr_t encr_type,int encr_subtype,int can,std::string meta, std::string key, bool debug,bool signed_str)
       : gr::block("m17_coder",
               gr::io_signature::make(1, 1, sizeof(char)),
               gr::io_signature::make(1, 1, sizeof(float)))
@@ -75,15 +75,14 @@ namespace gr {
      _got_lsf=0;                  //have we filled the LSF struct yet?
      _fn=0;                      //16-bit Frame Number (for the stream mode)
      _finished=false;
-     if(_encr_type==2)
-
+#ifdef AES
+     srand(time(NULL)); //random number generator (for IV rand() seed value)
+     memset(_key, 0, 32*sizeof(uint8_t));
+     memset(_iv, 0, 16*sizeof(uint8_t));
+#endif
+     if(_encr_type==ENCR_AES)
       {
         set_key(key); // read key
-#ifdef AES
-    srand(time(NULL)); //random number generator (for IV rand() seed value)
-    memset(_key, 0, 32*sizeof(uint8_t));
-    memset(_iv, 0, 16*sizeof(uint8_t));
-#endif
         *((int32_t*)&_iv[0])=(uint32_t)time(NULL)-(uint32_t)epoch; //timestamp
         for(uint8_t i=4; i<4+10; i++) _iv[i]=0; //10 random bytes TODO: replace with a rand() or pass through an additional arg
       }
@@ -180,7 +179,7 @@ void m17_coder_impl::set_data(int data)
  set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
-void m17_coder_impl::set_encr_type(int encr_type)
+void m17_coder_impl::set_encr_type(encr_t encr_type)
 {_encr_type=encr_type;
  printf("new encr type: %x -> ",_encr_type);
  set_type(_mode,_data,_encr_type,_encr_subtype,_can);
@@ -198,7 +197,7 @@ void m17_coder_impl::set_can(int can)
  set_type(_mode,_data,_encr_type,_encr_subtype,_can);
 }
 
-void m17_coder_impl::set_type(int mode,int data,int encr_type,int encr_subtype,int can)
+void m17_coder_impl::set_type(int mode,int data,encr_t encr_type,int encr_subtype,int can)
 {short tmptype;
  tmptype = mode | (data<<1) | (encr_type<<3) | (encr_subtype<<5) | (can<<7);
  _lsf.type[0]=tmptype>>8;   // MSB
@@ -401,12 +400,12 @@ void m17_coder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
             _next_lsf.src[4] = 0xD1;
             _next_lsf.src[5] = 0x06;
 
-            if(_encryption==ENCR_AES) //AES ENC, 3200 voice
+            if(_encr_type==ENCR_AES) //AES ENC, 3200 voice
             {
                 _next_lsf.type[0] = 0x03;
                 _next_lsf.type[1] = 0x95;
             }
-            else if(_encryption==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
+            else if(_encr_type==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
             {
                 _next_lsf.type[0] = 0x00;
                 _next_lsf.type[1] = 0x00;
@@ -450,7 +449,7 @@ void m17_coder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
 */
 
     //AES encryption enabled - use 112 bits of IV
-    if(_encryption==ENCR_AES)
+    if(_encr_type==ENCR_AES)
     {   
         memcpy(&(_lsf.meta), _iv, 14);
         _iv[14] = (_fn >> 8) & 0x7F;
@@ -504,12 +503,12 @@ void m17_coder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
             _next_lsf.src[4] = 0xD1;
             _next_lsf.src[5] = 0x06;
 
-            if(_encryption==ENCR_AES) //AES ENC, 3200 voice
+            if(_encr_type==ENCR_AES) //AES ENC, 3200 voice
             {
                 _next_lsf.type[0] = 0x03;
                 _next_lsf.type[1] = 0x95;
             }
-            else if(_encryption==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
+            else if(_encr_type==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
             {
                 _next_lsf.type[0] = 0x00;
                 _next_lsf.type[1] = 0x00;
@@ -555,7 +554,7 @@ void m17_coder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
         }
 
         //AES
-        if(_encryption==ENCR_AES)
+        if(_encr_type==ENCR_AES)
         {
             memcpy(&(_next_lsf.meta), _iv, 14);
             _iv[14] = (_fn >> 8) & 0x7F;
@@ -564,7 +563,7 @@ void m17_coder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
         }
 
         //Scrambler
-        else if(_encryption==ENCR_SCRAM)
+        else if(_encr_type==ENCR_SCRAM)
         {   
             scrambler_sequence_generator();
             for(uint8_t i=0; i<16; i++)
