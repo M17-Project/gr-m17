@@ -377,19 +377,67 @@ void m17_decoder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
                     //fwrite(&frame_data[3], 16, 1, stdout);
 
                     //if the stream is signed
-                    if(_signed_str && fn<0x7FFC)
+                    if(_signed_str==true && fn<0x7FFC)
                     {
                         //if thats the first frame (fn=0)
                         if(fn==0)
-                            memcpy(digest, &frame_data[3], sizeof(digest));
+                            memcpy(_digest, &frame_data[3], sizeof(_digest));
 
-                        for(uint8_t i=0; i<sizeof(digest); i++)
-                            digest[i]^=frame_data[3+i];
-                        uint8_t tmp=digest[0];
-                        for(uint8_t i=0; i<sizeof(digest)-1; i++)
-                            digest[i]=digest[i+1];
-                        digest[sizeof(digest)-1]=tmp;
+                        for(uint8_t i=0; i<sizeof(_digest); i++)
+                            _digest[i]^=frame_data[3+i];
+                        uint8_t tmp=_digest[0];
+                        for(uint8_t i=0; i<sizeof(_digest)-1; i++)
+                            _digest[i]=_digest[i+1];
+                        _digest[sizeof(_digest)-1]=tmp;
                     }
+
+                    //NOTE: Don't attempt decryption when a signed stream is >= 0x7FFC
+                    //The Signature is not encrypted
+
+                    //AES
+                    if(_encr_type==ENCR_AES)
+                    {   
+                        memcpy(_iv, lsf+14, 14);
+                        _iv[14] = frame_data[1] & 0x7F;
+                        _iv[15] = frame_data[2] & 0xFF;
+
+                        if(_signed_str==true && (fn % 0x8000)<0x7FFC) //signed stream
+                            aes_ctr_bytewise_payload_crypt(_iv, _key, frame_data+3, AES128); //hardcoded for now
+                        else if(_signed_str==false)                   //non-signed stream
+                            aes_ctr_bytewise_payload_crypt(_iv, _key, frame_data+3, AES128); //hardcoded for now
+                    }
+
+                    //Scrambler
+                    if(_encr_type==ENCR_SCRAM)
+                    {   
+                        if(fn != 0 && (fn % 0x8000)!=_expected_next_fn) //frame skip, etc
+                            scrambler_seed = scrambler_seed_calculation(scrambler_subtype, _scrambler_key, fn&0x7FFF);
+                        else if(fn == 0) scrambler_seed = _scrambler_key; //reset back to key value
+
+                        if(_signed_str==true && (fn % 0x8000)<0x7FFC) //signed stream
+                            scrambler_sequence_generator();
+                        else if(_signed_str==false)                    //non-signed stream
+                            scrambler_sequence_generator();
+
+                        for(uint8_t i=0; i<16; i++)
+                        {
+                            frame_data[i+3] ^= scr_bytes[i];
+                        }
+                    }
+
+                    //dump data - first byte is empty
+                    printf("FN: %04X PLD: ", fn);
+                    for(uint8_t i=3; i<19; i++)
+                    {
+                        printf("%02X", frame_data[i]);
+                    }
+                    if (_debug_ctrl==true)
+                        printf(" e=%1.1f\n", (float)e/0xFFFF);
+                    
+                    printf("\n");
+
+                    //send codec2 stream to stdout
+                    //fwrite(&frame_data[3], 16, 1, stdout);
 
                     //extract LICH
                     for(uint16_t i=0; i<96; i++)
@@ -480,6 +528,41 @@ void m17_decoder_impl::parse_raw_key_string(uint8_t* dest, const char* inp)
                           printf("\n");
                         }
                     }
+
+                    //if the contents of the payload is now digital signature, not data/voice
+                    if(fn>=0x7FFC && _signed_str==true)
+                    {   
+                        memcpy(&_sig[((fn&0x7FFF)-0x7FFC)*16], &frame_data[3], 16);
+
+                        if(fn==(0x7FFF|0x8000))
+                        {   
+                            //dump data
+                            /*printf("DEC-Digest: ");
+                            for(uint8_t i=0; i<sizeof(digest); i++)
+                                printf("%02X", digest[i]);
+                            printf("\n");
+
+                            printf("Key: ");
+                            for(uint8_t i=0; i<sizeof(pub_key); i++)
+                                printf("%02X", pub_key[i]);
+                            printf("\n");
+
+                            printf("Signature: ");
+                            for(uint8_t i=0; i<sizeof(sig); i++)
+                                printf("%02X", sig[i]);
+                            printf("\n");*/
+
+                            if(uECC_verify(_key, _digest, sizeof(_digest), _sig, _curve))
+                            {
+                                printf("Signature OK\n");
+                            }
+                            else
+                            {
+                                printf("Signature invalid\n");
+                            }
+                        }
+                    }
+
                     _expected_next_fn = (fn + 1) % 0x8000;
                 }
                 else //lsf

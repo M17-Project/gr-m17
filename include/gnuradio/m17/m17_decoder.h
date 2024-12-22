@@ -23,6 +23,13 @@ class M17_API m17_decoder : virtual public gr::block
 {
 public:
     typedef std::shared_ptr<m17_decoder> sptr;
+    typedef enum
+     {
+      ENCR_NONE,
+      ENCR_SCRAM,
+      ENCR_AES,
+      ENCR_RES //reserved
+     } encr_t;
 
     /*!
      * \brief Return a shared_ptr to a new instance of m17::m17_decoder.

@@ -33,7 +33,21 @@ private:
     float _threshold=0.9;
     bool _callsign=false;
     bool _signed_str=false;
-    uint8_t _key[32];
+    // uint8_t _key[32];
+    uint8_t _key[64]={0};            //public key
+    uint8_t _iv[16];
+    encr_t _encr_type=ENCR_NONE;
+//used for signatures
+uint8_t _digest[16]={0};             //16-byte field for the stream digest
+uint8_t _sig[64]={0};                //ECDSA signature
+uint32_t _scrambler_key=0; //keep set to initial value for seed calculation function
+
+typedef enum
+{
+    AES128,
+    AES192,
+    AES256
+} aes_t;
 
     float last[8] = {0};                //look-back buffer for finding syncwords
     float pld[SYM_PER_PLD];             //raw frame symbols
@@ -63,6 +77,7 @@ uint8_t scrambler_pn[128];
 uint32_t scrambler_seed=0;
 int8_t scrambler_subtype = -1;
 #endif
+    const struct uECC_Curve_t* _curve = uECC_secp256r1();
 
 public:
     m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign, bool signed_str, std::string key);
