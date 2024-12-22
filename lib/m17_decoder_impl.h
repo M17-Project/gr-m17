@@ -11,6 +11,17 @@
 #include <gnuradio/m17/m17_decoder.h>
 #include "m17.h"
 
+#define AES
+#define ECC
+
+#ifdef AES
+#include "aes.h"
+#endif
+
+#ifdef ECC
+#include "uECC.h"
+#endif
+
 namespace gr {
 namespace m17 {
 
@@ -22,6 +33,7 @@ private:
     float _threshold=0.9;
     bool _callsign=false;
     bool _signed_str=false;
+    uint8_t _key[32];
 
     float last[8] = {0};                //look-back buffer for finding syncwords
     float pld[SYM_PER_PLD];             //raw frame symbols
@@ -44,15 +56,27 @@ private:
     uint8_t pushed;                     //counter for pushed symbols
 
     uint8_t d_dst[12], d_src[12]; //decoded strings
+#ifdef ECC
+//Scrambler
+uint8_t scr_bytes[16];
+uint8_t scrambler_pn[128];
+uint32_t scrambler_seed=0;
+int8_t scrambler_subtype = -1;
+#endif
 
 public:
-    m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign, bool signed_str);
+    m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign, bool signed_str, std::string key);
     ~m17_decoder_impl();
     void set_debug_data(bool debug);
+    void set_key(std::string arg);
+
     void set_debug_ctrl(bool debug);
     void set_callsign(bool callsign);
     void set_threshold(float threshold);
     void set_signed(bool signed_str);
+    void parse_raw_key_string(uint8_t* dest, const char* inp);
+    void scrambler_sequence_generator();
+    uint32_t scrambler_seed_calculation(int8_t subtype, uint32_t key, int fn);
 
     // Where all the action really happens
     void forecast(int noutput_items, gr_vector_int& ninput_items_required);

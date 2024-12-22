@@ -18,6 +18,10 @@ parameters:
   dtype: bool
   default: 'False'
   options: ['True', 'False']
+- id: key
+  label: AES Key
+  dtype: string
+  default: ''
 - id: signed_str
   label: SignedStr
   dtype: bool
@@ -28,13 +32,17 @@ parameters:
   dtype: float
   default: 2.0
 
+asserts:
+    - ${ len(key) <= 32 }
+
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold},${callsign},${signed_str})
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold},${callsign},${signed_str},${key})
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
     - set_threshold(${threshold})
+    - set_key(${key})
     - set_callsign(${callsign})
     - set_signed(${signed_str})
 
