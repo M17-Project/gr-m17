@@ -235,7 +235,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 160.0]
+    coordinate: [968, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -273,7 +273,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 168.0]
+    coordinate: [568, 176.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -294,7 +294,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 160.0]
+    coordinate: [16, 168.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -315,6 +315,7 @@ blocks:
     meta: '''\x00\x00\x65\x41\xb0\x93\xff\x00'''
     minoutbuf: '0'
     mode: mode
+    priv_key: ''
     signed_str: signed_str
     src_id: src_str
     type: type_val
@@ -334,6 +335,8 @@ blocks:
     comment: ''
     debug_ctrl: 'True'
     debug_data: 'True'
+    encr_type: '0'
+    key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
     signed_str: 'False'
@@ -342,7 +345,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 144.0]
+    coordinate: [784, 132.0]
     rotation: 0
     state: true
 - name: note_0_2
@@ -368,4 +371,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.10.0
+  grc_version: 3.10.11.0

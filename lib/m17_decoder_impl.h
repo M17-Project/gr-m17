@@ -11,6 +11,17 @@
 #include <gnuradio/m17/m17_decoder.h>
 #include "m17.h"
 
+#define AES
+#define ECC
+
+#ifdef AES
+#include "aes.h"
+#endif
+
+#ifdef ECC
+#include "uECC.h"
+#endif
+
 namespace gr {
 namespace m17 {
 
@@ -22,6 +33,21 @@ private:
     float _threshold=0.9;
     bool _callsign=false;
     bool _signed_str=false;
+    // uint8_t _key[32];
+    uint8_t _key[64]={0};            //public key
+    uint8_t _iv[16];
+    encr_t _encr_type=ENCR_NONE;
+//used for signatures
+uint8_t _digest[16]={0};             //16-byte field for the stream digest
+uint8_t _sig[64]={0};                //ECDSA signature
+uint32_t _scrambler_key=0; //keep set to initial value for seed calculation function
+
+typedef enum
+{
+    AES128,
+    AES192,
+    AES256
+} aes_t;
 
     float last[8] = {0};                //look-back buffer for finding syncwords
     float pld[SYM_PER_PLD];             //raw frame symbols
@@ -44,15 +70,29 @@ private:
     uint8_t pushed;                     //counter for pushed symbols
 
     uint8_t d_dst[12], d_src[12]; //decoded strings
+#ifdef ECC
+//Scrambler
+uint8_t scr_bytes[16];
+uint8_t scrambler_pn[128];
+uint32_t scrambler_seed=0;
+int8_t scrambler_subtype = -1;
+#endif
+    const struct uECC_Curve_t* _curve = uECC_secp256r1();
 
 public:
-    m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign, bool signed_str);
+    m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign, bool signed_str, encr_t encr_type,std::string key);
     ~m17_decoder_impl();
     void set_debug_data(bool debug);
+    void set_key(std::string arg);
+
     void set_debug_ctrl(bool debug);
     void set_callsign(bool callsign);
     void set_threshold(float threshold);
     void set_signed(bool signed_str);
+    void set_encr_type(encr_t encr_type);
+    void parse_raw_key_string(uint8_t* dest, const char* inp);
+    void scrambler_sequence_generator();
+    uint32_t scrambler_seed_calculation(int8_t subtype, uint32_t key, int fn);
 
     // Where all the action really happens
     void forecast(int noutput_items, gr_vector_int& ninput_items_required);
