@@ -27,6 +27,12 @@ parameters:
   dtype: bool
   default: 'False'
   options: ['True', 'False']
+- id: encr_type
+  label: Encr. type
+  dtype: int
+  default: 0
+  options: [0, 1, 2, 3]
+  option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
 - id: threshold
   label: Threshold
   dtype: float
@@ -37,7 +43,7 @@ asserts:
 
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold},${callsign},${signed_str},${key})
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold},${callsign},${signed_str},${key},${encr_type})
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
@@ -45,6 +51,7 @@ templates:
     - set_key(${key})
     - set_callsign(${callsign})
     - set_signed(${signed_str})
+    - set_encr_type(${encr_type})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:

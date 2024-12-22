@@ -40,17 +40,17 @@ namespace gr {
   namespace m17 {
 
     m17_decoder::sptr
-    m17_decoder::make(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str, std::string key)
+    m17_decoder::make(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str, encr_t encr_type,std::string key)
     {
       return gnuradio::get_initial_sptr
-        (new m17_decoder_impl(debug_data,debug_ctrl,threshold,callsign,signed_str,key));
+        (new m17_decoder_impl(debug_data,debug_ctrl,threshold,callsign,signed_str,encr_type,key));
     }
 
 
     /*
      * The private constructor
      */
-    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,std::string key)
+    m17_decoder_impl::m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,encr_t encr_type,std::string key)
       : gr::block("m17_decoder",
               gr::io_signature::make(1, 1, sizeof(float)),
               gr::io_signature::make(1, 1, sizeof(char))),
@@ -61,6 +61,7 @@ namespace gr {
      set_callsign(callsign);
      set_signed(signed_str);
      set_key(key);
+     set_encr_type(encr_type);
      _expected_next_fn=0;
     }
 
@@ -85,7 +86,12 @@ namespace gr {
     {_debug_ctrl=debug;
      if (_debug_ctrl==true) printf("Debug control: true\n"); else printf("Debug control: false\n");
     }
-    
+   
+    void m17_decoder_impl::set_encr_type(encr_t encr_type)
+    {_encr_type=encr_type;
+     printf("new encr type: %x -> ",_encr_type);
+    }
+ 
     void m17_decoder_impl::set_callsign(bool callsign)
     {_callsign=callsign;
      if (_callsign==true) printf("Display callsign\n"); else printf("Do not display callsign\n");
