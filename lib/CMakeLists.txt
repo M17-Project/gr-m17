@@ -43,7 +43,8 @@ target_link_libraries(gnuradio-m17 gnuradio::gnuradio-runtime)
 target_include_directories(gnuradio-m17
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/libm17/>
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/tiny-AES-c/>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/micro-ecc/>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/tinier-aes/>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
 set_target_properties(gnuradio-m17 PROPERTIES DEFINE_SYMBOL "gnuradio_m17_EXPORTS")
