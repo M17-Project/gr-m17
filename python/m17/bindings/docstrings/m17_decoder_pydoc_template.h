@@ -31,3 +31,13 @@ static const char *__doc_gr_m17_m17_decoder_set_callsign = R"doc()doc";
 static const char *__doc_gr_m17_m17_decoder_set_threshold = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_decoder_set_signed = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_decoder_set_key = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_decoder_parse_raw_key_string = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_decoder_scrambler_sequence_generator =
+    R"doc()doc";
+
+static const char *__doc_gr_m17_m17_decoder_scrambler_seed_calculation =
+    R"doc()doc";
