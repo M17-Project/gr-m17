@@ -29,7 +29,6 @@ list(APPEND m17_sources
     ../M17_Implementations/libm17/phy/randomize.c
     ../M17_Implementations/libm17/phy/sync.c
     ../M17_Implementations/libm17/phy/slice.c
-#    ../M17_Implementations/tiny-AES-c/aes.c
 )
 
 set(m17_sources "${m17_sources}" PARENT_SCOPE)
