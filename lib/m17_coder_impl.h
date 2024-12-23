@@ -84,13 +84,13 @@ namespace gr
 		     int can);
       void set_mode (int mode);
       void set_data (int data);
-      void set_encr_type (encr_t encr_type);
+      void set_encr_type (int encr_type);
       void set_encr_subtype (int encr_subtype);
       void set_can (int can);
       void set_debug (bool debug);
       void set_signed (bool signed_str);
       m17_coder_impl (std::string src_id, std::string dst_id, int mode,
-		      int data, encr_t encr_type, int encr_subtype, int can,
+		      int data, int encr_type, int encr_subtype, int can,
 		      std::string meta, std::string key, std::string priv_key,
 		      bool debug, bool signed_str);
       ~m17_coder_impl ();

@@ -42,7 +42,7 @@ namespace gr
        * creating new instances.
        */
       static sptr make (bool debug_data, bool debug_ctrl, float threshold,
-			bool callsign, bool signed_str, encr_t encr_type,
+			bool callsign, bool signed_str, int encr_type,
 			std::string key);
       virtual void set_debug_data (bool debug) = 0;
       virtual void set_debug_ctrl (bool debug) = 0;

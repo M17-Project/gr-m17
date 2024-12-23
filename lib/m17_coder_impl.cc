@@ -51,7 +51,7 @@ namespace gr
 
     m17_coder::sptr
       m17_coder::make (std::string src_id, std::string dst_id, int mode,
-		       int data, encr_t encr_type, int encr_subtype, int can,
+		       int data, int encr_type, int encr_subtype, int can,
 		       std::string meta, std::string key,
 		       std::string priv_key, bool debug, bool signed_str)
     {
@@ -65,7 +65,7 @@ namespace gr
      * The private constructor
      */
     m17_coder_impl::m17_coder_impl (std::string src_id, std::string dst_id,
-				    int mode, int data, encr_t encr_type,
+				    int mode, int data, int encr_type,
 				    int encr_subtype, int can,
 				    std::string meta, std::string key,
 				    std::string priv_key, bool debug,
@@ -80,11 +80,12 @@ namespace gr
 								make (1, 1,
 								      sizeof
 								      (float))),
-      _mode (mode), _data (data), _encr_type (encr_type),
+      _mode (mode), _data (data), 
       _encr_subtype (encr_subtype), _can (can), _meta (meta), _debug (debug),
       _signed_str (signed_str)
     {
-      set_type (mode, data, encr_type, encr_subtype, can);
+      set_encr_type(encr_type);
+      set_type (mode, data, _encr_type, encr_subtype, can);
       set_meta (meta);		// depends on   ^^^ encr_subtype
       set_src_id (src_id);
       set_dst_id (dst_id);
@@ -109,6 +110,18 @@ namespace gr
 	  for (uint8_t i = 4; i < 4 + 10; i++)
 	    _iv[i] = 0;		//10 random bytes TODO: replace with a rand() or pass through an additional arg
 	}
+    }
+
+    void m17_coder_impl::set_encr_type (int encr_type)
+    { 
+      switch (encr_type)
+      {case 0:_encr_type=ENCR_NONE;break;
+       case 1:_encr_type=ENCR_SCRAM;break;
+       case 2:_encr_type=ENCR_AES;break;
+       case 3:_encr_type=ENCR_RES;break;
+       default:_encr_type=ENCR_NONE;
+      }
+      printf ("new encr type: %x -> ", _encr_type);
     }
 
     void m17_coder_impl::set_signed (bool signed_str)
@@ -294,13 +307,6 @@ namespace gr
     {
       _data = data;
       printf ("new data type: %x -> ", _data);
-      set_type (_mode, _data, _encr_type, _encr_subtype, _can);
-    }
-
-    void m17_coder_impl::set_encr_type (encr_t encr_type)
-    {
-      _encr_type = encr_type;
-      printf ("new encr type: %x -> ", _encr_type);
       set_type (_mode, _data, _encr_type, _encr_subtype, _can);
     }
 

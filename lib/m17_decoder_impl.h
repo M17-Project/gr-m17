@@ -83,7 +83,7 @@ namespace gr
 
     public:
       m17_decoder_impl (bool debug_data, bool debug_ctrl, float threshold,
-			bool callsign, bool signed_str, encr_t encr_type,
+			bool callsign, bool signed_str, int encr_type,
 			std::string key);
       ~m17_decoder_impl ();
       void set_debug_data (bool debug);
@@ -93,7 +93,7 @@ namespace gr
       void set_callsign (bool callsign);
       void set_threshold (float threshold);
       void set_signed (bool signed_str);
-      void set_encr_type (encr_t encr_type);
+      void set_encr_type (int encr_type);
       void parse_raw_key_string (uint8_t * dest, const char *inp);
       void scrambler_sequence_generator ();
       uint32_t scrambler_seed_calculation (int8_t subtype, uint32_t key,

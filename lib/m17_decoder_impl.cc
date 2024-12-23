@@ -43,7 +43,7 @@ namespace gr
 
     m17_decoder::sptr
       m17_decoder::make (bool debug_data, bool debug_ctrl, float threshold,
-			 bool callsign, bool signed_str, encr_t encr_type,
+			 bool callsign, bool signed_str, int encr_type,
 			 std::string key)
     {
       return gnuradio::get_initial_sptr
@@ -58,7 +58,7 @@ namespace gr
      */
     m17_decoder_impl::m17_decoder_impl (bool debug_data, bool debug_ctrl,
 					float threshold, bool callsign,
-					bool signed_str, encr_t encr_type,
+					bool signed_str, int encr_type,
 					std::string key):gr::
       block ("m17_decoder", gr::io_signature::make (1, 1, sizeof (float)),
 	     gr::io_signature::make (1, 1, sizeof (char))),
@@ -106,9 +106,15 @@ namespace gr
 	printf ("Debug control: false\n");
     }
 
-    void m17_decoder_impl::set_encr_type (encr_t encr_type)
+    void m17_decoder_impl::set_encr_type (int encr_type)
     {
-      _encr_type = encr_type;
+      switch (encr_type)
+      {case 0:_encr_type=ENCR_NONE;break;
+       case 1:_encr_type=ENCR_SCRAM;break;
+       case 2:_encr_type=ENCR_AES;break;
+       case 3:_encr_type=ENCR_RES;break;
+       default:_encr_type=ENCR_NONE;
+      }
       printf ("new encr type: %x -> ", _encr_type);
     }
 

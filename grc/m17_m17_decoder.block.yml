@@ -43,7 +43,8 @@ asserts:
 
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold},${callsign},${signed_str},${key},${encr_type})
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold},${callsign},${signed_str},${encr_type},${key})
+
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
