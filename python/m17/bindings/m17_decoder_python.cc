@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_decoder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(8c8f29d39b36fa54324e1ba986ae6adc) */
+/* BINDTOOL_HEADER_FILE_HASH(e74f1151dff2abb4329d6d3b2e746f85) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -38,7 +38,8 @@ void bind_m17_decoder(py::module &m) {
 
       .def(py::init(&m17_decoder::make), py::arg("debug_data"),
            py::arg("debug_ctrl"), py::arg("threshold"), py::arg("callsign"),
-           py::arg("signed_str"), D(m17_decoder, make))
+           py::arg("signed_str"), py::arg("encr_type"), py::arg("key"),
+           D(m17_decoder, make))
 
       .def("set_debug_data", &m17_decoder::set_debug_data, py::arg("debug"),
            D(m17_decoder, set_debug_data))
@@ -54,6 +55,22 @@ void bind_m17_decoder(py::module &m) {
 
       .def("set_signed", &m17_decoder::set_signed, py::arg("signed_str"),
            D(m17_decoder, set_signed))
+
+      .def("set_key", &m17_decoder::set_key, py::arg("key"),
+           D(m17_decoder, set_key))
+
+      .def("parse_raw_key_string", &m17_decoder::parse_raw_key_string,
+           py::arg("dest"), py::arg("inp"),
+           D(m17_decoder, parse_raw_key_string))
+
+      .def("scrambler_sequence_generator",
+           &m17_decoder::scrambler_sequence_generator,
+           D(m17_decoder, scrambler_sequence_generator))
+
+      .def("scrambler_seed_calculation",
+           &m17_decoder::scrambler_seed_calculation, py::arg("subtype"),
+           py::arg("key"), py::arg("fn"),
+           D(m17_decoder, scrambler_seed_calculation))
 
       ;
 }
