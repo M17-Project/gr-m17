@@ -103,6 +103,9 @@ inputs:
   dtype: byte
   vlen: 1
   optional: 0
+- label: end_of_transmission
+  domain: message
+  optional: 0
 
 outputs:
 - label: out

@@ -126,7 +126,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 184.0]
+    coordinate: [880, 200.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -147,7 +147,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 192.0]
+    coordinate: [664, 208.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -171,6 +171,24 @@ blocks:
     coordinate: [8, 184.0]
     rotation: 0
     state: true
+- name: end_of_transmission
+  id: variable_qtgui_msg_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: End of Transmission
+    msgName: end_of_transmission
+    relBackgroundColor: default
+    relFontColor: default
+    type: string
+    value: end_of_transmission
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 288.0]
+    rotation: 0
+    state: enabled
 - name: m17_m17_coder_0
   id: m17_m17_coder
   parameters:
@@ -182,12 +200,13 @@ blocks:
     dst_id: dst_str
     encr_subtype: '0'
     encr_type: '0'
-    key: ''
+    key: '''\x00\x00\x65\x41\xb0\x93\xff\x00'''
     maxoutbuf: '0'
     meta: meta_str
     minoutbuf: '0'
     mode: '1'
     priv_key: ''
+    seed: ''
     signed_str: 'False'
     src_id: src_str
     type: type_val
@@ -195,7 +214,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 108.0]
+    coordinate: [416, 112.0]
     rotation: 0
     state: true
 - name: note_0_2
@@ -215,6 +234,7 @@ blocks:
 connections:
 - [blocks_throttle2_0, '0', blocks_file_sink_0, '0']
 - [blocks_vector_source_x_0_2, '0', m17_m17_coder_0, '0']
+- [end_of_transmission, pressed, m17_m17_coder_0, end_of_transmission]
 - [m17_m17_coder_0, '0', blocks_throttle2_0, '0']
 
 metadata:

@@ -102,6 +102,14 @@ namespace gr
 	  for (uint8_t i = 4; i < 4 + 10; i++)
 	    _iv[i] = 0;		//10 random bytes TODO: replace with a rand() or pass through an additional arg
 	}
+     message_port_register_in(pmt::mp("end_of_transmission"));
+     set_msg_handler(pmt::mp("end_of_transmission"), [this](const pmt::pmt_t& msg) { end_of_transmission(msg); });
+    }
+
+    void m17_coder_impl::end_of_transmission(const pmt::pmt_t& msg)
+    {_finished=true;
+     std::cout << "***** End of Transmission ********\n";
+     pmt::print(msg);
     }
 
     void m17_coder_impl::set_encr_type (int encr_type)
@@ -538,15 +546,8 @@ namespace gr
 
       uint8_t data[16], next_data[16];	//raw payload, packed bits
 
-      while (countout < (uint32_t) noutput_items)
+      while ((countout < (uint32_t) noutput_items) && (countin + 16 <= noutput_items))
 	{
-	  if (countin + 16 <= noutput_items)
-	    {
-	      for (int i = 0; i < 16; i++)
-		{
-		  data[i] = in[countin];
-		  countin++;
-		}
 	      if (!_got_lsf)	//stream frames
 		{
 		  //send LSF syncword
@@ -614,8 +615,8 @@ namespace gr
 
 		  memset (next_data, 0, sizeof (next_data));
 		  memcpy (data, next_data, sizeof (data));
-		  if (_fn == 60)
-		    _finished = true;
+//		  if (_fn == 60)
+//		    _finished = true;
 
 		  //debug sig with random payloads (don't play the audio)
 		  for (uint8_t i = 0; i < 16; i++)
@@ -631,6 +632,14 @@ namespace gr
         dummy=fread(&(lsf.meta), 14, 1, stdin);
         dummy=fread(data, 16, 1, stdin);
 */
+	  if (countin + 16 <= noutput_items)
+	    {
+	      for (int i = 0; i < 16; i++)
+		{
+		  data[i] = in[countin];
+		  countin++;
+		}
+            }
 
 	      //AES encryption enabled - use 112 bits of IV
 	      if (_encr_type == ENCR_AES)
@@ -645,7 +654,7 @@ namespace gr
 		  _lsf.crc[1] = ccrc & 0xFF;
 		}
 
-	      while (_finished == false)
+//	      while (_finished == false)
 		{
 		  if (!_got_lsf)
 		    {		//debug
@@ -734,6 +743,14 @@ namespace gr
 		         if(fread(&(next_lsf.meta), 14, 1, stdin)<1) finished=1;
 		         if(fread(next_data, 16, 1, stdin)<1) _finished=true;
 		       */
+	  if (countin + 16 <= noutput_items)
+	    {
+	      for (int i = 0; i < 16; i++)
+		{
+		  next_data[i] = in[countin];
+		  countin++;
+		}
+             }
 		    }
 
 		  //AES
@@ -793,7 +810,7 @@ namespace gr
 		      memcpy (data, next_data, 16);
 		    }
 		  else		//send last frame(s)
-		    {
+		    { printf("Sending last frame\n");
 		      send_syncword (out, &countout, SYNC_STR);
 		      extract_LICH (lich, _lich_cnt, &_lsf);
 		      encode_LICH (lich_encoded, lich);
@@ -858,14 +875,16 @@ namespace gr
 		      //fprintf(stderr, "Stream has ended. Exiting.\n");
 		    }		// finished == true
 		}		// finished == false
-	    }			// in enough data left
 	}			// loop on input data
       // Tell runtime system how many input items we consumed on
       // each input stream.
       consume_each (countin);
       //    printf(" noutput_items=%d countin=%d countout=%d\n",noutput_items,countin,countout);
       // Tell runtime system how many output items we produced.
+      if (_finished==false)
       return countout;
+      else {printf("Killing flowgraph\n"); return -1;} // https://lists.gnu.org/archive/html/discuss-gnuradio/2016-12/msg00206.html
+      // returning -1 (which is the magical value for "there's nothing coming anymore, you can shut down") would normally end a flow graph
     }
 
   }				/* namespace m17 */

@@ -91,6 +91,8 @@ namespace gr
       void set_can (int can);
       void set_debug (bool debug);
       void set_signed (bool signed_str);
+      void end_of_transmission(const pmt::pmt_t& msg);
+
       m17_coder_impl (std::string src_id, std::string dst_id, int mode,
 		      int data, int encr_type, int encr_subtype, int can,
 		      std::string meta, std::string key, std::string priv_key,
