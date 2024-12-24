@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_coder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(d3d92e833946721163c71aa788430568) */
+/* BINDTOOL_HEADER_FILE_HASH(a0706fe6b4d1abbfbb9e0e834826dda9) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -40,13 +40,16 @@ void bind_m17_coder(py::module &m) {
            py::arg("mode"), py::arg("data"), py::arg("encr_type"),
            py::arg("encr_subtype"), py::arg("can"), py::arg("meta"),
            py::arg("key"), py::arg("priv_key"), py::arg("debug"),
-           py::arg("signed_str"), D(m17_coder, make))
+           py::arg("signed_str"), py::arg("seed"), D(m17_coder, make))
 
       .def("set_key", &m17_coder::set_key, py::arg("meta"),
            D(m17_coder, set_key))
 
       .def("set_priv_key", &m17_coder::set_priv_key, py::arg("meta"),
            D(m17_coder, set_priv_key))
+
+      .def("set_seed", &m17_coder::set_seed, py::arg("dst_id"),
+           D(m17_coder, set_seed))
 
       .def("set_meta", &m17_coder::set_meta, py::arg("meta"),
            D(m17_coder, set_meta))
