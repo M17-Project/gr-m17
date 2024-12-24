@@ -49,7 +49,6 @@ namespace gr
       time_t epoch = 1577836800L;	//Jan 1, 2020, 00:00:00 UTC
 #endif
 
-      uint8_t _seed[3]; //24-bit is the largest seed value
       int _encr_subtype, _can;
       lsf_t _lsf, _next_lsf;
         std::string _meta;
@@ -67,6 +66,7 @@ namespace gr
 
 #ifdef ECC
 //Scrambler
+      uint8_t _seed[3]; //24-bit is the largest seed value
       uint8_t _scr_bytes[16];
       uint8_t _scrambler_pn[128];
       uint32_t _scrambler_seed = 0;

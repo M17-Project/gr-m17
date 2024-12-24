@@ -240,7 +240,7 @@ namespace gr
     void m17_coder_impl::set_seed (std::string arg)	// *UTF-8* encoded byte array
     {
       int length;
-      printf ("new key: ");
+      printf ("new seed: ");
       length = arg.size ();
       int i = 0, j = 0;
       while ((j < 3) && (i < length))
