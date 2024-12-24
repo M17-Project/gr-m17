@@ -49,6 +49,7 @@ namespace gr
       time_t epoch = 1577836800L;	//Jan 1, 2020, 00:00:00 UTC
 #endif
 
+      uint8_t _seed[3]; //24-bit is the largest seed value
       int _encr_subtype, _can;
       lsf_t _lsf, _next_lsf;
         std::string _meta;
@@ -66,10 +67,10 @@ namespace gr
 
 #ifdef ECC
 //Scrambler
-      uint8_t scr_bytes[16];
-      uint8_t scrambler_pn[128];
-      uint32_t scrambler_seed = 0;
-      int8_t scrambler_subtype = -1;
+      uint8_t _scr_bytes[16];
+      uint8_t _scrambler_pn[128];
+      uint32_t _scrambler_seed = 0;
+      int8_t _scrambler_subtype = -1;
 #endif
 
     public:
@@ -80,6 +81,7 @@ namespace gr
       void set_key (std::string key);
       void set_priv_key (std::string key);
       void set_meta (std::string meta);
+      void set_seed (std::string meta);
       void set_type (int mode, int data, encr_t encr_type, int encr_subtype,
 		     int can);
       void set_mode (int mode);
@@ -92,7 +94,7 @@ namespace gr
       m17_coder_impl (std::string src_id, std::string dst_id, int mode,
 		      int data, int encr_type, int encr_subtype, int can,
 		      std::string meta, std::string key, std::string priv_key,
-		      bool debug, bool signed_str);
+		      bool debug, bool signed_str, std::string seed);
       ~m17_coder_impl ();
 
       // Where all the action really happens

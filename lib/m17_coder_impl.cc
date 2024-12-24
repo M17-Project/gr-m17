@@ -53,12 +53,12 @@ namespace gr
       m17_coder::make (std::string src_id, std::string dst_id, int mode,
 		       int data, int encr_type, int encr_subtype, int can,
 		       std::string meta, std::string key,
-		       std::string priv_key, bool debug, bool signed_str)
+		       std::string priv_key, bool debug, bool signed_str, std::string seed)
     {
       return gnuradio::get_initial_sptr
 	(new
 	 m17_coder_impl (src_id, dst_id, mode, data, encr_type, encr_subtype,
-			 can, meta, key, priv_key, debug, signed_str));
+			 can, meta, key, priv_key, debug, signed_str, seed));
     }
 
     /*
@@ -69,24 +69,16 @@ namespace gr
 				    int encr_subtype, int can,
 				    std::string meta, std::string key,
 				    std::string priv_key, bool debug,
-				    bool signed_str):gr::block ("m17_coder",
-								gr::
-								io_signature::
-								make (1, 1,
-								      sizeof
-								      (char)),
-								gr::
-								io_signature::
-								make (1, 1,
-								      sizeof
-								      (float))),
-      _mode (mode), _data (data), 
-      _encr_subtype (encr_subtype), _can (can), _meta (meta), _debug (debug),
+				    bool signed_str, std::string seed):gr::block 
+                                    ("m17_coder", gr::io_signature:: make (1, 1, sizeof (char)),
+	 					  gr::io_signature:: make (1, 1, sizeof (float))),
+      _mode (mode), _data (data), _encr_subtype (encr_subtype), _can (can), _meta (meta), _debug (debug),
       _signed_str (signed_str)
     {
-      set_encr_type(encr_type);
+      set_encr_type(encr_type); // overwritten by set_seed()
       set_type (mode, data, _encr_type, encr_subtype, can);
       set_meta (meta);		// depends on   ^^^ encr_subtype
+      set_seed (seed);		// depends on   ^^^ encr_subtype
       set_src_id (src_id);
       set_dst_id (dst_id);
       set_signed (signed_str);
@@ -245,6 +237,49 @@ namespace gr
       fflush (stdout);
     }
 
+    void m17_coder_impl::set_seed (std::string arg)	// *UTF-8* encoded byte array
+    {
+      int length;
+      printf ("new key: ");
+      length = arg.size ();
+      int i = 0, j = 0;
+      while ((j < 3) && (i < length))
+	{
+	  if ((unsigned int) arg.data ()[i] < 0xc2)	// https://www.utf8-chartable.de/
+	    {
+	      _seed[j] = arg.data ()[i];
+	      i++;
+	      j++;
+	    }
+	  else
+	    {
+	      _seed[j] = (arg.data ()[i] - 0xc2) * 0x40 + arg.data ()[i + 1];
+	      i += 2;
+	      j++;
+	    }
+	}
+      length = j;		// index from 0 to length-1
+      printf ("%d bytes: ", length);
+      for (i = 0; i < length; i++)
+	printf ("%02X ", _seed[i]);
+      printf ("\n");
+      fflush (stdout);
+      if(length<=2)
+        {   
+         _scrambler_seed = _scrambler_seed >> 16;
+         fprintf(stderr, "Scrambler key: 0x%02X (8-bit)\n", _scrambler_seed);
+        }
+      else if(length<=4)
+        {   
+         _scrambler_seed = _scrambler_seed >> 8;
+         fprintf(stderr, "Scrambler key: 0x%04X (16-bit)\n", _scrambler_seed);
+        }
+      else
+         fprintf(stderr, "Scrambler key: 0x%06X (24-bit)\n", _scrambler_seed);
+
+      _encr_type=ENCR_SCRAM; //Scrambler key was passed
+    }
+
     void m17_coder_impl::set_meta (std::string meta)	// either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array
     {
       int length;
@@ -359,20 +394,20 @@ namespace gr
     {
       int i = 0;
       uint32_t lfsr, bit;
-      lfsr = scrambler_seed;
+      lfsr = _scrambler_seed;
 
       //only set if not initially set (first run), it is possible (and observed) that the scrambler_subtype can 
       //change on subsequent passes if the current SEED for the LFSR falls below one of these thresholds
-      if (scrambler_subtype == -1)
+      if (_scrambler_subtype == -1)
 	{
 	  if (lfsr > 0 && lfsr <= 0xFF)
-	    scrambler_subtype = 0;	// 8-bit key
+	    _scrambler_subtype = 0;	// 8-bit key
 	  else if (lfsr > 0xFF && lfsr <= 0xFFFF)
-	    scrambler_subtype = 1;	//16-bit key
+	    _scrambler_subtype = 1;	//16-bit key
 	  else if (lfsr > 0xFFFF && lfsr <= 0xFFFFFF)
-	    scrambler_subtype = 2;	//24-bit key
+	    _scrambler_subtype = 2;	//24-bit key
 	  else
-	    scrambler_subtype = 0;	// 8-bit key (default)
+	    _scrambler_subtype = 0;	// 8-bit key (default)
 	}
 
       //TODO: Set Frame Type based on scrambler_subtype value
@@ -380,7 +415,7 @@ namespace gr
 	{
 	  fprintf (stderr,
 		   "\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;",
-		   scrambler_seed, lfsr, scrambler_subtype);
+		   _scrambler_seed, lfsr, _scrambler_subtype);
 	  fprintf (stderr, "\n pN: ");
 	}
 
@@ -388,11 +423,11 @@ namespace gr
       for (i = 0; i < 128; i++)
 	{
 	  //get feedback bit with specified taps, depending on the scrambler_subtype
-	  if (scrambler_subtype == 0)
+	  if (_scrambler_subtype == 0)
 	    bit = (lfsr >> 7) ^ (lfsr >> 5) ^ (lfsr >> 4) ^ (lfsr >> 3);
-	  else if (scrambler_subtype == 1)
+	  else if (_scrambler_subtype == 1)
 	    bit = (lfsr >> 15) ^ (lfsr >> 14) ^ (lfsr >> 12) ^ (lfsr >> 3);
-	  else if (scrambler_subtype == 2)
+	  else if (_scrambler_subtype == 2)
 	    bit = (lfsr >> 23) ^ (lfsr >> 22) ^ (lfsr >> 21) ^ (lfsr >> 16);
 	  else
 	    bit = 0;		//should never get here, but just in case
@@ -400,28 +435,28 @@ namespace gr
 	  bit &= 1;		//truncate bit to 1 bit (required since I didn't do it above)
 	  lfsr = (lfsr << 1) | bit;	//shift LFSR left once and OR bit onto LFSR's LSB
 	  lfsr &= 0xFFFFFF;	//truncate lfsr to 24-bit (really doesn't matter)
-	  scrambler_pn[i] = bit;
+	  _scrambler_pn[i] = bit;
 
 	}
       //pack bit array into byte array for easy data XOR
-      pack_bit_array_into_byte_array (scrambler_pn, scr_bytes, 16);
+      pack_bit_array_into_byte_array (_scrambler_pn, _scr_bytes, 16);
 
       //save scrambler seed for next round
-      scrambler_seed = lfsr;
+      _scrambler_seed = lfsr;
 
       //truncate seed so subtype will continue to set properly on subsequent passes
-      if (scrambler_subtype == 0)
-	scrambler_seed &= 0xFF;
-      else if (scrambler_subtype == 1)
-	scrambler_seed &= 0xFFFF;
-      else if (scrambler_subtype == 2)
-	scrambler_seed &= 0xFFFFFF;
+      if (_scrambler_subtype == 0)
+	_scrambler_seed &= 0xFF;
+      else if (_scrambler_subtype == 1)
+	_scrambler_seed &= 0xFFFF;
+      else if (_scrambler_subtype == 2)
+	_scrambler_seed &= 0xFFFFFF;
 
       if (_debug == true)
 	{
 	  //debug packed bytes
 	  for (i = 0; i < 16; i++)
-	    fprintf (stderr, " %02X", scr_bytes[i]);
+	    fprintf (stderr, " %02X", _scr_bytes[i]);
 	  fprintf (stderr, "\n");
 	}
 
@@ -558,11 +593,11 @@ namespace gr
 		    {
 		      _next_lsf.type[0] = 0x00;
 		      _next_lsf.type[1] = 0x00;
-		      if (scrambler_subtype == 0)
+		      if (_scrambler_subtype == 0)
 			_next_lsf.type[1] = 0x0D;
-		      else if (scrambler_subtype == 1)
+		      else if (_scrambler_subtype == 1)
 			_next_lsf.type[1] = 0x2D;
-		      else if (scrambler_subtype == 2)
+		      else if (_scrambler_subtype == 2)
 			_next_lsf.type[1] = 0x4D;
 		    }
 		  else		//no enc or subtype field, normal 3200 voice
@@ -660,11 +695,11 @@ namespace gr
 			{
 			  _next_lsf.type[0] = 0x00;
 			  _next_lsf.type[1] = 0x00;
-			  if (scrambler_subtype == 0)
+			  if (_scrambler_subtype == 0)
 			    _next_lsf.type[1] = 0x0D;
-			  else if (scrambler_subtype == 1)
+			  else if (_scrambler_subtype == 1)
 			    _next_lsf.type[1] = 0x2D;
-			  else if (scrambler_subtype == 2)
+			  else if (_scrambler_subtype == 2)
 			    _next_lsf.type[1] = 0x4D;
 			}
 		      else	//no enc or subtype field, normal 3200 voice
@@ -716,7 +751,7 @@ namespace gr
 		      scrambler_sequence_generator ();
 		      for (uint8_t i = 0; i < 16; i++)
 			{
-			  data[i] ^= scr_bytes[i];
+			  data[i] ^= _scr_bytes[i];
 			}
 		    }
 

@@ -76,7 +76,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 348.0]
+    coordinate: [376, 412.0]
     rotation: 0
     state: enabled
 - name: enc_type
@@ -106,7 +106,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 348.0]
+    coordinate: [240, 412.0]
     rotation: 0
     state: enabled
 - name: mode
@@ -136,7 +136,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 348.0]
+    coordinate: [8, 412.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -171,7 +171,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 352.0]
+    coordinate: [536, 416.0]
     rotation: 0
     state: enabled
 - name: src_str
@@ -217,7 +217,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [120, 348.0]
+    coordinate: [112, 412.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -235,7 +235,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [968, 168.0]
+    coordinate: [968, 184.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -273,7 +273,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 176.0]
+    coordinate: [568, 192.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -294,7 +294,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 168.0]
+    coordinate: [16, 184.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -316,6 +316,7 @@ blocks:
     minoutbuf: '0'
     mode: mode
     priv_key: ''
+    seed: ''
     signed_str: signed_str
     src_id: src_str
     type: type_val
@@ -323,7 +324,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [320, 92.0]
+    coordinate: [320, 96.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -345,7 +346,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 132.0]
+    coordinate: [784, 148.0]
     rotation: 0
     state: true
 - name: note_0_2
