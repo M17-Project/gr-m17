@@ -340,13 +340,14 @@ blocks:
     key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    seed: ''
     signed_str: 'False'
     threshold: '2.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 148.0]
+    coordinate: [784, 140.0]
     rotation: 0
     state: true
 - name: note_0_2
