@@ -74,26 +74,27 @@ namespace gr
       uint8_t d_dst[12], d_src[12];	//decoded strings
 #ifdef ECC
 //Scrambler
-      uint8_t scr_bytes[16];
-      uint8_t scrambler_pn[128];
-      uint32_t scrambler_seed = 0;
-      int8_t scrambler_subtype = -1;
+      uint8_t _seed[3]; //24-bit is the largest seed value
+      uint8_t _scr_bytes[16];
+      uint8_t _scrambler_pn[128];
+      uint32_t _scrambler_seed = 0;
+      int8_t _scrambler_subtype = -1;
 #endif
       const struct uECC_Curve_t *_curve = uECC_secp256r1 ();
 
     public:
       m17_decoder_impl (bool debug_data, bool debug_ctrl, float threshold,
-			bool callsign, bool signed_str, encr_t encr_type,
-			std::string key);
+			bool callsign, bool signed_str, int encr_type,
+			std::string key, std::string seed);
       ~m17_decoder_impl ();
       void set_debug_data (bool debug);
       void set_key (std::string arg);
-
+      void set_seed (std::string seed);
       void set_debug_ctrl (bool debug);
       void set_callsign (bool callsign);
       void set_threshold (float threshold);
       void set_signed (bool signed_str);
-      void set_encr_type (encr_t encr_type);
+      void set_encr_type (int encr_type);
       void parse_raw_key_string (uint8_t * dest, const char *inp);
       void scrambler_sequence_generator ();
       uint32_t scrambler_seed_calculation (int8_t subtype, uint32_t key,

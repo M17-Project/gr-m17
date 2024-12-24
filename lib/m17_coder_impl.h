@@ -66,10 +66,11 @@ namespace gr
 
 #ifdef ECC
 //Scrambler
-      uint8_t scr_bytes[16];
-      uint8_t scrambler_pn[128];
-      uint32_t scrambler_seed = 0;
-      int8_t scrambler_subtype = -1;
+      uint8_t _seed[3]; //24-bit is the largest seed value
+      uint8_t _scr_bytes[16];
+      uint8_t _scrambler_pn[128];
+      uint32_t _scrambler_seed = 0;
+      int8_t _scrambler_subtype = -1;
 #endif
 
     public:
@@ -80,19 +81,22 @@ namespace gr
       void set_key (std::string key);
       void set_priv_key (std::string key);
       void set_meta (std::string meta);
+      void set_seed (std::string meta);
       void set_type (int mode, int data, encr_t encr_type, int encr_subtype,
 		     int can);
       void set_mode (int mode);
       void set_data (int data);
-      void set_encr_type (encr_t encr_type);
+      void set_encr_type (int encr_type);
       void set_encr_subtype (int encr_subtype);
       void set_can (int can);
       void set_debug (bool debug);
       void set_signed (bool signed_str);
+      void end_of_transmission(const pmt::pmt_t& msg);
+
       m17_coder_impl (std::string src_id, std::string dst_id, int mode,
-		      int data, encr_t encr_type, int encr_subtype, int can,
+		      int data, int encr_type, int encr_subtype, int can,
 		      std::string meta, std::string key, std::string priv_key,
-		      bool debug, bool signed_str);
+		      bool debug, bool signed_str, std::string seed);
       ~m17_coder_impl ();
 
       // Where all the action really happens

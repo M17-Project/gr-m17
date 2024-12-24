@@ -26,6 +26,8 @@ static const char *__doc_gr_m17_m17_coder_set_key = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_coder_set_priv_key = R"doc()doc";
 
+static const char *__doc_gr_m17_m17_coder_set_seed = R"doc()doc";
+
 static const char *__doc_gr_m17_m17_coder_set_meta = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_coder_set_src_id = R"doc()doc";

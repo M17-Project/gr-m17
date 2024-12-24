@@ -42,14 +42,15 @@ namespace gr
        * creating new instances.
        */
       static sptr make (bool debug_data, bool debug_ctrl, float threshold,
-			bool callsign, bool signed_str, encr_t encr_type,
-			std::string key);
+			bool callsign, bool signed_str, int encr_type,
+			std::string key, std::string seed);
       virtual void set_debug_data (bool debug) = 0;
       virtual void set_debug_ctrl (bool debug) = 0;
       virtual void set_callsign (bool callsign) = 0;
       virtual void set_threshold (float threshold) = 0;
       virtual void set_signed (bool signed_str) = 0;
       virtual void set_key (std::string key) = 0;
+      virtual void set_seed (std::string seed) = 0;
       virtual void parse_raw_key_string (uint8_t * dest, const char *inp) = 0;
       virtual void scrambler_sequence_generator () = 0;
       virtual uint32_t scrambler_seed_calculation (int8_t subtype,

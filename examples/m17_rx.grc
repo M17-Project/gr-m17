@@ -117,13 +117,14 @@ blocks:
     key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    seed: ''
     signed_str: 'False'
     threshold: '2.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [392, 36.0]
+    coordinate: [392, 28.0]
     rotation: 0
     state: enabled
 

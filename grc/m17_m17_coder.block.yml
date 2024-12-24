@@ -43,12 +43,16 @@ parameters:
   label: Meta
   dtype: string
   default: ''
+- id: seed
+  label: Scrambler seed
+  dtype: string
+  default: ''
 - id: key
   label: AES Key
   dtype: string
   default: ''
 - id: priv_key
-  label: Private Key
+  label: Private Key for ECDSA (32 bytes)
   dtype: string
   default: ''
 - id: signed_str
@@ -70,7 +74,7 @@ asserts:
     - ${ len(src_id) < 10 }
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str})
+  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed})
   callbacks:
     - set_meta(${meta})
     - set_src_id(${src_id})
@@ -84,6 +88,7 @@ templates:
     - set_priv_key(${priv_key})
     - set_debug(${debug})
     - set_signed(${signed_str})
+    - set_seed(${seed})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -97,6 +102,9 @@ inputs:
   domain: stream
   dtype: byte
   vlen: 1
+  optional: 0
+- label: end_of_transmission
+  domain: message
   optional: 0
 
 outputs:

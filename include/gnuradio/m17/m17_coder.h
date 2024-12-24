@@ -42,11 +42,12 @@ namespace gr
        * creating new instances.
        */
       static sptr make (std::string src_id, std::string dst_id, int mode,
-			int data, encr_t encr_type, int encr_subtype, int can,
+			int data, int encr_type, int encr_subtype, int can,
 			std::string meta, std::string key,
-			std::string priv_key, bool debug, bool signed_str);
+			std::string priv_key, bool debug, bool signed_str, std::string seed);
       virtual void set_key (std::string meta) = 0;
       virtual void set_priv_key (std::string meta) = 0;
+      virtual void set_seed (std::string dst_id) = 0;
       virtual void set_meta (std::string meta) = 0;
       virtual void set_src_id (std::string src_id) = 0;
       virtual void set_dst_id (std::string dst_id) = 0;
@@ -56,7 +57,7 @@ namespace gr
 			     int encr_subtype, int can) = 0;
       virtual void set_mode (int mode) = 0;
       virtual void set_data (int data) = 0;
-      virtual void set_encr_type (encr_t encr_type) = 0;
+      virtual void set_encr_type (int encr_type) = 0;
       virtual void set_encr_subtype (int encr_subtype) = 0;
       virtual void set_can (int can) = 0;
     };

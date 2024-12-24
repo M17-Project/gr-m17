@@ -43,13 +43,13 @@ namespace gr
 
     m17_decoder::sptr
       m17_decoder::make (bool debug_data, bool debug_ctrl, float threshold,
-			 bool callsign, bool signed_str, encr_t encr_type,
-			 std::string key)
+			 bool callsign, bool signed_str, int encr_type,
+			 std::string key, std::string seed)
     {
       return gnuradio::get_initial_sptr
 	(new
 	 m17_decoder_impl (debug_data, debug_ctrl, threshold, callsign,
-			   signed_str, encr_type, key));
+			   signed_str, encr_type, key, seed));
     }
 
 
@@ -58,9 +58,10 @@ namespace gr
      */
     m17_decoder_impl::m17_decoder_impl (bool debug_data, bool debug_ctrl,
 					float threshold, bool callsign,
-					bool signed_str, encr_t encr_type,
-					std::string key):gr::
-      block ("m17_decoder", gr::io_signature::make (1, 1, sizeof (float)),
+					bool signed_str, int encr_type,
+					std::string key, std::string seed):
+             gr::block ("m17_decoder", 
+             gr::io_signature::make (1, 1, sizeof (float)),
 	     gr::io_signature::make (1, 1, sizeof (char))),
       _debug_data (debug_data), _debug_ctrl (debug_ctrl),
       _threshold (threshold), _callsign (callsign), _signed_str (signed_str)
@@ -106,9 +107,15 @@ namespace gr
 	printf ("Debug control: false\n");
     }
 
-    void m17_decoder_impl::set_encr_type (encr_t encr_type)
+    void m17_decoder_impl::set_encr_type (int encr_type)
     {
-      _encr_type = encr_type;
+      switch (encr_type)
+      {case 0:_encr_type=ENCR_NONE;break;
+       case 1:_encr_type=ENCR_SCRAM;break;
+       case 2:_encr_type=ENCR_AES;break;
+       case 3:_encr_type=ENCR_RES;break;
+       default:_encr_type=ENCR_NONE;
+      }
       printf ("new encr type: %x -> ", _encr_type);
     }
 
@@ -159,6 +166,49 @@ namespace gr
       fflush (stdout);
     }
 
+    void m17_decoder_impl::set_seed (std::string arg)     // *UTF-8* encoded byte array
+    { 
+      int length;
+      printf ("new seed: ");
+      length = arg.size ();
+      int i = 0, j = 0;
+      while ((j < 3) && (i < length))
+        { 
+          if ((unsigned int) arg.data ()[i] < 0xc2)     // https://www.utf8-chartable.de/
+            { 
+              _seed[j] = arg.data ()[i];
+              i++;
+              j++;
+            }
+          else
+            { 
+              _seed[j] = (arg.data ()[i] - 0xc2) * 0x40 + arg.data ()[i + 1];
+              i += 2;
+              j++;
+            }
+        }
+      length = j;               // index from 0 to length-1
+      printf ("%d bytes: ", length);
+      for (i = 0; i < length; i++)
+        printf ("%02X ", _seed[i]);
+      printf ("\n");
+      fflush (stdout);
+      if(length<=2)
+        {
+         _scrambler_seed = _scrambler_seed >> 16;
+         fprintf(stderr, "Scrambler key: 0x%02X (8-bit)\n", _scrambler_seed);
+        }
+      else if(length<=4)
+        {
+         _scrambler_seed = _scrambler_seed >> 8;
+         fprintf(stderr, "Scrambler key: 0x%04X (16-bit)\n", _scrambler_seed);
+        }
+      else
+         fprintf(stderr, "Scrambler key: 0x%06X (24-bit)\n", _scrambler_seed);
+
+      _encr_type=ENCR_SCRAM; //Scrambler key was passed
+    }
+
     void
       m17_decoder_impl::forecast (int noutput_items,
 				  gr_vector_int & ninput_items_required)
@@ -197,12 +247,12 @@ namespace gr
 	}
 
       //truncate seed so subtype will continue to set properly on subsequent passes
-      if (scrambler_subtype == 0)
-	scrambler_seed &= 0xFF;
-      else if (scrambler_subtype == 1)
-	scrambler_seed &= 0xFFFF;
-      else if (scrambler_subtype == 2)
-	scrambler_seed &= 0xFFFFFF;
+      if (_scrambler_subtype == 0)
+	_scrambler_seed &= 0xFF;
+      else if (_scrambler_subtype == 1)
+	_scrambler_seed &= 0xFFFF;
+      else if (_scrambler_subtype == 2)
+	_scrambler_seed &= 0xFFFFFF;
 
       //debug
       //fprintf (stderr, "\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d; FN: %05d; ", key, lfsr, subtype, fn);
@@ -215,20 +265,20 @@ namespace gr
     {
       int i = 0;
       uint32_t lfsr, bit;
-      lfsr = scrambler_seed;
+      lfsr = _scrambler_seed;
 
       //only set if not initially set (first run), it is possible (and observed) that the scrambler_subtype can 
       //change on subsequent passes if the current SEED for the LFSR falls below one of these thresholds
-      if (scrambler_subtype == -1)
+      if (_scrambler_subtype == -1)
 	{
 	  if (lfsr > 0 && lfsr <= 0xFF)
-	    scrambler_subtype = 0;	// 8-bit key
+	    _scrambler_subtype = 0;	// 8-bit key
 	  else if (lfsr > 0xFF && lfsr <= 0xFFFF)
-	    scrambler_subtype = 1;	//16-bit key
+	    _scrambler_subtype = 1;	//16-bit key
 	  else if (lfsr > 0xFFFF && lfsr <= 0xFFFFFF)
-	    scrambler_subtype = 2;	//24-bit key
+	    _scrambler_subtype = 2;	//24-bit key
 	  else
-	    scrambler_subtype = 0;	// 8-bit key (default)
+	    _scrambler_subtype = 0;	// 8-bit key (default)
 	}
 
       //TODO: Set Frame Type based on scrambler_subtype value
@@ -236,7 +286,7 @@ namespace gr
 	{
 	  fprintf (stderr,
 		   "\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;",
-		   scrambler_seed, lfsr, scrambler_subtype);
+		   _scrambler_seed, lfsr, _scrambler_subtype);
 	  fprintf (stderr, "\n pN: ");
 	}
 
@@ -244,11 +294,11 @@ namespace gr
       for (i = 0; i < 128; i++)
 	{
 	  //get feedback bit with specified taps, depending on the scrambler_subtype
-	  if (scrambler_subtype == 0)
+	  if (_scrambler_subtype == 0)
 	    bit = (lfsr >> 7) ^ (lfsr >> 5) ^ (lfsr >> 4) ^ (lfsr >> 3);
-	  else if (scrambler_subtype == 1)
+	  else if (_scrambler_subtype == 1)
 	    bit = (lfsr >> 15) ^ (lfsr >> 14) ^ (lfsr >> 12) ^ (lfsr >> 3);
-	  else if (scrambler_subtype == 2)
+	  else if (_scrambler_subtype == 2)
 	    bit = (lfsr >> 23) ^ (lfsr >> 22) ^ (lfsr >> 21) ^ (lfsr >> 16);
 	  else
 	    bit = 0;		//should never get here, but just in case
@@ -256,29 +306,29 @@ namespace gr
 	  bit &= 1;		//truncate bit to 1 bit (required since I didn't do it above)
 	  lfsr = (lfsr << 1) | bit;	//shift LFSR left once and OR bit onto LFSR's LSB
 	  lfsr &= 0xFFFFFF;	//truncate lfsr to 24-bit (really doesn't matter)
-	  scrambler_pn[i] = bit;
+	  _scrambler_pn[i] = bit;
 
 	}
 
       //pack bit array into byte array for easy data XOR
-      pack_bit_array_into_byte_array (scrambler_pn, scr_bytes, 16);
+      pack_bit_array_into_byte_array (_scrambler_pn, _scr_bytes, 16);
 
       //save scrambler seed for next round
-      scrambler_seed = lfsr;
+      _scrambler_seed = lfsr;
 
       //truncate seed so subtype will continue to set properly on subsequent passes
-      if (scrambler_subtype == 0)
-	scrambler_seed &= 0xFF;
-      else if (scrambler_subtype == 1)
-	scrambler_seed &= 0xFFFF;
-      else if (scrambler_subtype == 2)
-	scrambler_seed &= 0xFFFFFF;
+      if (_scrambler_subtype == 0)
+	_scrambler_seed &= 0xFF;
+      else if (_scrambler_subtype == 1)
+	_scrambler_seed &= 0xFFFF;
+      else if (_scrambler_subtype == 2)
+	_scrambler_seed &= 0xFFFFFF;
 
       if (_debug_ctrl == true)
 	{
 	  //debug packed bytes
 	  for (i = 0; i < 16; i++)
-	    fprintf (stderr, " %02X", scr_bytes[i]);
+	    fprintf (stderr, " %02X", _scr_bytes[i]);
 	  fprintf (stderr, "\n");
 	}
 
@@ -484,12 +534,12 @@ namespace gr
 		      if (_encr_type == ENCR_SCRAM)
 			{
 			  if (fn != 0 && (fn % 0x8000) != _expected_next_fn)	//frame skip, etc
-			    scrambler_seed =
-			      scrambler_seed_calculation (scrambler_subtype,
+			    _scrambler_seed =
+			      scrambler_seed_calculation (_scrambler_subtype,
 							  _scrambler_key,
 							  fn & 0x7FFF);
 			  else if (fn == 0)
-			    scrambler_seed = _scrambler_key;	//reset back to key value
+			    _scrambler_seed = _scrambler_key;	//reset back to key value
 
 			  if (_signed_str == true && (fn % 0x8000) < 0x7FFC)	//signed stream
 			    scrambler_sequence_generator ();
@@ -498,7 +548,7 @@ namespace gr
 
 			  for (uint8_t i = 0; i < 16; i++)
 			    {
-			      frame_data[i + 3] ^= scr_bytes[i];
+			      frame_data[i + 3] ^= _scr_bytes[i];
 			    }
 			}
 
