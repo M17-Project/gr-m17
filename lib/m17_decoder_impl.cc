@@ -545,6 +545,7 @@ namespace gr
 			    scrambler_sequence_generator ();
 			  else if (_signed_str == false)	//non-signed stream
 			    scrambler_sequence_generator ();
+                          else memset(scr_bytes, 0, sizeof(scr_bytes)); // zero out stale scrambler bytes so they aren't applied to the sig frames
 
 			  for (uint8_t i = 0; i < 16; i++)
 			    {
