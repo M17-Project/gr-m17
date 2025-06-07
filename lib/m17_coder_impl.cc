@@ -549,7 +549,7 @@ namespace gr
         for(uint8_t i=3; i<14; i++)
             _iv[i] = rand() & 0xFF; //10 random bytes
     }
-        send_preamble(out, &countout, PREAM_LSF); //0 - LSF preamble, as opposed to 1 - BERT preamble
+        gen_preamble(out, &countout, PREAM_LSF); //0 - LSF preamble, as opposed to 1 - BERT preamble
 
     if(_encr_type==ENCR_AES)
     {   
@@ -570,7 +570,7 @@ namespace gr
 	      if (!_got_lsf)	//stream frames
 		{
 		  //send LSF syncword
-		  send_syncword (out, &countout, SYNC_LSF);
+		  gen_syncword (out, &countout, SYNC_LSF);
 
 		  //encode LSF data
 		  conv_encode_LSF (enc_bits, &_lsf);
@@ -582,7 +582,7 @@ namespace gr
 		  randomize_bits (rf_bits);
 
 		  //send LSF data
-		  send_data (out, &countout, rf_bits);
+		  gen_data (out, &countout, rf_bits);
 
 		  //check the SIGNED STREAM flag
 		  _signed_str = (_lsf.type[0] >> 3) & 1;
@@ -621,14 +621,14 @@ namespace gr
 
 		  if (_finished == false)
 		    {
-		      send_syncword (out, &countout, SYNC_STR);
+		      gen_syncword (out, &countout, SYNC_STR);
 		      extract_LICH (lich, _lich_cnt, &_lsf);
 		      encode_LICH (lich_encoded, lich);
 		      unpack_LICH (enc_bits, lich_encoded);
 		      conv_encode_stream_frame (&enc_bits[96], data, _fn);
 		      reorder_bits (rf_bits, enc_bits);
 		      randomize_bits (rf_bits);
-		      send_data (out, &countout, rf_bits);
+		      gen_data (out, &countout, rf_bits);
 		      _fn = (_fn + 1) % 0x8000;	//increment FN
 		      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
 
@@ -658,7 +658,7 @@ namespace gr
 		    }
 		  else		//send last frame(s)
 		    { printf("Sending last frame\n");
-		      send_syncword (out, &countout, SYNC_STR);
+		      gen_syncword (out, &countout, SYNC_STR);
 		      extract_LICH (lich, _lich_cnt, &_lsf);
 		      encode_LICH (lich_encoded, lich);
 		      unpack_LICH (enc_bits, lich_encoded);
@@ -669,7 +669,7 @@ namespace gr
 			conv_encode_stream_frame (&enc_bits[96], data, _fn);
 		      reorder_bits (rf_bits, enc_bits);
 		      randomize_bits (rf_bits);
-		      send_data (out, &countout, rf_bits);
+		      gen_data (out, &countout, rf_bits);
 		      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
 
 		      //if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
@@ -691,7 +691,7 @@ namespace gr
 			  _fn = 0x7FFC;	//signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
 			  for (uint8_t i = 0; i < 4; i++)
 			    {
-			      send_syncword (out, &countout, SYNC_STR);
+			      gen_syncword (out, &countout, SYNC_STR);
 			      extract_LICH (lich, _lich_cnt, &_lsf);
 			      encode_LICH (lich_encoded, lich);
 			      unpack_LICH (enc_bits, lich_encoded);
@@ -699,7 +699,7 @@ namespace gr
 							&_sig[i * 16], _fn);
 			      reorder_bits (rf_bits, enc_bits);
 			      randomize_bits (rf_bits);
-			      send_data (out, &countout, rf_bits);
+			      gen_data (out, &countout, rf_bits);
 			      _fn =
 				(_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
 			      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
@@ -718,7 +718,7 @@ namespace gr
 			    }
 			}
 		      //send EOT frame
-		      send_eot (out, &countout);
+		      gen_eot (out, &countout);
 		      //fprintf(stderr, "Stream has ended. Exiting.\n");
 		    }		// finished == true
 	}			// loop on input data
