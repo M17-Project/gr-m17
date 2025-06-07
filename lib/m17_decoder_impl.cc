@@ -545,6 +545,7 @@ namespace gr
 			    scrambler_sequence_generator ();
 			  else if (_signed_str == false)	//non-signed stream
 			    scrambler_sequence_generator ();
+                          else memset(_scr_bytes, 0, sizeof(_scr_bytes)); // zero out stale scrambler bytes so they aren't applied to the sig frames
 
 			  for (uint8_t i = 0; i < 16; i++)
 			    {
@@ -553,15 +554,17 @@ namespace gr
 			}
 
 		      //dump data - first byte is empty
-		      printf ("FN: %04X PLD: ", fn);
+		      //printf ("FN: %04X PLD: ", fn);
 		      for (uint8_t i = 3; i < 19; i++)
 			{
-			  printf ("%02X", frame_data[i]);
+		          if (_debug_data == true)
+			     printf (" %02X", frame_data[i]);
 			}
 		      if (_debug_ctrl == true)
-			printf (" e=%1.1f\n", (float) e / 0xFFFF);
+			 printf (" e=%1.1f\n", (float) e / 0xFFFF);
 
-		      printf ("\n");
+		      if ((_debug_ctrl == true) || (_debug_data==true))
+		         printf ("\n");
 
 		      //send codec2 stream to stdout
 		      //fwrite(&frame_data[3], 16, 1, stdout);
@@ -587,27 +590,28 @@ namespace gr
 		      //debug - dump LICH
 		      if (lich_chunks_rcvd == 0x3F)	//all 6 chunks received?
 			{
-			  if (_debug_ctrl == true)
-			    {
-			      if (_callsign == true)
-				{
-				  decode_callsign_bytes (d_dst, &lsf[0]);
-				  decode_callsign_bytes (d_src, &lsf[6]);
+			 if (_callsign == true)
+		    	    {
+			     decode_callsign_bytes (d_dst, &lsf[0]);
+			     decode_callsign_bytes (d_src, &lsf[6]);
+			     if (_debug_ctrl == true)
+			        {
 				  printf ("DST: %-9s ", d_dst);	//DST
 				  printf ("SRC: %-9s ", d_src);	//SRC
 				}
-			      else
+                            }
+			 else
+			     if (_debug_ctrl == true)
 				{
 				  printf ("DST: ");	//DST
 				  for (uint8_t i = 0; i < 6; i++)
-				    printf ("%02X", lsf[i]);
+				      printf ("%02X", lsf[i]);
 				  printf (" ");
 				  printf ("SRC: ");	//SRC
 				  for (uint8_t i = 0; i < 6; i++)
 				    printf ("%02X", lsf[6 + i]);
 				  printf (" ");
 				}
-			    }
 
 			  //TYPE
 			  uint16_t type = (uint16_t) lsf[12] * 0x100 + lsf[13];	//big-endian
@@ -690,11 +694,13 @@ namespace gr
 				  (_key, _digest, sizeof (_digest), _sig,
 				   _curve))
 				{
-				  printf ("Signature OK\n");
+		                  if (_debug_ctrl == true)
+				     printf ("Signature OK\n");
 				}
 			      else
 				{
-				  printf ("Signature invalid\n");
+		                  if (_debug_ctrl == true)
+				     printf ("Signature invalid\n");
 				}
 			    }
 			}
@@ -718,18 +724,20 @@ namespace gr
 			lsf[i] = lsf[i + 1];
 
 		      //dump data
-		      if (_debug_ctrl == true)
-			{
-			  if (_callsign == true)
+		      if (_callsign == true)
+			 {
+			  decode_callsign_bytes (d_dst, &lsf[0]);
+			  decode_callsign_bytes (d_src, &lsf[6]);
+		          if (_debug_ctrl == true)
 			    {
-			      decode_callsign_bytes (d_dst, &lsf[0]);
-			      decode_callsign_bytes (d_src, &lsf[6]);
 			      printf ("DST: %-9s ", d_dst);	//DST
 			      printf ("SRC: %-9s ", d_src);	//SRC
 			    }
-			  else
-			    {
-			      printf ("DST: ");	//DST
+                         }
+		      else
+			 {
+		          if (_debug_ctrl == true)
+			     {printf ("DST: ");	//DST
 			      for (uint8_t i = 0; i < 6; i++)
 				printf ("%02X", lsf[i]);
 			      printf (" ");
@@ -740,30 +748,35 @@ namespace gr
 				printf ("%02X", lsf[6 + i]);
 			      printf (" ");
 			    }
-
+                         }
 			  //TYPE
-			  printf ("TYPE: ");
+		      if (_debug_ctrl == true)
+		         {printf ("TYPE: ");
 			  for (uint8_t i = 0; i < 2; i++)
-			    printf ("%02X", lsf[12 + i]);
+			      printf ("%02X", lsf[12 + i]);
 			  printf (" ");
 
 			  //META
 			  printf ("META: ");
 			  for (uint8_t i = 0; i < 14; i++)
-			    printf ("%02X", lsf[14 + i]);
-			  printf (" ");
-
-			  //CRC
-			  //printf("CRC: ");
-			  //for(uint8_t i=0; i<2; i++)
-			  //printf("%02X", lsf[28+i]);
-			  if (CRC_M17 (lsf, 30))
+			      printf ("%02X", lsf[14 + i]);
+ 			  printf (" ");
+                         }
+		      //CRC
+		      //printf("CRC: ");
+		      //for(uint8_t i=0; i<2; i++)
+		      //printf("%02X", lsf[28+i]);
+		      if (CRC_M17 (lsf, 30))
+		         {if (_debug_ctrl == true)
 			    printf ("LSF_CRC_ERR");
-			  else
-			    printf ("LSF_CRC_OK ");
-			  //Viterbi decoder errors
-			  printf (" e=%1.1f\n", (float) e / 0xFFFF);
-			}
+                         }
+		      else
+		         {if (_debug_ctrl == true)
+		            printf ("LSF_CRC_OK ");
+                         }
+		      //Viterbi decoder errors
+		      if (_debug_ctrl == true)
+			 printf (" e=%1.1f\n", (float) e / 0xFFFF);
 		    }
 
 		  //job done

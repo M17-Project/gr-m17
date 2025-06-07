@@ -95,15 +95,9 @@ namespace gr
         memset (_key, 0, 32 * sizeof (uint8_t));
         memset (_iv, 0, 16 * sizeof (uint8_t));
 #endif
-      if (_encr_type == ENCR_AES)
-	{
-	  set_key (key);	// read key
-	  *((int32_t *) & _iv[0]) = (uint32_t) time (NULL) - (uint32_t) epoch;	//timestamp
-	  for (uint8_t i = 4; i < 4 + 10; i++)
-	    _iv[i] = 0;		//10 random bytes TODO: replace with a rand() or pass through an additional arg
-	}
      message_port_register_in(pmt::mp("end_of_transmission"));
      set_msg_handler(pmt::mp("end_of_transmission"), [this](const pmt::pmt_t& msg) { end_of_transmission(msg); });
+     _init_frame=true;
     }
 
     void m17_coder_impl::end_of_transmission(const pmt::pmt_t& msg)
@@ -115,10 +109,10 @@ namespace gr
     void m17_coder_impl::set_encr_type (int encr_type)
     { 
       switch (encr_type)
-      {case 0:_encr_type=ENCR_NONE;break;
+      {case 0:_encr_type=ENCR_NONE; break;
        case 1:_encr_type=ENCR_SCRAM;break;
-       case 2:_encr_type=ENCR_AES;break;
-       case 3:_encr_type=ENCR_RES;break;
+       case 2:_encr_type=ENCR_AES;  break;
+       case 3:_encr_type=ENCR_RES;  break;
        default:_encr_type=ENCR_NONE;
       }
       printf ("new encr type: %x -> ", _encr_type);
@@ -546,12 +540,37 @@ namespace gr
 
       uint8_t data[16], next_data[16];	//raw payload, packed bits
 
+      if (_init_frame==true)
+        {
+    if(_encr_type==ENCR_AES)
+    {   
+        for(uint8_t i=0; i<4; i++)
+            _iv[i] = ((uint32_t)(time(NULL)&0xFFFFFFFF)-(uint32_t)epoch) >> (24-(i*8));
+        for(uint8_t i=3; i<14; i++)
+            _iv[i] = rand() & 0xFF; //10 random bytes
+    }
+        gen_preamble(out, &countout, PREAM_LSF); //0 - LSF preamble, as opposed to 1 - BERT preamble
+
+    if(_encr_type==ENCR_AES)
+    {   
+        memcpy(&(_lsf.meta), _iv, 14);
+        _iv[14] = (_fn >> 8) & 0x7F;
+        _iv[15] = (_fn >> 0) & 0xFF;
+
+        //re-calculate LSF CRC with IV insertion
+        uint16_t ccrc=LSF_CRC(&_lsf);
+        _lsf.crc[0]=ccrc>>8;
+        _lsf.crc[1]=ccrc&0xFF;
+    }
+           _init_frame=false; 
+        } // end of init frame
+
       while ((countout < (uint32_t) noutput_items) && (countin + 16 <= noutput_items))
 	{
 	      if (!_got_lsf)	//stream frames
 		{
 		  //send LSF syncword
-		  send_syncword (out, &countout, SYNC_LSF);
+		  gen_syncword (out, &countout, SYNC_LSF);
 
 		  //encode LSF data
 		  conv_encode_LSF (enc_bits, &_lsf);
@@ -563,7 +582,7 @@ namespace gr
 		  randomize_bits (rf_bits);
 
 		  //send LSF data
-		  send_data (out, &countout, rf_bits);
+		  gen_data (out, &countout, rf_bits);
 
 		  //check the SIGNED STREAM flag
 		  _signed_str = (_lsf.type[0] >> 3) & 1;
@@ -572,178 +591,7 @@ namespace gr
 		  _got_lsf = 1;
 		}
 
-	      if (_debug == true)
-		{
-		  //destination set to "ALL"
-		  memset (_next_lsf.dst, 0xFF, 6 * sizeof (uint8_t));
-
-		  //source  set to "N0CALL"
-		  _next_lsf.src[0] = 0x00;
-		  _next_lsf.src[1] = 0x00;
-		  _next_lsf.src[2] = 0x4B;
-		  _next_lsf.src[3] = 0x13;
-		  _next_lsf.src[4] = 0xD1;
-		  _next_lsf.src[5] = 0x06;
-
-		  if (_encr_type == ENCR_AES)	//AES ENC, 3200 voice
-		    {
-		      _next_lsf.type[0] = 0x03;
-		      _next_lsf.type[1] = 0x95;
-		    }
-		  else if (_encr_type == ENCR_SCRAM)	//Scrambler ENC, 3200 Voice
-		    {
-		      _next_lsf.type[0] = 0x00;
-		      _next_lsf.type[1] = 0x00;
-		      if (_scrambler_subtype == 0)
-			_next_lsf.type[1] = 0x0D;
-		      else if (_scrambler_subtype == 1)
-			_next_lsf.type[1] = 0x2D;
-		      else if (_scrambler_subtype == 2)
-			_next_lsf.type[1] = 0x4D;
-		    }
-		  else		//no enc or subtype field, normal 3200 voice
-		    {
-		      _next_lsf.type[0] = 0x00;
-		      _next_lsf.type[1] = 0x05;
-		    }
-
-		  //a signature key is loaded, OR this bit
-		  if (_priv_key_loaded == true)
-		    _next_lsf.type[0] |= 0x8;
-
-		  _finished = false;
-
-		  memset (next_data, 0, sizeof (next_data));
-		  memcpy (data, next_data, sizeof (data));
-//		  if (_fn == 60)
-//		    _finished = true;
-
-		  //debug sig with random payloads (don't play the audio)
-		  for (uint8_t i = 0; i < 16; i++)
-		    data[i] = 0x69;	//rand() & 0xFF;
-
-		}
-/*
-        //TODO: pass some of these through arguments?
-        //read data
-        dummy=fread(&(lsf.dst), 6, 1, stdin);
-        dummy=fread(&(lsf.src), 6, 1, stdin);
-        dummy=fread(&(lsf.type), 2, 1, stdin);
-        dummy=fread(&(lsf.meta), 14, 1, stdin);
-        dummy=fread(data, 16, 1, stdin);
-*/
-	  if (countin + 16 <= noutput_items)
-	    {
-	      for (int i = 0; i < 16; i++)
-		{
-		  data[i] = in[countin];
-		  countin++;
-		}
-            }
-
-	      //AES encryption enabled - use 112 bits of IV
-	      if (_encr_type == ENCR_AES)
-		{
-		  memcpy (&(_lsf.meta), _iv, 14);
-		  _iv[14] = (_fn >> 8) & 0x7F;
-		  _iv[15] = (_fn >> 0) & 0xFF;
-
-		  //re-calculate LSF CRC with IV insertion
-		  uint16_t ccrc = LSF_CRC (&_lsf);
-		  _lsf.crc[0] = ccrc >> 8;
-		  _lsf.crc[1] = ccrc & 0xFF;
-		}
-
-//	      while (_finished == false)
-		{
-		  if (!_got_lsf)
-		    {		//debug
-		      //fprintf(stderr, "LSF\n");
-
-		      //send LSF syncword
-		      send_syncword (out, &countout, SYNC_LSF);
-
-		      //encode LSF data
-		      conv_encode_LSF (enc_bits, &_lsf);
-
-		      //reorder bits
-		      reorder_bits (rf_bits, enc_bits);
-
-		      //randomize
-		      randomize_bits (rf_bits);
-
-		      //send LSF data
-		      send_data (out, &countout, rf_bits);
-
-		      //check the SIGNED STREAM flag
-		      _signed_str = (_lsf.type[0] >> 3) & 1;
-
-		      //set the flag
-		      _got_lsf = 1;
-		    }
-
-		  if (_debug == true)
-		    {
-		      //destination set to "ALL"
-		      memset (_next_lsf.dst, 0xFF, 6 * sizeof (uint8_t));
-
-		      //source  set to "N0CALL"
-		      _next_lsf.src[0] = 0x00;
-		      _next_lsf.src[1] = 0x00;
-		      _next_lsf.src[2] = 0x4B;
-		      _next_lsf.src[3] = 0x13;
-		      _next_lsf.src[4] = 0xD1;
-		      _next_lsf.src[5] = 0x06;
-
-		      if (_encr_type == ENCR_AES)	//AES ENC, 3200 voice
-			{
-			  _next_lsf.type[0] = 0x03;
-			  _next_lsf.type[1] = 0x95;
-			}
-		      else if (_encr_type == ENCR_SCRAM)	//Scrambler ENC, 3200 Voice
-			{
-			  _next_lsf.type[0] = 0x00;
-			  _next_lsf.type[1] = 0x00;
-			  if (_scrambler_subtype == 0)
-			    _next_lsf.type[1] = 0x0D;
-			  else if (_scrambler_subtype == 1)
-			    _next_lsf.type[1] = 0x2D;
-			  else if (_scrambler_subtype == 2)
-			    _next_lsf.type[1] = 0x4D;
-			}
-		      else	//no enc or subtype field, normal 3200 voice
-			{
-			  _next_lsf.type[0] = 0x00;
-			  _next_lsf.type[1] = 0x05;
-			}
-
-		      //a signature key is loaded, OR this bit
-		      if (_priv_key_loaded == true)
-			_next_lsf.type[0] |= 0x8;
-
-		      _finished = false;
-
-		      memset (next_data, 0, sizeof (next_data));
-		      memcpy (data, next_data, sizeof (data));
-		      if (_fn == 60)
-			_finished = 1;
-
-		      //debug sig with random payloads (don't play the audio)
-		      for (uint8_t i = 0; i < 16; i++)
-			data[i] = 0x69;	//rand() & 0xFF;
-
-		    }		// end of debug==true
-		  else
-		    {
-		      /*
-		         //check if theres any more data
-		         if(fread(&(next_lsf.dst), 6, 1, stdin)<1) finished=1;
-		         if(fread(&(next_lsf.src), 6, 1, stdin)<1) finished=1;
-		         if(fread(&(next_lsf.type), 2, 1, stdin)<1) finished=1;
-		         if(fread(&(next_lsf.meta), 14, 1, stdin)<1) finished=1;
-		         if(fread(next_data, 16, 1, stdin)<1) _finished=true;
-		       */
-	  if (countin + 16 <= noutput_items)
+	  if (countin + 16 < noutput_items)
 	    {
 	      for (int i = 0; i < 16; i++)
 		{
@@ -751,7 +599,6 @@ namespace gr
 		  countin++;
 		}
              }
-		    }
 
 		  //AES
 		  if (_encr_type == ENCR_AES)
@@ -774,14 +621,14 @@ namespace gr
 
 		  if (_finished == false)
 		    {
-		      send_syncword (out, &countout, SYNC_STR);
+		      gen_syncword (out, &countout, SYNC_STR);
 		      extract_LICH (lich, _lich_cnt, &_lsf);
 		      encode_LICH (lich_encoded, lich);
 		      unpack_LICH (enc_bits, lich_encoded);
 		      conv_encode_stream_frame (&enc_bits[96], data, _fn);
 		      reorder_bits (rf_bits, enc_bits);
 		      randomize_bits (rf_bits);
-		      send_data (out, &countout, rf_bits);
+		      gen_data (out, &countout, rf_bits);
 		      _fn = (_fn + 1) % 0x8000;	//increment FN
 		      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
 
@@ -811,7 +658,7 @@ namespace gr
 		    }
 		  else		//send last frame(s)
 		    { printf("Sending last frame\n");
-		      send_syncword (out, &countout, SYNC_STR);
+		      gen_syncword (out, &countout, SYNC_STR);
 		      extract_LICH (lich, _lich_cnt, &_lsf);
 		      encode_LICH (lich_encoded, lich);
 		      unpack_LICH (enc_bits, lich_encoded);
@@ -822,7 +669,7 @@ namespace gr
 			conv_encode_stream_frame (&enc_bits[96], data, _fn);
 		      reorder_bits (rf_bits, enc_bits);
 		      randomize_bits (rf_bits);
-		      send_data (out, &countout, rf_bits);
+		      gen_data (out, &countout, rf_bits);
 		      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
 
 		      //if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
@@ -844,7 +691,7 @@ namespace gr
 			  _fn = 0x7FFC;	//signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
 			  for (uint8_t i = 0; i < 4; i++)
 			    {
-			      send_syncword (out, &countout, SYNC_STR);
+			      gen_syncword (out, &countout, SYNC_STR);
 			      extract_LICH (lich, _lich_cnt, &_lsf);
 			      encode_LICH (lich_encoded, lich);
 			      unpack_LICH (enc_bits, lich_encoded);
@@ -852,7 +699,7 @@ namespace gr
 							&_sig[i * 16], _fn);
 			      reorder_bits (rf_bits, enc_bits);
 			      randomize_bits (rf_bits);
-			      send_data (out, &countout, rf_bits);
+			      gen_data (out, &countout, rf_bits);
 			      _fn =
 				(_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
 			      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
@@ -871,10 +718,9 @@ namespace gr
 			    }
 			}
 		      //send EOT frame
-		      send_eot (out, &countout);
+		      gen_eot (out, &countout);
 		      //fprintf(stderr, "Stream has ended. Exiting.\n");
 		    }		// finished == true
-		}		// finished == false
 	}			// loop on input data
       // Tell runtime system how many input items we consumed on
       // each input stream.

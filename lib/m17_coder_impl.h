@@ -62,7 +62,7 @@ namespace gr
       bool _priv_key_loaded = false;	//do we have a sig key loaded?
       uint8_t _priv_key[32] = { 0 };	//private key
       uint8_t _sig[64] = { 0 };	//ECDSA signature
-
+      bool _init_frame;
 
 #ifdef ECC
 //Scrambler
