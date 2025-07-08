@@ -14,7 +14,7 @@ cd gr-m17
 mkdir build
 cd build
 cmake ../
-make -j12
+make -j`nproc`
 sudo make install
 ```
 
