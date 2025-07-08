@@ -646,7 +646,7 @@ namespace gr
 		      //update LSF every 6 frames (superframe boundary)
 		      if (_fn > 0 && _lich_cnt == 0)
 			{
-			  _lsf = _next_lsf;
+			  //_lsf= _next_lsf; //TODO: fix the _next_lsf contents before uncommenting this line
 
 			  //calculate LSF CRC
 			  uint16_t ccrc = LSF_CRC (&_lsf);
