@@ -14,23 +14,23 @@ include(GrPlatform) #define LIB_SUFFIX
 list(APPEND m17_sources
     m17_coder_impl.cc
     m17_decoder_impl.cc
-    ../M17_Implementations/libm17/m17.c
-    ../M17_Implementations/libm17/decode/symbols.c
-    ../M17_Implementations/libm17/decode/viterbi.c
-    ../M17_Implementations/libm17/encode/symbols.c
-    ../M17_Implementations/libm17/encode/convol.c
-    ../M17_Implementations/libm17/math/golay.c
-    ../M17_Implementations/libm17/math/math.c
-    ../M17_Implementations/libm17/math/rrc.c
-    ../M17_Implementations/libm17/payload/call.c
-    ../M17_Implementations/libm17/payload/crc.c
-    ../M17_Implementations/libm17/payload/lich.c
-    ../M17_Implementations/libm17/phy/interleave.c
-    ../M17_Implementations/libm17/phy/randomize.c
-    ../M17_Implementations/libm17/phy/sync.c
-    ../M17_Implementations/libm17/phy/slice.c
-    ../M17_Implementations/micro-ecc/uECC.c
-    ../M17_Implementations/tinier-aes/aes.c
+    ../libm17/m17.c
+    ../libm17/decode/symbols.c
+    ../libm17/decode/viterbi.c
+    ../libm17/encode/symbols.c
+    ../libm17/encode/convol.c
+    ../libm17/math/golay.c
+    ../libm17/math/math.c
+    ../libm17/math/rrc.c
+    ../libm17/payload/call.c
+    ../libm17/payload/crc.c
+    ../libm17/payload/lich.c
+    ../libm17/phy/interleave.c
+    ../libm17/phy/randomize.c
+    ../libm17/phy/sync.c
+    ../libm17/phy/slice.c
+    ../micro-ecc/uECC.c
+    ../tinier-aes/aes.c
 )
 
 set(m17_sources "${m17_sources}" PARENT_SCOPE)
@@ -43,9 +43,9 @@ add_library(gnuradio-m17 SHARED ${m17_sources})
 target_link_libraries(gnuradio-m17 gnuradio::gnuradio-runtime)
 target_include_directories(gnuradio-m17
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/libm17/>
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/micro-ecc/>
-    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../M17_Implementations/tinier-aes/>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../libm17/>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../micro-ecc/>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../tinier-aes/>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
 set_target_properties(gnuradio-m17 PROPERTIES DEFINE_SYMBOL "gnuradio_m17_EXPORTS")
