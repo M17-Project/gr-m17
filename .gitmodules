@@ -1,3 +1,9 @@
-[submodule "M17_Implementations"]
-	path = M17_Implementations
-	url = https://github.com/M17-Project/M17_Implementations.git
+[submodule "libm17"]
+	path = libm17
+	url = https://github.com/M17-Project/libm17/
+[submodule "micro-ecc"]
+	path = micro-ecc
+	url = https://github.com/kmackay/micro-ecc
+[submodule "tinier-aes"]
+	path = tinier-aes
+	url = https://github.com/lwvmobile/tinier-aes
