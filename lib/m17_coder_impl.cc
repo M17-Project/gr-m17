@@ -84,6 +84,15 @@ namespace gr
       set_signed (signed_str);
       set_debug (debug);
       set_output_multiple (192);
+#ifdef AES
+  if(_encr_type==ENCR_AES)
+    {   
+        for(uint8_t i=0; i<4; i++)
+            _iv[i] = ((uint32_t)(time(NULL)&0xFFFFFFFF)-(uint32_t)epoch) >> (24-(i*8));
+        for(uint8_t i=3; i<14; i++)
+            _iv[i] = rand() & 0xFF; //10 random bytes
+    }
+#endif
 /*
       uint16_t ccrc = LSF_CRC (&_lsf);
         _lsf.crc[0] = ccrc >> 8;
@@ -94,7 +103,7 @@ namespace gr
         _finished = false;
      message_port_register_in(pmt::mp("end_of_transmission"));
      set_msg_handler(pmt::mp("end_of_transmission"), [this](const pmt::pmt_t& msg) { end_of_transmission(msg); });
-     _send_preamble=true; // send init frame once in the work function
+     _send_preamble=true; // send preamble once in the work function
 
      if(_debug==true)
      {
@@ -107,6 +116,7 @@ namespace gr
         //no enc or subtype field, normal 3200 voice
         _type = M17_TYPE_STREAM | M17_TYPE_VOICE | M17_TYPE_CAN(0);
 
+#ifdef AES
         if(_encr_type==ENCR_AES) //AES ENC, 3200 voice
         {
             _type |= M17_TYPE_ENCR_AES;
@@ -117,7 +127,9 @@ namespace gr
             else if (_aes_subtype==2)
                 _type |= M17_TYPE_ENCR_AES256;
         }
-        else if(_encr_type==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
+        else 
+#endif
+        if(_encr_type==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
         {
             _type |= M17_TYPE_ENCR_SCRAM;
             if (_scrambler_subtype==0)
@@ -593,38 +605,12 @@ namespace gr
       int countin = 0;
       uint32_t countout = 0;
 
-      uint8_t enc_bits[SYM_PER_PLD * 2];	//type-2 bits, unpacked
-      uint8_t rf_bits[SYM_PER_PLD * 2];	//type-4 bits, unpacked
-      uint8_t lich[6];		//48 bits packed raw, unencoded LICH
-      uint8_t lich_encoded[12];	//96 bits packed, encoded LICH
-
       uint8_t data[16], next_data[16];	//raw payload, packed bits
 
-      if (_init_frame==true)
-        {
-    if(_encr_type==ENCR_AES)
-    {   
-        for(uint8_t i=0; i<4; i++)
-            _iv[i] = ((uint32_t)(time(NULL)&0xFFFFFFFF)-(uint32_t)epoch) >> (24-(i*8));
-        for(uint8_t i=3; i<14; i++)
-            _iv[i] = rand() & 0xFF; //10 random bytes
-    }
-    if (_send_preamble==true)
-       gen_preamble(out, &countout, PREAM_LSF); //0 - LSF preamble, as opposed to 1 - BERT preamble
-
-    if(_encr_type==ENCR_AES)
-    {   
-        memcpy(&(_lsf.meta), _iv, 14);
-        _iv[14] = (_fn >> 8) & 0x7F;
-        _iv[15] = (_fn >> 0) & 0xFF;
-
-        //re-calculate LSF CRC with IV insertion
-        uint16_t ccrc=LSF_CRC(&_lsf);
-        _lsf.crc[0]=ccrc>>8;
-        _lsf.crc[1]=ccrc&0xFF;
-    }
-           _init_frame=false; 
-        } // end of init frame
+      if (_send_preamble==true)
+         {gen_preamble(out, &countout, PREAM_LSF); //0 - LSF preamble, as opposed to 1 - BERT preamble
+          _send_preamble=false;
+         }
 
       while ((countout < (uint32_t) noutput_items) && (countin + 16 <= noutput_items))
 	{
@@ -650,51 +636,50 @@ namespace gr
 		}
              }
 
-		  //AES
-		  if (_encr_type == ENCR_AES)
-		    {
-		      memcpy (&(_next_lsf.meta), _iv, 14);
-		      _iv[14] = (_fn >> 8) & 0x7F;
-		      _iv[15] = (_fn >> 0) & 0xFF;
-		      aes_ctr_bytewise_payload_crypt (_iv, _key, data, AES128);	//hardcoded for now
-		    }
+// TODO if debug_mode==1 from lines 520 to 570
+// TODO add aes_subtype as user argument    
 
-		  //Scrambler
-		  else if (_encr_type == ENCR_SCRAM)
-		    {
-		      scrambler_sequence_generator ();
-		      for (uint8_t i = 0; i < 16; i++)
-			{
-			  data[i] ^= _scr_bytes[i];
-			}
-		    }
+#ifdef AES
+    if(_encr_type==ENCR_AES)
+    {   
+        memcpy(&(_next_lsf.meta), _iv, 14);
+        _iv[14] = (_fn >> 8) & 0x7F;
+        _iv[15] = (_fn >> 0) & 0xFF;
+        aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
+    }
+    else
+#endif
+    //Scrambler
+    if (_encr_type == ENCR_SCRAM)
+    {
+        scrambler_sequence_generator ();
+        for (uint8_t i = 0; i < 16; i++)
+		{
+		  data[i] ^= _scr_bytes[i];
+		}
+    }
 
-		  if (_finished == false)
-		    {
-		      gen_frame(out, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
-                      countout+=SYM_PER_FRA;  // gen frame always writes SYM_PER_FRA symbols = 192
-		      _fn = (_fn + 1) % 0x8000;	//increment FN
-		      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
+    if (_finished == false)
+	    {
+	      gen_frame(out, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+              countout+=SYM_PER_FRA;  // gen frame always writes SYM_PER_FRA symbols = 192
+	      _fn = (_fn + 1) % 0x8000;	//increment FN
+	      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
 
-		      //update the stream digest if required
-		      if (_signed_str)
-			{
-			  for (uint8_t i = 0; i < sizeof (_digest); i++)
-			    _digest[i] ^= data[i];
-			  uint8_t tmp = _digest[0];
-			  for (uint8_t i = 0; i < sizeof (_digest) - 1; i++)
-			    _digest[i] = _digest[i + 1];
-			  _digest[sizeof (_digest) - 1] = tmp;
-			}
+	      //update the stream digest if required
+	      if (_signed_str)
+		{
+		  for (uint8_t i = 0; i < sizeof (_digest); i++)
+		    _digest[i] ^= data[i];
+		  uint8_t tmp = _digest[0];
+		  for (uint8_t i = 0; i < sizeof (_digest) - 1; i++)
+		    _digest[i] = _digest[i + 1];
+		  _digest[sizeof (_digest) - 1] = tmp;
+		}
 
-		      //update LSF every 6 frames (superframe boundary)
-		      if (_fn > 0 && _lich_cnt == 0)
-			{
-
-			  //calculate LSF CRC
-//			  uint16_t ccrc = LSF_CRC (&_lsf);
-//			  _lsf.crc[0] = ccrc >> 8;
-//			  _lsf.crc[1] = ccrc & 0xFF;
+	      //update LSF every 6 frames (superframe boundary)
+	      if (_fn > 0 && _lich_cnt == 0)
+		{
 			  _lsf= _next_lsf;       //TODO: fix the _next_lsf contents before uncommenting this line
                           update_LSF_CRC(&_lsf);
 			}
@@ -703,19 +688,11 @@ namespace gr
 		    }
 		  else		//send last frame(s)
 		    { printf("Sending last frame\n");
-		      gen_syncword (out, &countout, SYNC_STR);
-		      extract_LICH (lich, _lich_cnt, &_lsf);
-		      encode_LICH (lich_encoded, lich);
-		      unpack_LICH (enc_bits, lich_encoded);
-		      if (!_signed_str)
-			conv_encode_stream_frame (&enc_bits[96], data,
-						  (_fn | 0x8000));
-		      else
-			conv_encode_stream_frame (&enc_bits[96], data, _fn);
-		      reorder_bits (rf_bits, enc_bits);
-		      randomize_bits (rf_bits);
-		      gen_data (out, &countout, rf_bits);
-		      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
+                      if(!_signed_str)
+                          _fn |= 0x8000;
+                      gen_frame(out, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+                      countout+=SYM_PER_FRA;  // gen frame always writes SYM_PER_FRA symbols = 192
+                      _lich_cnt = (_lich_cnt + 1) % 6; //continue with next LICH_CNT
 
 		      //if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
 		      if (_signed_str)
@@ -729,26 +706,18 @@ namespace gr
 			  _digest[sizeof (_digest) - 1] = tmp;
 
 			  //sign the digest
-			  uECC_sign (_priv_key, _digest, sizeof (_digest),
-				     _sig, _curve);
+			  uECC_sign (_priv_key, _digest, sizeof (_digest), _sig, _curve);
 
 			  //4 frames with 512-bit signature
 			  _fn = 0x7FFC;	//signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
 			  for (uint8_t i = 0; i < 4; i++)
 			    {
-			      gen_syncword (out, &countout, SYNC_STR);
-			      extract_LICH (lich, _lich_cnt, &_lsf);
-			      encode_LICH (lich_encoded, lich);
-			      unpack_LICH (enc_bits, lich_encoded);
-			      conv_encode_stream_frame (&enc_bits[96],
-							&_sig[i * 16], _fn);
-			      reorder_bits (rf_bits, enc_bits);
-			      randomize_bits (rf_bits);
-			      gen_data (out, &countout, rf_bits);
-			      _fn =
-				(_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
+                              gen_frame(out, &_sig[i*16], FRAME_STR, &_lsf, _lich_cnt, _fn);
+                              countout+=SYM_PER_FRA;  // gen frame always writes SYM_PER_FRA symbols = 192
+			      _fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
 			      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
 			    }
+
 			  if (_debug == true)
 			    {
 			      fprintf (stderr, "Signature: ");
@@ -777,6 +746,5 @@ namespace gr
       else {printf("Killing flowgraph\n"); return -1;} // https://lists.gnu.org/archive/html/discuss-gnuradio/2016-12/msg00206.html
       // returning -1 (which is the magical value for "there's nothing coming anymore, you can shut down") would normally end a flow graph
     }
-
   }				/* namespace m17 */
 }				/* namespace gr */
