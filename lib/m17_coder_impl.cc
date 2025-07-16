@@ -84,20 +84,80 @@ namespace gr
       set_signed (signed_str);
       set_debug (debug);
       set_output_multiple (192);
+/*
       uint16_t ccrc = LSF_CRC (&_lsf);
         _lsf.crc[0] = ccrc >> 8;
         _lsf.crc[1] = ccrc & 0xFF;
+*/
         _got_lsf = 0;		//have we filled the LSF struct yet?
         _fn = 0;		//16-bit Frame Number (for the stream mode)
         _finished = false;
-#ifdef AES
-        srand (time (NULL));	//random number generator (for IV rand() seed value)
-        memset (_key, 0, 32 * sizeof (uint8_t));
-        memset (_iv, 0, 16 * sizeof (uint8_t));
-#endif
      message_port_register_in(pmt::mp("end_of_transmission"));
      set_msg_handler(pmt::mp("end_of_transmission"), [this](const pmt::pmt_t& msg) { end_of_transmission(msg); });
-     _init_frame=true;
+     _send_preamble=true; // send init frame once in the work function
+
+     if(_debug==true)
+     {
+        //destination set to "@ALL"
+        encode_callsign_bytes(_lsf.dst, (const unsigned char*)"@ALL");
+
+        //source set to "N0CALL"
+        encode_callsign_bytes(_lsf.src, (const unsigned char*)"N0CALL");
+
+        //no enc or subtype field, normal 3200 voice
+        _type = M17_TYPE_STREAM | M17_TYPE_VOICE | M17_TYPE_CAN(0);
+
+        if(_encr_type==ENCR_AES) //AES ENC, 3200 voice
+        {
+            _type |= M17_TYPE_ENCR_AES;
+            if (_aes_subtype==0)
+                _type |= M17_TYPE_ENCR_AES128;
+            else if (_aes_subtype==1)
+                _type |= M17_TYPE_ENCR_AES192;
+            else if (_aes_subtype==2)
+                _type |= M17_TYPE_ENCR_AES256;
+        }
+        else if(_encr_type==ENCR_SCRAM) //Scrambler ENC, 3200 Voice
+        {
+            _type |= M17_TYPE_ENCR_SCRAM;
+            if (_scrambler_subtype==0)
+                _type |= M17_TYPE_ENCR_SCRAM_8;
+            else if (_scrambler_subtype==1)
+                _type |= M17_TYPE_ENCR_SCRAM_16;
+            else if (_scrambler_subtype==2)
+                _type |= M17_TYPE_ENCR_SCRAM_24;
+        }
+
+        //a signature key is loaded, OR this bit
+        if(_priv_key_loaded)
+        {
+            _signed_str = 1;
+            _type |= M17_TYPE_SIGNED;
+        }
+
+        _lsf.type[0]=(uint16_t)_type>>8;
+        _lsf.type[1]=(uint16_t)_type&0xFF;
+
+        //calculate LSF CRC (unclear whether or not this is only 
+        //needed here for debug, or if this is missing on every initial LSF)
+        update_LSF_CRC(&_lsf);
+
+        _finished = 0;
+     }
+#ifdef AES
+         if(_encr_type==ENCR_AES)
+    {
+        memcpy(&(_lsf.meta), _iv, 14);
+        _iv[14] = (_fn >> 8) & 0x7F;
+        _iv[15] = (_fn >> 0) & 0xFF;
+
+        //re-calculate LSF CRC with IV insertion
+        update_LSF_CRC(&_lsf);
+    }
+//        srand (time (NULL));	//random number generator (for IV rand() seed value)
+//        memset (_key, 0, 32 * sizeof (uint8_t));
+//        memset (_iv, 0, 16 * sizeof (uint8_t));
+#endif
     }
 
     void m17_coder_impl::end_of_transmission(const pmt::pmt_t& msg)
@@ -549,7 +609,8 @@ namespace gr
         for(uint8_t i=3; i<14; i++)
             _iv[i] = rand() & 0xFF; //10 random bytes
     }
-        gen_preamble(out, &countout, PREAM_LSF); //0 - LSF preamble, as opposed to 1 - BERT preamble
+    if (_send_preamble==true)
+       gen_preamble(out, &countout, PREAM_LSF); //0 - LSF preamble, as opposed to 1 - BERT preamble
 
     if(_encr_type==ENCR_AES)
     {   
@@ -569,20 +630,9 @@ namespace gr
 	{
 	      if (!_got_lsf)	//stream frames
 		{
-		  //send LSF syncword
-		  gen_syncword (out, &countout, SYNC_LSF);
-
-		  //encode LSF data
-		  conv_encode_LSF (enc_bits, &_lsf);
-
-		  //reorder bits
-		  reorder_bits (rf_bits, enc_bits);
-
-		  //randomize
-		  randomize_bits (rf_bits);
-
-		  //send LSF data
-		  gen_data (out, &countout, rf_bits);
+		  //send LSF
+                  gen_frame(out, NULL, FRAME_LSF, &_lsf, 0, 0);
+                  countout+=SYM_PER_FRA;  // gen frame always writes SYM_PER_FRA symbols = 192
 
 		  //check the SIGNED STREAM flag
 		  _signed_str = (_lsf.type[0] >> 3) & 1;
@@ -621,14 +671,8 @@ namespace gr
 
 		  if (_finished == false)
 		    {
-		      gen_syncword (out, &countout, SYNC_STR);
-		      extract_LICH (lich, _lich_cnt, &_lsf);
-		      encode_LICH (lich_encoded, lich);
-		      unpack_LICH (enc_bits, lich_encoded);
-		      conv_encode_stream_frame (&enc_bits[96], data, _fn);
-		      reorder_bits (rf_bits, enc_bits);
-		      randomize_bits (rf_bits);
-		      gen_data (out, &countout, rf_bits);
+		      gen_frame(out, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+                      countout+=SYM_PER_FRA;  // gen frame always writes SYM_PER_FRA symbols = 192
 		      _fn = (_fn + 1) % 0x8000;	//increment FN
 		      _lich_cnt = (_lich_cnt + 1) % 6;	//continue with next LICH_CNT
 

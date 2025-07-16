@@ -25,6 +25,7 @@ list(APPEND m17_sources
     ../libm17/payload/call.c
     ../libm17/payload/crc.c
     ../libm17/payload/lich.c
+    ../libm17/payload/lsf.c
     ../libm17/phy/interleave.c
     ../libm17/phy/randomize.c
     ../libm17/phy/sync.c
