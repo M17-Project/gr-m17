@@ -32,11 +32,14 @@ namespace gr
     private:
       unsigned char _src_id[10], _dst_id[10];	// 9 character callsign
       int _mode, _data;
+      uint16_t _type;
+      uint16_t _send_preamble;
 //encryption
 #ifdef AES
 //encryption
       const struct uECC_Curve_t *_curve = uECC_secp256r1 ();
-      encr_t _encr_type = ENCR_NONE;
+      encr_t _encr_type= ENCR_NONE;
+      int8_t _aes_subtype = -1;
 //AES
       typedef enum
       {
