@@ -446,49 +446,82 @@ namespace gr
 	    }
 	  else
 	    {
-	      pld[pushed++] = sample;
+	      _pld[pushed++] = sample;
 
 	      if (pushed == SYM_PER_PLD)
 		{
-		  //common operations for all frame types
-		  //slice symbols to soft dibits
-		  slice_symbols (soft_bit, pld);
-
-		  //derandomize
-		  randomize_soft_bits (soft_bit);
-
-		  //deinterleave
-		  reorder_soft_bits (d_soft_bit, soft_bit);
-
 		  //if it is a frame
 		  if (!fl)
 		    {
-		      //extract data
-		      for (uint16_t i = 0; i < 272; i++)
-			{
-			  enc_data[i] = d_soft_bit[96 + i];
-			}
+                      //decode
+                      uint32_t e = decode_str_frame(_frame_data, _lich_b, &_fn, &_lich_cnt, _pld);
 
-		      //decode
-		      uint32_t e =
-			viterbi_decode_punctured (frame_data, enc_data,
-						  puncture_pattern_2, 272,
-						  12);
+                      uint16_t type = ((uint16_t)_lsf.type[0]<<8)+_lsf.type[1];
+                      _signed_str = (type>>11)&1;
 
-		      uint16_t fn = (frame_data[1] << 8) | frame_data[2];
+                      ///if the stream is signed (process before decryption)
+                      if(_signed_str && _fn<0x7FFC)
+                      {
+                        if(_fn==0)
+                            memset(_digest, 0, sizeof(_digest));
+
+                        for(uint8_t i=0; i<sizeof(_digest); i++)
+                            _digest[i]^=_frame_data[i];
+                        uint8_t tmp=_digest[0];
+                        for(uint8_t i=0; i<sizeof(_digest)-1; i++)
+                            _digest[i]=_digest[i+1];
+                        _digest[sizeof(_digest)-1]=tmp;
+                      }
+
+                      //NOTE: Don't attempt decryption when a signed stream is >= 0x7FFC
+                      //The Signature is not encrypted
+
+                      //AES
+                      if(_encr_type==ENCR_AES)
+                      {
+                        memcpy(_iv, _lsf.meta, 14); 
+                        _iv[14] = (_fn>>8) & 0x7F; //TODO: check if this is the right byte order
+                        _iv[15] = (_fn&0xFF) & 0xFF;
+
+                        if(_signed_str && (_fn % 0x8000)<0x7FFC) //signed stream
+                            aes_ctr_bytewise_payload_crypt(_iv, _key, _frame_data, _aes_subtype);
+                        else if(!_signed_str)                    //non-signed stream
+                            aes_ctr_bytewise_payload_crypt(_iv, _key, _frame_data, _aes_subtype);
+                      }
+
+                    //Scrambler
+                    if(_encr_type==ENCR_SCRAM)
+                    {
+                        if(_fn != 0 && (_fn % 0x8000)!=_expected_next_fn) //frame skip, etc
+                            _scrambler_seed = scrambler_seed_calculation(_scrambler_subtype, _scrambler_key, _fn&0x7FFF);
+                        else if(_fn == 0) _scrambler_seed = _scrambler_key; //reset back to key value
+
+                        if(_signed_str && (_fn % 0x8000)<0x7FFC) //signed stream
+                            scrambler_sequence_generator();
+                        else if(!_signed_str)                    //non-signed stream
+                            scrambler_sequence_generator();
+                        else memset(_scr_bytes, 0, sizeof(_scr_bytes)); //zero out stale scrambler bytes so they aren't applied to the sig frames
+
+                        for(uint8_t i=0; i<16; i++)
+                        {
+                            _frame_data[i] ^= _scr_bytes[i];
+                        }
+                    }
+
+
 
 		      if (_debug_data == true)
 			{	//dump data - first byte is empty
-			  printf ("RX FN: %04X PLD: ", fn);
+			  printf ("RX FN: %04X PLD: ", _fn);
 			}
 
 		      for (uint8_t i = 3; i < 19; i++)
 			{
 			  if (_debug_data == true)
 			    {
-			      printf ("%02X", frame_data[i]);
+			      printf ("%02X", _frame_data[i]);
 			    }
-			  out[countout] = frame_data[i];
+			  out[countout] = _frame_data[i];
 			  countout++;
 			}
 		      if (_debug_data == true)
@@ -496,104 +529,22 @@ namespace gr
 			  printf (" e=%1.1f\n", (float) e / 0xFFFF);
 			}
 		      //send codec2 stream to stdout
-		      //fwrite(&frame_data[3], 16, 1, stdout);
+		      //fwrite(&_frame_data[3], 16, 1, stdout);
 
-		      //if the stream is signed
-		      if (_signed_str == true && fn < 0x7FFC)
-			{
-			  //if thats the first frame (fn=0)
-			  if (fn == 0)
-			    memcpy (_digest, &frame_data[3],
-				    sizeof (_digest));
+                      //If we're at the start of a superframe, or we missed a frame, reset the LICH state
+                      if((_lich_cnt==0) || ((_fn % 0x8000)!=_expected_next_fn && _fn<0x7FFC))
+                          lich_chunks_rcvd=0;
 
-			  for (uint8_t i = 0; i < sizeof (_digest); i++)
-			    _digest[i] ^= frame_data[3 + i];
-			  uint8_t tmp = _digest[0];
-			  for (uint8_t i = 0; i < sizeof (_digest) - 1; i++)
-			    _digest[i] = _digest[i + 1];
-			  _digest[sizeof (_digest) - 1] = tmp;
-			}
-
-		      //NOTE: Don't attempt decryption when a signed stream is >= 0x7FFC
-		      //The Signature is not encrypted
-
-		      //AES
-		      if (_encr_type == ENCR_AES)
-			{
-			  memcpy (_iv, lsf + 14, 14);
-			  _iv[14] = frame_data[1] & 0x7F;
-			  _iv[15] = frame_data[2] & 0xFF;
-
-			  if (_signed_str == true && (fn % 0x8000) < 0x7FFC)	//signed stream
-			    aes_ctr_bytewise_payload_crypt (_iv, _key, frame_data + 3, AES128);	//hardcoded for now
-			  else if (_signed_str == false)	//non-signed stream
-			    aes_ctr_bytewise_payload_crypt (_iv, _key, frame_data + 3, AES128);	//hardcoded for now
-			}
-
-		      //Scrambler
-		      if (_encr_type == ENCR_SCRAM)
-			{
-			  if (fn != 0 && (fn % 0x8000) != _expected_next_fn)	//frame skip, etc
-			    _scrambler_seed =
-			      scrambler_seed_calculation (_scrambler_subtype,
-							  _scrambler_key,
-							  fn & 0x7FFF);
-			  else if (fn == 0)
-			    _scrambler_seed = _scrambler_key;	//reset back to key value
-
-			  if (_signed_str == true && (fn % 0x8000) < 0x7FFC)	//signed stream
-			    scrambler_sequence_generator ();
-			  else if (_signed_str == false)	//non-signed stream
-			    scrambler_sequence_generator ();
-                          else memset(_scr_bytes, 0, sizeof(_scr_bytes)); // zero out stale scrambler bytes so they aren't applied to the sig frames
-
-			  for (uint8_t i = 0; i < 16; i++)
-			    {
-			      frame_data[i + 3] ^= _scr_bytes[i];
-			    }
-			}
-
-		      //dump data - first byte is empty
-		      //printf ("FN: %04X PLD: ", fn);
-		      for (uint8_t i = 3; i < 19; i++)
-			{
-		          if (_debug_data == true)
-			     printf (" %02X", frame_data[i]);
-			}
-		      if (_debug_ctrl == true)
-			 printf (" e=%1.1f\n", (float) e / 0xFFFF);
-
-		      if ((_debug_ctrl == true) || (_debug_data==true))
-		         printf ("\n");
-
-		      //send codec2 stream to stdout
-		      //fwrite(&frame_data[3], 16, 1, stdout);
-
-		      //extract LICH
-		      for (uint16_t i = 0; i < 96; i++)
-			{
-			  lich_chunk[i] = d_soft_bit[i];
-			}
-
-		      //Golay decoder
-		      decode_LICH (lich_b, lich_chunk);
-		      lich_cnt = lich_b[5] >> 5;
-
-		      //If we're at the start of a superframe, or we missed a frame, reset the LICH state
-		      if ((lich_cnt == 0)
-			  || ((fn % 0x8000) != _expected_next_fn))
-			lich_chunks_rcvd = 0;
-
-		      lich_chunks_rcvd |= (1 << lich_cnt);
-		      memcpy (&lsf[lich_cnt * 5], lich_b, 5);
+                      lich_chunks_rcvd|=(1<<_lich_cnt);
+                      memcpy((uint8_t*)&_lsf+_lich_cnt*5, _lich_b, 5);
 
 		      //debug - dump LICH
 		      if (lich_chunks_rcvd == 0x3F)	//all 6 chunks received?
 			{
 			 if (_callsign == true)
 		    	    {
-			     decode_callsign_bytes (d_dst, &lsf[0]);
-			     decode_callsign_bytes (d_src, &lsf[6]);
+			     decode_callsign_bytes (d_dst, _lsf.dst);
+			     decode_callsign_bytes (d_src, _lsf.src);
 			     if (_debug_ctrl == true)
 			        {
 				  printf ("DST: %-9s ", d_dst);	//DST
@@ -605,16 +556,15 @@ namespace gr
 				{
 				  printf ("DST: ");	//DST
 				  for (uint8_t i = 0; i < 6; i++)
-				      printf ("%02X", lsf[i]);
+				      printf ("%02X", ((uint8_t*)_lsf.dst)[i]);
 				  printf (" ");
 				  printf ("SRC: ");	//SRC
 				  for (uint8_t i = 0; i < 6; i++)
-				    printf ("%02X", lsf[6 + i]);
+				    printf ("%02X", ((uint8_t*)_lsf.src)[i]);
 				  printf (" ");
 				}
 
 			  //TYPE
-			  uint16_t type = (uint16_t) lsf[12] * 0x100 + lsf[13];	//big-endian
 			  if (_debug_ctrl == true)
 			    {
 			      printf ("TYPE: %04X (", type);
@@ -656,9 +606,9 @@ namespace gr
 			    {
 			      printf ("META: ");
 			      for (uint8_t i = 0; i < 14; i++)
-				printf ("%02X", lsf[14 + i]);
+				printf ("%02X", ((uint8_t*)_lsf.meta)[i]);
 
-			      if (CRC_M17 (lsf, 30))	//CRC
+			      if (CRC_M17 ((uint8_t*)&_lsf, sizeof(_lsf)))	//CRC
 				printf (" LSF_CRC_ERR");
 			      else
 				printf (" LSF_CRC_OK ");
@@ -667,12 +617,11 @@ namespace gr
 			}
 
 		      //if the contents of the payload is now digital signature, not data/voice
-		      if (fn >= 0x7FFC && _signed_str == true)
+		      if (_fn >= 0x7FFC && _signed_str == true)
 			{
-			  memcpy (&_sig[((fn & 0x7FFF) - 0x7FFC) * 16],
-				  &frame_data[3], 16);
+			  memcpy (&_sig[((_fn & 0x7FFF) - 0x7FFC) * 16], _frame_data, 16);
 
-			  if (fn == (0x7FFF | 0x8000))
+			  if (_fn == (0x7FFF | 0x8000))
 			    {
 			      //dump data
 			      /*printf("DEC-Digest: ");
@@ -691,8 +640,7 @@ namespace gr
 			         printf("\n"); */
 
 			      if (uECC_verify
-				  (_key, _digest, sizeof (_digest), _sig,
-				   _curve))
+				  (_key, _digest, sizeof (_digest), _sig, _curve))
 				{
 		                  if (_debug_ctrl == true)
 				     printf ("Signature OK\n");
@@ -705,7 +653,7 @@ namespace gr
 			    }
 			}
 
-		      _expected_next_fn = (fn + 1) % 0x8000;
+		      _expected_next_fn = (_fn + 1) % 0x8000;
 		    }
 		  else		//lsf
 		    {
@@ -714,20 +662,13 @@ namespace gr
 			  printf ("{LSF}\n");
 			}
 		      //decode
-		      uint32_t e =
-			viterbi_decode_punctured (lsf, d_soft_bit,
-						  puncture_pattern_1,
-						  2 * SYM_PER_PLD, 61);
-
-		      //shift the buffer 1 position left - get rid of the encoded flushing bits
-		      for (uint8_t i = 0; i < 30; i++)
-			lsf[i] = lsf[i + 1];
+		      uint32_t e = decode_LSF(&_lsf, _pld);
 
 		      //dump data
 		      if (_callsign == true)
 			 {
-			  decode_callsign_bytes (d_dst, &lsf[0]);
-			  decode_callsign_bytes (d_src, &lsf[6]);
+			  decode_callsign_bytes (d_dst, _lsf.dst);
+			  decode_callsign_bytes (d_src, _lsf.src);
 		          if (_debug_ctrl == true)
 			    {
 			      printf ("DST: %-9s ", d_dst);	//DST
@@ -739,46 +680,87 @@ namespace gr
 		          if (_debug_ctrl == true)
 			     {printf ("DST: ");	//DST
 			      for (uint8_t i = 0; i < 6; i++)
-				printf ("%02X", lsf[i]);
+				printf ("%02X", ((uint8_t*)_lsf.dst)[i]);
 			      printf (" ");
 
 			      //SRC
 			      printf ("SRC: ");
 			      for (uint8_t i = 0; i < 6; i++)
-				printf ("%02X", lsf[6 + i]);
+				printf ("%02X", ((uint8_t*)_lsf.src)[i]);
 			      printf (" ");
 			    }
                          }
 			  //TYPE
+                      uint16_t type = ((uint16_t)_lsf.type[0]<<8)+_lsf.type[1];
 		      if (_debug_ctrl == true)
-		         {printf ("TYPE: ");
-			  for (uint8_t i = 0; i < 2; i++)
-			      printf ("%02X", lsf[12 + i]);
-			  printf (" ");
+		         {
+                          printf ("TYPE: %04X (", type);
+                          if(type&&1)
+                              printf("STREAM: ");
+                          else
+                              printf("PACKET: "); //shouldn't happen
+                          if(((type>>1)&3)==1)
+                              printf("DATA, ");
+                          else if(((type>>1)&3)==2)
+                              printf("VOICE, ");
+                          else if(((type>>1)&3)==3)
+                              printf("VOICE+DATA, ");
+                          printf("ENCR: ");
+                          if(((type>>3)&3)==0)
+                              printf("PLAIN, ");
+                          else if(((type>>3)&3)==1)
+                          {
+                              printf("SCRAM ");
+                              if(((type>>5)&3)==0)
+                                  printf("8-bit, ");
+                              else if(((type>>5)&3)==1)
+                                  printf("16-bit, ");
+                              else if(((type>>5)&3)==2)
+                                  printf("24-bit, ");
+                          }
+                          else if(((type>>3)&3)==2)
+                          {
+                              printf("AES");
+                              if(((type>>5)&3)==0)
+                                  printf("128");
+                              else if(((type>>5)&3)==1)
+                                  printf("192");
+                                else if(((type>>5)&3)==2)
+                                  printf("256");
+      
+                              printf(", ");
+                          }
+                          else
+                              printf("UNK, ");
+                          printf("CAN: %d", (type>>7)&0xF);
+                          if((type>>11)&1)
+                          {
+                              printf(", SIGNED");
+                              _signed_str=1;
+                          }
+                          else
+                              _signed_str=0;
+                          printf(") ");
+  
 
-			  //META
+   		      //META
 			  printf ("META: ");
 			  for (uint8_t i = 0; i < 14; i++)
-			      printf ("%02X", lsf[14 + i]);
+			      printf ("%02X", ((uint8_t*)_lsf.meta)[i]);
  			  printf (" ");
-                         }
 		      //CRC
 		      //printf("CRC: ");
 		      //for(uint8_t i=0; i<2; i++)
 		      //printf("%02X", lsf[28+i]);
-		      if (CRC_M17 (lsf, 30))
-		         {if (_debug_ctrl == true)
+		      if (CRC_M17 ((uint8_t*)&_lsf, 30))
 			    printf ("LSF_CRC_ERR");
-                         }
 		      else
-		         {if (_debug_ctrl == true)
 		            printf ("LSF_CRC_OK ");
-                         }
 		      //Viterbi decoder errors
-		      if (_debug_ctrl == true)
-			 printf (" e=%1.1f\n", (float) e / 0xFFFF);
+		       printf (" e=%1.1f\n", (float) e / 0xFFFF);
+                       printf("\n");
 		    }
-
+                  }
 		  //job done
 		  syncd = 0;
 		  pushed = 0;

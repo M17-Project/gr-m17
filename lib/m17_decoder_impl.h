@@ -44,27 +44,31 @@ namespace gr
       uint8_t _sig[64] = { 0 };	//ECDSA signature
       uint32_t _scrambler_key = 0;	//keep set to initial value for seed calculation function
 
+#ifdef AES
       typedef enum
       {
 	AES128,
 	AES192,
 	AES256
       } aes_t;
+      int8_t _aes_subtype = -1;
+#endif
 
       float last[8] = { 0 };	//look-back buffer for finding syncwords
-      float pld[SYM_PER_PLD];	//raw frame symbols
+      float _pld[SYM_PER_PLD];	//raw frame symbols
       uint16_t soft_bit[2 * SYM_PER_PLD];	//raw frame soft bits
       uint16_t d_soft_bit[2 * SYM_PER_PLD];	//deinterleaved soft bits
       uint16_t _expected_next_fn;
+      uint16_t _fn;
 
-      uint8_t lsf[30 + 1];	//complete LSF (one byte extra needed for the Viterbi decoder)
+      lsf_t _lsf;	//complete LSF (one byte extra needed for the Viterbi decoder)
       uint16_t lich_chunk[96];	//raw, soft LSF chunk extracted from the LICH
-      uint8_t lich_b[6];	//48-bit decoded LICH
-      uint8_t lich_cnt;		//LICH_CNT
+      uint8_t _lich_b[6];	//48-bit decoded LICH
+      uint8_t _lich_cnt;		//LICH_CNT
       uint8_t lich_chunks_rcvd = 0;	//flags set for each LSF chunk received
 
       uint16_t enc_data[272];	//raw frame data soft bits
-      uint8_t frame_data[19];	//decoded frame data, 144 bits (16+128), plus 4 flushing bits
+      uint8_t _frame_data[19];	//decoded frame data, 144 bits (16+128), plus 4 flushing bits
       uint8_t digest[16] = { 0 };
 
       uint8_t syncd = 0;	//syncword found?
