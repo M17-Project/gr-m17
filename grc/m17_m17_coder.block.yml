@@ -35,6 +35,12 @@ parameters:
   default: 0
   options: [0, 1, 2, 3]
   option_labels: ['Text', 'Geolocation', 'Extended callsign data', 'Reserved']
+- id: aes_subtype
+  label: AES subtype
+  dtype: int
+  default: 0
+  options: [0, 1, 2]
+  option_labels: ['AES128', 'AES192', 'AES256']
 - id: can
   label: CAN
   dtype: int
@@ -74,7 +80,7 @@ asserts:
     - ${ len(src_id) < 10 }
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed})
+  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${aes_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed})
   callbacks:
     - set_meta(${meta})
     - set_src_id(${src_id})
@@ -83,6 +89,7 @@ templates:
     - set_type(${type})
     - set_encr_type(${encr_type})
     - set_encr_subtype(${encr_subtype})
+    - set_aes_subtype(${aes_subtype})
     - set_can(${can})
     - set_key(${key})
     - set_priv_key(${priv_key})

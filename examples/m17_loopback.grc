@@ -76,7 +76,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [376, 412.0]
+    coordinate: [376, 428.0]
     rotation: 0
     state: enabled
 - name: enc_type
@@ -106,7 +106,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 412.0]
+    coordinate: [240, 428.0]
     rotation: 0
     state: enabled
 - name: mode
@@ -136,7 +136,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 452.0]
+    coordinate: [8, 468.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -171,7 +171,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 416.0]
+    coordinate: [536, 432.0]
     rotation: 0
     state: enabled
 - name: src_str
@@ -217,7 +217,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [112, 412.0]
+    coordinate: [112, 428.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -252,7 +252,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 104.0]
+    coordinate: [1072, 120.0]
     rotation: 0
     state: disabled
 - name: blocks_throttle2_0
@@ -318,6 +318,7 @@ blocks:
 - name: m17_m17_coder_0
   id: m17_m17_coder
   parameters:
+    aes_subtype: '0'
     affinity: ''
     alias: ''
     can: '0'
@@ -392,4 +393,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.11.0
+  grc_version: 3.10.12.0

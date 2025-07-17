@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Free Software Foundation, Inc.
+ * Copyright 2025 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_coder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(a0706fe6b4d1abbfbb9e0e834826dda9) */
+/* BINDTOOL_HEADER_FILE_HASH(07e3866d4b9648c010523323f95c7dda) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -38,9 +38,10 @@ void bind_m17_coder(py::module &m) {
 
       .def(py::init(&m17_coder::make), py::arg("src_id"), py::arg("dst_id"),
            py::arg("mode"), py::arg("data"), py::arg("encr_type"),
-           py::arg("encr_subtype"), py::arg("can"), py::arg("meta"),
-           py::arg("key"), py::arg("priv_key"), py::arg("debug"),
-           py::arg("signed_str"), py::arg("seed"), D(m17_coder, make))
+           py::arg("encr_subtype"), py::arg("aes_subtype"), py::arg("can"),
+           py::arg("meta"), py::arg("key"), py::arg("priv_key"),
+           py::arg("debug"), py::arg("signed_str"), py::arg("seed"),
+           D(m17_coder, make))
 
       .def("set_key", &m17_coder::set_key, py::arg("meta"),
            D(m17_coder, set_key))
@@ -81,6 +82,10 @@ void bind_m17_coder(py::module &m) {
 
       .def("set_encr_subtype", &m17_coder::set_encr_subtype,
            py::arg("encr_subtype"), D(m17_coder, set_encr_subtype))
+
+      .def("set_aes_subtype", &m17_coder::set_aes_subtype,
+           py::arg("aes_subtype"), py::arg("encr_type"),
+           D(m17_coder, set_aes_subtype))
 
       .def("set_can", &m17_coder::set_can, py::arg("can"),
            D(m17_coder, set_can))
