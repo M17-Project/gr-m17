@@ -34,12 +34,13 @@ namespace gr
       int _mode, _data;
       uint16_t _type;
       uint16_t _send_preamble;
+      int _encr_subtype;
 //encryption
 #ifdef AES
 //encryption
+      int8_t _aes_subtype = -1;
       const struct uECC_Curve_t *_curve = uECC_secp256r1 ();
       encr_t _encr_type= ENCR_NONE;
-      int8_t _aes_subtype = -1;
 //AES
       typedef enum
       {
@@ -51,8 +52,7 @@ namespace gr
       uint8_t _iv[16];
       time_t epoch = 1577836800L;	//Jan 1, 2020, 00:00:00 UTC
 #endif
-
-      int _encr_subtype, _can;
+      int _can;
       lsf_t _lsf, _next_lsf;
         std::string _meta;
       int _got_lsf = 0;
@@ -91,13 +91,14 @@ namespace gr
       void set_data (int data);
       void set_encr_type (int encr_type);
       void set_encr_subtype (int encr_subtype);
+      void set_aes_subtype (int aes_subtype, int encr_type);
       void set_can (int can);
       void set_debug (bool debug);
       void set_signed (bool signed_str);
       void end_of_transmission(const pmt::pmt_t& msg);
 
       m17_coder_impl (std::string src_id, std::string dst_id, int mode,
-		      int data, int encr_type, int encr_subtype, int can,
+		      int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 		      std::string meta, std::string key, std::string priv_key,
 		      bool debug, bool signed_str, std::string seed);
       ~m17_coder_impl ();

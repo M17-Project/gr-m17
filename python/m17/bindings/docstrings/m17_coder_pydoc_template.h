@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Free Software Foundation, Inc.
+ * Copyright 2025 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -47,5 +47,7 @@ static const char *__doc_gr_m17_m17_coder_set_data = R"doc()doc";
 static const char *__doc_gr_m17_m17_coder_set_encr_type = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_coder_set_encr_subtype = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_coder_set_aes_subtype = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_coder_set_can = R"doc()doc";

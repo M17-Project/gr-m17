@@ -51,14 +51,14 @@ namespace gr
 
     m17_coder::sptr
       m17_coder::make (std::string src_id, std::string dst_id, int mode,
-		       int data, int encr_type, int encr_subtype, int can,
+		       int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 		       std::string meta, std::string key,
 		       std::string priv_key, bool debug, bool signed_str, std::string seed)
     {
       return gnuradio::get_initial_sptr
 	(new
 	 m17_coder_impl (src_id, dst_id, mode, data, encr_type, encr_subtype,
-			 can, meta, key, priv_key, debug, signed_str, seed));
+			 aes_subtype, can, meta, key, priv_key, debug, signed_str, seed));
     }
 
     /*
@@ -66,17 +66,18 @@ namespace gr
      */
     m17_coder_impl::m17_coder_impl (std::string src_id, std::string dst_id,
 				    int mode, int data, int encr_type,
-				    int encr_subtype, int can,
+				    int encr_subtype, int aes_subtype, int can,
 				    std::string meta, std::string key,
 				    std::string priv_key, bool debug,
 				    bool signed_str, std::string seed):gr::block 
                                     ("m17_coder", gr::io_signature:: make (1, 1, sizeof (char)),
 	 					  gr::io_signature:: make (1, 1, sizeof (float))),
-      _mode (mode), _data (data), _encr_subtype (encr_subtype), _can (can), _meta (meta), _debug (debug),
+      _mode (mode), _data (data), _encr_subtype (encr_subtype), _aes_subtype(aes_subtype), _can (can), _meta (meta), _debug (debug),
       _signed_str (signed_str)
     {
       set_encr_type(encr_type); // overwritten by set_seed()
       set_type (mode, data, _encr_type, encr_subtype, can);
+      set_aes_subtype(aes_subtype, encr_type);
       set_meta (meta);		// depends on   ^^^ encr_subtype
       set_seed (seed);		// depends on   ^^^ encr_subtype
       set_src_id (src_id);
@@ -424,6 +425,24 @@ namespace gr
       _encr_subtype = encr_subtype;
       printf ("new encr subtype: %x -> ", _encr_subtype);
       set_type (_mode, _data, _encr_type, _encr_subtype, _can);
+    }
+    
+    void m17_coder_impl::set_aes_subtype (int aes_subtype, int encr_type)
+    {
+      _aes_subtype = aes_subtype;
+      printf ("new AES subtype: %x -> ", _aes_subtype);
+      if(encr_type==ENCR_AES) //AES ENC, 3200 voice
+       {
+           _type |= M17_TYPE_ENCR_AES;
+           if (_aes_subtype==0)
+               _type |= M17_TYPE_ENCR_AES128;
+           else if (_aes_subtype==1)
+               _type |= M17_TYPE_ENCR_AES192;
+           else if (_aes_subtype==2)
+               _type |= M17_TYPE_ENCR_AES256;
+       }
+      else printf("ERROR: encryption type != AES");
+      printf("\n");
     }
 
     void m17_coder_impl::set_can (int can)
