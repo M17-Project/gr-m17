@@ -41,7 +41,6 @@ namespace gr
       int8_t _aes_subtype = -1;
       const struct uECC_Curve_t *_curve = uECC_secp256r1 ();
       encr_t _encr_type= ENCR_NONE;
-      int8_t _aes_subtype = -1;
 //AES
       typedef enum
       {
