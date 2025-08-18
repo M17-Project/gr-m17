@@ -515,7 +515,7 @@ namespace gr
 								printf("RX FN: %04X PLD: ", _fn);
 							}
 
-							for (uint8_t i = 3; i < 19; i++)
+							for (uint8_t i = 0; i < 16; i++)
 							{
 								if (_debug_data == true)
 								{
@@ -657,7 +657,7 @@ namespace gr
 						{
 							if (_debug_ctrl == true)
 							{
-								printf("{LSF}\n");
+								printf("{LSF} ");
 							}
 							// decode
 							uint32_t e = decode_LSF(&_lsf, _pld);
@@ -756,7 +756,6 @@ namespace gr
 									printf("LSF_CRC_OK ");
 								// Viterbi decoder errors
 								printf(" e=%1.1f\n", (float)e / 0xFFFF);
-								printf("\n");
 							}
 						}
 						// job done

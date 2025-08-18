@@ -367,6 +367,9 @@ namespace gr
     void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array
     {
       int length;
+
+      memset(_lsf.meta, 0, 14);
+
       printf("new meta: ");
       if (_encr_subtype == 0) // meta is \0-terminated string
       {
@@ -639,12 +642,17 @@ namespace gr
         _send_preamble = false;
       }
 
-      while ((countout < (uint32_t)noutput_items) && (countin + 16 <= noutput_items))
+      while ((countout < (uint32_t)noutput_items))
       {
+        if (countin + 16 > ninput_items[0])
+        {
+          break;
+        }
+
         if (!_got_lsf) // stream frames
         {
           // send LSF
-          gen_frame(out, NULL, FRAME_LSF, &_lsf, 0, 0);
+          gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
           countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
 
           // check the SIGNED STREAM flag
@@ -654,14 +662,12 @@ namespace gr
           _got_lsf = 1;
         }
 
-        if (countin + 16 < noutput_items)
-        {
-          for (int i = 0; i < 16; i++)
-          {
-            next_data[i] = in[countin];
-            countin++;
-          }
-        }
+        // get new data
+        memcpy(next_data, in + countin, 16);
+        countin += 16;
+
+        // update the data before applying crypto
+        memcpy(data, next_data, 16);
 
         // TODO if debug_mode==1 from lines 520 to 570
         // TODO add aes_subtype as user argument
@@ -669,7 +675,7 @@ namespace gr
 #ifdef AES
         if (_encr_type == ENCR_AES)
         {
-          memcpy(&(_next_lsf.meta), _iv, 14);
+          memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
           _iv[14] = (_fn >> 8) & 0x7F;
           _iv[15] = (_fn >> 0) & 0xFF;
           aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
@@ -686,9 +692,14 @@ namespace gr
             }
           }
 
+        /*fprintf(stderr, "Payload FN=%u: ", _fn);
+        for (int i = 0; i < 16; i++)
+          fprintf(stderr, "%02X ", data[i]);
+        fprintf(stderr, "\n");*/
+
         if (_finished == false)
         {
-          gen_frame(out, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+          gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
           countout += SYM_PER_FRA;         // gen frame always writes SYM_PER_FRA symbols = 192
           _fn = (_fn + 1) % 0x8000;        // increment FN
           _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
@@ -707,8 +718,9 @@ namespace gr
           // update LSF every 6 frames (superframe boundary)
           if (_fn > 0 && _lich_cnt == 0)
           {
-            _lsf = _next_lsf; // TODO: fix the _next_lsf contents before uncommenting this line
-            update_LSF_CRC(&_lsf);
+            // TODO: fix the _next_lsf contents before uncommenting lines below
+            //_lsf = _next_lsf;
+            // update_LSF_CRC(&_lsf);
           }
 
           memcpy(data, next_data, 16);
@@ -718,7 +730,7 @@ namespace gr
           printf("Sending last frame\n");
           if (!_signed_str)
             _fn |= 0x8000;
-          gen_frame(out, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+          gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
           countout += SYM_PER_FRA;         // gen frame always writes SYM_PER_FRA symbols = 192
           _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
 
@@ -740,7 +752,7 @@ namespace gr
             _fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
             for (uint8_t i = 0; i < 4; i++)
             {
-              gen_frame(out, &_sig[i * 16], FRAME_STR, &_lsf, _lich_cnt, _fn);
+              gen_frame(out + countout, &_sig[i * 16], FRAME_STR, &_lsf, _lich_cnt, _fn);
               countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
               _fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
               _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
@@ -760,7 +772,7 @@ namespace gr
             }
           }
           // send EOT frame
-          gen_eot(out, &countout);
+          gen_eot(out + countout, &countout);
           // fprintf(stderr, "Stream has ended. Exiting.\n");
         } // finished == true
       } // loop on input data

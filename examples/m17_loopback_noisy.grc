@@ -45,7 +45,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 8.0]
+    coordinate: [552, 12.0]
     rotation: 0
     state: true
 - name: meta_str
@@ -60,7 +60,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 8.0]
+    coordinate: [272, 12.0]
     rotation: 0
     state: true
 - name: noise_ampl
@@ -81,7 +81,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 8.0]
+    coordinate: [808, 12.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -93,7 +93,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 8.0]
+    coordinate: [176, 12.0]
     rotation: 0
     state: true
 - name: src_str
@@ -108,7 +108,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 8.0]
+    coordinate: [408, 12.0]
     rotation: 0
     state: true
 - name: type_val
@@ -123,7 +123,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 8.0]
+    coordinate: [696, 12.0]
     rotation: 0
     state: true
 - name: analog_noise_source_x_0
@@ -142,7 +142,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [576, 244.0]
+    coordinate: [456, 388.0]
     rotation: 0
     state: true
 - name: blocks_add_xx_0
@@ -160,7 +160,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 152.0]
+    coordinate: [648, 232.0]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -178,7 +178,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [992, 144.0]
+    coordinate: [960, 228.0]
     rotation: 0
     state: disabled
 - name: blocks_null_sink_0
@@ -195,9 +195,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1056, 104.0]
+    coordinate: [960, 192.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_throttle2_0
   id: blocks_throttle2
   parameters:
@@ -209,14 +209,14 @@ blocks:
     maximum: '0.1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    samples_per_second: samp_rate/16
+    samples_per_second: samp_rate/4
     type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 404.0]
+    coordinate: [208, 196.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -230,14 +230,14 @@ blocks:
     repeat: 'True'
     tags: '[]'
     type: byte
-    vector: (0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00)
+    vector: (0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b,
+      0x0c, 0x0d, 0x0e, 0x0f)
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 128.0]
+    coordinate: [8, 196.0]
     rotation: 0
     state: true
 - name: btn0
@@ -255,7 +255,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 260.0]
+    coordinate: [136, 292.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -279,12 +279,12 @@ blocks:
     seed: ''
     signed_str: 'False'
     src_id: src_str
-    type: type_val
+    type: '2'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 92.0]
+    coordinate: [376, 124.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -292,10 +292,10 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    callsign: 'False'
+    callsign: 'True'
     comment: ''
     debug_ctrl: 'True'
-    debug_data: 'False'
+    debug_data: 'True'
     encr_type: '0'
     key: ''
     maxoutbuf: '0'
@@ -307,22 +307,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [840, 144.0]
+    coordinate: [760, 188.0]
     rotation: 0
-    state: disabled
-- name: note_0_2
-  id: note
-  parameters:
-    alias: ''
-    comment: ''
-    note: DATA
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [816, 8.0]
-    rotation: 0
-    state: true
+    state: enabled
 - name: qtgui_eye_sink_x_0
   id: qtgui_eye_sink_x
   parameters:
@@ -416,7 +403,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [784, 340.0]
+    coordinate: [760, 348.0]
     rotation: 0
     state: true
 
