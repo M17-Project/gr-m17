@@ -33,9 +33,6 @@
 
 #include "m17.h"
 
-#define CODE_MEAN -0.75		 // mean(str_sync_symbols)
-#define CODE_STD 8.21583836f // std(str_sync_symbols)*sqrt(length(str_sync_symbols)-1)
-
 namespace gr
 {
 	namespace m17
@@ -219,7 +216,7 @@ namespace gr
 		m17_decoder_impl::forecast(int noutput_items,
 								   gr_vector_int &ninput_items_required)
 		{
-			ninput_items_required[0] = 0; //  noutput_items;
+			ninput_items_required[0] = 1; //  noutput_items;
 		}
 
 		// this is generating a correct seed value based on the fn value,
