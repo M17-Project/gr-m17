@@ -178,9 +178,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 228.0]
+    coordinate: [960, 212.0]
     rotation: 0
     state: disabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 304.0]
+    rotation: 0
+    state: enabled
 - name: blocks_null_sink_0
   id: blocks_null_sink
   parameters:
@@ -195,7 +210,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 192.0]
+    coordinate: [960, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -294,8 +309,8 @@ blocks:
     alias: ''
     callsign: 'True'
     comment: ''
-    debug_ctrl: 'True'
-    debug_data: 'True'
+    debug_ctrl: 'False'
+    debug_data: 'False'
     encr_type: '0'
     key: ''
     maxoutbuf: '0'
@@ -417,6 +432,7 @@ connections:
 - [m17_m17_coder_0, '0', blocks_add_xx_0, '0']
 - [m17_m17_decoder_0, '0', blocks_file_sink_0, '0']
 - [m17_m17_decoder_0, '0', blocks_null_sink_0, '0']
+- [m17_m17_decoder_0, fields, blocks_message_debug_0, print]
 
 metadata:
   file_format: 1

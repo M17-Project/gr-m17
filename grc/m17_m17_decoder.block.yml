@@ -79,6 +79,11 @@ outputs:
   dtype: byte
   vlen: 1
   optional: 0
+- label: fields
+  domain: message
+  id: fields
+  type: message
+  optional: true
 
 documentation: |-
      The decoder block accepts two boolean debugging flags defining which messages are displayed in the console when messages are received, and a threshold parameter. The threshold defines a value below which the incoming message is detected. It is based on the Euclidean distance (L^2 norm) between the received symbol stream and protocol-defined syncronization patterns. Ideally, the distance would reach 0.0 for an ideal match. A default threshold value of 2.0 is selected.

@@ -67,6 +67,8 @@ namespace gr
 			set_key(key);
 			set_encr_type(encr_type);
 			_expected_next_fn = 0;
+
+			message_port_register_out(pmt::mp("fields"));
 		}
 
 		/*
@@ -216,7 +218,7 @@ namespace gr
 		m17_decoder_impl::forecast(int noutput_items,
 								   gr_vector_int &ninput_items_required)
 		{
-			ninput_items_required[0] = 1; //  noutput_items;
+			ninput_items_required[0] = 1; // do work only if there is at least one symbol available
 		}
 
 		// this is generating a correct seed value based on the fn value,
@@ -541,10 +543,25 @@ namespace gr
 							// debug - dump LICH
 							if (lich_chunks_rcvd == 0x3F) // all 6 chunks received?
 							{
+								// handle message output
+								pmt::pmt_t msg;
+								decode_callsign_bytes(d_dst, _lsf.dst);
+								decode_callsign_bytes(d_src, _lsf.src);
+
+								pmt::pmt_t dict = pmt::make_dict();
+								dict = pmt::dict_add(dict, pmt::mp("src"), pmt::intern((char *)d_src));
+								dict = pmt::dict_add(dict, pmt::mp("dst"), pmt::intern((char *)d_dst));
+
+								msg = pmt::init_u8vector(2, _lsf.type);
+								dict = pmt::dict_add(dict, pmt::mp("type"), msg);
+								msg = pmt::init_u8vector(14, _lsf.meta);
+								dict = pmt::dict_add(dict, pmt::mp("meta"), msg);
+
+								message_port_pub(pmt::mp("fields"), dict);
+
+								// debug data display
 								if (_callsign == true)
 								{
-									decode_callsign_bytes(d_dst, _lsf.dst);
-									decode_callsign_bytes(d_src, _lsf.src);
 									if (_debug_ctrl == true)
 									{
 										printf("DST: %-9s ", d_dst); // DST
