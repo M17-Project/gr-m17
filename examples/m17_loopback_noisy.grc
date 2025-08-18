@@ -5,7 +5,7 @@ options:
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
-    copyright: M17 Project, Jan 2024
+    copyright: M17 Foundation 2025
     description: ''
     gen_cmake: 'On'
     gen_linking: dynamic
@@ -45,7 +45,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [552, 12.0]
+    coordinate: [560, 4.0]
     rotation: 0
     state: true
 - name: meta_str
@@ -60,7 +60,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [272, 12.0]
+    coordinate: [280, 4.0]
     rotation: 0
     state: true
 - name: noise_ampl
@@ -81,7 +81,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [808, 12.0]
+    coordinate: [816, 4.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -93,7 +93,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [176, 12.0]
+    coordinate: [184, 4.0]
     rotation: 0
     state: true
 - name: src_str
@@ -108,7 +108,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 12.0]
+    coordinate: [416, 4.0]
     rotation: 0
     state: true
 - name: type_val
@@ -123,7 +123,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [696, 12.0]
+    coordinate: [704, 4.0]
     rotation: 0
     state: true
 - name: analog_noise_source_x_0
