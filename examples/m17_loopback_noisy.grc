@@ -37,7 +37,6 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    entry_signal: editingFinished
     gui_hint: ''
     label: DST
     type: string
@@ -53,7 +52,6 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    entry_signal: editingFinished
     gui_hint: ''
     label: META
     type: string
@@ -102,7 +100,6 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    entry_signal: editingFinished
     gui_hint: ''
     label: SRC
     type: string
@@ -118,7 +115,6 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
-    entry_signal: editingFinished
     gui_hint: ''
     label: TYPE
     type: int
@@ -146,7 +142,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 232.0]
+    coordinate: [576, 244.0]
     rotation: 0
     state: true
 - name: blocks_add_xx_0
@@ -184,7 +180,7 @@ blocks:
     bus_structure: null
     coordinate: [992, 144.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_null_sink_0
   id: blocks_null_sink
   parameters:
@@ -209,18 +205,18 @@ blocks:
     alias: ''
     comment: ''
     ignoretag: 'True'
-    limit: auto
+    limit: time
     maximum: '0.1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    samples_per_second: samp_rate
-    type: float
+    samples_per_second: samp_rate/16
+    type: byte
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 136.0]
+    coordinate: [192, 404.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -244,24 +240,51 @@ blocks:
     coordinate: [8, 128.0]
     rotation: 0
     state: true
+- name: btn0
+  id: variable_qtgui_msg_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Stop
+    msgName: pressed
+    relBackgroundColor: default
+    relFontColor: default
+    type: string
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 260.0]
+    rotation: 0
+    state: true
 - name: m17_m17_coder_0
   id: m17_m17_coder
   parameters:
+    aes_subtype: '0'
     affinity: ''
     alias: ''
+    can: '0'
     comment: ''
     debug: 'False'
     dst_id: dst_str
+    encr_subtype: '0'
+    encr_type: '0'
+    key: ''
     maxoutbuf: '0'
     meta: meta_str
     minoutbuf: '0'
+    mode: '1'
+    priv_key: ''
+    seed: ''
+    signed_str: 'False'
     src_id: src_str
     type: type_val
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 112.0]
+    coordinate: [336, 92.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -269,11 +292,16 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
+    callsign: 'False'
     comment: ''
     debug_ctrl: 'True'
     debug_data: 'False'
+    encr_type: '0'
+    key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    seed: ''
+    signed_str: 'False'
     threshold: '2.0'
   states:
     bus_sink: false
@@ -281,7 +309,7 @@ blocks:
     bus_structure: null
     coordinate: [840, 144.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: note_0_2
   id: note
   parameters:
@@ -388,7 +416,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 232.0]
+    coordinate: [784, 340.0]
     rotation: 0
     state: true
 
@@ -396,12 +424,13 @@ connections:
 - [analog_noise_source_x_0, '0', blocks_add_xx_0, '1']
 - [blocks_add_xx_0, '0', m17_m17_decoder_0, '0']
 - [blocks_add_xx_0, '0', qtgui_eye_sink_x_0, '0']
-- [blocks_throttle2_0, '0', blocks_add_xx_0, '0']
-- [blocks_vector_source_x_0_2, '0', m17_m17_coder_0, '0']
-- [m17_m17_coder_0, '0', blocks_throttle2_0, '0']
+- [blocks_throttle2_0, '0', m17_m17_coder_0, '0']
+- [blocks_vector_source_x_0_2, '0', blocks_throttle2_0, '0']
+- [btn0, pressed, m17_m17_coder_0, end_of_transmission]
+- [m17_m17_coder_0, '0', blocks_add_xx_0, '0']
 - [m17_m17_decoder_0, '0', blocks_file_sink_0, '0']
 - [m17_m17_decoder_0, '0', blocks_null_sink_0, '0']
 
 metadata:
   file_format: 1
-  grc_version: 3.10.10.0
+  grc_version: 3.10.7.0
