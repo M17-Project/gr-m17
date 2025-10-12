@@ -110,7 +110,7 @@ inputs:
   dtype: byte
   vlen: 1
   optional: 0
-- label: end_of_transmission
+- label: transmission_control
   domain: message
   optional: 0
 

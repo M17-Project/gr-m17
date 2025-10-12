@@ -99,9 +99,9 @@ namespace gr
       _got_lsf = 0; // have we filled the LSF struct yet?
       _fn = 0;      // 16-bit Frame Number (for the stream mode)
       _finished = false;
-      message_port_register_in(pmt::mp("end_of_transmission"));
-      set_msg_handler(pmt::mp("end_of_transmission"), [this](const pmt::pmt_t &msg)
-                      { end_of_transmission(msg); });
+      message_port_register_in(pmt::mp("transmission_control"));
+      set_msg_handler(pmt::mp("transmission_control"), [this](const pmt::pmt_t &msg)
+                      { switch_state(msg); });
       _send_preamble = true; // send preamble once in the work function
 
       if (_debug == true)
@@ -171,11 +171,30 @@ namespace gr
 #endif
     }
 
-    void m17_coder_impl::end_of_transmission(const pmt::pmt_t &msg)
+    void m17_coder_impl::switch_state(const pmt::pmt_t &msg)
     {
-      _finished = true;
-      std::cout << "***** End of Transmission ********\n";
-      pmt::print(msg);
+      if (pmt::is_symbol(msg))
+      {
+        std::string str = pmt::symbol_to_string(msg);
+        if (str == "SOT")
+        {
+          ;
+          std::cout << "***** Start of Transmission *****\n";
+        }
+        else if (str == "EOT")
+        {
+          _finished = true;
+          std::cout << "***** End of Transmission *****\n";
+        }
+        else
+        {
+          pmt::print(msg);
+        }
+      }
+      else
+      {
+        std::cout << "Strange MSG received\n";
+      }
     }
 
     void m17_coder_impl::set_encr_type(int encr_type)
