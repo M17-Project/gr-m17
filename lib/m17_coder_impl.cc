@@ -96,13 +96,10 @@ namespace gr
               _lsf.crc[0] = ccrc >> 8;
               _lsf.crc[1] = ccrc & 0xFF;
       */
-      _got_lsf = 0; // have we filled the LSF struct yet?
-      _fn = 0;      // 16-bit Frame Number (for the stream mode)
-      _finished = false;
+      init_state();
       message_port_register_in(pmt::mp("transmission_control"));
       set_msg_handler(pmt::mp("transmission_control"), [this](const pmt::pmt_t &msg)
                       { switch_state(msg); });
-      _send_preamble = true; // send preamble once in the work function
 
       if (_debug == true)
       {
@@ -152,8 +149,6 @@ namespace gr
         // calculate LSF CRC (unclear whether or not this is only
         // needed here for debug, or if this is missing on every initial LSF)
         update_LSF_CRC(&_lsf);
-
-        _finished = 0;
       }
 #ifdef AES
       if (_encr_type == ENCR_AES)
@@ -178,12 +173,13 @@ namespace gr
         std::string str = pmt::symbol_to_string(msg);
         if (str == "SOT")
         {
-          ;
+          _active.store(true, std::memory_order_release);
+          _finished.store(false, std::memory_order_relaxed);
           std::cout << "***** Start of Transmission *****\n";
         }
         else if (str == "EOT")
         {
-          _finished = true;
+          _finished.store(true, std::memory_order_release);
           std::cout << "***** End of Transmission *****\n";
         }
         else
@@ -195,6 +191,15 @@ namespace gr
       {
         std::cout << "Strange MSG received\n";
       }
+    }
+
+    void m17_coder_impl::init_state(void)
+    {
+      _got_lsf = 0; // have we filled the LSF struct yet?
+      _fn = 0;      // 16-bit Frame Number (for the stream mode)
+      _active.store(false, std::memory_order_relaxed);
+      _finished.store(false, std::memory_order_relaxed);
+      _send_preamble = true; // send preamble once in the work function
     }
 
     void m17_coder_impl::set_encr_type(int encr_type)
@@ -216,25 +221,25 @@ namespace gr
       default:
         _encr_type = ENCR_NONE;
       }
-      printf("new encr type: %x -> ", _encr_type);
+      fprintf(stderr, "new encr type: %x -> ", _encr_type);
     }
 
     void m17_coder_impl::set_signed(bool signed_str)
     {
       _signed_str = signed_str;
       if (_signed_str == true)
-        printf("Signed\n");
+        fprintf(stderr, "Signed\n");
       else
-        printf("Unsigned\n");
+        fprintf(stderr, "Unsigned\n");
     }
 
     void m17_coder_impl::set_debug(bool debug)
     {
       _debug = debug;
       if (_debug == true)
-        printf("Debug true\n");
+        fprintf(stderr, "Debug true\n");
       else
-        printf("Debug false\n");
+        fprintf(stderr, "Debug false\n");
     }
 
     void m17_coder_impl::set_src_id(std::string src_id)
@@ -283,7 +288,7 @@ namespace gr
     void m17_coder_impl::set_priv_key(std::string arg) // *UTF-8* encoded byte array
     {
       int length;
-      printf("new private key: ");
+      fprintf(stderr, "new private key: ");
       length = arg.size();
       _priv_key_loaded = true;
       int i = 0, j = 0;
@@ -304,17 +309,17 @@ namespace gr
         }
       }
       length = j; // index from 0 to length-1
-      printf("%d bytes: ", length);
+      fprintf(stderr, "%d bytes: ", length);
       for (i = 0; i < length; i++)
-        printf("%02X ", _priv_key[i]);
-      printf("\n");
+        fprintf(stderr, "%02X ", _priv_key[i]);
+      fprintf(stderr, "\n");
       fflush(stdout);
     }
 
     void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
     {
       int length;
-      printf("new key: ");
+      fprintf(stderr, "new key: ");
       length = arg.size();
       int i = 0, j = 0;
       while ((j < 32) && (i < length))
@@ -333,17 +338,17 @@ namespace gr
         }
       }
       length = j; // index from 0 to length-1
-      printf("%d bytes: ", length);
+      fprintf(stderr, "%d bytes: ", length);
       for (i = 0; i < length; i++)
-        printf("%02X ", _key[i]);
-      printf("\n");
+        fprintf(stderr, "%02X ", _key[i]);
+      fprintf(stderr, "\n");
       fflush(stdout);
     }
 
     void m17_coder_impl::set_seed(std::string arg) // *UTF-8* encoded byte array
     {
       int length;
-      printf("new seed: ");
+      fprintf(stderr, "new seed: ");
       length = arg.size();
       int i = 0, j = 0;
       while ((j < 3) && (i < length))
@@ -362,10 +367,10 @@ namespace gr
         }
       }
       length = j; // index from 0 to length-1
-      printf("%d bytes: ", length);
+      fprintf(stderr, "%d bytes: ", length);
       for (i = 0; i < length; i++)
-        printf("%02X ", _seed[i]);
-      printf("\n");
+        fprintf(stderr, "%02X ", _seed[i]);
+      fprintf(stderr, "\n");
       fflush(stdout);
       if (length <= 2)
       {
@@ -389,7 +394,7 @@ namespace gr
 
       memset(_lsf.meta, 0, 14);
 
-      printf("new meta: ");
+      fprintf(stderr, "new meta: ");
       if (_encr_subtype == 0) // meta is \0-terminated string
       {
         if (meta.length() < 14)
@@ -399,7 +404,7 @@ namespace gr
           length = 14;
           meta[length] = 0;
         }
-        printf("%s\n", meta.c_str());
+        fprintf(stderr, "%s\n", meta.c_str());
         for (int i = 0; i < length; i++)
         {
           _lsf.meta[i] = meta[i];
@@ -426,10 +431,10 @@ namespace gr
           }
         }
         length = j; // index from 0 to length-1
-        printf("%d bytes: ", length);
+        fprintf(stderr, "%d bytes: ", length);
         for (i = 0; i < length; i++)
-          printf("%02X ", _lsf.meta[i]);
-        printf("\n");
+          fprintf(stderr, "%02X ", _lsf.meta[i]);
+        fprintf(stderr, "\n");
       }
       fflush(stdout);
       uint16_t ccrc = LSF_CRC(&_lsf);
@@ -440,28 +445,28 @@ namespace gr
     void m17_coder_impl::set_mode(int mode)
     {
       _mode = mode;
-      printf("new mode: %x -> ", _mode);
+      fprintf(stderr, "new mode: %x -> ", _mode);
       set_type(_mode, _data, _encr_type, _encr_subtype, _can);
     }
 
     void m17_coder_impl::set_data(int data)
     {
       _data = data;
-      printf("new data type: %x -> ", _data);
+      fprintf(stderr, "new data type: %x -> ", _data);
       set_type(_mode, _data, _encr_type, _encr_subtype, _can);
     }
 
     void m17_coder_impl::set_encr_subtype(int encr_subtype)
     {
       _encr_subtype = encr_subtype;
-      printf("new encr subtype: %x -> ", _encr_subtype);
+      fprintf(stderr, "new encr subtype: %x -> ", _encr_subtype);
       set_type(_mode, _data, _encr_type, _encr_subtype, _can);
     }
 
     void m17_coder_impl::set_aes_subtype(int aes_subtype, int encr_type)
     {
       _aes_subtype = aes_subtype;
-      printf("new AES subtype: %x -> ", _aes_subtype);
+      fprintf(stderr, "new AES subtype: %x -> ", _aes_subtype);
       if (encr_type == ENCR_AES) // AES ENC, 3200 voice
       {
         _type |= M17_TYPE_ENCR_AES;
@@ -473,14 +478,14 @@ namespace gr
           _type |= M17_TYPE_ENCR_AES256;
       }
       else
-        printf("ERROR: encryption type != AES");
-      printf("\n");
+        fprintf(stderr, "ERROR: encryption type != AES");
+      fprintf(stderr, "\n");
     }
 
     void m17_coder_impl::set_can(int can)
     {
       _can = can;
-      printf("new CAN: %x -> ", _can);
+      fprintf(stderr, "new CAN: %x -> ", _can);
       set_type(_mode, _data, _encr_type, _encr_subtype, _can);
     }
 
@@ -495,7 +500,7 @@ namespace gr
       uint16_t ccrc = LSF_CRC(&_lsf);
       _lsf.crc[0] = ccrc >> 8;
       _lsf.crc[1] = ccrc & 0xFF;
-      printf("Transmission type: 0x%02X%02X\n", _lsf.type[0], _lsf.type[1]);
+      fprintf(stderr, "Transmission type: 0x%02X%02X\n", _lsf.type[0], _lsf.type[1]);
       fflush(stdout);
     }
 
@@ -513,7 +518,7 @@ namespace gr
       ninput_items_required[0] = noutput_items / 12; // 16 inputs -> 192 outputs
     }
 
-    // scrambler pn sequence generation
+    // scrambler PN sequence generation
     void m17_coder_impl::scrambler_sequence_generator()
     {
       int i = 0;
@@ -540,10 +545,10 @@ namespace gr
         fprintf(stderr,
                 "\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;",
                 _scrambler_seed, lfsr, _scrambler_subtype);
-        fprintf(stderr, "\n pN: ");
+        fprintf(stderr, "\n PN: ");
       }
 
-      // run pN sequence with taps specified
+      // run PN sequence with taps specified
       for (i = 0; i < 128; i++)
       {
         // get feedback bit with specified taps, depending on the scrambler_subtype
@@ -655,158 +660,201 @@ namespace gr
 
       uint8_t data[16], next_data[16]; // raw payload, packed bits
 
-      if (_send_preamble == true)
+      if (_active.load(std::memory_order_acquire))
       {
-        gen_preamble(out, &countout, PREAM_LSF); // 0 - LSF preamble, as opposed to 1 - BERT preamble
-        _send_preamble = false;
-      }
-
-      while ((countout < (uint32_t)noutput_items))
-      {
-        if (countin + 16 > ninput_items[0])
+        if (_send_preamble == true)
         {
-          break;
+          gen_preamble(out, &countout, PREAM_LSF); // 0 - LSF preamble, as opposed to 1 - BERT preamble
+          _send_preamble = false;
         }
 
-        if (!_got_lsf) // stream frames
+        while ((countout < (uint32_t)noutput_items))
         {
-          // send LSF
-          gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
-          countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
+          if (countin + 16 > ninput_items[0])
+          {
+            if (_finished.load(std::memory_order_acquire) == false)
+            {
+              break;
+            }
+          }
 
-          // check the SIGNED STREAM flag
-          _signed_str = (_lsf.type[0] >> 3) & 1;
+          if (!_got_lsf) // stream frames
+          {
+            // send LSF
+            gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
+            countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
 
-          // set the flag
-          _got_lsf = 1;
-        }
+            // check the SIGNED STREAM flag
+            _signed_str = (_lsf.type[0] >> 3) & 1;
 
-        // get new data
-        memcpy(next_data, in + countin, 16);
-        countin += 16;
+            // set the flag
+            _got_lsf = 1;
+          }
 
-        // update the data before applying crypto
-        memcpy(data, next_data, 16);
+          if (!(countin + 16 > ninput_items[0]))
+          {
+            // get new data
+            memcpy(next_data, in + countin, 16);
+            countin += 16;
 
-        // TODO if debug_mode==1 from lines 520 to 570
-        // TODO add aes_subtype as user argument
+            // update the data before applying crypto
+            memcpy(data, next_data, 16);
+          }
+
+          // TODO if debug_mode==1 from lines 520 to 570
+          // TODO add aes_subtype as user argument
 
 #ifdef AES
-        if (_encr_type == ENCR_AES)
-        {
-          memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
-          _iv[14] = (_fn >> 8) & 0x7F;
-          _iv[15] = (_fn >> 0) & 0xFF;
-          aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
-        }
-        else
+          if (_encr_type == ENCR_AES)
+          {
+            memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
+            _iv[14] = (_fn >> 8) & 0x7F;
+            _iv[15] = (_fn >> 0) & 0xFF;
+            aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
+          }
+          else
 #endif
-          // Scrambler
-          if (_encr_type == ENCR_SCRAM)
-          {
-            scrambler_sequence_generator();
-            for (uint8_t i = 0; i < 16; i++)
+            // Scrambler
+            if (_encr_type == ENCR_SCRAM)
             {
-              data[i] ^= _scr_bytes[i];
-            }
-          }
-
-        /*fprintf(stderr, "Payload FN=%u: ", _fn);
-        for (int i = 0; i < 16; i++)
-          fprintf(stderr, "%02X ", data[i]);
-        fprintf(stderr, "\n");*/
-
-        if (_finished == false)
-        {
-          gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
-          countout += SYM_PER_FRA;         // gen frame always writes SYM_PER_FRA symbols = 192
-          _fn = (_fn + 1) % 0x8000;        // increment FN
-          _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
-
-          // update the stream digest if required
-          if (_signed_str)
-          {
-            for (uint8_t i = 0; i < sizeof(_digest); i++)
-              _digest[i] ^= data[i];
-            uint8_t tmp = _digest[0];
-            for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-              _digest[i] = _digest[i + 1];
-            _digest[sizeof(_digest) - 1] = tmp;
-          }
-
-          // update LSF every 6 frames (superframe boundary)
-          if (_fn > 0 && _lich_cnt == 0)
-          {
-            // TODO: fix the _next_lsf contents before uncommenting lines below
-            //_lsf = _next_lsf;
-            // update_LSF_CRC(&_lsf);
-          }
-
-          memcpy(data, next_data, 16);
-        }
-        else // send last frame(s)
-        {
-          printf("Sending last frame\n");
-          if (!_signed_str)
-            _fn |= 0x8000;
-          gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
-          countout += SYM_PER_FRA;         // gen frame always writes SYM_PER_FRA symbols = 192
-          _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
-
-          // if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
-          if (_signed_str)
-          {
-            // update digest
-            for (uint8_t i = 0; i < sizeof(_digest); i++)
-              _digest[i] ^= data[i];
-            uint8_t tmp = _digest[0];
-            for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-              _digest[i] = _digest[i + 1];
-            _digest[sizeof(_digest) - 1] = tmp;
-
-            // sign the digest
-            uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
-
-            // 4 frames with 512-bit signature
-            _fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
-            for (uint8_t i = 0; i < 4; i++)
-            {
-              gen_frame(out + countout, &_sig[i * 16], FRAME_STR, &_lsf, _lich_cnt, _fn);
-              countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
-              _fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
-              _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
-            }
-
-            if (_debug == true)
-            {
-              fprintf(stderr, "Signature: ");
-              for (uint8_t i = 0; i < sizeof(_sig); i++)
+              scrambler_sequence_generator();
+              for (uint8_t i = 0; i < 16; i++)
               {
-                if (i == 16 || i == 32 || i == 48)
-                  fprintf(stderr, "\n           ");
-                fprintf(stderr, "%02X", _sig[i]);
+                data[i] ^= _scr_bytes[i];
+              }
+            }
+
+          /*fprintf(stderr, "Payload FN=%u: ", _fn);
+          for (int i = 0; i < 16; i++)
+            fprintf(stderr, "%02X ", data[i]);
+          fprintf(stderr, "\n");*/
+
+          if (_finished.load(std::memory_order_acquire) == false)
+          {
+            gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+            countout += SYM_PER_FRA;         // gen frame always writes SYM_PER_FRA symbols = 192
+            _fn = (_fn + 1) % 0x8000;        // increment FN
+            _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
+
+            // update the stream digest if required
+            if (_signed_str)
+            {
+              for (uint8_t i = 0; i < sizeof(_digest); i++)
+                _digest[i] ^= data[i];
+              uint8_t tmp = _digest[0];
+              for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
+                _digest[i] = _digest[i + 1];
+              _digest[sizeof(_digest) - 1] = tmp;
+            }
+
+            // update LSF every 6 frames (superframe boundary)
+            if (_fn > 0 && _lich_cnt == 0)
+            {
+              // TODO: fix the _next_lsf contents before uncommenting lines below
+              //_lsf = _next_lsf;
+              // update_LSF_CRC(&_lsf);
+            }
+
+            memcpy(data, next_data, 16);
+          }
+          else // send last frame(s)
+          {
+            fprintf(stderr, "Sending last frame(s) plus EoT\n");
+
+            //_active.store(false, std::memory_order_release);
+
+            /* Determine how many frames we will emit in total:
+               - one final data frame
+               - if signed stream: 4 signature frames
+               - one EOT frame generated by gen_eot()
+            */
+            int frames_needed = 1 + (_signed_str ? 4 : 0) + 1;
+            int samples_needed = frames_needed * SYM_PER_FRA;
+
+            if ((noutput_items - (int)countout) < samples_needed)
+            {
+              // Not enough room to emit the entire remaining sequence.
+              // Wait for next general_work() with a larger buffer.
+              consume_each(0); // wake scheduler to retry
+              return countout;
+            }
+            else // enough
+            {
+              _active.store(false, std::memory_order_release);
+            }
+
+            if (!_signed_str)
+              _fn |= 0x8000;
+            gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+            countout += SYM_PER_FRA;         // gen frame always writes SYM_PER_FRA symbols = 192
+            _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
+
+            // if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
+            if (_signed_str)
+            {
+              // update digest
+              for (uint8_t i = 0; i < sizeof(_digest); i++)
+                _digest[i] ^= data[i];
+              uint8_t tmp = _digest[0];
+              for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
+                _digest[i] = _digest[i + 1];
+              _digest[sizeof(_digest) - 1] = tmp;
+
+              // sign the digest
+              uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
+
+              // 4 frames with 512-bit signature
+              _fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
+              for (uint8_t i = 0; i < 4; i++)
+              {
+                gen_frame(out + countout, &_sig[i * 16], FRAME_STR, &_lsf, _lich_cnt, _fn);
+                countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
+                _fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
+                _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
               }
 
-              fprintf(stderr, "\n");
+              if (_debug == true)
+              {
+                fprintf(stderr, "Signature: ");
+                for (uint8_t i = 0; i < sizeof(_sig); i++)
+                {
+                  if (i == 16 || i == 32 || i == 48)
+                    fprintf(stderr, "\n           ");
+                  fprintf(stderr, "%02X", _sig[i]);
+                }
+
+                fprintf(stderr, "\n");
+              }
             }
-          }
-          // send EOT frame
-          gen_eot(out + countout, &countout);
-          // fprintf(stderr, "Stream has ended. Exiting.\n");
-        } // finished == true
-      } // loop on input data
-      // Tell runtime system how many input items we consumed on
-      // each input stream.
-      consume_each(countin);
-      //    printf(" noutput_items=%d countin=%d countout=%d\n",noutput_items,countin,countout);
-      // Tell runtime system how many output items we produced.
-      if (_finished == false)
-        return countout;
+
+            // send EOT frame
+            uint32_t tmp = countout;
+            gen_eot(out + countout, &tmp);
+            countout += tmp; // should equal SYM_PER_FRA (192)
+
+            fprintf(stderr, "Stopping symbol generation\n");
+            consume_each(countin);
+            init_state();
+            return countout;
+          } // finished == true
+        } // loop on input data
+
+        // Tell runtime system how many input items we consumed on
+        // each input stream.
+        consume_each(countin);
+      }
       else
       {
-        printf("Killing flowgraph\n");
-        return -1;
-      } // https://lists.gnu.org/archive/html/discuss-gnuradio/2016-12/msg00206.html
+        usleep(10e3); // TODO: fix this
+        return 0;
+      }
+
+      // if (_finished.load(std::memory_order_acquire) == false)
+      {
+        return countout;
+      }
+
+      // https://lists.gnu.org/archive/html/discuss-gnuradio/2016-12/msg00206.html
       // returning -1 (which is the magical value for "there's nothing coming anymore, you can shut down") would normally end a flow graph
     }
   } /* namespace m17 */

@@ -11,6 +11,7 @@
 #define AES
 #define ECC
 
+#include <atomic>
 #include <gnuradio/m17/m17_coder.h>
 #include "m17.h"		// lsf_t declaration
 
@@ -59,7 +60,8 @@ namespace gr
       uint16_t _fn = 0;		//16-bit Frame Number (for the stream mode)
       uint8_t _lich_cnt = 0;	//0..5 LICH counter, derived from the Frame Number
       bool _debug = 0;
-      bool _signed_str = false, _finished = false;
+      bool _signed_str = false;
+      std::atomic<bool> _finished = false, _active = false;
 
       uint8_t _digest[16] = { 0 };	//16-byte field for the stream digest
       bool _priv_key_loaded = false;	//do we have a sig key loaded?
@@ -96,6 +98,7 @@ namespace gr
       void set_debug (bool debug);
       void set_signed (bool signed_str);
       void switch_state(const pmt::pmt_t& msg);
+      void init_state(void);
 
       m17_coder_impl (std::string src_id, std::string dst_id, int mode,
 		      int data, int encr_type, int encr_subtype, int aes_subtype, int can,
