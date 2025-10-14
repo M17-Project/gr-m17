@@ -171,16 +171,18 @@ namespace gr
       if (pmt::is_symbol(msg))
       {
         std::string str = pmt::symbol_to_string(msg);
+        time_t now = time(NULL);
+        struct tm *t = localtime(&now);
         if (str == "SOT")
         {
           _active.store(true, std::memory_order_release);
           _finished.store(false, std::memory_order_relaxed);
-          std::cout << "***** Start of Transmission *****\n";
+          fprintf(stderr, "[%02d:%02d:%02d] ***** Start of Transmission *****\n", t->tm_hour, t->tm_min, t->tm_sec);
         }
         else if (str == "EOT")
         {
           _finished.store(true, std::memory_order_release);
-          std::cout << "***** End of Transmission *****\n";
+          fprintf(stderr, "[%02d:%02d:%02d] ***** End of Transmission *****\n", t->tm_hour, t->tm_min, t->tm_sec);
         }
         else
         {
@@ -189,7 +191,7 @@ namespace gr
       }
       else
       {
-        std::cout << "Strange MSG received\n";
+        fprintf(stderr, "Strange MSG received\n");
       }
     }
 
@@ -761,8 +763,6 @@ namespace gr
           {
             fprintf(stderr, "Sending last frame(s) plus EoT\n");
 
-            //_active.store(false, std::memory_order_release);
-
             /* Determine how many frames we will emit in total:
                - one final data frame
                - if signed stream: 4 signature frames
@@ -849,10 +849,7 @@ namespace gr
         return 0;
       }
 
-      // if (_finished.load(std::memory_order_acquire) == false)
-      {
-        return countout;
-      }
+      return countout;
 
       // https://lists.gnu.org/archive/html/discuss-gnuradio/2016-12/msg00206.html
       // returning -1 (which is the magical value for "there's nothing coming anymore, you can shut down") would normally end a flow graph
