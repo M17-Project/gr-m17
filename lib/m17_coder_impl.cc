@@ -761,7 +761,12 @@ namespace gr
           }
           else // send last frame(s)
           {
-            fprintf(stderr, "Sending last frame(s) plus EoT\n");
+            // enter finalization only once
+            if (!_finalizing)
+            {
+              fprintf(stderr, "Sending last frame(s) plus EoT\n");
+              _finalizing = true; // mark that we already printed and started finishing
+            }
 
             /* Determine how many frames we will emit in total:
                - one final data frame
@@ -778,10 +783,10 @@ namespace gr
               consume_each(0); // wake scheduler to retry
               return countout;
             }
-            else // enough
-            {
-              _active.store(false, std::memory_order_release);
-            }
+
+            // prevent re-entry before generating EOT
+            _active.store(false, std::memory_order_release);
+            _finalizing = false;
 
             if (!_signed_str)
               _fn |= 0x8000;
@@ -828,7 +833,7 @@ namespace gr
             }
 
             // send EOT frame
-            uint32_t tmp = countout;
+            uint32_t tmp = 0;
             gen_eot(out + countout, &tmp);
             countout += tmp; // should equal SYM_PER_FRA (192)
 

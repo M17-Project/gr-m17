@@ -61,6 +61,7 @@ namespace gr
       uint8_t _lich_cnt = 0;	//0..5 LICH counter, derived from the Frame Number
       bool _debug = 0;
       bool _signed_str = false;
+      bool _finalizing = false;
       std::atomic<bool> _finished = false, _active = false;
 
       uint8_t _digest[16] = { 0 };	//16-byte field for the stream digest
