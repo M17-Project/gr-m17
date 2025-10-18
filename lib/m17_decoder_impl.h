@@ -42,6 +42,17 @@ namespace gr
 //used for signatures
       uint8_t _digest[16] = { 0 };	//16-byte field for the stream digest
       uint8_t _sig[64] = { 0 };	//ECDSA signature
+      
+      // Ed25519/Curve25519 crypto support
+      uint8_t _ed25519_public_key[M17_ED25519_PUBLIC_KEY_SIZE] = { 0 };
+      uint8_t _ed25519_private_key[M17_ED25519_PRIVATE_KEY_SIZE] = { 0 };
+      uint8_t _ed25519_signature[M17_ED25519_SIGNATURE_SIZE] = { 0 };
+      uint8_t _curve25519_public_key[M17_CURVE25519_PUBLIC_KEY_SIZE] = { 0 };
+      uint8_t _curve25519_private_key[M17_CURVE25519_PRIVATE_KEY_SIZE] = { 0 };
+      uint8_t _curve25519_shared_secret[M17_CURVE25519_SHARED_SECRET_SIZE] = { 0 };
+      uint8_t _aes_gcm_key[M17_AES_GCM_KEY_SIZE] = { 0 };
+      uint8_t _aes_gcm_iv[M17_AES_GCM_IV_SIZE] = { 0 };
+      uint8_t _aes_gcm_tag[M17_AES_GCM_TAG_SIZE] = { 0 };
       uint32_t _scrambler_key = 0;	//keep set to initial value for seed calculation function
 
 #ifdef AES
@@ -103,6 +114,18 @@ namespace gr
       void scrambler_sequence_generator ();
       uint32_t scrambler_seed_calculation (int8_t subtype, uint32_t key,
 					   int fn);
+      
+      // Ed25519/Curve25519 crypto methods
+      void set_ed25519_keys (const uint8_t* public_key, const uint8_t* private_key);
+      void set_curve25519_keys (const uint8_t* public_key, const uint8_t* private_key);
+      int verify_ed25519_signature (const uint8_t* data, size_t data_len, 
+                                   const uint8_t* signature, const uint8_t* public_key);
+      int perform_curve25519_ecdh (const uint8_t* peer_public_key);
+      int derive_encryption_key (const uint8_t* shared_secret, const uint8_t* salt, 
+                                 const uint8_t* info, size_t info_len);
+      int decrypt_aes_gcm (const uint8_t* ciphertext, size_t ciphertext_len,
+                          const uint8_t* key, const uint8_t* iv, const uint8_t* tag,
+                          uint8_t* plaintext);
 
       // Where all the action really happens
       void forecast (int noutput_items,

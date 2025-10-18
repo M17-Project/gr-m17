@@ -1,3 +1,16 @@
+# GNU Radio M17 Module
+
+A GNU Radio module implementing the M17 digital radio protocol with enhanced cryptographic capabilities.
+
+## Features
+
+- **M17 Protocol Support**: Complete implementation of M17 digital radio protocol
+- **Enhanced Security**: Ed25519/Curve25519 cryptographic support
+- **Modern Cryptography**: AES-GCM authenticated encryption
+- **Performance Optimized**: SIMD optimizations for critical functions
+- **Thread Safe**: Multi-threading support for concurrent operations
+- **Memory Safe**: Comprehensive buffer overflow protection
+
 ## Compiling for GNU Radio
 
 The default targetted version is GNU Radio 3.10 (``main`` branch). Tested on Debian/GNU Linux sid with GNU Radio 
@@ -49,6 +62,46 @@ Notice that due to the verbose output of ``gr-m17`` and the slow console of GNU 
 would strongly advise generating the Python script from GNU Radio Companion and then execute 
 ``python3 m17_loopback.py`` from a terminal to avoid waiting for a long time for GNU Radio 
 Companion to flush all messages.
+
+## Cryptographic Features
+
+This implementation includes modern cryptographic capabilities:
+
+### Ed25519 Digital Signatures
+- **Purpose**: Message authentication and integrity verification
+- **Key Size**: 32-byte public/private keys, 64-byte signatures
+- **Algorithm**: Ed25519 (RFC 8032)
+- **Use Cases**: Sender authentication, message integrity, non-repudiation
+
+### Curve25519 ECDH Key Exchange
+- **Purpose**: Secure key exchange for encrypted communication
+- **Key Size**: 32-byte public/private keys, 32-byte shared secrets
+- **Algorithm**: Curve25519 (RFC 7748)
+- **Use Cases**: Key agreement, forward secrecy, secure communication setup
+
+### AES-GCM Authenticated Encryption
+- **Purpose**: Authenticated encryption for data protection
+- **Key Size**: 256-bit (32-byte) keys
+- **Algorithm**: AES-GCM (NIST SP 800-38D)
+- **Use Cases**: Data confidentiality, integrity protection
+
+### HKDF Key Derivation
+- **Purpose**: Secure key derivation from shared secrets
+- **Algorithm**: HKDF (RFC 5869) with SHA-256
+- **Use Cases**: Encryption key generation, key material expansion
+
+For detailed information about the cryptographic implementation, see [M17_ED25519_CURVE25519_INTEGRATION.md](M17_ED25519_CURVE25519_INTEGRATION.md).
+
+## Library Improvements
+
+The M17 library has been enhanced with comprehensive improvements:
+
+- **Error Handling**: Comprehensive input validation and error reporting
+- **Memory Management**: Buffer overflow protection and safe memory operations
+- **Thread Safety**: Thread-safe operations for concurrent access
+- **Performance**: SIMD optimizations for critical functions
+
+For detailed information about the improvements, see [IMPROVEMENTS.md](IMPROVEMENTS.md).
 
 ## About the Meta field
 
