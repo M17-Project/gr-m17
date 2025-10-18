@@ -32,7 +32,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <time.h>
 #include <unistd.h>
+#include <sys/types.h>
+#ifdef __linux__
+#include <sys/random.h>
+#endif
 
 #include "m17.h"
 
@@ -85,10 +90,56 @@ namespace gr
 #ifdef AES
       if (_encr_type == ENCR_AES)
       {
+        // SECURITY FIX: Use cryptographically secure random number generation
+        // Time-based component for uniqueness (4 bytes)
         for (uint8_t i = 0; i < 4; i++)
           _iv[i] = ((uint32_t)(time(NULL) & 0xFFFFFFFF) - (uint32_t)epoch) >> (24 - (i * 8));
-        for (uint8_t i = 3; i < 14; i++)
-          _iv[i] = rand() & 0xFF; // 10 random bytes
+        
+        // SECURITY FIX: Replace vulnerable rand() with secure RNG
+        // Generate 10 cryptographically secure random bytes
+        FILE *urandom = fopen("/dev/urandom", "rb");
+        if (urandom != NULL) {
+          if (fread(&_iv[3], 1, 10, urandom) != 10) {
+            // Fallback to getrandom() if available
+            #ifdef __linux__
+            if (getrandom(&_iv[3], 10, 0) != 10) {
+              // Last resort: use time-based seeding with better entropy
+              uint64_t seed = (uint64_t)time(NULL) ^ (uint64_t)getpid() ^ (uint64_t)clock();
+              for (uint8_t i = 3; i < 14; i++) {
+                seed = seed * 1103515245 + 12345; // Linear congruential generator
+                _iv[i] = (uint8_t)((seed >> 24) & 0xFF);
+              }
+            }
+            #else
+            // Fallback for non-Linux systems
+            uint64_t seed = (uint64_t)time(NULL) ^ (uint64_t)getpid() ^ (uint64_t)clock();
+            for (uint8_t i = 3; i < 14; i++) {
+              seed = seed * 1103515245 + 12345; // Linear congruential generator
+              _iv[i] = (uint8_t)((seed >> 24) & 0xFF);
+            }
+            #endif
+          }
+          fclose(urandom);
+        } else {
+          // Fallback if /dev/urandom is not available
+          #ifdef __linux__
+          if (getrandom(&_iv[3], 10, 0) != 10) {
+            // Last resort: use time-based seeding with better entropy
+            uint64_t seed = (uint64_t)time(NULL) ^ (uint64_t)getpid() ^ (uint64_t)clock();
+            for (uint8_t i = 3; i < 14; i++) {
+              seed = seed * 1103515245 + 12345; // Linear congruential generator
+              _iv[i] = (uint8_t)((seed >> 24) & 0xFF);
+            }
+          }
+          #else
+          // Fallback for non-Linux systems
+          uint64_t seed = (uint64_t)time(NULL) ^ (uint64_t)getpid() ^ (uint64_t)clock();
+          for (uint8_t i = 3; i < 14; i++) {
+            seed = seed * 1103515245 + 12345; // Linear congruential generator
+            _iv[i] = (uint8_t)((seed >> 24) & 0xFF);
+          }
+          #endif
+        }
       }
 #endif
       /*

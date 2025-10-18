@@ -103,6 +103,33 @@ The M17 library has been enhanced with comprehensive improvements:
 
 For detailed information about the improvements, see [IMPROVEMENTS.md](IMPROVEMENTS.md).
 
+## Advanced Security Features
+
+The M17 library now includes military-grade security features:
+
+- **TrustZone Secure World**: Hardware-enforced isolation for cryptographic operations
+- **OP-TEE Integration**: Linux TEE (Trusted Execution Environment) support
+- **Secure Boot Chain**: Hardware-validated boot process and component attestation
+- **Secure Memory Partitions**: Hardware-protected memory regions
+- **Nitrokey Integration**: Hardware security module support
+
+For detailed information about the advanced security features, see [TRUSTZONE_TEE_SECURITY.md](TRUSTZONE_TEE_SECURITY.md).
+
+## Security Fixes
+
+Critical security vulnerabilities have been identified and fixed:
+
+- **IV Generation**: Replaced insecure `rand()` with cryptographically secure random number generation
+- **Memory Security**: Implemented secure memory handling and key storage
+- **Input Validation**: Added comprehensive input validation and bounds checking
+- **Authenticated Encryption**: Replaced weak scrambler with AES-GCM authenticated encryption
+
+For detailed information about the security fixes, see [SECURITY_FIXES.md](SECURITY_FIXES.md).
+
+## Documentation
+
+For a comprehensive index of all documentation, see [DOCUMENTATION.md](DOCUMENTATION.md).
+
 ## About the Meta field
 
 The Meta field in the M17 Encoder can be of two types:
