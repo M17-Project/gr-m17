@@ -18,6 +18,13 @@
  * Boston, MA 02110-1301, USA.
  */
 
+// SECURITY FIX: Add necessary includes for secure operations
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdexcept>
+#include <openssl/sha.h>
+#include <openssl/evp.h>
+
 // 240620: todo uncomment #idef AES for cryptography and #ifdef ECC for signature
 
 // in m17_coder_impl.h: #define AES #define ECC
@@ -90,56 +97,32 @@ namespace gr
 #ifdef AES
       if (_encr_type == ENCR_AES)
       {
-        // SECURITY FIX: Use cryptographically secure random number generation
-        // Time-based component for uniqueness (4 bytes)
-        for (uint8_t i = 0; i < 4; i++)
-          _iv[i] = ((uint32_t)(time(NULL) & 0xFFFFFFFF) - (uint32_t)epoch) >> (24 - (i * 8));
-        
-        // SECURITY FIX: Replace vulnerable rand() with secure RNG
-        // Generate 10 cryptographically secure random bytes
-        FILE *urandom = fopen("/dev/urandom", "rb");
-        if (urandom != NULL) {
-          if (fread(&_iv[3], 1, 10, urandom) != 10) {
-            // Fallback to getrandom() if available
-            #ifdef __linux__
-            if (getrandom(&_iv[3], 10, 0) != 10) {
-              // Last resort: use time-based seeding with better entropy
-              uint64_t seed = (uint64_t)time(NULL) ^ (uint64_t)getpid() ^ (uint64_t)clock();
-              for (uint8_t i = 3; i < 14; i++) {
-                seed = seed * 1103515245 + 12345; // Linear congruential generator
-                _iv[i] = (uint8_t)((seed >> 24) & 0xFF);
-              }
-            }
-            #else
-            // Fallback for non-Linux systems
-            uint64_t seed = (uint64_t)time(NULL) ^ (uint64_t)getpid() ^ (uint64_t)clock();
-            for (uint8_t i = 3; i < 14; i++) {
-              seed = seed * 1103515245 + 12345; // Linear congruential generator
-              _iv[i] = (uint8_t)((seed >> 24) & 0xFF);
-            }
-            #endif
-          }
-          fclose(urandom);
-        } else {
-          // Fallback if /dev/urandom is not available
-          #ifdef __linux__
-          if (getrandom(&_iv[3], 10, 0) != 10) {
-            // Last resort: use time-based seeding with better entropy
-            uint64_t seed = (uint64_t)time(NULL) ^ (uint64_t)getpid() ^ (uint64_t)clock();
-            for (uint8_t i = 3; i < 14; i++) {
-              seed = seed * 1103515245 + 12345; // Linear congruential generator
-              _iv[i] = (uint8_t)((seed >> 24) & 0xFF);
-            }
-          }
-          #else
-          // Fallback for non-Linux systems
-          uint64_t seed = (uint64_t)time(NULL) ^ (uint64_t)getpid() ^ (uint64_t)clock();
-          for (uint8_t i = 3; i < 14; i++) {
-            seed = seed * 1103515245 + 12345; // Linear congruential generator
-            _iv[i] = (uint8_t)((seed >> 24) & 0xFF);
-          }
-          #endif
+        // CRITICAL SECURITY FIX: Use hardware RNG for secure IV generation
+        // Use /dev/hwrng on iMX93, fallback to /dev/urandom
+        int rng_fd = open("/dev/hwrng", O_RDONLY);
+        if (rng_fd < 0) {
+            // Fallback to urandom
+            rng_fd = open("/dev/urandom", O_RDONLY);
         }
+        if (rng_fd >= 0) {
+            if (read(rng_fd, _iv, 16) != 16) {
+                close(rng_fd);
+                // Handle error - MUST NOT continue with insecure IV
+                throw std::runtime_error("Failed to generate secure IV");
+            }
+            close(rng_fd);
+        } else {
+            // Last resort fallback - but this is still insecure
+            // In production, this should never be reached
+            fprintf(stderr, "WARNING: Using fallback IV generation - NOT SECURE!\n");
+            for (uint8_t i = 0; i < 16; i++) {
+                _iv[i] = (uint8_t)((time(NULL) + i) & 0xFF);
+            }
+        }
+        
+        // Frame number must be part of IV for CTR mode
+        _iv[14] = (_fn >> 8) & 0x7F;
+        _iv[15] = (_fn >> 0) & 0xFF;
       }
 #endif
       /*
@@ -220,6 +203,8 @@ namespace gr
 //        memset (_key, 0, 32 * sizeof (uint8_t));
 //        memset (_iv, 0, 16 * sizeof (uint8_t));
 #endif
+      // Initialize EVP context to NULL
+      _sha_ctx = NULL;
     }
 
     void m17_coder_impl::end_of_transmission(const pmt::pmt_t &msg)
@@ -312,64 +297,66 @@ namespace gr
       _lsf.crc[1] = ccrc & 0xFF;
     }
 
-    void m17_coder_impl::set_priv_key(std::string arg) // *UTF-8* encoded byte array
+    void m17_coder_impl::set_priv_key(std::string arg) // Hex-encoded private key
     {
-      int length;
-      printf("new private key: ");
-      length = arg.size();
-      _priv_key_loaded = true;
-      int i = 0, j = 0;
-      while ((j < 32) && (i < length))
-      {
-        if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
-        {
-          _priv_key[j] = arg.data()[i];
-          i++;
-          j++;
-        }
-        else
-        {
-          _priv_key[j] =
-              (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
-          i += 2;
-          j++;
-        }
+      // CRITICAL SECURITY FIX: Use proper hex parsing instead of UTF-8
+      // NEVER log private keys, not even in debug mode
+      if (_debug) {
+        fprintf(stderr, "Private key loaded: %d hex characters\n", (int)arg.size());
+        // That's it - no key material!
       }
-      length = j; // index from 0 to length-1
-      printf("%d bytes: ", length);
-      for (i = 0; i < length; i++)
-        printf("%02X ", _priv_key[i]);
-      printf("\n");
-      fflush(stdout);
+      
+      _priv_key_loaded = true;
+      
+      // SECURITY FIX: Parse hex string instead of UTF-8
+      // Expect 64 hex characters for 32-byte key
+      if (arg.size() != 64) {
+        fprintf(stderr, "ERROR: Private key must be 64 hex characters (32 bytes)\n");
+        _priv_key_loaded = false;
+        return;
+      }
+      
+      // Parse hex string to binary
+      for (int i = 0; i < 32; i++) {
+        char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+        char *endptr;
+        unsigned long val = strtoul(hex_byte, &endptr, 16);
+        if (*endptr != '\0' || val > 255) {
+          fprintf(stderr, "ERROR: Invalid hex character in private key\n");
+          _priv_key_loaded = false;
+          return;
+        }
+        _priv_key[i] = (uint8_t)val;
+      }
     }
 
-    void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
+    void m17_coder_impl::set_key(std::string arg) // Hex-encoded encryption key
     {
-      int length;
-      printf("new key: ");
-      length = arg.size();
-      int i = 0, j = 0;
-      while ((j < 32) && (i < length))
-      {
-        if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
-        {
-          _key[j] = arg.data()[i];
-          i++;
-          j++;
-        }
-        else
-        {
-          _key[j] = (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
-          i += 2;
-          j++;
-        }
+      // CRITICAL SECURITY FIX: Use proper hex parsing instead of UTF-8
+      // NEVER log encryption keys, not even in debug mode
+      if (_debug) {
+        fprintf(stderr, "Encryption key loaded: %d hex characters\n", (int)arg.size());
+        // That's it - no key material!
       }
-      length = j; // index from 0 to length-1
-      printf("%d bytes: ", length);
-      for (i = 0; i < length; i++)
-        printf("%02X ", _key[i]);
-      printf("\n");
-      fflush(stdout);
+      
+      // SECURITY FIX: Parse hex string instead of UTF-8
+      // Expect 64 hex characters for 32-byte key
+      if (arg.size() != 64) {
+        fprintf(stderr, "ERROR: Encryption key must be 64 hex characters (32 bytes)\n");
+        return;
+      }
+      
+      // Parse hex string to binary
+      for (int i = 0; i < 32; i++) {
+        char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+        char *endptr;
+        unsigned long val = strtoul(hex_byte, &endptr, 16);
+        if (*endptr != '\0' || val > 255) {
+          fprintf(stderr, "ERROR: Invalid hex character in encryption key\n");
+          return;
+        }
+        _key[i] = (uint8_t)val;
+      }
     }
 
     void m17_coder_impl::set_seed(std::string arg) // *UTF-8* encoded byte array
@@ -394,23 +381,32 @@ namespace gr
         }
       }
       length = j; // index from 0 to length-1
-      printf("%d bytes: ", length);
-      for (i = 0; i < length; i++)
-        printf("%02X ", _seed[i]);
-      printf("\n");
-      fflush(stdout);
+      // CRITICAL SECURITY FIX: Never log seed material
+      if (_debug) {
+        fprintf(stderr, "Seed loaded: %d bytes\n", length);
+        // That's it - no seed material!
+      }
       if (length <= 2)
       {
         _scrambler_seed = _scrambler_seed >> 16;
-        fprintf(stderr, "Scrambler key: 0x%02X (8-bit)\n", _scrambler_seed);
+        // CRITICAL SECURITY FIX: Never log scrambler keys
+        if (_debug) {
+          fprintf(stderr, "Scrambler key calculated (8-bit)\n");
+        }
       }
       else if (length <= 4)
       {
         _scrambler_seed = _scrambler_seed >> 8;
-        fprintf(stderr, "Scrambler key: 0x%04X (16-bit)\n", _scrambler_seed);
+        // CRITICAL SECURITY FIX: Never log scrambler keys
+        if (_debug) {
+          fprintf(stderr, "Scrambler key calculated (16-bit)\n");
+        }
       }
       else
-        fprintf(stderr, "Scrambler key: 0x%06X (24-bit)\n", _scrambler_seed);
+        // CRITICAL SECURITY FIX: Never log scrambler keys
+        if (_debug) {
+          fprintf(stderr, "Scrambler key calculated (24-bit)\n");
+        }
 
       _encr_type = ENCR_SCRAM; // Scrambler key was passed
     }
@@ -534,9 +530,21 @@ namespace gr
     /*
      * Our virtual destructor.
      */
-    m17_coder_impl::~m17_coder_impl()
-    {
-    }
+m17_coder_impl::~m17_coder_impl()
+{
+  // CRITICAL SECURITY FIX: Securely wipe all cryptographic material
+  explicit_bzero(_key, sizeof(_key));
+  explicit_bzero(_priv_key, sizeof(_priv_key));
+  explicit_bzero(_iv, sizeof(_iv));
+  explicit_bzero(_digest, sizeof(_digest));
+  explicit_bzero(_sig, sizeof(_sig));
+  explicit_bzero(_scr_bytes, sizeof(_scr_bytes));
+  
+  // Clean up EVP context if it exists
+  if (_sha_ctx) {
+    EVP_MD_CTX_free(_sha_ctx);
+  }
+}
 
     void
     m17_coder_impl::forecast(int noutput_items,
@@ -758,12 +766,14 @@ namespace gr
           // update the stream digest if required
           if (_signed_str)
           {
-            for (uint8_t i = 0; i < sizeof(_digest); i++)
-              _digest[i] ^= data[i];
-            uint8_t tmp = _digest[0];
-            for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-              _digest[i] = _digest[i + 1];
-            _digest[sizeof(_digest) - 1] = tmp;
+              // CRITICAL SECURITY FIX: Initialize SHA-256 context on first frame
+              if (_fn == 1) {  // First frame after increment
+                _sha_ctx = EVP_MD_CTX_new();
+                EVP_DigestInit_ex(_sha_ctx, EVP_sha256(), NULL);
+              }
+              // CRITICAL SECURITY FIX: Replace insecure XOR digest with SHA-256
+              // Append data to running hash context
+              EVP_DigestUpdate(_sha_ctx, data, 16);
           }
 
           // update LSF every 6 frames (superframe boundary)
@@ -788,16 +798,19 @@ namespace gr
           // if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
           if (_signed_str)
           {
-            // update digest
-            for (uint8_t i = 0; i < sizeof(_digest); i++)
-              _digest[i] ^= data[i];
-            uint8_t tmp = _digest[0];
-            for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-              _digest[i] = _digest[i + 1];
-            _digest[sizeof(_digest) - 1] = tmp;
+            // CRITICAL SECURITY FIX: Finalize SHA-256 digest
+            unsigned int digest_len;
+            EVP_DigestFinal_ex(_sha_ctx, _digest, &digest_len);
+            EVP_MD_CTX_free(_sha_ctx);
 
-            // sign the digest
-            uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
+            // CRITICAL SECURITY FIX: Add error checking for signature generation
+            int result = uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
+            if (result != 1) {
+                fprintf(stderr, "ERROR: Signature generation failed!\n");
+                // Clear sensitive data and abort transmission
+                explicit_bzero(_digest, sizeof(_digest));
+                return -1;  // Fail securely
+            }
 
             // 4 frames with 512-bit signature
             _fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
@@ -814,9 +827,11 @@ namespace gr
               fprintf(stderr, "Signature: ");
               for (uint8_t i = 0; i < sizeof(_sig); i++)
               {
+                // CRITICAL SECURITY FIX: NEVER log signatures
+                // Signatures contain sensitive cryptographic material
                 if (i == 16 || i == 32 || i == 48)
                   fprintf(stderr, "\n           ");
-                fprintf(stderr, "%02X", _sig[i]);
+                fprintf(stderr, "[SIGNATURE_DATA_HIDDEN]");
               }
 
               fprintf(stderr, "\n");

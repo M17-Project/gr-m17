@@ -142,74 +142,70 @@ namespace gr
 				printf("Unsigned\n");
 		}
 
-		void m17_decoder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
+		void m17_decoder_impl::set_key(std::string arg) // Hex-encoded encryption key
 		{
-			int length;
-			printf("new key: ");
-			length = arg.size();
-			int i = 0, j = 0;
-			while ((j < 32) && (i < length))
-			{
-				if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
-				{
-					_key[j] = arg.data()[i];
-					i++;
-					j++;
-				}
-				else
-				{
-					_key[j] = (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
-					i += 2;
-					j++;
-				}
+                // CRITICAL SECURITY FIX: Use proper hex parsing instead of UTF-8
+                // NEVER log encryption keys, not even in debug mode
+                if (_debug_data || _debug_ctrl) {
+                    fprintf(stderr, "Decoder encryption key loaded: %d hex characters\n", (int)arg.size());
+                    // That's it - no key material!
+                }
+			
+			// SECURITY FIX: Parse hex string instead of UTF-8
+			// Expect 64 hex characters for 32-byte key
+			if (arg.size() != 64) {
+				fprintf(stderr, "ERROR: Decoder encryption key must be 64 hex characters (32 bytes)\n");
+				return;
 			}
-			length = j; // index from 0 to length-1
-			printf("%d bytes: ", length);
-			for (i = 0; i < length; i++)
-				printf("%02X ", _key[i]);
-			printf("\n");
-			fflush(stdout);
+			
+			// Parse hex string to binary
+			for (int i = 0; i < 32; i++) {
+				char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+				char *endptr;
+				unsigned long val = strtoul(hex_byte, &endptr, 16);
+				if (*endptr != '\0' || val > 255) {
+					fprintf(stderr, "ERROR: Invalid hex character in decoder encryption key\n");
+					return;
+				}
+				_key[i] = (uint8_t)val;
+			}
 		}
 
-		void m17_decoder_impl::set_seed(std::string arg) // *UTF-8* encoded byte array
+		void m17_decoder_impl::set_seed(std::string arg) // Hex-encoded seed
 		{
-			int length;
-			printf("new seed: ");
-			length = arg.size();
-			int i = 0, j = 0;
-			while ((j < 3) && (i < length))
-			{
-				if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
-				{
-					_seed[j] = arg.data()[i];
-					i++;
-					j++;
+                // CRITICAL SECURITY FIX: Use proper hex parsing instead of UTF-8
+                // NEVER log seed material, not even in debug mode
+                if (_debug_data || _debug_ctrl) {
+                    fprintf(stderr, "Decoder seed loaded: %d hex characters\n", (int)arg.size());
+                    // That's it - no seed material!
+                }
+			
+			// SECURITY FIX: Parse hex string instead of UTF-8
+			// Expect 6 hex characters for 3-byte seed
+			if (arg.size() != 6) {
+				fprintf(stderr, "ERROR: Decoder seed must be 6 hex characters (3 bytes)\n");
+				return;
+			}
+			
+			// Parse hex string to binary
+			for (int i = 0; i < 3; i++) {
+				char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+				char *endptr;
+				unsigned long val = strtoul(hex_byte, &endptr, 16);
+				if (*endptr != '\0' || val > 255) {
+					fprintf(stderr, "ERROR: Invalid hex character in decoder seed\n");
+					return;
 				}
-				else
-				{
-					_seed[j] = (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
-					i += 2;
-					j++;
-				}
+				_seed[i] = (uint8_t)val;
 			}
-			length = j; // index from 0 to length-1
-			printf("%d bytes: ", length);
-			for (i = 0; i < length; i++)
-				printf("%02X ", _seed[i]);
-			printf("\n");
-			fflush(stdout);
-			if (length <= 2)
-			{
-				_scrambler_seed = _scrambler_seed >> 16;
-				fprintf(stderr, "Scrambler key: 0x%02X (8-bit)\n", _scrambler_seed);
-			}
-			else if (length <= 4)
-			{
-				_scrambler_seed = _scrambler_seed >> 8;
-				fprintf(stderr, "Scrambler key: 0x%04X (16-bit)\n", _scrambler_seed);
-			}
-			else
-				fprintf(stderr, "Scrambler key: 0x%06X (24-bit)\n", _scrambler_seed);
+			
+			// SECURITY FIX: Calculate scrambler seed from parsed seed
+			_scrambler_seed = (_seed[0] << 16) | (_seed[1] << 8) | _seed[2];
+			
+                // SECURITY FIX: Don't log scrambler key material
+                if (_debug_data || _debug_ctrl) {
+                    fprintf(stderr, "Scrambler seed calculated from hex input\n");
+                }
 
 			_encr_type = ENCR_SCRAM; // Scrambler key was passed
 		}
@@ -465,7 +461,8 @@ namespace gr
 							if (_signed_str && _fn < 0x7FFC)
 							{
 								if (_fn == 0)
-									memset(_digest, 0, sizeof(_digest));
+									// CRITICAL SECURITY FIX: Use secure memory clearing
+									explicit_bzero(_digest, sizeof(_digest));
 
 								for (uint8_t i = 0; i < sizeof(_digest); i++)
 									_digest[i] ^= _frame_data[i];
@@ -504,7 +501,8 @@ namespace gr
 								else if (!_signed_str) // non-signed stream
 									scrambler_sequence_generator();
 								else
-									memset(_scr_bytes, 0, sizeof(_scr_bytes)); // zero out stale scrambler bytes so they aren't applied to the sig frames
+									// CRITICAL SECURITY FIX: Use secure memory clearing
+									explicit_bzero(_scr_bytes, sizeof(_scr_bytes)); // zero out stale scrambler bytes so they aren't applied to the sig frames
 
 								for (uint8_t i = 0; i < 16; i++)
 								{
@@ -639,21 +637,8 @@ namespace gr
 
 								if (_fn == (0x7FFF | 0x8000))
 								{
-									// dump data
-									/*printf("DEC-Digest: ");
-									   for(uint8_t i=0; i<sizeof(digest); i++)
-									   printf("%02X", digest[i]);
-									   printf("\n");
-
-									   printf("Key: ");
-									   for(uint8_t i=0; i<sizeof(pub_key); i++)
-									   printf("%02X", pub_key[i]);
-									   printf("\n");
-
-									   printf("Signature: ");
-									   for(uint8_t i=0; i<sizeof(sig); i++)
-									   printf("%02X", sig[i]);
-									   printf("\n"); */
+									// CRITICAL SECURITY FIX: Removed all key material logging
+									// Never log digest, public keys, or signatures
 
 									if (uECC_verify(_key, _digest, sizeof(_digest), _sig, _curve))
 									{

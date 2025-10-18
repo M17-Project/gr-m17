@@ -22,6 +22,9 @@
 #include "uECC.h"
 #endif
 
+// SECURITY FIX: Add OpenSSL includes for secure hashing
+#include <openssl/evp.h>
+
 namespace gr
 {
   namespace m17
@@ -61,10 +64,11 @@ namespace gr
       bool _debug = 0;
       bool _signed_str = false, _finished = false;
 
-      uint8_t _digest[16] = { 0 };	//16-byte field for the stream digest
+      uint8_t _digest[32] = { 0 };	//32-byte field for the SHA-256 digest
       bool _priv_key_loaded = false;	//do we have a sig key loaded?
       uint8_t _priv_key[32] = { 0 };	//private key
       uint8_t _sig[64] = { 0 };	//ECDSA signature
+      EVP_MD_CTX *_sha_ctx;		//EVP context for secure hashing
       bool _init_frame;
 
 #ifdef ECC
