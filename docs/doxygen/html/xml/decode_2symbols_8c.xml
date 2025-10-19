@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="decode_2symbols_8c" kind="file" language="C++">
+    <compoundname>symbols.c</compoundname>
+    <includes refid="m17_8h" local="no">m17.h</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>crypto/bounds_checking.h</label>
+        <link refid="bounds__checking_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>crypto/key_derivation.h</label>
+        <link refid="key__derivation_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>crypto/optee.h</label>
+        <link refid="optee_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>crypto/replay_protection.h</label>
+        <link refid="replay__protection_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>crypto/secure_boot.h</label>
+        <link refid="secure__boot_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>crypto/secure_memory.h</label>
+        <link refid="secure__memory_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>crypto/security_monitoring.h</label>
+        <link refid="security__monitoring_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>crypto/trustzone.h</label>
+        <link refid="trustzone_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>crypto/validation.h</label>
+        <link refid="validation_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/decode/symbols.c</label>
+        <link refid="decode_2symbols_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>math.h</label>
+      </node>
+      <node id="10">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="5">
+        <label>string.h</label>
+      </node>
+      <node id="6">
+        <label>time.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="decode_2symbols_8c_1a3848610fb2138ed48df8edb94e3954d4" prot="public" static="no" mutable="no">
+        <type>const int8_t</type>
+        <definition>const int8_t lsf_sync_symbols[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>lsf_sync_symbols</name>
+        <initializer>={+3, +3, +3, +3, -3, -3, +3, -3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/decode/symbols.c" line="11" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/decode/symbols.c" bodystart="11" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="variable" id="decode_2symbols_8c_1a47776318a7900b3318ac07362fda57d6" prot="public" static="no" mutable="no">
+        <type>const int8_t</type>
+        <definition>const int8_t str_sync_symbols[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>str_sync_symbols</name>
+        <initializer>={-3, -3, -3, -3, +3, +3, -3, +3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/decode/symbols.c" line="12" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/decode/symbols.c" bodystart="12" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="decode_2symbols_8c_1a528a4bed53457a7dd4c163436dbb577d" prot="public" static="no" mutable="no">
+        <type>const int8_t</type>
+        <definition>const int8_t pkt_sync_symbols[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>pkt_sync_symbols</name>
+        <initializer>={+3, -3, +3, +3, -3, -3, -3, -3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/decode/symbols.c" line="13" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/decode/symbols.c" bodystart="13" bodyend="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>decode/symbols.c</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Project,<sp/>29<sp/>December<sp/>2023</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;m17.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>syncword<sp/>patterns<sp/>(RX)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TODO:<sp/>Compute<sp/>those<sp/>at<sp/>runtime<sp/>from<sp/>the<sp/>consts<sp/>below</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int8_t<sp/>lsf_sync_symbols[8]={+3,<sp/>+3,<sp/>+3,<sp/>+3,<sp/>-3,<sp/>-3,<sp/>+3,<sp/>-3};</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int8_t<sp/>str_sync_symbols[8]={-3,<sp/>-3,<sp/>-3,<sp/>-3,<sp/>+3,<sp/>+3,<sp/>-3,<sp/>+3};</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int8_t<sp/>pkt_sync_symbols[8]={+3,<sp/>-3,<sp/>+3,<sp/>+3,<sp/>-3,<sp/>-3,<sp/>-3,<sp/>-3};</highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/decode/symbols.c"/>
+  </compounddef>
+</doxygen>

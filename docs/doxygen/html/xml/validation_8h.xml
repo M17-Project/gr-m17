@@ -1,0 +1,662 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="validation_8h" kind="file" language="C++">
+    <compoundname>validation.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includedby refid="m17_8h" local="yes">/home/haaken/github-projects/gr-m17/libm17/m17.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h</label>
+        <link refid="validation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h</label>
+        <link refid="m17__coder__impl_8h_source"/>
+      </node>
+      <node id="4">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h</label>
+        <link refid="m17__decoder__impl_8h_source"/>
+      </node>
+      <node id="5">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h</label>
+        <link refid="validation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/haaken/github-projects/gr-m17/libm17/m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="validation_8h_1a7f2a46c8809c08aab50929eae22a0609" prot="public" static="no">
+        <name>M17_AES_128</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="23" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1a0c7857109413878f56ad7487f8bb7321" prot="public" static="no">
+        <name>M17_AES_192</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="24" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1a2484026ecd2f5f222461e1ad413ab1f2" prot="public" static="no">
+        <name>M17_AES_256</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="25" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1af8c72279004019049738f24380162dce" prot="public" static="no">
+        <name>M17_ED25519_PRIVATE</name>
+        <initializer>4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="26" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1a84d6fc500f7b1b9320442ad4791da62e" prot="public" static="no">
+        <name>M17_ED25519_PUBLIC</name>
+        <initializer>5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="27" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1a12e574e08c5f2194dc90c3da436b14f8" prot="public" static="no">
+        <name>M17_CURVE25519_PRIVATE</name>
+        <initializer>6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="28" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1a4660329951980e634226d43254819b11" prot="public" static="no">
+        <name>M17_CURVE25519_PUBLIC</name>
+        <initializer>7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="29" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1a4e9b8683937e1b4d501ac21c2be5d565" prot="public" static="no">
+        <name>M17_AES_CTR</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="32" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1aa0e1fd60d1261c9972f4ffb9d0a7527f" prot="public" static="no">
+        <name>M17_AES_GCM</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="33" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1a192577539e94b1588e0a962817555866" prot="public" static="no">
+        <name>M17_ED25519_SIGNATURE</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="36" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="validation_8h_1ada198ac47eb002d004ecde96fc6a9442" prot="public" static="no">
+        <name>M17_ECDSA_SIGNATURE</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="37" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="validation_8h_1a7e8207292be91c99c0e9e3f9ed806061" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_key_length</definition>
+        <argsstring>(size_t key_length, int key_type)</argsstring>
+        <name>m17_validate_key_length</name>
+        <param>
+          <type>size_t</type>
+          <declname>key_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>key_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="40" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="17" bodyend="36" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="40" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a54d54a69009a6594ed4cb262ee9d6a1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_iv_length</definition>
+        <argsstring>(size_t iv_length, int cipher_type)</argsstring>
+        <name>m17_validate_iv_length</name>
+        <param>
+          <type>size_t</type>
+          <declname>iv_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cipher_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="43" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="39" bodyend="48" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="43" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a2d4fdd80a80925dd4b666c1745e42697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_buffer_bounds</definition>
+        <argsstring>(const void *ptr, size_t size, size_t offset, size_t length)</argsstring>
+        <name>m17_validate_buffer_bounds</name>
+        <param>
+          <type>const void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="46" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="51" bodyend="69" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="46" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1ab509c9d52bed2a67e3607b3a494585f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_key_material</definition>
+        <argsstring>(const uint8_t *key, size_t key_length)</argsstring>
+        <name>m17_validate_key_material</name>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>key_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="49" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="72" bodyend="130" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="49" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a6cc67500347598d32c6f13a50b426d28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_iv_uniqueness</definition>
+        <argsstring>(const uint8_t *iv, size_t iv_length, const uint8_t *previous_iv, size_t prev_iv_length)</argsstring>
+        <name>m17_validate_iv_uniqueness</name>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>iv</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iv_length</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>previous_iv</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>prev_iv_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="52" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="133" bodyend="155" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="52" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a31cfca42ad2be4767251fd45dc6fa360" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_frame_number</definition>
+        <argsstring>(uint16_t frame_number)</argsstring>
+        <name>m17_validate_frame_number</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>frame_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="56" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="158" bodyend="162" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="56" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a87deb581f2306cb14a4f4486151f9667" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_callsign_format</definition>
+        <argsstring>(const char *callsign)</argsstring>
+        <name>m17_validate_callsign_format</name>
+        <param>
+          <type>const char *</type>
+          <declname>callsign</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="59" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="165" bodyend="187" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="59" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a06891a0e1b71d4fb79f7b26adf91a252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_encryption_type</definition>
+        <argsstring>(int encr_type)</argsstring>
+        <name>m17_validate_encryption_type</name>
+        <param>
+          <type>int</type>
+          <declname>encr_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="62" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="190" bodyend="201" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="62" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1ab3d1dfd8a078e60695a75dd5869f0956" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_signature_length</definition>
+        <argsstring>(size_t signature_length, int signature_type)</argsstring>
+        <name>m17_validate_signature_length</name>
+        <param>
+          <type>size_t</type>
+          <declname>signature_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>signature_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="65" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="204" bodyend="213" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="65" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a09f2ca97e6e377de8bf6d50c14fb95a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_encryption_data_length</definition>
+        <argsstring>(size_t data_length, int cipher_type)</argsstring>
+        <name>m17_validate_encryption_data_length</name>
+        <param>
+          <type>size_t</type>
+          <declname>data_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cipher_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="68" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="216" bodyend="229" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="68" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a0b60cf09360661fe04fc9f1a2626ef0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_encryption_operation</definition>
+        <argsstring>(const uint8_t *key, size_t key_length, const uint8_t *iv, size_t iv_length, const uint8_t *data, size_t data_length, int cipher_type)</argsstring>
+        <name>m17_validate_encryption_operation</name>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>key_length</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>iv</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iv_length</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>data_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cipher_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="71" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="232" bodyend="261" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="71" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a8079b2f788203184b9ac9da5a981507a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_decryption_operation</definition>
+        <argsstring>(const uint8_t *key, size_t key_length, const uint8_t *iv, size_t iv_length, const uint8_t *ciphertext, size_t ciphertext_length, int cipher_type)</argsstring>
+        <name>m17_validate_decryption_operation</name>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>key_length</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>iv</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iv_length</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>ciphertext</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ciphertext_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cipher_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="77" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="264" bodyend="271" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="77" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1a467c68f45d250ff12a53459435db03e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_signature_operation</definition>
+        <argsstring>(const uint8_t *private_key, size_t private_key_length, const uint8_t *data, size_t data_length, int signature_type)</argsstring>
+        <name>m17_validate_signature_operation</name>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>private_key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>private_key_length</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>data_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>signature_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="83" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="274" bodyend="294" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="83" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="validation_8h_1aa1bdcf8584420a8242faef1adc6dffb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_verification_operation</definition>
+        <argsstring>(const uint8_t *public_key, size_t public_key_length, const uint8_t *signature, size_t signature_length, const uint8_t *data, size_t data_length, int signature_type)</argsstring>
+        <name>m17_validate_verification_operation</name>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>public_key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>public_key_length</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>signature_length</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>data_length</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>signature_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" line="88" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.c" bodystart="297" bodyend="318" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h" declline="88" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>crypto/validation.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Input<sp/>validation<sp/>and<sp/>bounds<sp/>checking<sp/>for<sp/>cryptographic<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implements<sp/>comprehensive<sp/>security<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Foundation,<sp/>19<sp/>April<sp/>2025</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>M17_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stddef.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>type<sp/>constants<sp/>for<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_AES_128<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_AES_192<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_AES_256<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_ED25519_PRIVATE<sp/><sp/><sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_ED25519_PUBLIC<sp/><sp/><sp/><sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_CURVE25519_PRIVATE<sp/>6</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_CURVE25519_PUBLIC<sp/>7</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cipher<sp/>type<sp/>constants<sp/>for<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_AES_CTR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_AES_GCM<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Signature<sp/>type<sp/>constants<sp/>for<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_ED25519_SIGNATURE<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_ECDSA_SIGNATURE<sp/><sp/><sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>key<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_key_length(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>key_length,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>key_type);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>IV<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_iv_length(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iv_length,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cipher_type);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>buffer<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_buffer_bounds(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>length);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>key<sp/>material<sp/>(check<sp/>for<sp/>weak<sp/>keys)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_key_material(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*key,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>key_length);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>IV<sp/>uniqueness<sp/>(basic<sp/>check)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_iv_uniqueness(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*iv,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iv_length,<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*previous_iv,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>prev_iv_length);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>frame<sp/>number<sp/>for<sp/>IV<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_frame_number(uint16_t<sp/>frame_number);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>callsign<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_callsign_format(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*callsign);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>encryption<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_encryption_type(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>encr_type);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>signature<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_signature_length(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>signature_length,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>signature_type);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>data<sp/>length<sp/>for<sp/>encryption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_encryption_data_length(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_length,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cipher_type);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Comprehensive<sp/>security<sp/>validation<sp/>for<sp/>encryption<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_encryption_operation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*key,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>key_length,<sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*iv,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iv_length,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_length,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cipher_type);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>decryption<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_decryption_operation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*key,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>key_length,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*iv,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iv_length,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*ciphertext,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ciphertext_length,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cipher_type);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>signature<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_signature_operation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*private_key,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>private_key_length,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_length,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>signature_type);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>verification<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_verification_operation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*public_key,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>public_key_length,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*signature,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>signature_length,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_length,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>signature_type);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>M17_VALIDATION_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h"/>
+  </compounddef>
+</doxygen>

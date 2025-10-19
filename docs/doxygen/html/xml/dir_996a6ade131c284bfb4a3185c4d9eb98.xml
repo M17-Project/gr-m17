@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_996a6ade131c284bfb4a3185c4d9eb98" kind="dir">
+    <compoundname>/home/haaken/github-projects/gr-m17/libm17/decode</compoundname>
+    <innerfile refid="decode_2symbols_8c">symbols.c</innerfile>
+    <innerfile refid="viterbi_8c">viterbi.c</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/decode/"/>
+  </compounddef>
+</doxygen>

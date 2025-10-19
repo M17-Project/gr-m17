@@ -1,0 +1,1390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classgr_1_1m17_1_1m17__coder__impl" kind="class" language="C++" prot="public">
+    <compoundname>gr::m17::m17_coder_impl</compoundname>
+    <basecompoundref refid="classgr_1_1m17_1_1m17__coder" prot="public" virt="non-virtual">gr::m17::m17_coder</basecompoundref>
+    <sectiondef kind="private-type">
+      <memberdef kind="enum" id="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4" prot="private" static="no" strong="no">
+        <type></type>
+        <name>aes_t</name>
+        <qualifiedname>gr::m17::m17_coder_impl::aes_t</qualifiedname>
+        <enumvalue id="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4a4836b99bab0851852acd6c6a60c4c87f" prot="private">
+          <name>AES128</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4ab8656473499f5d5eea03d4e8c2fc0fb6" prot="private">
+          <name>AES192</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4a50ae814cbe185cbb224e629e9a525777" prot="private">
+          <name>AES256</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="152" column="7" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="153" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a014ad115b72bde135d96ae717f25c245" prot="private" static="no" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char gr::m17::m17_coder_impl::_src_id[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>_src_id</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_src_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="140" column="21" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a615a5c655d3d2f15a38921179a40f175" prot="private" static="no" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char gr::m17::m17_coder_impl::_dst_id[10]</definition>
+        <argsstring>[10]</argsstring>
+        <name>_dst_id</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_dst_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="140" column="29" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a36a2a5d7739d87c974ca2731eb63ad9b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::m17::m17_coder_impl::_mode</definition>
+        <argsstring></argsstring>
+        <name>_mode</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="141" column="11" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1acdea3fa756cf72f37fe0f6dddeeb068c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::m17::m17_coder_impl::_data</definition>
+        <argsstring></argsstring>
+        <name>_data</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="141" column="17" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1af9e9e4a6f81c4dc111aef3e373f68c87" prot="private" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t gr::m17::m17_coder_impl::_type</definition>
+        <argsstring></argsstring>
+        <name>_type</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="142" column="16" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1afd87a42c620b62e280a60dff70456a87" prot="private" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t gr::m17::m17_coder_impl::_send_preamble</definition>
+        <argsstring></argsstring>
+        <name>_send_preamble</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_send_preamble</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="143" column="16" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1aabe9d295d486fcc26023a673581d5cdf" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::m17::m17_coder_impl::_encr_subtype</definition>
+        <argsstring></argsstring>
+        <name>_encr_subtype</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_encr_subtype</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="144" column="11" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1aa1823d448c6d4fa09109d60fec71c8e4" prot="private" static="no" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t gr::m17::m17_coder_impl::_aes_subtype</definition>
+        <argsstring></argsstring>
+        <name>_aes_subtype</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_aes_subtype</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="148" column="14" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a17f9ba7986e46bea05cd8c21c225ccad" prot="private" static="no" mutable="no">
+        <type>const struct uECC_Curve_t *</type>
+        <definition>const struct uECC_Curve_t* gr::m17::m17_coder_impl::_curve</definition>
+        <argsstring></argsstring>
+        <name>_curve</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_curve</qualifiedname>
+        <initializer>= uECC_secp256r1 ()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="149" column="31" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1aefa59f114ecb8fa2ea2dce5662dfccb7" prot="private" static="no" mutable="no">
+        <type>encr_t</type>
+        <definition>encr_t gr::m17::m17_coder_impl::_encr_type</definition>
+        <argsstring></argsstring>
+        <name>_encr_type</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_encr_type</qualifiedname>
+        <initializer>= ENCR_NONE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="150" column="14" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1ad5d2b6154e511c8b91236f67501bbe81" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_key[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>_key</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="158" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1ae99a82694eac79474e7addadbb70226c" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_iv[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>_iv</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_iv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="159" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1afd7657ed49947098c579c30a48ecd7ec" prot="private" static="no" mutable="no">
+        <type>time_t</type>
+        <definition>time_t gr::m17::m17_coder_impl::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>gr::m17::m17_coder_impl::epoch</qualifiedname>
+        <initializer>= 1577836800L</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="160" column="14" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a4cb524014c28902bf4b37e8c07a10108" prot="private" static="no" mutable="no">
+        <type><ref refid="structlsf__t" kindref="compound">lsf_t</ref></type>
+        <definition>lsf_t gr::m17::m17_coder_impl::_lsf</definition>
+        <argsstring></argsstring>
+        <name>_lsf</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_lsf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="163" column="13" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a27a37ab17f1c1d03f7e23afc285de4dd" prot="private" static="no" mutable="no">
+        <type><ref refid="structlsf__t" kindref="compound">lsf_t</ref></type>
+        <definition>lsf_t gr::m17::m17_coder_impl::_next_lsf</definition>
+        <argsstring></argsstring>
+        <name>_next_lsf</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_next_lsf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="163" column="18" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a50ccfc2be658caa4742d2ad6f0b95890" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string gr::m17::m17_coder_impl::_meta</definition>
+        <argsstring></argsstring>
+        <name>_meta</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_meta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="164" column="21" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a5419fc26cf75e6da90d316e180b4f0ae" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::m17::m17_coder_impl::_got_lsf</definition>
+        <argsstring></argsstring>
+        <name>_got_lsf</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_got_lsf</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="165" column="11" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1adffc5628eaf66f476fe27591aba6f53a" prot="private" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t gr::m17::m17_coder_impl::_fn</definition>
+        <argsstring></argsstring>
+        <name>_fn</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_fn</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="166" column="16" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1acfcac9c1a7b20e8995dde1d0d65894f2" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_lich_cnt</definition>
+        <argsstring></argsstring>
+        <name>_lich_cnt</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_lich_cnt</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="167" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1ad1e8122b9fa93be4dd1ec40f34a78697" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::_debug</definition>
+        <argsstring></argsstring>
+        <name>_debug</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_debug</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="168" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a8b9840791665df756bdc62232454edfb" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::_signed_str</definition>
+        <argsstring></argsstring>
+        <name>_signed_str</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_signed_str</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="169" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a90740539856659bb758b1389562d71d7" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::_finished</definition>
+        <argsstring></argsstring>
+        <name>_finished</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_finished</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="169" column="25" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1afee6213463e47384e90758a637eed9b6" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_digest[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>_digest</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_digest</qualifiedname>
+        <initializer>= { 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="171" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1ac43745026c6582baf600d82d35f3ad48" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::_priv_key_loaded</definition>
+        <argsstring></argsstring>
+        <name>_priv_key_loaded</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_priv_key_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="172" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1ae15d403f94977dc027c5c420caeca4b8" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_priv_key[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>_priv_key</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_priv_key</qualifiedname>
+        <initializer>= { 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="173" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1abab54b72676f7209fa93dad57a1d6beb" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_sig[64]</definition>
+        <argsstring>[64]</argsstring>
+        <name>_sig</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_sig</qualifiedname>
+        <initializer>= { 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="174" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1ae0fd8d473623e0dc59dad44317a7870e" prot="private" static="no" mutable="no">
+        <type>EVP_MD_CTX *</type>
+        <definition>EVP_MD_CTX* gr::m17::m17_coder_impl::_sha_ctx</definition>
+        <argsstring></argsstring>
+        <name>_sha_ctx</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_sha_ctx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="175" column="18" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a2d8dcd62314e76d5c2775da21992a685" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::_init_frame</definition>
+        <argsstring></argsstring>
+        <name>_init_frame</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_init_frame</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="176" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1adc10150cf646f6e7f1e57ad6cac5e12c" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_seed[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>_seed</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_seed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="180" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a524515a930c89cc67d38d067a1e73e78" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_scr_bytes[16]</definition>
+        <argsstring>[16]</argsstring>
+        <name>_scr_bytes</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_scr_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="181" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1ac43988c885dc8e9dee9b14f8ecfc4dfe" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_scrambler_pn[128]</definition>
+        <argsstring>[128]</argsstring>
+        <name>_scrambler_pn</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_scrambler_pn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="182" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a96be103031a99759721b3f121c162d08" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t gr::m17::m17_coder_impl::_scrambler_seed</definition>
+        <argsstring></argsstring>
+        <name>_scrambler_seed</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_scrambler_seed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="183" column="16" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a529d7261a82851d88f26be44804c65f2" prot="private" static="no" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t gr::m17::m17_coder_impl::_scrambler_subtype</definition>
+        <argsstring></argsstring>
+        <name>_scrambler_subtype</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_scrambler_subtype</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="184" column="14" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a406805351b1b7e970ca2169981b9fab3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::_m17_strict_mode</definition>
+        <argsstring></argsstring>
+        <name>_m17_strict_mode</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_m17_strict_mode</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="215" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1a1924ca89ba952dca2dbc79e3ac280910" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::_extended_crypto_enabled</definition>
+        <argsstring></argsstring>
+        <name>_extended_crypto_enabled</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_extended_crypto_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="216" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1m17_1_1m17__coder__impl_1aa9678e73ce348fa98688199461a93432" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::m17::m17_coder_impl::_can</definition>
+        <argsstring></argsstring>
+        <name>_can</name>
+        <qualifiedname>gr::m17::m17_coder_impl::_can</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="217" column="15" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a2ee0c79049b1edb5b6d31333bc5ec1f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::parse_raw_key_string</definition>
+        <argsstring>(uint8_t *, const char *)</argsstring>
+        <name>parse_raw_key_string</name>
+        <qualifiedname>gr::m17::m17_coder_impl::parse_raw_key_string</qualifiedname>
+        <param>
+          <type>uint8_t *</type>
+          <defname>dest</defname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <defname>inp</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="188" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="636" bodyend="691"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a67500abb50008af3a0f18417069517ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::scrambler_sequence_generator</definition>
+        <argsstring>()</argsstring>
+        <name>scrambler_sequence_generator</name>
+        <qualifiedname>gr::m17::m17_coder_impl::scrambler_sequence_generator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="189" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="566" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1addba5dd3ccc46f5051ee21048d3bb351" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_src_id</definition>
+        <argsstring>(std::string src_id)</argsstring>
+        <name>set_src_id</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_src_id</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1abb3f77241ee5eab49bd7ab0c8dd719fa">set_src_id</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>src_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="190" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="262" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a2b4e5b6c18d35f2f2beee8aee2305c68" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_dst_id</definition>
+        <argsstring>(std::string dst_id)</argsstring>
+        <name>set_dst_id</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_dst_id</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1a53e88b00750e77e75aae285e6cb80d17">set_dst_id</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>dst_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="191" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="298" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a71260779869257591202b1c5067abd96" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_key</definition>
+        <argsstring>(std::string key)</argsstring>
+        <name>set_key</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_key</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1a2426c654140b44ef6a263785573c5c2e">set_key</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="192" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="363" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a31efa9349f538c5ceb5bdb8a361b6679" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_priv_key</definition>
+        <argsstring>(std::string key)</argsstring>
+        <name>set_priv_key</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_priv_key</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1afed1157efe450be5fb8a12613b2d76af">set_priv_key</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="193" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="333" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a5b3fcaf1e12040805221058e1adcee81" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_meta</definition>
+        <argsstring>(std::string meta)</argsstring>
+        <name>set_meta</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_meta</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1abf5489a8c126d34264c535ed52217e04">set_meta</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="194" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="421" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1ae87a08f0985f75379a84377588f4898f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_seed</definition>
+        <argsstring>(std::string meta)</argsstring>
+        <name>set_seed</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_seed</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1ac6639f0973bfe40438728fefdc2f606b">set_seed</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="195" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="390" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a746c6c832b99e5a0bb4f9194d7b822bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_type</definition>
+        <argsstring>(int mode, int data, encr_t encr_type, int encr_subtype, int can)</argsstring>
+        <name>set_type</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_type</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1ad32e0baacc88a86c2b5baddc0fe052e5">set_type</reimplements>
+        <param>
+          <type>int</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>encr_t</type>
+          <declname>encr_type</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>encr_subtype</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>can</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="196" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="524" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a96f98de298dc5bf730a3b60a0fafa844" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_mode</definition>
+        <argsstring>(int mode)</argsstring>
+        <name>set_mode</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_mode</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1a9b8cc033133c45c074f44f6c075ca38f">set_mode</reimplements>
+        <param>
+          <type>int</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="198" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="477" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1afab394e3d0b1a76f68c0e97fbcef123f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_data</definition>
+        <argsstring>(int data)</argsstring>
+        <name>set_data</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_data</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1ada05ca6980a477ad23af25d3eb687e85">set_data</reimplements>
+        <param>
+          <type>int</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="199" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="484" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1aedc38c92c85a8b69ba633cfcefedf15b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_encr_type</definition>
+        <argsstring>(int encr_type)</argsstring>
+        <name>set_encr_type</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_encr_type</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1ab014259e014fdf8a2c5435939cd7df80">set_encr_type</reimplements>
+        <param>
+          <type>int</type>
+          <declname>encr_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="200" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="222" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a8cb8b172ea28228fb21317657dca5abd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_encr_subtype</definition>
+        <argsstring>(int encr_subtype)</argsstring>
+        <name>set_encr_subtype</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_encr_subtype</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1a1c8e4d234f9815a0d9ff694531913f41">set_encr_subtype</reimplements>
+        <param>
+          <type>int</type>
+          <declname>encr_subtype</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="201" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="491" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a6d8331463dd5437419f824e862313a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_aes_subtype</definition>
+        <argsstring>(int aes_subtype, int encr_type)</argsstring>
+        <name>set_aes_subtype</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_aes_subtype</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1a6387c203f2a6d93377dc422810ed47f6">set_aes_subtype</reimplements>
+        <param>
+          <type>int</type>
+          <declname>aes_subtype</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>encr_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="202" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="498" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a743e1678963db293469e833d766c8c3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_can</definition>
+        <argsstring>(int can)</argsstring>
+        <name>set_can</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_can</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1aae0404485e1fb17435b3df2c3152aa2d">set_can</reimplements>
+        <param>
+          <type>int</type>
+          <declname>can</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="203" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="517" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a74abdbef3fa41816be939e6cc47e37c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_debug</definition>
+        <argsstring>(bool debug)</argsstring>
+        <name>set_debug</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_debug</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1a0a2aa480a393e59a7d926245d348bfec">set_debug</reimplements>
+        <param>
+          <type>bool</type>
+          <declname>debug</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="204" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="253" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1ab5e03f2c04d70817f2ee4d3d49fee548" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_signed</definition>
+        <argsstring>(bool signed_str)</argsstring>
+        <name>set_signed</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_signed</qualifiedname>
+        <reimplements refid="classgr_1_1m17_1_1m17__coder_1a0cbe6ed19cf9de18008c24ebe3bd2066">set_signed</reimplements>
+        <param>
+          <type>bool</type>
+          <declname>signed_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="205" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="244" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1af7b57c412e5067028ecee7b7c2ecec03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::end_of_transmission</definition>
+        <argsstring>(const pmt::pmt_t &amp;msg)</argsstring>
+        <name>end_of_transmission</name>
+        <qualifiedname>gr::m17::m17_coder_impl::end_of_transmission</qualifiedname>
+        <param>
+          <type>const pmt::pmt_t &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="206" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="215" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a3e1e61d2948b785655d84a8b6b294b46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gr::m17::m17_coder_impl::m17_coder_impl</definition>
+        <argsstring>(std::string src_id, std::string dst_id, int mode, int data, int encr_type, int encr_subtype, int aes_subtype, int can, std::string meta, std::string key, std::string priv_key, bool debug, bool signed_str, std::string seed)</argsstring>
+        <name>m17_coder_impl</name>
+        <qualifiedname>gr::m17::m17_coder_impl::m17_coder_impl</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>src_id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>dst_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>encr_type</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>encr_subtype</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>aes_subtype</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>can</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>priv_key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>debug</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>signed_str</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="208" column="7" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="78" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a5124495c7bed073901ff5f68402a7968" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gr::m17::m17_coder_impl::~m17_coder_impl</definition>
+        <argsstring>()</argsstring>
+        <name>~m17_coder_impl</name>
+        <qualifiedname>gr::m17::m17_coder_impl::~m17_coder_impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="212" column="7" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="542" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1ad72511ace67d1b180a51cd29754d9fc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_m17_strict_mode</definition>
+        <argsstring>(bool strict_mode)</argsstring>
+        <name>set_m17_strict_mode</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_m17_strict_mode</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>strict_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="220" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a09f6e5dfba290656e0486edb48c65021" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_extended_crypto</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>set_extended_crypto</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_extended_crypto</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="221" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1acbe21e67c380ce721124860735c283ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::set_channel_access_number</definition>
+        <argsstring>(uint8_t can)</argsstring>
+        <name>set_channel_access_number</name>
+        <qualifiedname>gr::m17::m17_coder_impl::set_channel_access_number</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>can</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="222" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a131cd24ffc3812c06dbd3129f598b362" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::is_m17_compatible</definition>
+        <argsstring>() const</argsstring>
+        <name>is_m17_compatible</name>
+        <qualifiedname>gr::m17::m17_coder_impl::is_m17_compatible</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="223" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1aee4d334e325b7880ba7171d3b8803736" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool gr::m17::m17_coder_impl::is_extended_crypto_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>is_extended_crypto_enabled</name>
+        <qualifiedname>gr::m17::m17_coder_impl::is_extended_crypto_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="224" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1abe46bd6ca07e7459c28eb40e52cac2ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::print_compatibility_warning</definition>
+        <argsstring>() const</argsstring>
+        <name>print_compatibility_warning</name>
+        <qualifiedname>gr::m17::m17_coder_impl::print_compatibility_warning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="227" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1ad82dd1864d12402818de85385a0e22d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::print_extended_crypto_warning</definition>
+        <argsstring>() const</argsstring>
+        <name>print_extended_crypto_warning</name>
+        <qualifiedname>gr::m17::m17_coder_impl::print_extended_crypto_warning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="228" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a23c5434f4ff44a6f0c8bc50cb1ded690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gr::m17::m17_coder_impl::sign_p256_message</definition>
+        <argsstring>(const uint8_t *data, size_t data_len, uint8_t *signature)</argsstring>
+        <name>sign_p256_message</name>
+        <qualifiedname>gr::m17::m17_coder_impl::sign_p256_message</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>data_len</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>signature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="231" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1af8650cfa0f75c62890d67a3b90983434" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gr::m17::m17_coder_impl::perform_p256_ecdh</definition>
+        <argsstring>(const uint8_t *peer_public_key, size_t pub_key_size)</argsstring>
+        <name>perform_p256_ecdh</name>
+        <qualifiedname>gr::m17::m17_coder_impl::perform_p256_ecdh</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>peer_public_key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>pub_key_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="232" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1ab332dca794f77ee73b2ae3abe18d767c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gr::m17::m17_coder_impl::encrypt_aes_ctr</definition>
+        <argsstring>(const uint8_t *plaintext, size_t plaintext_len, const uint8_t *key, size_t key_size, const uint8_t *iv, size_t iv_size, uint8_t *ciphertext, size_t ciphertext_size)</argsstring>
+        <name>encrypt_aes_ctr</name>
+        <qualifiedname>gr::m17::m17_coder_impl::encrypt_aes_ctr</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>plaintext_len</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>key_size</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>iv</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iv_size</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>ciphertext</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ciphertext_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="233" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a0aaa68a841a5639e3e466b602143b6c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::m17::m17_coder_impl::forecast</definition>
+        <argsstring>(int noutput_items, gr_vector_int &amp;ninput_items_required)</argsstring>
+        <name>forecast</name>
+        <qualifiedname>gr::m17::m17_coder_impl::forecast</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>noutput_items</declname>
+        </param>
+        <param>
+          <type>gr_vector_int &amp;</type>
+          <declname>ninput_items_required</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="239" column="12" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="559" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1m17_1_1m17__coder__impl_1a70cd6ff260056e56950ebcf4a929f08c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gr::m17::m17_coder_impl::general_work</definition>
+        <argsstring>(int noutput_items, gr_vector_int &amp;ninput_items, gr_vector_const_void_star &amp;input_items, gr_vector_void_star &amp;output_items)</argsstring>
+        <name>general_work</name>
+        <qualifiedname>gr::m17::m17_coder_impl::general_work</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>noutput_items</declname>
+        </param>
+        <param>
+          <type>gr_vector_int &amp;</type>
+          <declname>ninput_items</declname>
+        </param>
+        <param>
+          <type>gr_vector_const_void_star &amp;</type>
+          <declname>input_items</declname>
+        </param>
+        <param>
+          <type>gr_vector_void_star &amp;</type>
+          <declname>output_items</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="242" column="11" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.cc" bodystart="694" bodyend="864"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>gr::block</label>
+      </node>
+      <node id="2">
+        <label>gr::m17::m17_coder</label>
+        <link refid="classgr_1_1m17_1_1m17__coder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gr::m17::m17_coder_impl</label>
+        <link refid="classgr_1_1m17_1_1m17__coder__impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>gr::block</label>
+      </node>
+      <node id="2">
+        <label>gr::m17::m17_coder</label>
+        <link refid="classgr_1_1m17_1_1m17__coder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gr::m17::m17_coder_impl</label>
+        <link refid="classgr_1_1m17_1_1m17__coder__impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" line="137" column="5" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h" bodystart="138" bodyend="246"/>
+    <listofallmembers>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1aa1823d448c6d4fa09109d60fec71c8e4" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_aes_subtype</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1aa9678e73ce348fa98688199461a93432" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_can</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a17f9ba7986e46bea05cd8c21c225ccad" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_curve</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1acdea3fa756cf72f37fe0f6dddeeb068c" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_data</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ad1e8122b9fa93be4dd1ec40f34a78697" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_debug</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1afee6213463e47384e90758a637eed9b6" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_digest</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a615a5c655d3d2f15a38921179a40f175" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_dst_id</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1aabe9d295d486fcc26023a673581d5cdf" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_encr_subtype</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1aefa59f114ecb8fa2ea2dce5662dfccb7" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_encr_type</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a1924ca89ba952dca2dbc79e3ac280910" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_extended_crypto_enabled</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a90740539856659bb758b1389562d71d7" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_finished</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1adffc5628eaf66f476fe27591aba6f53a" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_fn</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a5419fc26cf75e6da90d316e180b4f0ae" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_got_lsf</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a2d8dcd62314e76d5c2775da21992a685" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_init_frame</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ae99a82694eac79474e7addadbb70226c" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_iv</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ad5d2b6154e511c8b91236f67501bbe81" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_key</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1acfcac9c1a7b20e8995dde1d0d65894f2" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_lich_cnt</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a4cb524014c28902bf4b37e8c07a10108" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_lsf</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a406805351b1b7e970ca2169981b9fab3" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_m17_strict_mode</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a50ccfc2be658caa4742d2ad6f0b95890" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_meta</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a36a2a5d7739d87c974ca2731eb63ad9b" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_mode</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a27a37ab17f1c1d03f7e23afc285de4dd" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_next_lsf</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ae15d403f94977dc027c5c420caeca4b8" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_priv_key</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ac43745026c6582baf600d82d35f3ad48" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_priv_key_loaded</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a524515a930c89cc67d38d067a1e73e78" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_scr_bytes</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ac43988c885dc8e9dee9b14f8ecfc4dfe" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_scrambler_pn</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a96be103031a99759721b3f121c162d08" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_scrambler_seed</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a529d7261a82851d88f26be44804c65f2" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_scrambler_subtype</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1adc10150cf646f6e7f1e57ad6cac5e12c" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_seed</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1afd87a42c620b62e280a60dff70456a87" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_send_preamble</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ae0fd8d473623e0dc59dad44317a7870e" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_sha_ctx</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1abab54b72676f7209fa93dad57a1d6beb" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_sig</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a8b9840791665df756bdc62232454edfb" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_signed_str</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a014ad115b72bde135d96ae717f25c245" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_src_id</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1af9e9e4a6f81c4dc111aef3e373f68c87" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>_type</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4a4836b99bab0851852acd6c6a60c4c87f" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>AES128</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4ab8656473499f5d5eea03d4e8c2fc0fb6" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>AES192</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4a50ae814cbe185cbb224e629e9a525777" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>AES256</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>aes_t</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84a9d6079238896e2be2b0de7a4ec773a7e" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>ENCR_AES</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84a531309fc989d6bcbb5b070b0b31271d3" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>ENCR_NONE</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84a09f5caf79e6ac8bae50b4833b7a72f01" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>ENCR_RES</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84a9cb23bf70371c3d11a793f6a8ba73bda" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>ENCR_SCRAM</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>encr_t</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ab332dca794f77ee73b2ae3abe18d767c" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>encrypt_aes_ctr</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1af7b57c412e5067028ecee7b7c2ecec03" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>end_of_transmission</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1afd7657ed49947098c579c30a48ecd7ec" prot="private" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>epoch</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a0aaa68a841a5639e3e466b602143b6c0" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>forecast</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a70cd6ff260056e56950ebcf4a929f08c" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>general_work</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1aee4d334e325b7880ba7171d3b8803736" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>is_extended_crypto_enabled</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a131cd24ffc3812c06dbd3129f598b362" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>is_m17_compatible</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a3e1e61d2948b785655d84a8b6b294b46" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>m17_coder_impl</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder_1a3c22bbca8d258bd2a6a101daccf9a9b6" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>make</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a2ee0c79049b1edb5b6d31333bc5ec1f0" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>parse_raw_key_string</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1af8650cfa0f75c62890d67a3b90983434" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>perform_p256_ecdh</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1abe46bd6ca07e7459c28eb40e52cac2ab" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>print_compatibility_warning</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ad82dd1864d12402818de85385a0e22d4" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>print_extended_crypto_warning</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a67500abb50008af3a0f18417069517ea" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>scrambler_sequence_generator</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a6d8331463dd5437419f824e862313a14" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_aes_subtype</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a743e1678963db293469e833d766c8c3e" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_can</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1acbe21e67c380ce721124860735c283ad" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_channel_access_number</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1afab394e3d0b1a76f68c0e97fbcef123f" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_data</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a74abdbef3fa41816be939e6cc47e37c0" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_debug</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a2b4e5b6c18d35f2f2beee8aee2305c68" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_dst_id</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a8cb8b172ea28228fb21317657dca5abd" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_encr_subtype</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1aedc38c92c85a8b69ba633cfcefedf15b" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_encr_type</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a09f6e5dfba290656e0486edb48c65021" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_extended_crypto</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a71260779869257591202b1c5067abd96" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_key</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ad72511ace67d1b180a51cd29754d9fc2" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_m17_strict_mode</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a5b3fcaf1e12040805221058e1adcee81" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_meta</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a96f98de298dc5bf730a3b60a0fafa844" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_mode</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a31efa9349f538c5ceb5bdb8a361b6679" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_priv_key</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ae87a08f0985f75379a84377588f4898f" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_seed</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1ab5e03f2c04d70817f2ee4d3d49fee548" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_signed</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1addba5dd3ccc46f5051ee21048d3bb351" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_src_id</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a746c6c832b99e5a0bb4f9194d7b822bf" prot="public" virt="virtual"><scope>gr::m17::m17_coder_impl</scope><name>set_type</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a23c5434f4ff44a6f0c8bc50cb1ded690" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>sign_p256_message</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder_1aa86a564e4f5c8fe7f9c3671ac753c1bf" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>sptr</name></member>
+      <member refid="classgr_1_1m17_1_1m17__coder__impl_1a5124495c7bed073901ff5f68402a7968" prot="public" virt="non-virtual"><scope>gr::m17::m17_coder_impl</scope><name>~m17_coder_impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

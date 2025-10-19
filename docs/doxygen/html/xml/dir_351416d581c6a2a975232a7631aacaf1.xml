@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_351416d581c6a2a975232a7631aacaf1" kind="dir">
+    <compoundname>/home/haaken/github-projects/gr-m17/libm17/crypto</compoundname>
+    <innerfile refid="aes__gcm_8c">aes_gcm.c</innerfile>
+    <innerfile refid="bounds__checking_8c">bounds_checking.c</innerfile>
+    <innerfile refid="bounds__checking_8h">bounds_checking.h</innerfile>
+    <innerfile refid="constant__time_8c">constant_time.c</innerfile>
+    <innerfile refid="constant__time_8h">constant_time.h</innerfile>
+    <innerfile refid="curve25519_8c">curve25519.c</innerfile>
+    <innerfile refid="ed25519_8c">ed25519.c</innerfile>
+    <innerfile refid="hkdf_8c">hkdf.c</innerfile>
+    <innerfile refid="key__derivation_8c">key_derivation.c</innerfile>
+    <innerfile refid="key__derivation_8h">key_derivation.h</innerfile>
+    <innerfile refid="optee_8c">optee.c</innerfile>
+    <innerfile refid="optee_8h">optee.h</innerfile>
+    <innerfile refid="replay__protection_8c">replay_protection.c</innerfile>
+    <innerfile refid="replay__protection_8h">replay_protection.h</innerfile>
+    <innerfile refid="secure__boot_8c">secure_boot.c</innerfile>
+    <innerfile refid="secure__boot_8h">secure_boot.h</innerfile>
+    <innerfile refid="secure__memory_8c">secure_memory.c</innerfile>
+    <innerfile refid="secure__memory_8h">secure_memory.h</innerfile>
+    <innerfile refid="security__monitoring_8c">security_monitoring.c</innerfile>
+    <innerfile refid="security__monitoring_8h">security_monitoring.h</innerfile>
+    <innerfile refid="trustzone_8c">trustzone.c</innerfile>
+    <innerfile refid="trustzone_8h">trustzone.h</innerfile>
+    <innerfile refid="validation_8c">validation.c</innerfile>
+    <innerfile refid="validation_8h">validation.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/"/>
+  </compounddef>
+</doxygen>

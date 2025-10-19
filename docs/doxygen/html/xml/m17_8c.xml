@@ -1,0 +1,1183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="m17_8c" kind="file" language="C++">
+    <compoundname>m17.c</compoundname>
+    <includes local="no">string.h</includes>
+    <includes refid="m17_8h" local="no">m17.h</includes>
+    <includes refid="m17__safe_8h" local="no">m17_safe.h</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>crypto/bounds_checking.h</label>
+        <link refid="bounds__checking_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>crypto/key_derivation.h</label>
+        <link refid="key__derivation_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>crypto/optee.h</label>
+        <link refid="optee_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>crypto/replay_protection.h</label>
+        <link refid="replay__protection_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>crypto/secure_boot.h</label>
+        <link refid="secure__boot_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>crypto/secure_memory.h</label>
+        <link refid="secure__memory_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>crypto/security_monitoring.h</label>
+        <link refid="security__monitoring_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>crypto/trustzone.h</label>
+        <link refid="trustzone_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>crypto/validation.h</label>
+        <link refid="validation_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/m17.c</label>
+        <link refid="m17_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>m17_safe.h</label>
+        <link refid="m17__safe_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>math.h</label>
+      </node>
+      <node id="10">
+        <label>stdbool.h</label>
+      </node>
+      <node id="5">
+        <label>stddef.h</label>
+      </node>
+      <node id="4">
+        <label>stdint.h</label>
+      </node>
+      <node id="2">
+        <label>string.h</label>
+      </node>
+      <node id="6">
+        <label>time.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="m17_8c_1a44ca7af5c025032a6c9dbd99bb753c81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>__attribute__</definition>
+        <argsstring>((visibility(&quot;default&quot;))) const</argsstring>
+        <name>__attribute__</name>
+        <param>
+          <type>(visibility(&quot;default&quot;))</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="11" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="11" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1ae237fcdbb6819bbc1bed058cd9d6805d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_preamble_i8</definition>
+        <argsstring>(int8_t out[SYM_PER_FRA], uint32_t *cnt, const pream_t type)</argsstring>
+        <name>gen_preamble_i8</name>
+        <param>
+          <type>int8_t</type>
+          <declname>out</declname>
+          <array>[SYM_PER_FRA]</array>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>cnt</declname>
+        </param>
+        <param>
+          <type>const pream_t</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Generate symbol stream for a preamble. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frame buffer (192 int8_t). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a variable holding the number of written symbols. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Preamble type (pre-BERT or pre-LSF). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="61" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="61" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1a97a617e6bd8c709ae2cfdc4c65874b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_syncword</definition>
+        <argsstring>(float out[SYM_PER_SWD], uint32_t *cnt, const uint16_t syncword)</argsstring>
+        <name>gen_syncword</name>
+        <param>
+          <type>float</type>
+          <declname>out</declname>
+          <array>[SYM_PER_SWD]</array>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>cnt</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>syncword</declname>
+        </param>
+        <briefdescription>
+<para>Generate symbol stream for a syncword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output buffer (8 floats). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a variable holding the number of written symbols. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>syncword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Syncword. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="88" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1a6e6f882a622d3051f4cc2ccdec594b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_syncword_i8</definition>
+        <argsstring>(int8_t out[SYM_PER_SWD], uint32_t *cnt, const uint16_t syncword)</argsstring>
+        <name>gen_syncword_i8</name>
+        <param>
+          <type>int8_t</type>
+          <declname>out</declname>
+          <array>[SYM_PER_SWD]</array>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>cnt</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>syncword</declname>
+        </param>
+        <briefdescription>
+<para>Generate symbol stream for a syncword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output buffer (8 int8_t). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a variable holding the number of written symbols. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>syncword</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Syncword. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="103" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="103" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1a3834b13f7881366c66edf79c340a2818" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_data</definition>
+        <argsstring>(float out[SYM_PER_PLD], uint32_t *cnt, const uint8_t *in)</argsstring>
+        <name>gen_data</name>
+        <param>
+          <type>float</type>
+          <declname>out</declname>
+          <array>[SYM_PER_PLD]</array>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>cnt</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>Generate symbol stream for frame contents (without the syncword). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Can be used for both LSF and data frames.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output buffer (184 floats). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a variable holding the number of written symbols. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data input - unpacked bits (1 bit per byte). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="119" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="119" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1a005cb26b94b5d314902181a134688e5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_data_i8</definition>
+        <argsstring>(int8_t out[SYM_PER_PLD], uint32_t *cnt, const uint8_t *in)</argsstring>
+        <name>gen_data_i8</name>
+        <param>
+          <type>int8_t</type>
+          <declname>out</declname>
+          <array>[SYM_PER_PLD]</array>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>cnt</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>Generate symbol stream for frame contents (without the syncword). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Can be used for both LSF and data frames.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output buffer (184 int8_t). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a variable holding the number of written symbols. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data input - unpacked bits (1 bit per byte). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="135" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="135" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1ab51ccc192219b034a91cafedc66272ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_eot</definition>
+        <argsstring>(float out[SYM_PER_FRA], uint32_t *cnt)</argsstring>
+        <name>gen_eot</name>
+        <param>
+          <type>float</type>
+          <declname>out</declname>
+          <array>[SYM_PER_FRA]</array>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>cnt</declname>
+        </param>
+        <briefdescription>
+<para>Generate symbol stream for the End of Transmission marker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output buffer (192 floats). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a variable holding the number of written symbols. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="149" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="149" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1aca4d9269d1e731e7d04d8016de488909" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_eot_i8</definition>
+        <argsstring>(int8_t out[SYM_PER_FRA], uint32_t *cnt)</argsstring>
+        <name>gen_eot_i8</name>
+        <param>
+          <type>int8_t</type>
+          <declname>out</declname>
+          <array>[SYM_PER_FRA]</array>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>cnt</declname>
+        </param>
+        <briefdescription>
+<para>Generate symbol stream for the End of Transmission marker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output buffer (192 int8_t). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a variable holding the number of written symbols. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="163" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="163" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1ac48399c052af88a3f3f22973e4792b0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_frame</definition>
+        <argsstring>(float out[SYM_PER_FRA], const uint8_t *data, const frame_t type, const lsf_t *lsf, const uint8_t lich_cnt, const uint16_t fn)</argsstring>
+        <name>gen_frame</name>
+        <param>
+          <type>float</type>
+          <declname>out</declname>
+          <array>[SYM_PER_FRA]</array>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const frame_t</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structlsf__t" kindref="compound">lsf_t</ref> *</type>
+          <declname>lsf</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>lich_cnt</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Generate frame symbols. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output buffer for symbols (192 floats). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Payload (16 or 25 bytes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frame type (LSF, Stream, Packet). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lsf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a structure holding Link Setup Frame data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lich_cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LICH counter (0..5). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frame number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="181" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="181" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1a99ff872fb873580bc2b4720af420f2e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gen_frame_i8</definition>
+        <argsstring>(int8_t out[SYM_PER_FRA], const uint8_t *data, const frame_t type, const lsf_t *lsf, const uint8_t lich_cnt, const uint16_t fn)</argsstring>
+        <name>gen_frame_i8</name>
+        <param>
+          <type>int8_t</type>
+          <declname>out</declname>
+          <array>[SYM_PER_FRA]</array>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const frame_t</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structlsf__t" kindref="compound">lsf_t</ref> *</type>
+          <declname>lsf</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>lich_cnt</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Generate frame symbols. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output buffer for symbols (192 int8_t). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Payload (16 or 25 bytes). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frame type (LSF, Stream, Packet). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lsf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a structure holding Link Setup Frame data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lich_cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LICH counter (0..5). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Frame number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="229" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="229" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1a9dfee4aa304cea1a011c761e337696e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t decode_LSF</definition>
+        <argsstring>(lsf_t *lsf, const float pld_symbs[SYM_PER_PLD])</argsstring>
+        <name>decode_LSF</name>
+        <param>
+          <type><ref refid="structlsf__t" kindref="compound">lsf_t</ref> *</type>
+          <declname>lsf</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>pld_symbs</declname>
+          <array>[SYM_PER_PLD]</array>
+        </param>
+        <briefdescription>
+<para>Decode the Link Setup Frame from a symbol stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lsf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an LSF struct. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pld_symbs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input 184 symbols represented as floats: {-3, -1, +1, +3}. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Viterbi metric for the payload. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="274" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="274" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1a9cf1169c625eb4d25fda7f97e15cef74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t decode_str_frame</definition>
+        <argsstring>(uint8_t frame_data[16], uint8_t lich[5], uint16_t *fn, uint8_t *lich_cnt, const float pld_symbs[SYM_PER_PLD])</argsstring>
+        <name>decode_str_frame</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>frame_data</declname>
+          <array>[16]</array>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>lich</declname>
+          <array>[5]</array>
+        </param>
+        <param>
+          <type>uint16_t *</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>lich_cnt</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>pld_symbs</declname>
+          <array>[SYM_PER_PLD]</array>
+        </param>
+        <briefdescription>
+<para>Decode a single Stream Frame from a symbol stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frame_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a 16-byte array for the decoded payload. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lich</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a 5-byte array for the decoded LICH data chunk. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a uint16_t variable for the Frame Number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lich_cnt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a uint8_t variable for the LICH Counter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pld_symbs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input 184 symbols represented as floats: {-3, -1, +1, +3}. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Viterbi metric for the payload. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="309" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="309" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="m17_8c_1a38746a854354f7b0cda6ae2503cc475f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t decode_pkt_frame</definition>
+        <argsstring>(uint8_t frame_data[25], uint8_t *eof, uint8_t *fn, const float pld_symbs[SYM_PER_PLD])</argsstring>
+        <name>decode_pkt_frame</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>frame_data</declname>
+          <array>[25]</array>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>eof</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>const float</type>
+          <declname>pld_symbs</declname>
+          <array>[SYM_PER_PLD]</array>
+        </param>
+        <briefdescription>
+<para>Decode a single Packet Frame from a symbol stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frame_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a 25-byte array for the decoded payload. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>eof</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a uint8_t variable for the End of Frame marker. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to a uint8_t variable for the Frame Number. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pld_symbs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input 184 symbols represented as floats: {-3, -1, +1, +3}. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Viterbi metric for the payload. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c" line="346" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.c" bodystart="346" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>m17.c</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Foundation,<sp/>12<sp/>March<sp/>2025</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;m17.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;m17_safe.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal">__attribute__((visibility(</highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">)))</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>libm17_version[]<sp/>=<sp/>LIBM17_VERSION;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_preamble(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>out[SYM_PER_FRA],<sp/>uint32_t<sp/>*cnt,<sp/>const<sp/>pream_t<sp/>type)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Input<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(out<sp/>==<sp/>NULL<sp/>||<sp/>cnt<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(*cnt<sp/>&gt;=<sp/>SYM_PER_FRA)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>overflow<sp/>protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==PREAM_BERT)<sp/></highlight><highlight class="comment">//pre-BERT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint16_t<sp/>i=0;<sp/>i&lt;SYM_PER_FRA/2<sp/>&amp;&amp;<sp/>(*cnt)<sp/>&lt;<sp/>SYM_PER_FRA;<sp/>i++)<sp/></highlight><highlight class="comment">//40ms<sp/>*<sp/>4800<sp/>=<sp/>192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=-3.0;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((*cnt)<sp/>&lt;<sp/>SYM_PER_FRA)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=+3.0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="comment">//<sp/>if(type==PREAM_LSF)<sp/>//pre-LSF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint16_t<sp/>i=0;<sp/>i&lt;SYM_PER_FRA/2<sp/>&amp;&amp;<sp/>(*cnt)<sp/>&lt;<sp/>SYM_PER_FRA;<sp/>i++)<sp/></highlight><highlight class="comment">//40ms<sp/>*<sp/>4800<sp/>=<sp/>192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=+3.0;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((*cnt)<sp/>&lt;<sp/>SYM_PER_FRA)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=-3.0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_preamble_i8(int8_t<sp/>out[SYM_PER_FRA],<sp/>uint32_t<sp/>*cnt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>pream_t<sp/>type)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==PREAM_BERT)<sp/></highlight><highlight class="comment">//pre-BERT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint16_t<sp/>i=0;<sp/>i&lt;SYM_PER_FRA/2;<sp/>i++)<sp/></highlight><highlight class="comment">//40ms<sp/>*<sp/>4800<sp/>=<sp/>192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=-3;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=+3;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="comment">//<sp/>if(type==PREAM_LSF)<sp/>//pre-LSF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint16_t<sp/>i=0;<sp/>i&lt;SYM_PER_FRA/2;<sp/>i++)<sp/></highlight><highlight class="comment">//40ms<sp/>*<sp/>4800<sp/>=<sp/>192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=+3;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=-3;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_syncword(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>out[SYM_PER_SWD],<sp/>uint32_t<sp/>*cnt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>syncword)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint8_t<sp/>i=0;<sp/>i&lt;SYM_PER_SWD*2;<sp/>i+=2)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=symbol_map[(syncword&gt;&gt;(14-i))&amp;3];</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_syncword_i8(int8_t<sp/>out[SYM_PER_SWD],<sp/>uint32_t<sp/>*cnt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>syncword)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint8_t<sp/>i=0;<sp/>i&lt;SYM_PER_SWD*2;<sp/>i+=2)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=symbol_map[(syncword&gt;&gt;(14-i))&amp;3];</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_data(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>out[SYM_PER_PLD],<sp/>uint32_t<sp/>*cnt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>in)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint16_t<sp/>i=0;<sp/>i&lt;SYM_PER_PLD;<sp/>i++)<sp/></highlight><highlight class="comment">//40ms<sp/>*<sp/>4800<sp/>-<sp/>8<sp/>(syncword)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=symbol_map[in[2*i]*2+in[2*i+1]];</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_data_i8(int8_t<sp/>out[SYM_PER_PLD],<sp/>uint32_t<sp/>*cnt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>in)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint16_t<sp/>i=0;<sp/>i&lt;SYM_PER_PLD;<sp/>i++)<sp/></highlight><highlight class="comment">//40ms<sp/>*<sp/>4800<sp/>-<sp/>8<sp/>(syncword)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=symbol_map[in[2*i]*2+in[2*i+1]];</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_eot(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>out[SYM_PER_FRA],<sp/>uint32_t<sp/>*cnt)</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint16_t<sp/>i=0;<sp/>i&lt;SYM_PER_FRA;<sp/>i++)<sp/></highlight><highlight class="comment">//40ms<sp/>*<sp/>4800<sp/>=<sp/>192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=eot_symbols[i%8];</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_eot_i8(int8_t<sp/>out[SYM_PER_FRA],<sp/>uint32_t<sp/>*cnt)</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint16_t<sp/>i=0;<sp/>i&lt;SYM_PER_FRA;<sp/>i++)<sp/></highlight><highlight class="comment">//40ms<sp/>*<sp/>4800<sp/>=<sp/>192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[(*cnt)++]=eot_symbols[i%8];</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_frame(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>out[SYM_PER_FRA],<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>frame_t<sp/>type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structlsf__t" kindref="compound">lsf_t</ref>*<sp/>lsf,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>lich_cnt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>fn)</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>lich[6];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//48<sp/>bits<sp/>packed<sp/>raw,<sp/>unencoded<sp/>LICH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>lich_encoded[12];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//96<sp/>bits<sp/>packed,<sp/>encoded<sp/>LICH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>enc_bits[SYM_PER_PLD*2];<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//type-2<sp/>bits,<sp/>unpacked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>rf_bits[SYM_PER_PLD*2];<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//type-4<sp/>bits,<sp/>unpacked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>sym_cnt=0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//symbols<sp/>written<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==FRAME_LSF)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gen_syncword(out,<sp/>&amp;sym_cnt,<sp/>SYNC_LSF);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conv_encode_LSF(enc_bits,<sp/>lsf);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==FRAME_STR)</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gen_syncword(out,<sp/>&amp;sym_cnt,<sp/>SYNC_STR);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extract_LICH(lich,<sp/>lich_cnt,<sp/>lsf);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encode_LICH(lich_encoded,<sp/>lich);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unpack_LICH(enc_bits,<sp/>lich_encoded);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conv_encode_stream_frame(&amp;enc_bits[96],<sp/>data,<sp/>fn);<sp/></highlight><highlight class="comment">//stream<sp/>frames<sp/>require<sp/>16-byte<sp/>payloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==FRAME_PKT)</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gen_syncword(out,<sp/>&amp;sym_cnt,<sp/>SYNC_PKT);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conv_encode_packet_frame(enc_bits,<sp/>data);<sp/></highlight><highlight class="comment">//packet<sp/>frames<sp/>require<sp/>200-bit<sp/>payload<sp/>chunks<sp/>plus<sp/>a<sp/>6-bit<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==FRAME_BERT)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gen_syncword(out,<sp/>&amp;sym_cnt,<sp/>SYNC_BER);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conv_encode_bert_frame(enc_bits,<sp/>data);<sp/></highlight><highlight class="comment">//BERT<sp/>frames<sp/>require<sp/>197<sp/>BERT<sp/>bits<sp/>packed<sp/>as<sp/>25<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//common<sp/>stuff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>reorder_bits(rf_bits,<sp/>enc_bits);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>randomize_bits(rf_bits);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>gen_data(out,<sp/>&amp;sym_cnt,<sp/>rf_bits);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>gen_frame_i8(int8_t<sp/>out[SYM_PER_FRA],<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>frame_t<sp/>type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structlsf__t" kindref="compound">lsf_t</ref>*<sp/>lsf,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>lich_cnt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>fn)</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>lich[6];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//48<sp/>bits<sp/>packed<sp/>raw,<sp/>unencoded<sp/>LICH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>lich_encoded[12];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//96<sp/>bits<sp/>packed,<sp/>encoded<sp/>LICH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>enc_bits[SYM_PER_PLD*2];<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//type-2<sp/>bits,<sp/>unpacked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>rf_bits[SYM_PER_PLD*2];<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//type-4<sp/>bits,<sp/>unpacked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>sym_cnt=0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//symbols<sp/>written<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==FRAME_LSF)</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gen_syncword_i8(out,<sp/>&amp;sym_cnt,<sp/>SYNC_LSF);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conv_encode_LSF(enc_bits,<sp/>lsf);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==FRAME_STR)</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gen_syncword_i8(out,<sp/>&amp;sym_cnt,<sp/>SYNC_STR);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extract_LICH(lich,<sp/>lich_cnt,<sp/>lsf);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encode_LICH(lich_encoded,<sp/>lich);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unpack_LICH(enc_bits,<sp/>lich_encoded);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conv_encode_stream_frame(&amp;enc_bits[96],<sp/>data,<sp/>fn);<sp/></highlight><highlight class="comment">//stream<sp/>frames<sp/>require<sp/>16-byte<sp/>payloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==FRAME_PKT)</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gen_syncword_i8(out,<sp/>&amp;sym_cnt,<sp/>SYNC_PKT);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conv_encode_packet_frame(enc_bits,<sp/>data);<sp/></highlight><highlight class="comment">//packet<sp/>frames<sp/>require<sp/>200-bit<sp/>payload<sp/>chunks<sp/>plus<sp/>a<sp/>6-bit<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(type==FRAME_BERT)</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gen_syncword_i8(out,<sp/>&amp;sym_cnt,<sp/>SYNC_BER);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conv_encode_bert_frame(enc_bits,<sp/>data);<sp/></highlight><highlight class="comment">//BERT<sp/>frames<sp/>require<sp/>197<sp/>BERT<sp/>bits<sp/>packed<sp/>as<sp/>25<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//common<sp/>stuff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>reorder_bits(rf_bits,<sp/>enc_bits);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>randomize_bits(rf_bits);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>gen_data_i8(out,<sp/>&amp;sym_cnt,<sp/>rf_bits);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal">uint32_t<sp/>decode_LSF(<ref refid="structlsf__t" kindref="compound">lsf_t</ref>*<sp/>lsf,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>pld_symbs[SYM_PER_PLD])</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>lsf_b[30+1];</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>soft_bit[2*SYM_PER_PLD];</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>d_soft_bit[2*SYM_PER_PLD];</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>e;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>slice_symbols(soft_bit,<sp/>pld_symbs);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>randomize_soft_bits(soft_bit);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>reorder_soft_bits(d_soft_bit,<sp/>soft_bit);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>e<sp/>=<sp/>viterbi_decode_punctured(lsf_b,<sp/>d_soft_bit,<sp/>puncture_pattern_1,<sp/>2*SYM_PER_PLD,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(puncture_pattern_1));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//copy<sp/>over<sp/>the<sp/>data<sp/>starting<sp/>at<sp/>byte<sp/>1<sp/>(byte<sp/>0<sp/>needs<sp/>to<sp/>be<sp/>omitted)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(lsf-&gt;dst,<sp/>&amp;lsf_b[1+0],<sp/>6);<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//DST<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(lsf-&gt;src,<sp/>&amp;lsf_b[1+6],<sp/>6);<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//SRC<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>lsf-&gt;type[0]=lsf_b[1+12];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//TYPE<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>lsf-&gt;type[1]=lsf_b[1+13];</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(lsf-&gt;meta,<sp/>&amp;lsf_b[1+14],<sp/>14);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//META<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>lsf-&gt;crc[0]=lsf_b[1+28];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//CRC<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>lsf-&gt;crc[1]=lsf_b[1+29];</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e;<sp/></highlight><highlight class="comment">//return<sp/>Viterbi<sp/>error<sp/>metric</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">uint32_t<sp/>decode_str_frame(uint8_t<sp/>frame_data[16],<sp/>uint8_t<sp/>lich[5],<sp/>uint16_t*<sp/>fn,<sp/>uint8_t*<sp/>lich_cnt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>pld_symbs[SYM_PER_PLD])</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>soft_bit[2*SYM_PER_PLD];</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>d_soft_bit[2*SYM_PER_PLD];</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>tmp_frame_data[(16+128)/8+1];<sp/></highlight><highlight class="comment">//1<sp/>byte<sp/>extra<sp/>for<sp/>flushing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>e;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>slice_symbols(soft_bit,<sp/>pld_symbs);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>randomize_soft_bits(soft_bit);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>reorder_soft_bits(d_soft_bit,<sp/>soft_bit);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//decode<sp/>LICH</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>tmp[6];</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>decode_LICH(tmp,<sp/>d_soft_bit);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(lich,<sp/>tmp,<sp/>5);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(lich_cnt!=NULL)<sp/>*lich_cnt<sp/>=<sp/>tmp[5]&gt;&gt;5;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>e<sp/>=<sp/>viterbi_decode_punctured(tmp_frame_data,<sp/>&amp;d_soft_bit[96],<sp/>puncture_pattern_2,<sp/>2*SYM_PER_PLD-96,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(puncture_pattern_2));</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//shift<sp/>1+2<sp/>positions<sp/>left<sp/>-<sp/>get<sp/>rid<sp/>of<sp/>the<sp/>encoded<sp/>flushing<sp/>bits<sp/>and<sp/>FN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(frame_data,<sp/>&amp;tmp_frame_data[1+2],<sp/>16);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fn!=NULL)<sp/>*fn<sp/>=<sp/>(tmp_frame_data[1]&lt;&lt;8)|tmp_frame_data[2];</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal">uint32_t<sp/>decode_pkt_frame(uint8_t<sp/>frame_data[25],<sp/>uint8_t*<sp/>eof,<sp/>uint8_t*<sp/>fn,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>pld_symbs[SYM_PER_PLD])</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>soft_bit[2*SYM_PER_PLD];</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>d_soft_bit[2*SYM_PER_PLD];</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>tmp_frame_data[26+1];<sp/></highlight><highlight class="comment">//1<sp/>byte<sp/>extra<sp/>for<sp/>flushing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>e;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>slice_symbols(soft_bit,<sp/>pld_symbs);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>randomize_soft_bits(soft_bit);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>reorder_soft_bits(d_soft_bit,<sp/>soft_bit);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>e<sp/>=<sp/>viterbi_decode_punctured(tmp_frame_data,<sp/>d_soft_bit,<sp/>puncture_pattern_3,<sp/>2*SYM_PER_PLD,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(puncture_pattern_3));</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//shift<sp/>1<sp/>position<sp/>left<sp/>-<sp/>get<sp/>rid<sp/>of<sp/>the<sp/>encoded<sp/>flushing<sp/>bits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(frame_data,<sp/>&amp;tmp_frame_data[1],<sp/>25);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fn!=NULL)<sp/>*fn<sp/>=<sp/>(tmp_frame_data[26]&gt;&gt;2)&amp;0x1F;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(eof!=NULL)<sp/>*eof<sp/>=<sp/>tmp_frame_data[26]&gt;&gt;7;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/m17.c"/>
+  </compounddef>
+</doxygen>

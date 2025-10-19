@@ -1,0 +1,54 @@
+#!/bin/bash
+# M17 Security Audit - Quick Access Script
+# This script provides easy access to security tools from the root directory
+
+echo "M17 Security Tools"
+echo "=================="
+echo ""
+echo "Available security tools:"
+echo "  audit     - Run complete security audit"
+echo "  monitor   - Start security monitoring"
+echo "  fuzz      - Run fuzz testing"
+echo "  docs      - View security documentation"
+echo ""
+
+case "$1" in
+    "audit")
+        echo "Running security audit..."
+        ./security/audit/security-audit.sh
+        ;;
+    "monitor")
+        echo "Starting security monitoring..."
+        ./security/monitoring/security-monitor.sh
+        ;;
+    "fuzz")
+        echo "Running fuzz testing..."
+        ./security/fuzzing/fuzz-testing-improved.sh
+        ;;
+    "docs")
+        echo "Opening security documentation..."
+        if command -v xdg-open &> /dev/null; then
+            xdg-open security/README.md
+        elif command -v open &> /dev/null; then
+            open security/README.md
+        else
+            cat security/README.md
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {audit|monitor|fuzz|docs}"
+        echo ""
+        echo "Examples:"
+        echo "  $0 audit    # Run complete security audit"
+        echo "  $0 monitor  # Start security monitoring"
+        echo "  $0 fuzz     # Run fuzz testing (ultra-quick mode)"
+        echo "  $0 docs     # View security documentation"
+        echo ""
+        echo "Fuzzing modes:"
+        echo "  ./security/fuzzing/fuzz-testing-improved.sh ultra-quick  # 10 minutes"
+        echo "  ./security/fuzzing/fuzz-testing-improved.sh quick        # 1 hour"
+        echo "  ./security/fuzzing/fuzz-testing-improved.sh overnight    # 8 hours"
+        echo "  ./security/fuzzing/fuzz-testing-improved.sh thorough     # 24 hours"
+        echo "  ./security/fuzzing/fuzz-testing-improved.sh continuous   # Until stopped"
+        ;;
+esac

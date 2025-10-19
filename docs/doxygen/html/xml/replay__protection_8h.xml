@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="replay__protection_8h" kind="file" language="C++">
+    <compoundname>replay_protection.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includedby refid="m17_8h" local="yes">/home/haaken/github-projects/gr-m17/libm17/m17.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h</label>
+        <link refid="replay__protection_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h</label>
+        <link refid="m17__coder__impl_8h_source"/>
+      </node>
+      <node id="4">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h</label>
+        <link refid="m17__decoder__impl_8h_source"/>
+      </node>
+      <node id="5">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h</label>
+        <link refid="replay__protection_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/haaken/github-projects/gr-m17/libm17/m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="replay__protection_8h_1a72d18e7d2704445a2f07bb072a255c50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int m17_replay_protection_init</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_replay_protection_init</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" line="22" column="5" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="43" bodyend="54" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" declline="22" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="replay__protection_8h_1a2e987bc753766e37bd6eb0b382bc5b52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_check_frame_replay</definition>
+        <argsstring>(uint16_t frame_number)</argsstring>
+        <name>m17_check_frame_replay</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>frame_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" line="25" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="57" bodyend="95" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" declline="25" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="replay__protection_8h_1a39656e7bb49bfd02e17bdc2402504500" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int m17_add_frame_to_window</definition>
+        <argsstring>(uint16_t frame_number)</argsstring>
+        <name>m17_add_frame_to_window</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>frame_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" line="28" column="5" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="98" bodyend="131" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" declline="28" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="replay__protection_8h_1a31b8449bb77b2f47c73df2f9debbc519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_replay_cleanup_old_entries</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_replay_cleanup_old_entries</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" line="31" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="134" bodyend="150" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" declline="31" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="replay__protection_8h_1af1fab6caac663910c8cd6398e2589ab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_get_replay_stats</definition>
+        <argsstring>(uint32_t *total_frames, uint32_t *rejected_frames)</argsstring>
+        <name>m17_get_replay_stats</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>total_frames</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>rejected_frames</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" line="34" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="153" bodyend="160" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" declline="34" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="replay__protection_8h_1a60918c0545b61567bf7193ceccee5537" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_replay_protection_reset</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_replay_protection_reset</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" line="37" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="163" bodyend="173" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" declline="37" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="replay__protection_8h_1ad899eace6f13308fd4e738f234ba1479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_validate_frame_sequence</definition>
+        <argsstring>(uint16_t frame_number, uint16_t expected_frame)</argsstring>
+        <name>m17_validate_frame_sequence</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>frame_number</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>expected_frame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" line="40" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="176" bodyend="190" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" declline="40" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="replay__protection_8h_1ab0080eeb3723a5b84f19a11ac0e3f83c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_detect_suspicious_patterns</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_detect_suspicious_patterns</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" line="43" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="193" bodyend="212" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h" declline="43" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>crypto/replay_protection.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Replay<sp/>attack<sp/>protection<sp/>with<sp/>sequence<sp/>number<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implements<sp/>sliding<sp/>window<sp/>for<sp/>frame<sp/>number<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Foundation,<sp/>19<sp/>April<sp/>2025</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>M17_REPLAY_PROTECTION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_REPLAY_PROTECTION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Initialize<sp/>replay<sp/>protection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m17_replay_protection_init(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>frame<sp/>number<sp/>is<sp/>valid<sp/>(not<sp/>replayed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_check_frame_replay(uint16_t<sp/>frame_number);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Add<sp/>frame<sp/>to<sp/>replay<sp/>protection<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m17_add_frame_to_window(uint16_t<sp/>frame_number);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cleanup<sp/>old<sp/>entries<sp/>from<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_replay_cleanup_old_entries(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get<sp/>replay<sp/>protection<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_get_replay_stats(uint32_t<sp/>*total_frames,<sp/>uint32_t<sp/>*rejected_frames);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reset<sp/>replay<sp/>protection<sp/>(for<sp/>new<sp/>session)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_replay_protection_reset(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Validate<sp/>frame<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_validate_frame_sequence(uint16_t<sp/>frame_number,<sp/>uint16_t<sp/>expected_frame);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>suspicious<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_detect_suspicious_patterns(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>M17_REPLAY_PROTECTION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h"/>
+  </compounddef>
+</doxygen>

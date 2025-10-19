@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="rrc_8c" kind="file" language="C++">
+    <compoundname>rrc.c</compoundname>
+    <includes refid="m17_8h" local="no">m17.h</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>crypto/bounds_checking.h</label>
+        <link refid="bounds__checking_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>crypto/key_derivation.h</label>
+        <link refid="key__derivation_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>crypto/optee.h</label>
+        <link refid="optee_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>crypto/replay_protection.h</label>
+        <link refid="replay__protection_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>crypto/secure_boot.h</label>
+        <link refid="secure__boot_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>crypto/secure_memory.h</label>
+        <link refid="secure__memory_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>crypto/security_monitoring.h</label>
+        <link refid="security__monitoring_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>crypto/trustzone.h</label>
+        <link refid="trustzone_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>crypto/validation.h</label>
+        <link refid="validation_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/math/rrc.c</label>
+        <link refid="rrc_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>math.h</label>
+      </node>
+      <node id="10">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+      <node id="5">
+        <label>string.h</label>
+      </node>
+      <node id="6">
+        <label>time.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="rrc_8c_1a9b7d59fce94f758eb30aac763bfdfa79" prot="public" static="no" mutable="no">
+        <type>const float</type>
+        <definition>const float rrc_taps_10[8 *10+1]</definition>
+        <argsstring>[8 *10+1]</argsstring>
+        <name>rrc_taps_10</name>
+        <initializer>=
+{
+	-0.003195702904062073f, -0.002930279157647190f, -0.001940667871554463f,
+	-0.000356087678023658f,  0.001547011339077758f,  0.003389554791179751f,
+	 0.004761898604225673f,  0.005310860846138910f,  0.004824746306020221f,
+	 0.003297923526848786f,  0.000958710871218619f, -0.001749908029791816f,
+	-0.004238694106631223f, -0.005881783042101693f, -0.006150256456781309f,
+	-0.004745376707651645f, -0.001704189656473565f,  0.002547854551539951f,
+	 0.007215575568844704f,  0.011231038205363532f,  0.013421952197060707f,
+	 0.012730475385624438f,  0.008449554307303753f,  0.000436744366018287f,
+	-0.010735380379191660f, -0.023726883538258272f, -0.036498030780605324f,
+	-0.046500883189991064f, -0.050979050575999614f, -0.047340680079891187f,
+	-0.033554880492651755f, -0.008513823955725943f,  0.027696543159614194f,
+	 0.073664520037517042f,  0.126689053778116234f,  0.182990955139333916f,
+	 0.238080025892859704f,  0.287235637987091563f,  0.326040247765297220f,
+	 0.350895727088112619f,  0.359452932027607974f,  0.350895727088112619f,
+	 0.326040247765297220f,  0.287235637987091563f,  0.238080025892859704f,
+	 0.182990955139333916f,  0.126689053778116234f,  0.073664520037517042f,
+	 0.027696543159614194f, -0.008513823955725943f, -0.033554880492651755f,
+	-0.047340680079891187f, -0.050979050575999614f, -0.046500883189991064f,
+	-0.036498030780605324f, -0.023726883538258272f, -0.010735380379191660f,
+	 0.000436744366018287f,  0.008449554307303753f,  0.012730475385624438f,
+	 0.013421952197060707f,  0.011231038205363532f,  0.007215575568844704f,
+	 0.002547854551539951f, -0.001704189656473565f, -0.004745376707651645f,
+	-0.006150256456781309f, -0.005881783042101693f, -0.004238694106631223f,
+	-0.001749908029791816f,  0.000958710871218619f,  0.003297923526848786f,
+	 0.004824746306020221f,  0.005310860846138910f,  0.004761898604225673f,
+	 0.003389554791179751f,  0.001547011339077758f, -0.000356087678023658f,
+	-0.001940667871554463f, -0.002930279157647190f, -0.003195702904062073f
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/rrc.c" line="11" column="13" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/rrc.c" bodystart="11" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="rrc_8c_1a4476bee65e6343495fb42dbebb2baf12" prot="public" static="no" mutable="no">
+        <type>const float</type>
+        <definition>const float rrc_taps_5[8 *5+1]</definition>
+        <argsstring>[8 *5+1]</argsstring>
+        <name>rrc_taps_5</name>
+        <initializer>=
+{
+	-0.004519384154389f, -0.002744505321971f,
+	 0.002187793653660f,  0.006734308458208f,
+	 0.006823188093192f,  0.001355815246317f,
+	-0.005994389201970f, -0.008697733303330f,
+	-0.002410076268276f,  0.010204314627992f,
+	 0.018981413448435f,  0.011949415510291f,
+	-0.015182045838927f, -0.051615756197679f,
+	-0.072094910038768f, -0.047453533621088f,
+	 0.039168634270669f,  0.179164496628150f,
+	 0.336694345124862f,  0.461088271869920f,
+	 0.508340710642860f,  0.461088271869920f,
+	 0.336694345124862f,  0.179164496628150f,
+	 0.039168634270669f, -0.047453533621088f,
+	-0.072094910038768f, -0.051615756197679f,
+	-0.015182045838927f,  0.011949415510291f,
+	 0.018981413448435f,  0.010204314627992f,
+	-0.002410076268276f, -0.008697733303330f,
+	-0.005994389201970f,  0.001355815246317f,
+	 0.006823188093192f,  0.006734308458208f,
+	 0.002187793653660f, -0.002744505321971f,
+	-0.004519384154389f
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/rrc.c" line="44" column="13" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/rrc.c" bodystart="44" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>math/rrc.c</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Project,<sp/>29<sp/>December<sp/>2023</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;m17.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//sample<sp/>RRC<sp/>filter<sp/>for<sp/>48kHz<sp/>sample<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//alpha=0.5,<sp/>span=8,<sp/>sps=10,<sp/>gain=sqrt(sps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>rrc_taps_10[8*10+1]=</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.003195702904062073f,<sp/>-0.002930279157647190f,<sp/>-0.001940667871554463f,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.000356087678023658f,<sp/><sp/>0.001547011339077758f,<sp/><sp/>0.003389554791179751f,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.004761898604225673f,<sp/><sp/>0.005310860846138910f,<sp/><sp/>0.004824746306020221f,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.003297923526848786f,<sp/><sp/>0.000958710871218619f,<sp/>-0.001749908029791816f,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.004238694106631223f,<sp/>-0.005881783042101693f,<sp/>-0.006150256456781309f,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.004745376707651645f,<sp/>-0.001704189656473565f,<sp/><sp/>0.002547854551539951f,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.007215575568844704f,<sp/><sp/>0.011231038205363532f,<sp/><sp/>0.013421952197060707f,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.012730475385624438f,<sp/><sp/>0.008449554307303753f,<sp/><sp/>0.000436744366018287f,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.010735380379191660f,<sp/>-0.023726883538258272f,<sp/>-0.036498030780605324f,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.046500883189991064f,<sp/>-0.050979050575999614f,<sp/>-0.047340680079891187f,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.033554880492651755f,<sp/>-0.008513823955725943f,<sp/><sp/>0.027696543159614194f,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.073664520037517042f,<sp/><sp/>0.126689053778116234f,<sp/><sp/>0.182990955139333916f,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.238080025892859704f,<sp/><sp/>0.287235637987091563f,<sp/><sp/>0.326040247765297220f,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.350895727088112619f,<sp/><sp/>0.359452932027607974f,<sp/><sp/>0.350895727088112619f,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.326040247765297220f,<sp/><sp/>0.287235637987091563f,<sp/><sp/>0.238080025892859704f,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.182990955139333916f,<sp/><sp/>0.126689053778116234f,<sp/><sp/>0.073664520037517042f,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.027696543159614194f,<sp/>-0.008513823955725943f,<sp/>-0.033554880492651755f,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.047340680079891187f,<sp/>-0.050979050575999614f,<sp/>-0.046500883189991064f,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.036498030780605324f,<sp/>-0.023726883538258272f,<sp/>-0.010735380379191660f,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.000436744366018287f,<sp/><sp/>0.008449554307303753f,<sp/><sp/>0.012730475385624438f,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.013421952197060707f,<sp/><sp/>0.011231038205363532f,<sp/><sp/>0.007215575568844704f,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.002547854551539951f,<sp/>-0.001704189656473565f,<sp/>-0.004745376707651645f,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.006150256456781309f,<sp/>-0.005881783042101693f,<sp/>-0.004238694106631223f,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.001749908029791816f,<sp/><sp/>0.000958710871218619f,<sp/><sp/>0.003297923526848786f,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.004824746306020221f,<sp/><sp/>0.005310860846138910f,<sp/><sp/>0.004761898604225673f,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.003389554791179751f,<sp/><sp/>0.001547011339077758f,<sp/>-0.000356087678023658f,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.001940667871554463f,<sp/>-0.002930279157647190f,<sp/>-0.003195702904062073f</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//sample<sp/>RRC<sp/>filter<sp/>for<sp/>24kHz<sp/>sample<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//alpha=0.5,<sp/>span=8,<sp/>sps=5,<sp/>gain=sqrt(sps)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>rrc_taps_5[8*5+1]=</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.004519384154389f,<sp/>-0.002744505321971f,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.002187793653660f,<sp/><sp/>0.006734308458208f,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.006823188093192f,<sp/><sp/>0.001355815246317f,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.005994389201970f,<sp/>-0.008697733303330f,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.002410076268276f,<sp/><sp/>0.010204314627992f,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.018981413448435f,<sp/><sp/>0.011949415510291f,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.015182045838927f,<sp/>-0.051615756197679f,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.072094910038768f,<sp/>-0.047453533621088f,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.039168634270669f,<sp/><sp/>0.179164496628150f,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.336694345124862f,<sp/><sp/>0.461088271869920f,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.508340710642860f,<sp/><sp/>0.461088271869920f,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.336694345124862f,<sp/><sp/>0.179164496628150f,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.039168634270669f,<sp/>-0.047453533621088f,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.072094910038768f,<sp/>-0.051615756197679f,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.015182045838927f,<sp/><sp/>0.011949415510291f,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.018981413448435f,<sp/><sp/>0.010204314627992f,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.002410076268276f,<sp/>-0.008697733303330f,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.005994389201970f,<sp/><sp/>0.001355815246317f,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.006823188093192f,<sp/><sp/>0.006734308458208f,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>0.002187793653660f,<sp/>-0.002744505321971f,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>-0.004519384154389f</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/math/rrc.c"/>
+  </compounddef>
+</doxygen>

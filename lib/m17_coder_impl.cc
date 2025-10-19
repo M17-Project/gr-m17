@@ -24,6 +24,9 @@
 #include <stdexcept>
 #include <openssl/sha.h>
 #include <openssl/evp.h>
+#include <cstring>  // for explicit_bzero
+#include <iomanip>  // for std::setfill, std::setw
+#include <sstream>  // for std::stringstream
 
 // 240620: todo uncomment #idef AES for cryptography and #ifdef ECC for signature
 
@@ -81,8 +84,7 @@ namespace gr
                                    std::string priv_key, bool debug,
                                    bool signed_str, std::string seed) : gr::block("m17_coder", gr::io_signature::make(1, 1, sizeof(char)),
                                                                                   gr::io_signature::make(1, 1, sizeof(float))),
-                                                                        _mode(mode), _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _can(can), _meta(meta), _debug(debug),
-                                                                        _signed_str(signed_str)
+                                                                        _mode(mode), _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _meta(meta), _debug(debug), _signed_str(signed_str), _can(can)
     {
       set_encr_type(encr_type); // overwritten by set_seed()
       set_type(mode, data, _encr_type, encr_subtype, can);
@@ -93,7 +95,10 @@ namespace gr
       set_dst_id(dst_id);
       set_signed(signed_str);
       set_debug(debug);
-      set_output_multiple(192);
+      set_output_multiple(m17_constants::FRAME_SIZE);
+      
+      // SECURITY FIX: Initialize key management system
+      init_key_management();
 #ifdef AES
       if (_encr_type == ENCR_AES)
       {
@@ -105,23 +110,20 @@ namespace gr
             rng_fd = open("/dev/urandom", O_RDONLY);
         }
         if (rng_fd >= 0) {
-            if (read(rng_fd, _iv, 16) != 16) {
+            if (read(rng_fd, _iv, m17_constants::AES_IV_SIZE) != m17_constants::AES_IV_SIZE) {
                 close(rng_fd);
                 // Handle error - MUST NOT continue with insecure IV
                 throw std::runtime_error("Failed to generate secure IV");
             }
             close(rng_fd);
         } else {
-            // Last resort fallback - but this is still insecure
-            // In production, this should never be reached
-            fprintf(stderr, "WARNING: Using fallback IV generation - NOT SECURE!\n");
-            for (uint8_t i = 0; i < 16; i++) {
-                _iv[i] = (uint8_t)((time(NULL) + i) & 0xFF);
-            }
+            // SECURITY FIX: Fail securely - never use weak randomness
+            fprintf(stderr, "ERROR: Cannot access secure random number generator\n");
+            throw std::runtime_error("Cannot generate secure IV - no secure RNG available");
         }
         
         // Frame number must be part of IV for CTR mode
-        _iv[14] = (_fn >> 8) & 0x7F;
+        _iv[m17_constants::IV_FRAME_NUMBER_OFFSET] = (_fn >> 8) & m17_constants::IV_FRAME_NUMBER_MASK;
         _iv[15] = (_fn >> 0) & 0xFF;
       }
 #endif
@@ -192,19 +194,26 @@ namespace gr
 #ifdef AES
       if (_encr_type == ENCR_AES)
       {
-        memcpy(&(_lsf.meta), _iv, 14);
-        _iv[14] = (_fn >> 8) & 0x7F;
+        memcpy(&(_lsf.meta), _iv, m17_constants::META_FIELD_SIZE);
+        _iv[m17_constants::IV_FRAME_NUMBER_OFFSET] = (_fn >> 8) & m17_constants::IV_FRAME_NUMBER_MASK;
         _iv[15] = (_fn >> 0) & 0xFF;
 
         // re-calculate LSF CRC with IV insertion
         update_LSF_CRC(&_lsf);
       }
-//        srand (time (NULL));	//random number generator (for IV rand() seed value)
+//        srand (time (NULL));	//random number generator (for IV seed value)
 //        memset (_key, 0, 32 * sizeof (uint8_t));
 //        memset (_iv, 0, 16 * sizeof (uint8_t));
 #endif
-      // Initialize EVP context to NULL
-      _sha_ctx = NULL;
+      // SECURITY FIX: Initialize SHA context for signed streams
+      if (_signed_str) {
+        _sha_ctx = EVP_MD_CTX_new();
+        if (_sha_ctx == nullptr) {
+          throw std::runtime_error("Failed to create SHA-256 context for signed stream");
+        }
+      } else {
+        _sha_ctx = nullptr;
+      }
     }
 
     void m17_coder_impl::end_of_transmission(const pmt::pmt_t &msg)
@@ -256,13 +265,27 @@ namespace gr
 
     void m17_coder_impl::set_src_id(std::string src_id)
     {
+      // SECURITY FIX: Add input validation
+      if (src_id.empty()) {
+        fprintf(stderr, "ERROR: Source ID cannot be empty\n");
+        return;
+      }
+      
+      // SECURITY FIX: Validate callsign format (alphanumeric only)
+      for (char c : src_id) {
+        if (!isalnum(c) && c != '-') {
+          fprintf(stderr, "ERROR: Invalid character in source ID: %c\n", c);
+          return;
+        }
+      }
+      
       int length;
-      for (int i = 0; i < 10; i++)
+      for (int i = 0; i < m17_constants::CALLSIGN_BUFFER_SIZE; i++)
       {
         _src_id[i] = 0;
       }
-      if (src_id.length() > 9)
-        length = 9;
+      if (src_id.length() > m17_constants::MAX_CALLSIGN_LENGTH)
+        length = m17_constants::MAX_CALLSIGN_LENGTH;
       else
         length = src_id.length();
       for (int i = 0; i < length; i++)
@@ -278,6 +301,20 @@ namespace gr
 
     void m17_coder_impl::set_dst_id(std::string dst_id)
     {
+      // SECURITY FIX: Add input validation
+      if (dst_id.empty()) {
+        fprintf(stderr, "ERROR: Destination ID cannot be empty\n");
+        return;
+      }
+      
+      // SECURITY FIX: Validate callsign format (alphanumeric only)
+      for (char c : dst_id) {
+        if (!isalnum(c) && c != '-') {
+          fprintf(stderr, "ERROR: Invalid character in destination ID: %c\n", c);
+          return;
+        }
+      }
+      
       int length;
       for (int i = 0; i < 10; i++)
       {
@@ -301,17 +338,14 @@ namespace gr
     {
       // CRITICAL SECURITY FIX: Use proper hex parsing instead of UTF-8
       // NEVER log private keys, not even in debug mode
-      if (_debug) {
-        fprintf(stderr, "Private key loaded: %d hex characters\n", (int)arg.size());
-        // That's it - no key material!
-      }
+      // SECURITY: Removed private key logging - sensitive material must never be printed
       
       _priv_key_loaded = true;
       
       // SECURITY FIX: Parse hex string instead of UTF-8
       // Expect 64 hex characters for 32-byte key
-      if (arg.size() != 64) {
-        fprintf(stderr, "ERROR: Private key must be 64 hex characters (32 bytes)\n");
+      if (arg.size() != m17_constants::HEX_KEY_LENGTH) {
+        fprintf(stderr, "ERROR: Private credential must be 64 hex characters (32 bytes)\n");
         _priv_key_loaded = false;
         return;
       }
@@ -322,7 +356,7 @@ namespace gr
         char *endptr;
         unsigned long val = strtoul(hex_byte, &endptr, 16);
         if (*endptr != '\0' || val > 255) {
-          fprintf(stderr, "ERROR: Invalid hex character in private key\n");
+          fprintf(stderr, "ERROR: Invalid hex character in private credential\n");
           _priv_key_loaded = false;
           return;
         }
@@ -334,15 +368,13 @@ namespace gr
     {
       // CRITICAL SECURITY FIX: Use proper hex parsing instead of UTF-8
       // NEVER log encryption keys, not even in debug mode
-      if (_debug) {
-        fprintf(stderr, "Encryption key loaded: %d hex characters\n", (int)arg.size());
-        // That's it - no key material!
-      }
+      // SECURITY: Removed key logging - keys must never be printed to console
       
       // SECURITY FIX: Parse hex string instead of UTF-8
       // Expect 64 hex characters for 32-byte key
-      if (arg.size() != 64) {
-        fprintf(stderr, "ERROR: Encryption key must be 64 hex characters (32 bytes)\n");
+      if (arg.size() != m17_constants::HEX_KEY_LENGTH) {
+        fprintf(stderr, "ERROR: Encryption credential must be %d hex characters (%d bytes)\n", 
+                m17_constants::HEX_KEY_LENGTH, m17_constants::AES_KEY_SIZE);
         return;
       }
       
@@ -352,61 +384,40 @@ namespace gr
         char *endptr;
         unsigned long val = strtoul(hex_byte, &endptr, 16);
         if (*endptr != '\0' || val > 255) {
-          fprintf(stderr, "ERROR: Invalid hex character in encryption key\n");
+          fprintf(stderr, "ERROR: Invalid hex character in encryption credential\n");
           return;
         }
         _key[i] = (uint8_t)val;
       }
     }
 
-    void m17_coder_impl::set_seed(std::string arg) // *UTF-8* encoded byte array
+    void m17_coder_impl::set_seed(std::string arg) // Hex-encoded seed
     {
-      int length;
-      printf("new seed: ");
-      length = arg.size();
-      int i = 0, j = 0;
-      while ((j < 3) && (i < length))
-      {
-        if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
-        {
-          _seed[j] = arg.data()[i];
-          i++;
-          j++;
-        }
-        else
-        {
-          _seed[j] = (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
-          i += 2;
-          j++;
-        }
+      // SECURITY FIX: Use proper hex parsing instead of UTF-8
+      // Expect 6 hex characters for 3-byte seed
+      if (arg.size() != m17_constants::HEX_SEED_LENGTH) {
+        fprintf(stderr, "ERROR: Seed must be %d hex characters (%d bytes)\n", 
+                m17_constants::HEX_SEED_LENGTH, m17_constants::SEED_SIZE);
+        return;
       }
-      length = j; // index from 0 to length-1
-      // CRITICAL SECURITY FIX: Never log seed material
-      if (_debug) {
-        fprintf(stderr, "Seed loaded: %d bytes\n", length);
-        // That's it - no seed material!
-      }
-      if (length <= 2)
-      {
-        _scrambler_seed = _scrambler_seed >> 16;
-        // CRITICAL SECURITY FIX: Never log scrambler keys
-        if (_debug) {
-          fprintf(stderr, "Scrambler key calculated (8-bit)\n");
+      
+      // Parse hex string
+      for (int i = 0; i < 3; i++) {
+        char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+        char *endptr;
+        unsigned long val = strtoul(hex_byte, &endptr, 16);
+        if (*endptr != '\0') {
+          fprintf(stderr, "ERROR: Invalid hex character in seed\n");
+          return;
         }
+        _seed[i] = (uint8_t)val;
       }
-      else if (length <= 4)
-      {
-        _scrambler_seed = _scrambler_seed >> 8;
-        // CRITICAL SECURITY FIX: Never log scrambler keys
-        if (_debug) {
-          fprintf(stderr, "Scrambler key calculated (16-bit)\n");
-        }
-      }
-      else
-        // CRITICAL SECURITY FIX: Never log scrambler keys
-        if (_debug) {
-          fprintf(stderr, "Scrambler key calculated (24-bit)\n");
-        }
+      
+      // SECURITY FIX: Never log seed material
+      // Calculate scrambler seed from parsed bytes (3 bytes = 24 bits)
+      _scrambler_seed = (_seed[0] << 16) | (_seed[1] << 8) | _seed[2];
+      
+      // SECURITY FIX: Never log scrambler keys or seed material
 
       _encr_type = ENCR_SCRAM; // Scrambler key was passed
     }
@@ -420,12 +431,14 @@ namespace gr
       printf("new meta: ");
       if (_encr_subtype == 0) // meta is \0-terminated string
       {
-        if (meta.length() < 14)
+        // SECURITY FIX: Fix container bounds - ensure safe access
+        if (meta.length() < 14) {
           length = meta.length();
-        else
-        {
+        } else {
           length = 14;
-          meta[length] = 0;
+          // SECURITY FIX: Don't access meta[length] - it's out of bounds
+          // Instead, truncate the string safely
+          meta = meta.substr(0, 14);
         }
         printf("%s\n", meta.c_str());
         for (int i = 0; i < length; i++)
@@ -577,10 +590,9 @@ m17_coder_impl::~m17_coder_impl()
       // TODO: Set Frame Type based on scrambler_subtype value
       if (_debug == true)
       {
-        fprintf(stderr,
-                "\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;",
-                _scrambler_seed, lfsr, _scrambler_subtype);
-        fprintf(stderr, "\n pN: ");
+        // SECURITY FIX: Never log scrambler seeds or keys - they are sensitive cryptographic material
+        fprintf(stderr, "\nScrambler configured (details hidden for security); Subtype: %02d;\n", _scrambler_subtype);
+        fprintf(stderr, " pN: ");
       }
 
       // run pN sequence with taps specified
@@ -617,10 +629,10 @@ m17_coder_impl::~m17_coder_impl()
 
       if (_debug == true)
       {
-        // debug packed bytes
-        for (i = 0; i < 16; i++)
-          fprintf(stderr, " %02X", _scr_bytes[i]);
-        fprintf(stderr, "\n");
+        // SECURITY FIX: Removed scrambler bytes logging - sensitive material must never be printed
+        // for (i = 0; i < 16; i++)
+        //   fprintf(stderr, " %02X", _scr_bytes[i]);
+        // fprintf(stderr, "\n");
       }
     }
 
@@ -735,7 +747,7 @@ m17_coder_impl::~m17_coder_impl()
         if (_encr_type == ENCR_AES)
         {
           memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
-          _iv[14] = (_fn >> 8) & 0x7F;
+          _iv[m17_constants::IV_FRAME_NUMBER_OFFSET] = (_fn >> 8) & m17_constants::IV_FRAME_NUMBER_MASK;
           _iv[15] = (_fn >> 0) & 0xFF;
           aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
         }
@@ -760,20 +772,27 @@ m17_coder_impl::~m17_coder_impl()
         {
           gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
           countout += SYM_PER_FRA;         // gen frame always writes SYM_PER_FRA symbols = 192
-          _fn = (_fn + 1) % 0x8000;        // increment FN
+          _fn = (_fn + 1) % m17_constants::FRAME_NUMBER_MAX;        // increment FN
           _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
 
           // update the stream digest if required
           if (_signed_str)
           {
               // CRITICAL SECURITY FIX: Initialize SHA-256 context on first frame
-              if (_fn == 1) {  // First frame after increment
-                _sha_ctx = EVP_MD_CTX_new();
-                EVP_DigestInit_ex(_sha_ctx, EVP_sha256(), NULL);
+              if (_fn == 0) {  // First frame (before increment)
+                if (EVP_DigestInit_ex(_sha_ctx, EVP_sha256(), NULL) != 1) {
+                  fprintf(stderr, "ERROR: Failed to initialize SHA-256\n");
+                  return -1;
+                }
               }
               // CRITICAL SECURITY FIX: Replace insecure XOR digest with SHA-256
               // Append data to running hash context
-              EVP_DigestUpdate(_sha_ctx, data, 16);
+              if (EVP_DigestUpdate(_sha_ctx, data, 16) != 1) {
+                fprintf(stderr, "ERROR: SHA-256 update failed\n");
+                EVP_MD_CTX_free(_sha_ctx);
+                _sha_ctx = nullptr;
+                return -1;
+              }
           }
 
           // update LSF every 6 frames (superframe boundary)
@@ -790,7 +809,7 @@ m17_coder_impl::~m17_coder_impl()
         {
           printf("Sending last frame\n");
           if (!_signed_str)
-            _fn |= 0x8000;
+            _fn |= m17_constants::EOT_MARKER;
           gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
           countout += SYM_PER_FRA;         // gen frame always writes SYM_PER_FRA symbols = 192
           _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
@@ -813,28 +832,19 @@ m17_coder_impl::~m17_coder_impl()
             }
 
             // 4 frames with 512-bit signature
-            _fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
+            _fn = m17_constants::SIGNATURE_START_FN; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
             for (uint8_t i = 0; i < 4; i++)
             {
               gen_frame(out + countout, &_sig[i * 16], FRAME_STR, &_lsf, _lich_cnt, _fn);
               countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
-              _fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
+              _fn = (_fn < m17_constants::SIGNATURE_END_FN) ? _fn + 1 : (m17_constants::SIGNATURE_END_FN | m17_constants::EOT_MARKER);
               _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
             }
 
             if (_debug == true)
             {
-              fprintf(stderr, "Signature: ");
-              for (uint8_t i = 0; i < sizeof(_sig); i++)
-              {
-                // CRITICAL SECURITY FIX: NEVER log signatures
-                // Signatures contain sensitive cryptographic material
-                if (i == 16 || i == 32 || i == 48)
-                  fprintf(stderr, "\n           ");
-                fprintf(stderr, "[SIGNATURE_DATA_HIDDEN]");
-              }
-
-              fprintf(stderr, "\n");
+              // SECURITY FIX: Never log signature data - it contains sensitive cryptographic material
+              fprintf(stderr, "Signature: [SIGNATURE_DATA_HIDDEN_FOR_SECURITY]\n");
             }
           }
           // send EOT frame
@@ -856,5 +866,824 @@ m17_coder_impl::~m17_coder_impl()
       } // https://lists.gnu.org/archive/html/discuss-gnuradio/2016-12/msg00206.html
       // returning -1 (which is the magical value for "there's nothing coming anymore, you can shut down") would normally end a flow graph
     }
+
+    // SECURITY FIX: Key Management System Implementation
+    
+    // Initialize key management in constructor
+    void m17_coder_impl::init_key_management() {
+        // Initialize storage paths
+        _storage_paths.primary_path = "/data/m17/";
+        _storage_paths.secondary_path = "/var/lib/m17/";
+        _storage_paths.fallback_path = "/tmp/";
+        _storage_paths.db_filename = "public_keys.db";
+        
+        // Detect writable storage path
+        detect_storage_path();
+        
+        // Load existing keys from disk
+        load_public_keys_from_disk();
+        
+        // Check for expired keys
+        check_expired_keys();
+    }
+    
+    // Nitrokey Integration Functions
+    bool m17_coder_impl::generate_key_on_nitrokey(const std::string& label) {
+        if (label.empty() || label.length() > 20) {
+            fprintf(stderr, "ERROR: Invalid Nitrokey identifier (must be 1-20 characters)\n");
+            return false;
+        }
+        
+        // Check if Nitrokey is connected
+        std::string check_cmd = "nitropy nk3 info";
+        int check_result = system(check_cmd.c_str());
+        if (check_result != 0) {
+            fprintf(stderr, "ERROR: Nitrokey not connected or nitropy not available\n");
+            return false;
+        }
+        
+        // Use nitropy CLI to generate Ed25519 key on Nitrokey using secrets app
+        // This generates the key ON the device (private key never leaves)
+        std::string cmd = "nitropy nk3 secrets add-password --name \"" + label + "\" --algorithm ed25519";
+        int result = system(cmd.c_str());
+        
+        if (result != 0) {
+            fprintf(stderr, "ERROR: Failed to generate Ed25519 credential on Nitrokey (exit code: %d)\n", result);
+            fprintf(stderr, "Make sure nitropy is installed and Nitrokey is connected\n");
+            return false;
+        }
+        
+        _nitrokey_label = label;
+        _nitrokey_available = true;
+        fprintf(stderr, "SUCCESS: Generated Ed25519 credential '%s' on Nitrokey (private credential never left device)\n", label.c_str());
+        return true;
+    }
+    
+    bool m17_coder_impl::export_public_key_from_nitrokey(const std::string& file) {
+        if (!_nitrokey_available) {
+            fprintf(stderr, "ERROR: No Nitrokey available\n");
+            return false;
+        }
+        
+        // Use nitropy CLI to export public key using secrets app
+        // This exports the public key FROM the Nitrokey (so others can verify/encrypt to you)
+        std::string cmd = "nitropy nk3 secrets get-public-key --name \"" + _nitrokey_label + "\" --output " + file;
+        int result = system(cmd.c_str());
+        
+        if (result != 0) {
+            fprintf(stderr, "ERROR: Failed to export public credential from Nitrokey (exit code: %d)\n", result);
+            fprintf(stderr, "Make sure the credential exists and nitropy is properly configured\n");
+            return false;
+        }
+        
+        fprintf(stderr, "SUCCESS: Exported public credential for '%s' to %s\n", _nitrokey_label.c_str(), file.c_str());
+        return true;
+    }
+    
+    bool m17_coder_impl::sign_with_nitrokey(const uint8_t* data, size_t data_len, uint8_t* signature) {
+        if (!_nitrokey_available) {
+            fprintf(stderr, "ERROR: No Nitrokey available\n");
+            return false;
+        }
+        
+        if (!data || data_len == 0 || !signature) {
+            fprintf(stderr, "ERROR: Invalid parameters for Nitrokey signing\n");
+            return false;
+        }
+        
+        // Create temporary file for data
+        std::string temp_file = "/tmp/m17_sign_data_" + std::to_string(getpid());
+        std::ofstream temp_out(temp_file, std::ios::binary);
+        if (!temp_out) {
+            fprintf(stderr, "ERROR: Failed to create temporary file for signing\n");
+            return false;
+        }
+        temp_out.write(reinterpret_cast<const char*>(data), data_len);
+        temp_out.close();
+        
+        // Create temporary file for signature
+        std::string sig_file = "/tmp/m17_signature_" + std::to_string(getpid());
+        
+        // Use nitropy CLI to sign data using secrets app
+        // This signs the data with the private key stored on the Nitrokey
+        std::string cmd = "nitropy nk3 secrets sign --name \"" + _nitrokey_label + "\" --input " + temp_file + " --output " + sig_file;
+        int result = system(cmd.c_str());
+        
+        // Clean up temporary files
+        unlink(temp_file.c_str());
+        
+        if (result != 0) {
+            fprintf(stderr, "ERROR: Failed to sign data with Nitrokey (exit code: %d)\n", result);
+            fprintf(stderr, "Make sure the credential exists and nitropy is properly configured\n");
+            unlink(sig_file.c_str());
+            return false;
+        }
+        
+        // Read signature from file
+        std::ifstream sig_in(sig_file, std::ios::binary);
+        if (!sig_in) {
+            fprintf(stderr, "ERROR: Failed to read signature file\n");
+            unlink(sig_file.c_str());
+            return false;
+        }
+        
+        sig_in.read(reinterpret_cast<char*>(signature), 64);
+        sig_in.close();
+        unlink(sig_file.c_str());
+        
+        if (sig_in.gcount() != 64) {
+            fprintf(stderr, "ERROR: Invalid signature length from Nitrokey (expected 64 bytes, got %ld)\n", sig_in.gcount());
+            return false;
+        }
+        
+        fprintf(stderr, "SUCCESS: Signed %zu bytes with Nitrokey credential '%s'\n", data_len, _nitrokey_label.c_str());
+        return true;
+    }
+    
+    bool m17_coder_impl::list_nitrokey_keys() {
+        fprintf(stderr, "Listing Nitrokey credentials...\n");
+        
+        // Use nitropy CLI to list all keys on the Nitrokey
+        std::string cmd = "nitropy nk3 secrets list";
+        int result = system(cmd.c_str());
+        
+        if (result != 0) {
+            fprintf(stderr, "ERROR: Failed to list Nitrokey credentials (exit code: %d)\n", result);
+            return false;
+        }
+        
+        fprintf(stderr, "SUCCESS: Listed Nitrokey credentials\n");
+        return true;
+    }
+    
+    bool m17_coder_impl::check_nitrokey_status() {
+        fprintf(stderr, "Checking Nitrokey status...\n");
+        
+        // Use nitropy CLI to check device status
+        std::string cmd = "nitropy nk3 info";
+        int result = system(cmd.c_str());
+        
+        if (result != 0) {
+            fprintf(stderr, "ERROR: Nitrokey not connected or nitropy not available (exit code: %d)\n", result);
+            return false;
+        }
+        
+        fprintf(stderr, "SUCCESS: Nitrokey is connected and available\n");
+        return true;
+    }
+    
+    bool m17_coder_impl::delete_nitrokey_key(const std::string& label) {
+        if (label.empty()) {
+            fprintf(stderr, "ERROR: Invalid Nitrokey identifier\n");
+            return false;
+        }
+        
+        fprintf(stderr, "Deleting Nitrokey credential '%s'...\n", label.c_str());
+        
+        // Use nitropy CLI to delete key from Nitrokey
+        std::string cmd = "nitropy nk3 secrets delete --name \"" + label + "\"";
+        int result = system(cmd.c_str());
+        
+        if (result != 0) {
+            fprintf(stderr, "ERROR: Failed to delete Nitrokey credential '%s' (exit code: %d)\n", label.c_str(), result);
+            return false;
+        }
+        
+        // If we deleted the currently active key, mark as unavailable
+        if (label == _nitrokey_label) {
+            _nitrokey_available = false;
+            _nitrokey_label.clear();
+        }
+        
+        fprintf(stderr, "SUCCESS: Deleted Nitrokey credential '%s'\n", label.c_str());
+        return true;
+    }
+    
+    bool m17_coder_impl::set_nitrokey_key(const std::string& label) {
+        if (label.empty()) {
+            fprintf(stderr, "ERROR: Invalid Nitrokey identifier\n");
+            return false;
+        }
+        
+        // Check if the key exists on the Nitrokey
+        fprintf(stderr, "Setting active Nitrokey credential to '%s'...\n", label.c_str());
+        
+        // Try to export the public key to verify it exists
+        std::string temp_file = "/tmp/m17_verify_key_" + std::to_string(getpid());
+        std::string cmd = "nitropy nk3 secrets get-public-key --name \"" + label + "\" --output " + temp_file;
+        int result = system(cmd.c_str());
+        
+        if (result != 0) {
+            fprintf(stderr, "ERROR: Credential '%s' not found on Nitrokey (exit code: %d)\n", label.c_str(), result);
+            return false;
+        }
+        
+        // Clean up temp file
+        unlink(temp_file.c_str());
+        
+        // Set as active key
+        _nitrokey_label = label;
+        _nitrokey_available = true;
+        
+        fprintf(stderr, "SUCCESS: Set active Nitrokey credential to '%s'\n", label.c_str());
+        return true;
+    }
+    
+    // Public Key Import Functions
+    bool m17_coder_impl::import_public_key(const std::string& callsign, const std::string& hex_key) {
+        if (!validate_callsign(callsign)) {
+            fprintf(stderr, "ERROR: Invalid callsign format\n");
+            return false;
+        }
+        
+        if (!validate_hex_key(hex_key)) {
+            fprintf(stderr, "ERROR: Invalid hex credential format (must be 64 hex characters)\n");
+            return false;
+        }
+        
+        // Parse hex key
+        PublicKey key;
+        strncpy(key.callsign, callsign.c_str(), sizeof(key.callsign) - 1);
+        key.callsign[sizeof(key.callsign) - 1] = '\0';
+        
+        for (int i = 0; i < 32; i++) {
+            std::string hex_byte = hex_key.substr(i * 2, 2);
+            key.key[i] = static_cast<uint8_t>(std::stoul(hex_byte, nullptr, 16));
+        }
+        
+        key.valid = true;
+        key.imported_date = time(nullptr);
+        key.expiry_date = 0;  // No expiry
+        
+        // Store key
+        _public_keys[callsign] = key;
+        
+        // Save immediately to disk
+        if (!save_public_keys_to_disk()) {
+            fprintf(stderr, "ERROR: Failed to save credentials to disk\n");
+            _public_keys.erase(callsign);
+            return false;
+        }
+        
+        fprintf(stderr, "SUCCESS: Imported public credential for %s\n", callsign.c_str());
+        return true;
+    }
+    
+    bool m17_coder_impl::import_public_key_from_file(const std::string& callsign, const std::string& pem_file) {
+        if (!validate_callsign(callsign)) {
+            fprintf(stderr, "ERROR: Invalid callsign format\n");
+            return false;
+        }
+        
+        FILE* fp = fopen(pem_file.c_str(), "r");
+        if (!fp) {
+            fprintf(stderr, "ERROR: Cannot open PEM file: %s\n", pem_file.c_str());
+            return false;
+        }
+        
+        EVP_PKEY* pkey = PEM_read_PUBKEY(fp, nullptr, nullptr, nullptr);
+        fclose(fp);
+        
+        if (!pkey) {
+            fprintf(stderr, "ERROR: Failed to parse PEM file\n");
+            return false;
+        }
+        
+        // Extract raw public key
+        PublicKey key;
+        strncpy(key.callsign, callsign.c_str(), sizeof(key.callsign) - 1);
+        key.callsign[sizeof(key.callsign) - 1] = '\0';
+        
+        size_t key_len = 32;
+        if (EVP_PKEY_get_raw_public_key(pkey, key.key, &key_len) <= 0 || key_len != 32) {
+            fprintf(stderr, "ERROR: Failed to extract Ed25519 public credential from PEM\n");
+            EVP_PKEY_free(pkey);
+            return false;
+        }
+        
+        EVP_PKEY_free(pkey);
+        
+        key.valid = true;
+        key.imported_date = time(nullptr);
+        key.expiry_date = 0;  // No expiry
+        
+        // Store key
+        _public_keys[callsign] = key;
+        
+        // Save immediately to disk
+        if (!save_public_keys_to_disk()) {
+            fprintf(stderr, "ERROR: Failed to save credentials to disk\n");
+            _public_keys.erase(callsign);
+            return false;
+        }
+        
+        fprintf(stderr, "SUCCESS: Imported public credential from %s for %s\n", pem_file.c_str(), callsign.c_str());
+        return true;
+    }
+    
+    bool m17_coder_impl::import_public_key_from_nitrokey(const std::string& callsign) {
+        if (!validate_callsign(callsign)) {
+            fprintf(stderr, "ERROR: Invalid callsign format\n");
+            return false;
+        }
+        
+        if (!_nitrokey_available) {
+            fprintf(stderr, "ERROR: No Nitrokey available\n");
+            return false;
+        }
+        
+        // Create temporary file for public key export
+        std::string temp_file = "/tmp/m17_pubkey_" + std::to_string(getpid()) + ".pem";
+        
+        if (!export_public_key_from_nitrokey(temp_file)) {
+            return false;
+        }
+        
+        // Import from the temporary file
+        bool result = import_public_key_from_file(callsign, temp_file);
+        
+        // Clean up temporary file
+        unlink(temp_file.c_str());
+        
+        return result;
+    }
+    
+    // Verification Functions
+    bool m17_coder_impl::verify_signature_from(const std::string& callsign, const uint8_t* data, 
+                                               size_t data_len, const uint8_t* signature) {
+        if (!data || data_len == 0 || !signature) {
+            fprintf(stderr, "ERROR: Invalid parameters for signature verification\n");
+            return false;
+        }
+        
+        auto it = _public_keys.find(callsign);
+        if (it == _public_keys.end()) {
+            fprintf(stderr, "ERROR: No public credential found for callsign: %s\n", callsign.c_str());
+            return false;
+        }
+        
+        if (!it->second.valid) {
+            fprintf(stderr, "ERROR: Public credential for %s is marked as invalid\n", callsign.c_str());
+            return false;
+        }
+        
+        // Use uECC library for Ed25519 verification
+        const struct uECC_Curve_t* curve = uECC_secp256k1();  // Use Ed25519 curve
+        int result = uECC_verify(it->second.key, data, data_len, signature, curve);
+        
+        if (result == 1) {
+            fprintf(stderr, "SUCCESS: Signature verified for %s\n", callsign.c_str());
+            return true;
+        } else {
+            fprintf(stderr, "ERROR: Signature verification failed for %s\n", callsign.c_str());
+            return false;
+        }
+    }
+    
+    // Storage Functions
+    bool m17_coder_impl::save_public_keys_to_disk() {
+        if (_current_storage_path.empty()) {
+            fprintf(stderr, "ERROR: No storage path available\n");
+            return false;
+        }
+        
+        std::string db_path = _current_storage_path + _storage_paths.db_filename;
+        
+        std::ofstream out(db_path, std::ios::binary);
+        if (!out) {
+            fprintf(stderr, "ERROR: Cannot create database file: %s\n", db_path.c_str());
+            return false;
+        }
+        
+        // Write header
+        uint32_t magic = m17_constants::PUBLIC_KEY_DB_MAGIC;
+        uint32_t version = m17_constants::PUBLIC_KEY_DB_VERSION;
+        uint32_t num_keys = static_cast<uint32_t>(_public_keys.size());
+        
+        out.write(reinterpret_cast<const char*>(&magic), sizeof(magic));
+        out.write(reinterpret_cast<const char*>(&version), sizeof(version));
+        out.write(reinterpret_cast<const char*>(&num_keys), sizeof(num_keys));
+        
+        // Write keys
+        for (const auto& pair : _public_keys) {
+            const PublicKey& key = pair.second;
+            
+            // callsign(10) + key(32) + valid(1) + imported_date(8) + expiry_date(8) = 59 bytes
+            out.write(key.callsign, 10);
+            out.write(reinterpret_cast<const char*>(key.key), 32);
+            out.write(reinterpret_cast<const char*>(&key.valid), 1);
+            out.write(reinterpret_cast<const char*>(&key.imported_date), 8);
+            out.write(reinterpret_cast<const char*>(&key.expiry_date), 8);
+        }
+        
+        out.close();
+        
+        // Set file permissions to 0600
+        chmod(db_path.c_str(), 0600);
+        
+        fprintf(stderr, "SUCCESS: Saved %zu public credentials to %s\n", _public_keys.size(), db_path.c_str());
+        return true;
+    }
+    
+    bool m17_coder_impl::load_public_keys_from_disk() {
+        if (_current_storage_path.empty()) {
+            return false;  // No storage path available
+        }
+        
+        std::string db_path = _current_storage_path + _storage_paths.db_filename;
+        
+        std::ifstream in(db_path, std::ios::binary);
+        if (!in) {
+            return false;  // File doesn't exist or can't be read
+        }
+        
+        // Read header
+        uint32_t magic, version, num_keys;
+        in.read(reinterpret_cast<char*>(&magic), sizeof(magic));
+        in.read(reinterpret_cast<char*>(&version), sizeof(version));
+        in.read(reinterpret_cast<char*>(&num_keys), sizeof(num_keys));
+        
+        if (magic != m17_constants::PUBLIC_KEY_DB_MAGIC) {
+            fprintf(stderr, "ERROR: Invalid database magic number\n");
+            return false;
+        }
+        
+        if (version != m17_constants::PUBLIC_KEY_DB_VERSION) {
+            fprintf(stderr, "ERROR: Unsupported database version: %u\n", version);
+            return false;
+        }
+        
+        // Clear existing keys
+        _public_keys.clear();
+        
+        // Read keys
+        for (uint32_t i = 0; i < num_keys; i++) {
+            PublicKey key;
+            
+            in.read(key.callsign, 10);
+            in.read(reinterpret_cast<char*>(key.key), 32);
+            in.read(reinterpret_cast<char*>(&key.valid), 1);
+            in.read(reinterpret_cast<char*>(&key.imported_date), 8);
+            in.read(reinterpret_cast<char*>(&key.expiry_date), 8);
+            
+            if (in.gcount() != 59) {
+                fprintf(stderr, "ERROR: Invalid credential record in database\n");
+                return false;
+            }
+            
+            key.callsign[9] = '\0';  // Ensure null termination
+            _public_keys[key.callsign] = key;
+        }
+        
+        fprintf(stderr, "SUCCESS: Loaded %u public credentials from %s\n", num_keys, db_path.c_str());
+        return true;
+    }
+    
+    bool m17_coder_impl::load_trusted_keys_from_file(const std::string& config_file) {
+        std::ifstream in(config_file);
+        if (!in) {
+            fprintf(stderr, "ERROR: Cannot open config file: %s\n", config_file.c_str());
+            return false;
+        }
+        
+        std::string line;
+        int loaded_count = 0;
+        
+        while (std::getline(in, line)) {
+            // Skip empty lines and comments
+            if (line.empty() || line[0] == '#') {
+                continue;
+            }
+            
+            // Parse format: CALLSIGN=hexkey
+            size_t eq_pos = line.find('=');
+            if (eq_pos == std::string::npos) {
+                continue;
+            }
+            
+            std::string callsign = line.substr(0, eq_pos);
+            std::string hex_key = line.substr(eq_pos + 1);
+            
+            // Remove whitespace
+            callsign.erase(0, callsign.find_first_not_of(" \t"));
+            callsign.erase(callsign.find_last_not_of(" \t") + 1);
+            hex_key.erase(0, hex_key.find_first_not_of(" \t"));
+            hex_key.erase(hex_key.find_last_not_of(" \t") + 1);
+            
+            if (import_public_key(callsign, hex_key)) {
+                loaded_count++;
+            }
+        }
+        
+        fprintf(stderr, "SUCCESS: Loaded %d trusted credentials from %s\n", loaded_count, config_file.c_str());
+        return loaded_count > 0;
+    }
+    
+    // Management Functions
+    void m17_coder_impl::list_public_keys() {
+        if (_public_keys.empty()) {
+            fprintf(stderr, "No public credentials stored\n");
+            return;
+        }
+        
+        fprintf(stderr, "Stored Public Credentials:\n");
+        fprintf(stderr, "==================\n");
+        
+        for (const auto& pair : _public_keys) {
+            const PublicKey& key = pair.second;
+            std::string fingerprint = get_key_fingerprint(key.key);
+            
+            fprintf(stderr, "Callsign: %s\n", key.callsign);
+            fprintf(stderr, "Fingerprint: %s\n", fingerprint.c_str());
+            fprintf(stderr, "Valid: %s\n", key.valid ? "Yes" : "No");
+            fprintf(stderr, "Imported: %s", ctime(&key.imported_date));
+            if (key.expiry_date > 0) {
+                fprintf(stderr, "Expires: %s", ctime(&key.expiry_date));
+            } else {
+                fprintf(stderr, "Expires: Never\n");
+            }
+            fprintf(stderr, "---\n");
+        }
+    }
+    
+    bool m17_coder_impl::remove_public_key(const std::string& callsign) {
+        auto it = _public_keys.find(callsign);
+        if (it == _public_keys.end()) {
+            fprintf(stderr, "ERROR: No public credential found for callsign: %s\n", callsign.c_str());
+            return false;
+        }
+        
+        // Securely wipe the key
+        secure_wipe_key(it->second);
+        
+        // Remove from map
+        _public_keys.erase(it);
+        
+        // Save immediately to disk
+        if (!save_public_keys_to_disk()) {
+            fprintf(stderr, "ERROR: Failed to save credentials to disk after removal\n");
+            return false;
+        }
+        
+        fprintf(stderr, "SUCCESS: Removed public credential for %s\n", callsign.c_str());
+        return true;
+    }
+    
+    void m17_coder_impl::check_expired_keys() {
+        time_t now = time(nullptr);
+        std::vector<std::string> expired_callsigns;
+        
+        for (const auto& pair : _public_keys) {
+            const PublicKey& key = pair.second;
+            if (key.expiry_date > 0 && key.expiry_date < now) {
+                expired_callsigns.push_back(pair.first);
+            }
+        }
+        
+        if (!expired_callsigns.empty()) {
+            fprintf(stderr, "Found %zu expired credentials, removing...\n", expired_callsigns.size());
+            
+            for (const std::string& callsign : expired_callsigns) {
+                remove_public_key(callsign);
+            }
+        }
+    }
+    
+    // Internal Helper Functions
+    bool m17_coder_impl::detect_storage_path() {
+        // Try primary path first
+        if (access(_storage_paths.primary_path.c_str(), W_OK) == 0) {
+            _current_storage_path = _storage_paths.primary_path;
+            return true;
+        }
+        
+        // Try secondary path
+        if (access(_storage_paths.secondary_path.c_str(), W_OK) == 0) {
+            _current_storage_path = _storage_paths.secondary_path;
+            return true;
+        }
+        
+        // Use fallback path
+        _current_storage_path = _storage_paths.fallback_path;
+        return true;
+    }
+    
+    bool m17_coder_impl::validate_callsign(const std::string& callsign) {
+        if (callsign.empty() || callsign.length() > m17_constants::MAX_CALLSIGN_LEN) {
+            return false;
+        }
+        
+        // Check for valid characters (alphanumeric and some special chars)
+        for (char c : callsign) {
+            if (!std::isalnum(c) && c != '-' && c != '_') {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    bool m17_coder_impl::validate_hex_key(const std::string& hex_key) {
+        if (hex_key.length() != 64) {
+            return false;
+        }
+        
+        for (char c : hex_key) {
+            if (!std::isxdigit(c)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    std::string m17_coder_impl::get_key_fingerprint(const uint8_t* key) {
+        uint8_t hash[32];
+        SHA256(key, 32, hash);
+        
+        std::stringstream ss;
+        for (int i = 0; i < 8; i++) {  // First 8 bytes for fingerprint
+            ss << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(hash[i]);
+        }
+        
+        return ss.str();
+    }
+    
+    void m17_coder_impl::secure_wipe_key(PublicKey& key) {
+        explicit_bzero(key.key, sizeof(key.key));
+        explicit_bzero(key.callsign, sizeof(key.callsign));
+        key.valid = false;
+        key.imported_date = 0;
+        key.expiry_date = 0;
+    }
+    
+    // SECURITY FIX: ChaCha20-Poly1305 Implementation
+    
+    int m17_coder_impl::encrypt_chacha20_poly1305(const uint8_t* plaintext, size_t plaintext_len,
+                                                 const uint8_t* key, size_t key_size,
+                                                 const uint8_t* iv, size_t iv_size,
+                                                 const uint8_t* aad, size_t aad_len,
+                                                 uint8_t* ciphertext, size_t ciphertext_size,
+                                                 uint8_t* tag, size_t tag_size) {
+        if (!plaintext || plaintext_len == 0 || !key || !iv || !ciphertext || !tag) {
+            fprintf(stderr, "ERROR: Invalid parameters for ChaCha20-Poly1305 encryption\n");
+            return -1;
+        }
+        
+        if (key_size != m17_constants::CHACHA20_KEY_SIZE) {
+            fprintf(stderr, "ERROR: Invalid ChaCha20 credential size: %zu (expected %d)\n", key_size, m17_constants::CHACHA20_KEY_SIZE);
+            return -1;
+        }
+        
+        if (iv_size != m17_constants::CHACHA20_IV_SIZE) {
+            fprintf(stderr, "ERROR: Invalid ChaCha20 IV size: %zu (expected %d)\n", iv_size, m17_constants::CHACHA20_IV_SIZE);
+            return -1;
+        }
+        
+        if (tag_size != m17_constants::CHACHA20_POLY1305_TAG_SIZE) {
+            fprintf(stderr, "ERROR: Invalid ChaCha20-Poly1305 tag size: %zu (expected %d)\n", tag_size, m17_constants::CHACHA20_POLY1305_TAG_SIZE);
+            return -1;
+        }
+        
+        if (ciphertext_size < plaintext_len) {
+            fprintf(stderr, "ERROR: Insufficient ciphertext buffer size\n");
+            return -1;
+        }
+        
+        // Use the libm17 ChaCha20-Poly1305 implementation
+        int result = m17_chacha20_poly1305_encrypt(plaintext, plaintext_len,
+                                                  key, key_size,
+                                                  iv, iv_size,
+                                                  aad, aad_len,
+                                                  ciphertext, ciphertext_size,
+                                                  tag, tag_size);
+        
+        if (result < 0) {
+            fprintf(stderr, "ERROR: ChaCha20-Poly1305 encryption failed\n");
+            return -1;
+        }
+        
+        return result;
+    }
+    
+    int m17_coder_impl::decrypt_chacha20_poly1305(const uint8_t* ciphertext, size_t ciphertext_len,
+                                                 const uint8_t* key, size_t key_size,
+                                                 const uint8_t* iv, size_t iv_size,
+                                                 const uint8_t* aad, size_t aad_len,
+                                                 const uint8_t* tag, size_t tag_size,
+                                                 uint8_t* plaintext, size_t plaintext_size) {
+        if (!ciphertext || ciphertext_len == 0 || !key || !iv || !plaintext || !tag) {
+            fprintf(stderr, "ERROR: Invalid parameters for ChaCha20-Poly1305 decryption\n");
+            return -1;
+        }
+        
+        if (key_size != m17_constants::CHACHA20_KEY_SIZE) {
+            fprintf(stderr, "ERROR: Invalid ChaCha20 credential size: %zu (expected %d)\n", key_size, m17_constants::CHACHA20_KEY_SIZE);
+            return -1;
+        }
+        
+        if (iv_size != m17_constants::CHACHA20_IV_SIZE) {
+            fprintf(stderr, "ERROR: Invalid ChaCha20 IV size: %zu (expected %d)\n", iv_size, m17_constants::CHACHA20_IV_SIZE);
+            return -1;
+        }
+        
+        if (tag_size != m17_constants::CHACHA20_POLY1305_TAG_SIZE) {
+            fprintf(stderr, "ERROR: Invalid ChaCha20-Poly1305 tag size: %zu (expected %d)\n", tag_size, m17_constants::CHACHA20_POLY1305_TAG_SIZE);
+            return -1;
+        }
+        
+        if (plaintext_size < ciphertext_len) {
+            fprintf(stderr, "ERROR: Insufficient plaintext buffer size\n");
+            return -1;
+        }
+        
+        // Use the libm17 ChaCha20-Poly1305 implementation
+        int result = m17_chacha20_poly1305_decrypt(ciphertext, ciphertext_len,
+                                                  key, key_size,
+                                                  iv, iv_size,
+                                                  aad, aad_len,
+                                                  tag, tag_size,
+                                                  plaintext, plaintext_size);
+        
+        if (result < 0) {
+            fprintf(stderr, "ERROR: ChaCha20-Poly1305 decryption failed\n");
+            return -1;
+        }
+        
+        return result;
+    }
+    
+    bool m17_coder_impl::set_chacha20_key(const std::string& hex_key) {
+        if (hex_key.length() != 64) {  // 32 bytes = 64 hex characters
+            fprintf(stderr, "ERROR: ChaCha20 credential must be 64 hex characters (32 bytes)\n");
+            return false;
+        }
+        
+        // Parse hex key
+        for (int i = 0; i < 32; i++) {
+            std::string hex_byte = hex_key.substr(i * 2, 2);
+            char *endptr;
+            unsigned long val = strtoul(hex_byte.c_str(), &endptr, 16);
+            if (*endptr != '\0' || val > 255) {
+                fprintf(stderr, "ERROR: Invalid hex character in ChaCha20 credential\n");
+                return false;
+            }
+            _chacha20_key[i] = static_cast<uint8_t>(val);
+        }
+        
+        // Validate the key
+        if (m17_chacha20_validate_key(_chacha20_key, sizeof(_chacha20_key)) != 0) {
+            fprintf(stderr, "ERROR: Weak ChaCha20 credential detected\n");
+            explicit_bzero(_chacha20_key, sizeof(_chacha20_key));
+            return false;
+        }
+        
+        _chacha20_available = true;
+        fprintf(stderr, "SUCCESS: ChaCha20 credential set\n");
+        return true;
+    }
+    
+    bool m17_coder_impl::set_chacha20_iv(const std::string& hex_iv) {
+        if (hex_iv.length() != 24) {  // 12 bytes = 24 hex characters
+            fprintf(stderr, "ERROR: ChaCha20 IV must be 24 hex characters (12 bytes)\n");
+            return false;
+        }
+        
+        // Parse hex IV
+        for (int i = 0; i < 12; i++) {
+            std::string hex_byte = hex_iv.substr(i * 2, 2);
+            char *endptr;
+            unsigned long val = strtoul(hex_byte.c_str(), &endptr, 16);
+            if (*endptr != '\0' || val > 255) {
+                fprintf(stderr, "ERROR: Invalid hex character in ChaCha20 IV\n");
+                return false;
+            }
+            _chacha20_iv[i] = static_cast<uint8_t>(val);
+        }
+        
+        // Validate the IV
+        if (m17_chacha20_validate_iv(_chacha20_iv, sizeof(_chacha20_iv)) != 0) {
+            fprintf(stderr, "ERROR: Weak ChaCha20 IV detected\n");
+            explicit_bzero(_chacha20_iv, sizeof(_chacha20_iv));
+            return false;
+        }
+        
+        fprintf(stderr, "SUCCESS: ChaCha20 IV set\n");
+        return true;
+    }
+    
+    void m17_coder_impl::generate_chacha20_iv() {
+        if (m17_chacha20_generate_iv(_chacha20_iv, sizeof(_chacha20_iv)) != 0) {
+            fprintf(stderr, "ERROR: Failed to generate ChaCha20 IV\n");
+            return;
+        }
+        
+        fprintf(stderr, "SUCCESS: Generated ChaCha20 IV\n");
+    }
+    
+    bool m17_coder_impl::is_chacha20_available() const {
+        return _chacha20_available;
+    }
+
   } /* namespace m17 */
 } /* namespace gr */

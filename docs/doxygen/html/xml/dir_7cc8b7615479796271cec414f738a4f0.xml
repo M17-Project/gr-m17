@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_7cc8b7615479796271cec414f738a4f0" kind="dir">
+    <compoundname>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles</compoundname>
+    <innerdir refid="dir_e2f15d31276365becb7ab5834e0084f2">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/3.28.3</innerdir>
+    <innerdir refid="dir_b66b242ce14ecec3a0a7205e6f5afd50">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir</innerdir>
+    <innerdir refid="dir_f97ad87f39945837cc033a36f1f199c2">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/m17-static.dir</innerdir>
+    <innerdir refid="dir_7ceb612d4d5ab6457a0cac5d8f1fe5c3">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_critical_security.dir</innerdir>
+    <innerdir refid="dir_cb51c9b4514139a4e6864a406bac7e93">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_crypto.dir</innerdir>
+    <innerdir refid="dir_d9fd6daf120d8fff4c75adc0287a9729">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_improvements.dir</innerdir>
+    <innerdir refid="dir_4ecf09006366164cd1ebf4ac8af27d1b">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_security.dir</innerdir>
+    <innerdir refid="dir_3e6b51e7ac19cf85bc0fe58a74f85515">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_trustzone_tee.dir</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/"/>
+  </compounddef>
+</doxygen>

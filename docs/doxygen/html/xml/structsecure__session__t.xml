@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structsecure__session__t" kind="struct" language="C++" prot="public">
+    <compoundname>secure_session_t</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsecure__session__t_1aac7b63aa99922e4a252dfec082eaacd0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t secure_session_t::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>secure_session_t::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" line="49" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsecure__session__t_1ac96b25e9c738fc72b42199cdabdad798" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t secure_session_t::caller_id</definition>
+        <argsstring></argsstring>
+        <name>caller_id</name>
+        <qualifiedname>secure_session_t::caller_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" line="50" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsecure__session__t_1a120ab5c8bb42c54380de0463313d15be" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t secure_session_t::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>secure_session_t::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" line="51" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsecure__session__t_1adebd0911dd908476cc981f6751245c61" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t secure_session_t::operation_count</definition>
+        <argsstring></argsstring>
+        <name>operation_count</name>
+        <qualifiedname>secure_session_t::operation_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" line="52" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsecure__session__t_1a21b63fa04f54c6565e56dd56efaf15de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool secure_session_t::is_authenticated</definition>
+        <argsstring></argsstring>
+        <name>is_authenticated</name>
+        <qualifiedname>secure_session_t::is_authenticated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" line="53" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsecure__session__t_1aefc1d526c3caec93b54dcfd2426d0c44" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t secure_session_t::key_handles[MAX_SECURE_KEYS]</definition>
+        <argsstring>[MAX_SECURE_KEYS]</argsstring>
+        <name>key_handles</name>
+        <qualifiedname>secure_session_t::key_handles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" line="54" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsecure__session__t_1ac83e2e6cf4aff09e630521bc3124f9ec" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t secure_session_t::key_count</definition>
+        <argsstring></argsstring>
+        <name>key_count</name>
+        <qualifiedname>secure_session_t::key_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" line="55" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" line="48" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.c" bodystart="48" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structsecure__session__t_1ac96b25e9c738fc72b42199cdabdad798" prot="public" virt="non-virtual"><scope>secure_session_t</scope><name>caller_id</name></member>
+      <member refid="structsecure__session__t_1a21b63fa04f54c6565e56dd56efaf15de" prot="public" virt="non-virtual"><scope>secure_session_t</scope><name>is_authenticated</name></member>
+      <member refid="structsecure__session__t_1ac83e2e6cf4aff09e630521bc3124f9ec" prot="public" virt="non-virtual"><scope>secure_session_t</scope><name>key_count</name></member>
+      <member refid="structsecure__session__t_1aefc1d526c3caec93b54dcfd2426d0c44" prot="public" virt="non-virtual"><scope>secure_session_t</scope><name>key_handles</name></member>
+      <member refid="structsecure__session__t_1adebd0911dd908476cc981f6751245c61" prot="public" virt="non-virtual"><scope>secure_session_t</scope><name>operation_count</name></member>
+      <member refid="structsecure__session__t_1aac7b63aa99922e4a252dfec082eaacd0" prot="public" virt="non-virtual"><scope>secure_session_t</scope><name>session_id</name></member>
+      <member refid="structsecure__session__t_1a120ab5c8bb42c54380de0463313d15be" prot="public" virt="non-virtual"><scope>secure_session_t</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

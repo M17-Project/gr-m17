@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_b66b242ce14ecec3a0a7205e6f5afd50" kind="dir">
+    <compoundname>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir</compoundname>
+    <innerdir refid="dir_e8dc72df1f60d6d73685a938b49bf4d8">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/crypto</innerdir>
+    <innerdir refid="dir_850000fdd32463b71a7a48dd7cd5d3af">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/decode</innerdir>
+    <innerdir refid="dir_dd3adf06c11cdf2c1e2a12dd69843f9c">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/encode</innerdir>
+    <innerdir refid="dir_20484fd67ab267a12f1b001efeffe385">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/math</innerdir>
+    <innerdir refid="dir_bde5e7565ba33e7673ed135cbb0439d3">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/payload</innerdir>
+    <innerdir refid="dir_11bbdc0ec0144ff51d745977a3f79861">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/phy</innerdir>
+    <innerfile refid="libm17_8dir_2m17_8c_8o_8d">m17.c.o.d</innerfile>
+    <innerfile refid="libm17_8dir_2m17__safe_8c_8o_8d">m17_safe.c.o.d</innerfile>
+    <innerfile refid="libm17_8dir_2m17__simd_8c_8o_8d">m17_simd.c.o.d</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/"/>
+  </compounddef>
+</doxygen>

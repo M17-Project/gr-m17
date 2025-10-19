@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structm17__security__state__t" kind="struct" language="C++" prot="public">
+    <compoundname>m17_security_state_t</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structm17__security__state__t_1a67e7a4fdede184a91fcc690593c64617" prot="public" static="no" mutable="no">
+        <type><ref refid="structm17__rate__limit__entry__t" kindref="compound">m17_rate_limit_entry_t</ref></type>
+        <definition>m17_rate_limit_entry_t m17_security_state_t::entries[100]</definition>
+        <argsstring>[100]</argsstring>
+        <name>entries</name>
+        <qualifiedname>m17_security_state_t::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" line="37" column="28" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__security__state__t_1ad5a867fc8b530df0a5d863e060342673" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t m17_security_state_t::entry_count</definition>
+        <argsstring></argsstring>
+        <name>entry_count</name>
+        <qualifiedname>m17_security_state_t::entry_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" line="38" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__security__state__t_1a1e89799da3bda37802dc66d56587a857" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t m17_security_state_t::last_cleanup</definition>
+        <argsstring></argsstring>
+        <name>last_cleanup</name>
+        <qualifiedname>m17_security_state_t::last_cleanup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" line="39" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__security__state__t_1a975e738e9b04ad8c7d4a315d804e23b3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t m17_security_state_t::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>m17_security_state_t::total_events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" line="40" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__security__state__t_1afa216b47ebcca8d16bd067749f01a268" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t m17_security_state_t::blocked_attempts</definition>
+        <argsstring></argsstring>
+        <name>blocked_attempts</name>
+        <qualifiedname>m17_security_state_t::blocked_attempts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" line="41" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>m17_rate_limit_entry_t</label>
+        <link refid="structm17__rate__limit__entry__t"/>
+      </node>
+      <node id="1">
+        <label>m17_security_state_t</label>
+        <link refid="structm17__security__state__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entries</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" line="36" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="36" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structm17__security__state__t_1afa216b47ebcca8d16bd067749f01a268" prot="public" virt="non-virtual"><scope>m17_security_state_t</scope><name>blocked_attempts</name></member>
+      <member refid="structm17__security__state__t_1a67e7a4fdede184a91fcc690593c64617" prot="public" virt="non-virtual"><scope>m17_security_state_t</scope><name>entries</name></member>
+      <member refid="structm17__security__state__t_1ad5a867fc8b530df0a5d863e060342673" prot="public" virt="non-virtual"><scope>m17_security_state_t</scope><name>entry_count</name></member>
+      <member refid="structm17__security__state__t_1a1e89799da3bda37802dc66d56587a857" prot="public" virt="non-virtual"><scope>m17_security_state_t</scope><name>last_cleanup</name></member>
+      <member refid="structm17__security__state__t_1a975e738e9b04ad8c7d4a315d804e23b3" prot="public" virt="non-virtual"><scope>m17_security_state_t</scope><name>total_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structm17__secure__key__t" kind="struct" language="C++" prot="public">
+    <compoundname>m17_secure_key_t</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structm17__secure__key__t_1aaa6f2a636bc21328f35a9979b9684bc5" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* m17_secure_key_t::key_data</definition>
+        <argsstring></argsstring>
+        <name>key_data</name>
+        <qualifiedname>m17_secure_key_t::key_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" line="138" column="13" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__secure__key__t_1ae713f3913392dcc56e0edbcf3ad9a0ff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t m17_secure_key_t::key_size</definition>
+        <argsstring></argsstring>
+        <name>key_size</name>
+        <qualifiedname>m17_secure_key_t::key_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" line="139" column="12" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__secure__key__t_1abe39b3838e10cc348533173d5380448c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int m17_secure_key_t::locked</definition>
+        <argsstring></argsstring>
+        <name>locked</name>
+        <qualifiedname>m17_secure_key_t::locked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" line="140" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" line="137" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="137" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structm17__secure__key__t_1aaa6f2a636bc21328f35a9979b9684bc5" prot="public" virt="non-virtual"><scope>m17_secure_key_t</scope><name>key_data</name></member>
+      <member refid="structm17__secure__key__t_1ae713f3913392dcc56e0edbcf3ad9a0ff" prot="public" virt="non-virtual"><scope>m17_secure_key_t</scope><name>key_size</name></member>
+      <member refid="structm17__secure__key__t_1abe39b3838e10cc348533173d5380448c" prot="public" virt="non-virtual"><scope>m17_secure_key_t</scope><name>locked</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

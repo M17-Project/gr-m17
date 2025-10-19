@@ -1,0 +1,8 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./m17_crypto_fuzz
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@
+AFL_CUSTOM_INFO_OUT=findings_crypto/default
+AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+AFL_SKIP_CPUFREQ=1
+# command line:
+'afl-fuzz' '-i' 'testcases' '-o' 'findings_crypto' '-m' 'none' './m17_crypto_fuzz' '@@'

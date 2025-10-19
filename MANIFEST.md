@@ -1,15 +1,15 @@
 title: gr-m17
 brief: The M17 OOT module for GNU Radio
 tags: # Tags are arbitrary, but look at CGRAN what other authors are using
-  - M17
+ - M17
 author:
-  - Wojciech Kaczmarski
-  - Jean-Michel Friedt
+ - Wojciech Kaczmarski
+ - Jean-Michel Friedt
 copyright_owner:
-  - Wojciech Kaczmarski
-  - Jean-Michel Friedt
+ - Wojciech Kaczmarski
+ - Jean-Michel Friedt
 dependencies:
-  - gnuradio
+ - gnuradio
 repo: https://github.com/M17-Project/gr-m17
 license:
 gr_supported_version: 3.8, 3.9, 3.10

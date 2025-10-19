@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="DartConfiguration_8tcl" kind="file" language="C++">
+    <compoundname>DartConfiguration.tcl</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>This<sp/>file<sp/>is<sp/>configured<sp/>by<sp/>CMake<sp/>automatically<sp/>as<sp/>DartConfiguration.tcl</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>If<sp/>you<sp/>choose<sp/>not<sp/>to<sp/>use<sp/>CMake,<sp/>this<sp/>file<sp/>may<sp/>be<sp/>hand<sp/>configured,<sp/>by</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>filling<sp/>in<sp/>the<sp/>required<sp/>variables.</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Configuration<sp/>directories<sp/>and<sp/>files</highlight></codeline>
+<codeline><highlight class="normal">SourceDirectory:<sp/>/home/haaken/github-projects/gr-m17/libm17</highlight></codeline>
+<codeline><highlight class="normal">BuildDirectory:<sp/>/home/haaken/github-projects/gr-m17/libm17/build</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Where<sp/>to<sp/>place<sp/>the<sp/>cost<sp/>data<sp/>store</highlight></codeline>
+<codeline><highlight class="normal">CostDataFile:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Site<sp/>is<sp/>something<sp/>like<sp/>machine.domain,<sp/>i.e.<sp/>pragmatic.crd</highlight></codeline>
+<codeline><highlight class="normal">Site:<sp/>haken-computer</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Build<sp/>name<sp/>is<sp/>osname-revision-compiler,<sp/>i.e.<sp/>Linux-2.4.2-2smp-c++</highlight></codeline>
+<codeline><highlight class="normal">BuildName:<sp/>Linux-cc</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Subprojects</highlight></codeline>
+<codeline><highlight class="normal">LabelsForSubprojects:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Submission<sp/>information</highlight></codeline>
+<codeline><highlight class="normal">SubmitURL:<sp/>http://</highlight></codeline>
+<codeline><highlight class="normal">SubmitInactivityTimeout:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Dashboard<sp/>start<sp/>time</highlight></codeline>
+<codeline><highlight class="normal">NightlyStartTime:<sp/>00:00:00<sp/>EDT</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Commands<sp/>for<sp/>the<sp/>build/test/submit<sp/>cycle</highlight></codeline>
+<codeline><highlight class="normal">ConfigureCommand:<sp/>&quot;/usr/bin/cmake&quot;<sp/>&quot;/home/haaken/github-projects/gr-m17/libm17&quot;</highlight></codeline>
+<codeline><highlight class="normal">MakeCommand:<sp/>/usr/bin/cmake<sp/>--build<sp/>.<sp/>--config<sp/>&quot;${CTEST_CONFIGURATION_TYPE}&quot;</highlight></codeline>
+<codeline><highlight class="normal">DefaultCTestConfigurationType:<sp/>Release</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>version<sp/>control</highlight></codeline>
+<codeline><highlight class="normal">UpdateVersionOnly:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>CVS<sp/>options</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Default<sp/>is<sp/>&quot;-d<sp/>-P<sp/>-A&quot;</highlight></codeline>
+<codeline><highlight class="normal">CVSCommand:<sp/></highlight></codeline>
+<codeline><highlight class="normal">CVSUpdateOptions:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Subversion<sp/>options</highlight></codeline>
+<codeline><highlight class="normal">SVNCommand:<sp/></highlight></codeline>
+<codeline><highlight class="normal">SVNOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">SVNUpdateOptions:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Git<sp/>options</highlight></codeline>
+<codeline><highlight class="normal">GITCommand:<sp/>/usr/bin/git</highlight></codeline>
+<codeline><highlight class="normal">GITInitSubmodules:<sp/></highlight></codeline>
+<codeline><highlight class="normal">GITUpdateOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">GITUpdateCustom:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Perforce<sp/>options</highlight></codeline>
+<codeline><highlight class="normal">P4Command:<sp/></highlight></codeline>
+<codeline><highlight class="normal">P4Client:<sp/></highlight></codeline>
+<codeline><highlight class="normal">P4Options:<sp/></highlight></codeline>
+<codeline><highlight class="normal">P4UpdateOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">P4UpdateCustom:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Generic<sp/>update<sp/>command</highlight></codeline>
+<codeline><highlight class="normal">UpdateCommand:<sp/>/usr/bin/git</highlight></codeline>
+<codeline><highlight class="normal">UpdateOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">UpdateType:<sp/>git</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Compiler<sp/>info</highlight></codeline>
+<codeline><highlight class="normal">Compiler:<sp/></highlight></codeline>
+<codeline><highlight class="normal">CompilerVersion:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Dynamic<sp/>analysis<sp/>(MemCheck)</highlight></codeline>
+<codeline><highlight class="normal">PurifyCommand:<sp/></highlight></codeline>
+<codeline><highlight class="normal">ValgrindCommand:<sp/></highlight></codeline>
+<codeline><highlight class="normal">ValgrindCommandOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">DrMemoryCommand:<sp/></highlight></codeline>
+<codeline><highlight class="normal">DrMemoryCommandOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">CudaSanitizerCommand:<sp/></highlight></codeline>
+<codeline><highlight class="normal">CudaSanitizerCommandOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">MemoryCheckType:<sp/></highlight></codeline>
+<codeline><highlight class="normal">MemoryCheckSanitizerOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">MemoryCheckCommand:<sp/>/usr/bin/valgrind</highlight></codeline>
+<codeline><highlight class="normal">MemoryCheckCommandOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">MemoryCheckSuppressionFile:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Coverage</highlight></codeline>
+<codeline><highlight class="normal">CoverageCommand:<sp/>/usr/bin/gcov</highlight></codeline>
+<codeline><highlight class="normal">CoverageExtraFlags:<sp/>-l</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Testing<sp/>options</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>TimeOut<sp/>is<sp/>the<sp/>amount<sp/>of<sp/>time<sp/>in<sp/>seconds<sp/>to<sp/>wait<sp/>for<sp/>processes</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>to<sp/>complete<sp/>during<sp/>testing.<sp/><sp/>After<sp/>TimeOut<sp/>seconds,<sp/>the</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>process<sp/>will<sp/>be<sp/>summarily<sp/>terminated.</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>Currently<sp/>set<sp/>to<sp/>25<sp/>minutes</highlight></codeline>
+<codeline><highlight class="normal">TimeOut:<sp/>1500</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>During<sp/>parallel<sp/>testing<sp/>CTest<sp/>will<sp/>not<sp/>start<sp/>a<sp/>new<sp/>test<sp/>if<sp/>doing</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>so<sp/>would<sp/>cause<sp/>the<sp/>system<sp/>load<sp/>to<sp/>exceed<sp/>this<sp/>value.</highlight></codeline>
+<codeline><highlight class="normal">TestLoad:<sp/></highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">UseLaunchers:<sp/></highlight></codeline>
+<codeline><highlight class="normal">CurlOptions:<sp/></highlight></codeline>
+<codeline><highlight class="normal">#<sp/>warning,<sp/>if<sp/>you<sp/>add<sp/>new<sp/>options<sp/>here<sp/>that<sp/>have<sp/>to<sp/>do<sp/>with<sp/>submit,</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>you<sp/>have<sp/>to<sp/>update<sp/>cmCTestSubmitCommand.cxx</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>For<sp/>CTest<sp/>submissions<sp/>that<sp/>timeout,<sp/>these<sp/>options</highlight></codeline>
+<codeline><highlight class="normal">#<sp/>specify<sp/>behavior<sp/>for<sp/>retrying<sp/>the<sp/>submission</highlight></codeline>
+<codeline><highlight class="normal">CTestSubmitRetryDelay:<sp/>5</highlight></codeline>
+<codeline><highlight class="normal">CTestSubmitRetryCount:<sp/>3</highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/build/DartConfiguration.tcl"/>
+  </compounddef>
+</doxygen>

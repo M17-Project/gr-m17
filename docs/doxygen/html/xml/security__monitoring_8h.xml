@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="security__monitoring_8h" kind="file" language="C++">
+    <compoundname>security_monitoring.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includedby refid="m17_8h" local="yes">/home/haaken/github-projects/gr-m17/libm17/m17.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h</label>
+        <link refid="security__monitoring_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h</label>
+        <link refid="m17__coder__impl_8h_source"/>
+      </node>
+      <node id="4">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h</label>
+        <link refid="m17__decoder__impl_8h_source"/>
+      </node>
+      <node id="5">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h</label>
+        <link refid="security__monitoring_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/haaken/github-projects/gr-m17/libm17/m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35ce" prot="public" static="no" strong="no">
+        <type></type>
+        <name>m17_security_event_t</name>
+        <enumvalue id="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35ceafdf50d3fa74550d62183f9f6a0ce2ac1" prot="public">
+          <name>M17_EVENT_AUTH_FAILURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35cea7723e47f6edec4279c9c0765ef94eb7d" prot="public">
+          <name>M17_EVENT_DECRYPT_FAILURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35ceab72817ebef7053e94c015c6909d8778f" prot="public">
+          <name>M17_EVENT_SIGNATURE_FAILURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35cea05a51f2d6d78cc39964f2c6b80cc36d3" prot="public">
+          <name>M17_EVENT_REPLAY_ATTACK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35cea69f3aa62aeb5d24eb7592f423452188b" prot="public">
+          <name>M17_EVENT_SUSPICIOUS_PATTERN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35cea48794d28e0c132e79dc791f4fcdaea65" prot="public">
+          <name>M17_EVENT_RATE_LIMIT_EXCEEDED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="22" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" bodystart="22" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="security__monitoring_8h_1ab994fa29f37070223181a1788dc389f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int m17_security_monitoring_init</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_security_monitoring_init</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="32" column="5" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="48" bodyend="59" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="32" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="security__monitoring_8h_1ab5ece32b212eafc1dd95aa45bc6a1c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_check_rate_limit</definition>
+        <argsstring>(const char *identifier)</argsstring>
+        <name>m17_check_rate_limit</name>
+        <param>
+          <type>const char *</type>
+          <declname>identifier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="35" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="62" bodyend="140" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="35" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="security__monitoring_8h_1a6af0b6046fcc1dae7379b27a438e51e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_record_security_event</definition>
+        <argsstring>(m17_security_event_t event_type, const char *identifier, const char *details)</argsstring>
+        <name>m17_record_security_event</name>
+        <param>
+          <type>m17_security_event_t</type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>identifier</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>details</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="38" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="143" bodyend="183" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="38" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="security__monitoring_8h_1a16dff477af1007169e3c200ca03cc3cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_detect_suspicious_activity</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_detect_suspicious_activity</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="43" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="186" bodyend="226" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="43" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="security__monitoring_8h_1a72dfe95b1350c7ce217e4f802a54418f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_get_security_stats</definition>
+        <argsstring>(uint32_t *total_events, uint32_t *blocked_attempts, uint32_t *active_entries)</argsstring>
+        <name>m17_get_security_stats</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>total_events</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>blocked_attempts</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>active_entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="46" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="229" bodyend="241" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="46" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="security__monitoring_8h_1aff617b5e5461235973dd44cbd3edb9ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_security_cleanup_old_entries</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_security_cleanup_old_entries</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="51" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="244" bodyend="270" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="51" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="security__monitoring_8h_1a095196cdb310643e358a069a643af286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_security_monitoring_reset</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_security_monitoring_reset</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="54" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="273" bodyend="283" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="54" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="security__monitoring_8h_1a484d64d85131c68c5ed2970a34c02815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool m17_is_identifier_blocked</definition>
+        <argsstring>(const char *identifier)</argsstring>
+        <name>m17_is_identifier_blocked</name>
+        <param>
+          <type>const char *</type>
+          <declname>identifier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="57" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="286" bodyend="311" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="57" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="security__monitoring_8h_1a1ee1a0140784c71041d030a74d1b52cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_unblock_identifier</definition>
+        <argsstring>(const char *identifier)</argsstring>
+        <name>m17_unblock_identifier</name>
+        <param>
+          <type>const char *</type>
+          <declname>identifier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" line="60" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.c" bodystart="314" bodyend="328" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h" declline="60" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>crypto/security_monitoring.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Security<sp/>monitoring<sp/>and<sp/>rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implements<sp/>protection<sp/>against<sp/>brute<sp/>force<sp/>and<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Foundation,<sp/>19<sp/>April<sp/>2025</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>M17_SECURITY_MONITORING_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_SECURITY_MONITORING_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Security<sp/>event<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_EVENT_AUTH_FAILURE,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_EVENT_DECRYPT_FAILURE,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_EVENT_SIGNATURE_FAILURE,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_EVENT_REPLAY_ATTACK,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_EVENT_SUSPICIOUS_PATTERN,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_EVENT_RATE_LIMIT_EXCEEDED</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}<sp/>m17_security_event_t;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Initialize<sp/>security<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m17_security_monitoring_init(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Check<sp/>rate<sp/>limit<sp/>for<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_check_rate_limit(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*identifier);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Record<sp/>security<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_record_security_event(m17_security_event_t<sp/>event_type,<sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*identifier,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*details);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>suspicious<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_detect_suspicious_activity(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get<sp/>security<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_get_security_stats(uint32_t<sp/>*total_events,<sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>*blocked_attempts,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>*active_entries);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cleanup<sp/>old<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_security_cleanup_old_entries(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reset<sp/>security<sp/>monitoring<sp/>(for<sp/>new<sp/>session)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_security_monitoring_reset(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>identifier<sp/>is<sp/>blocked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>m17_is_identifier_blocked(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*identifier);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Unblock<sp/>identifier<sp/>(for<sp/>legitimate<sp/>users)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_unblock_identifier(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*identifier);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>M17_SECURITY_MONITORING_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h"/>
+  </compounddef>
+</doxygen>

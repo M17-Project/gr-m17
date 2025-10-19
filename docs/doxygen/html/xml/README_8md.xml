@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="README_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>libm17</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Overview</highlight></codeline>
+<codeline><highlight class="normal">Written<sp/>in<sp/>C,<sp/>it<sp/>has<sp/>all<sp/>the<sp/>components<sp/>described<sp/>by<sp/>the<sp/>protocol&apos;s<sp/>specification<sp/>of<sp/>the<sp/>stream<sp/>and<sp/>packet<sp/>modes:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>convolutional<sp/>encoder<sp/>with<sp/>soft<sp/>Viterbi<sp/>decoder<sp/>(utilizing<sp/>fixed<sp/>point<sp/>arithmetic),</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Golay<sp/>encoder<sp/>with<sp/>soft<sp/>decoder<sp/>(fixed<sp/>point),</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>bit<sp/>interleaver<sp/>and<sp/>randomizer,</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>cyclic<sp/>redundancy<sp/>check<sp/>(CRC)<sp/>calculation<sp/>(for<sp/>both<sp/>LSF<sp/>and<sp/>arbitrary<sp/>input),</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>callsign<sp/>encoder<sp/>and<sp/>decoder</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Enhanced<sp/>Cryptographic<sp/>Support</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>library<sp/>now<sp/>includes<sp/>modern<sp/>cryptographic<sp/>capabilities:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Ed25519<sp/>Digital<sp/>Signatures**:<sp/>High-performance<sp/>digital<sp/>signatures<sp/>for<sp/>message<sp/>authentication</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Curve25519<sp/>ECDH**:<sp/>Secure<sp/>key<sp/>exchange<sp/>for<sp/>encrypted<sp/>communication</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**AES-GCM<sp/>Encryption**:<sp/>Authenticated<sp/>encryption<sp/>for<sp/>data<sp/>protection</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**HKDF<sp/>Key<sp/>Derivation**:<sp/>Secure<sp/>key<sp/>derivation<sp/>from<sp/>shared<sp/>secrets</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Security<sp/>Features</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Thread<sp/>Safety**:<sp/>Multi-threading<sp/>support<sp/>for<sp/>concurrent<sp/>operations</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Memory<sp/>Safety**:<sp/>Comprehensive<sp/>buffer<sp/>overflow<sp/>protection</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Error<sp/>Handling**:<sp/>Robust<sp/>input<sp/>validation<sp/>and<sp/>error<sp/>reporting</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Performance**:<sp/>SIMD<sp/>optimizations<sp/>for<sp/>critical<sp/>functions</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Address<sp/>encoding<sp/>convention</highlight></codeline>
+<codeline><highlight class="normal">As<sp/>per<sp/>the<sp/>[specification<sp/>document](https://github.com/M17-Project/M17_spec),<sp/>the<sp/>address<sp/>space<sp/>is<sp/>divided<sp/>into<sp/>parts.<sp/>Encodable<sp/>callsign<sp/>space<sp/>is<sp/>accessed<sp/>by<sp/>using<sp/>the<sp/>base40<sp/>alphabet.<sp/>If<sp/>the<sp/>first<sp/>character<sp/>is<sp/>set<sp/>to<sp/>`#`,<sp/>the<sp/>address<sp/>belongs<sp/>to<sp/>the<sp/>extended<sp/>hash-address<sp/>space.<sp/>The<sp/>broadcast<sp/>address<sp/>is<sp/>represented<sp/>by<sp/>`@ALL`.<sp/>Zero-address<sp/>is<sp/>invalid<sp/>and<sp/>decodes<sp/>into<sp/>a<sp/>null-string.<sp/>The<sp/>reserved<sp/>chunk<sp/>for<sp/>application<sp/>use<sp/>cannot<sp/>be<sp/>accessed<sp/>using<sp/>any<sp/>string.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Legacy<sp/>Makefile<sp/>building</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>Build<sp/>the<sp/>shared<sp/>object<sp/>`libm17.so`<sp/>by<sp/>running<sp/>`make`.&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>You<sp/>can<sp/>install<sp/>the<sp/>library<sp/>object<sp/>with<sp/>`make<sp/>install`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Unit<sp/>tests<sp/>are<sp/>available<sp/>and<sp/>can<sp/>be<sp/>run<sp/>with<sp/>`make<sp/>test<sp/>&amp;&amp;<sp/>make<sp/>testrun`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Cmake<sp/>building</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>Configre<sp/>the<sp/>build<sp/>-<sp/>run<sp/>`cmake<sp/>-B<sp/>build`<sp/>to<sp/>get<sp/>default<sp/>options.&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>Build<sp/>the<sp/>library<sp/>by<sp/>running<sp/>`cmake<sp/>--build<sp/>build`.&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>At<sp/>this<sp/>point<sp/>tests<sp/>can<sp/>be<sp/>run<sp/>by<sp/>doing<sp/>any<sp/>of:&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">`cmake<sp/>--build<sp/>build<sp/>--target<sp/>test`&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">`ctest<sp/>--test-dir<sp/>build`&lt;br&gt;</highlight></codeline>
+<codeline><highlight class="normal">`./build/unti_tests/unit_tests`</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/>Finally,<sp/>installation<sp/>is<sp/>just<sp/>`cmake<sp/>--install<sp/>build`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Unit<sp/>tests</highlight></codeline>
+<codeline><highlight class="normal">Unit<sp/>tests<sp/>use<sp/>the<sp/>[Unity](https://github.com/ThrowTheSwitch/Unity)<sp/>unit<sp/>testing<sp/>framework.</highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/README.md"/>
+  </compounddef>
+</doxygen>

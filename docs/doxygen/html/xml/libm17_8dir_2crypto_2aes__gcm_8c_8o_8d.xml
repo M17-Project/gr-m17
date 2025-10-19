@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="libm17_8dir_2crypto_2aes__gcm_8c_8o_8d" kind="file" language="D">
+    <compoundname>aes_gcm.c.o.d</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal">CMakeFiles/libm17.dir/crypto/aes_gcm.c.o:<sp/>\</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/aes_gcm.c<sp/>\</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/>/usr/include/stdc-predef.h<sp/>\</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/m17.h<sp/>\</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/>/usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h<sp/>/usr/include/stdint.h<sp/>\</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/libc-header-start.h<sp/>\</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/>/usr/include/features.h<sp/>/usr/include/features-time64.h<sp/>\</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/wordsize.h<sp/>\</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/timesize.h<sp/>\</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/sys/cdefs.h<sp/>\</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/</highlight><highlight class="keywordtype">long</highlight><highlight class="normal">-</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">.h<sp/>\</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/gnu/stubs.h<sp/>\</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/gnu/stubs-64.h<sp/>\</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types.h<sp/>\</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/typesizes.h<sp/>\</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/time64.h<sp/>\</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/wchar.h<sp/>\</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdint-intn.h<sp/>\</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h<sp/>\</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdint-least.h<sp/>\</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/>/usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h<sp/>/usr/include/</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">.h<sp/>\</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/locale_t.h<sp/>\</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h<sp/>\</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/>/usr/include/strings.h<sp/>\</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/strings_fortified.h<sp/>\</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/string_fortified.h<sp/>\</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/>/usr/include/time.h<sp/>/usr/include/x86_64-linux-gnu/bits/time.h<sp/>\</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/clock_t.h<sp/>\</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/time_t.h<sp/>\</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h<sp/>\</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h<sp/>\</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/endian.h<sp/>\</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/endianness.h<sp/>\</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h<sp/>\</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/timer_t.h<sp/>\</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h<sp/>\</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/>/usr/include/math.h<sp/>/usr/include/x86_64-linux-gnu/bits/math-vector.h<sp/>\</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h<sp/>\</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/floatn.h<sp/>\</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/floatn-common.h<sp/>\</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h<sp/>\</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/fp-logb.h<sp/>\</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/fp-fast.h<sp/>\</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h<sp/>\</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/mathcalls.h<sp/>\</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h<sp/>\</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/validation.h<sp/>\</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/>/usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h<sp/>\</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/key_derivation.h<sp/>\</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.h<sp/>\</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/bounds_checking.h<sp/>\</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/security_monitoring.h<sp/>\</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/trustzone.h<sp/>\</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h<sp/>\</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/>/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h<sp/>\</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/>/usr/include/stdlib.h<sp/>/usr/include/x86_64-linux-gnu/bits/waitflags.h<sp/>\</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/waitstatus.h<sp/>\</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/sys/types.h<sp/>/usr/include/endian.h<sp/>\</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/byteswap.h<sp/>\</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/uintn-identity.h<sp/>\</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/sys/select.h<sp/>\</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/select.h<sp/>\</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h<sp/>\</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h<sp/>\</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h<sp/>\</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/select2.h<sp/>\</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/select-decl.h<sp/>\</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h<sp/>\</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h<sp/>\</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h<sp/>\</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h<sp/>\</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/struct_mutex.h<sp/>\</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/struct_rwlock.h<sp/>/usr/include/alloca.h<sp/>\</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h<sp/>\</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdlib-</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">.h<sp/>\</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdlib.h<sp/>/usr/include/stdio.h<sp/>\</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/>/usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h<sp/>\</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h<sp/>\</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h<sp/>\</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h<sp/>\</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/__FILE.h<sp/>\</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/FILE.h<sp/>\</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h<sp/>\</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h<sp/>\</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdio_lim.h<sp/>\</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdio2-decl.h<sp/>\</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdio.h<sp/>\</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/>/usr/include/x86_64-linux-gnu/bits/stdio2.h</highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/crypto/aes_gcm.c.o.d"/>
+  </compounddef>
+</doxygen>

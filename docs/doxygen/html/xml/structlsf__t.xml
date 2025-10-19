@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structlsf__t" kind="struct" language="C++" prot="public">
+    <compoundname>lsf_t</compoundname>
+    <includes refid="m17_8h" local="no">m17.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structlsf__t_1a1d5d951b6cea99c4d934a13b9b2b4529" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t lsf_t::dst[6]</definition>
+        <argsstring>[6]</argsstring>
+        <name>dst</name>
+        <qualifiedname>lsf_t::dst</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.h" line="113" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structlsf__t_1a4baee260b62c86ed23b49c41189424f8" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t lsf_t::src[6]</definition>
+        <argsstring>[6]</argsstring>
+        <name>src</name>
+        <qualifiedname>lsf_t::src</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.h" line="114" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structlsf__t_1ae3dfc3269c4757cae6c475a73dfddcdd" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t lsf_t::type[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>type</name>
+        <qualifiedname>lsf_t::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.h" line="115" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structlsf__t_1ab936e459647e5612e6a7561961d27b2c" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t lsf_t::meta[112/8]</definition>
+        <argsstring>[112/8]</argsstring>
+        <name>meta</name>
+        <qualifiedname>lsf_t::meta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.h" line="116" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structlsf__t_1a711ed5b61540ac1efa4f1a2fab07ccbe" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t lsf_t::crc[2]</definition>
+        <argsstring>[2]</argsstring>
+        <name>crc</name>
+        <qualifiedname>lsf_t::crc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/m17.h" line="117" column="9" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structure holding Link Setup Frame data. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/m17.h" line="111" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/m17.h" bodystart="112" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structlsf__t_1a711ed5b61540ac1efa4f1a2fab07ccbe" prot="public" virt="non-virtual"><scope>lsf_t</scope><name>crc</name></member>
+      <member refid="structlsf__t_1a1d5d951b6cea99c4d934a13b9b2b4529" prot="public" virt="non-virtual"><scope>lsf_t</scope><name>dst</name></member>
+      <member refid="structlsf__t_1ab936e459647e5612e6a7561961d27b2c" prot="public" virt="non-virtual"><scope>lsf_t</scope><name>meta</name></member>
+      <member refid="structlsf__t_1a4baee260b62c86ed23b49c41189424f8" prot="public" virt="non-virtual"><scope>lsf_t</scope><name>src</name></member>
+      <member refid="structlsf__t_1ae3dfc3269c4757cae6c475a73dfddcdd" prot="public" virt="non-virtual"><scope>lsf_t</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

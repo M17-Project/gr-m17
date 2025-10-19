@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="secure__boot_8h" kind="file" language="C++">
+    <compoundname>secure_boot.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includedby refid="secure__boot_8c" local="yes">/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c</includedby>
+    <includedby refid="m17_8h" local="yes">/home/haaken/github-projects/gr-m17/libm17/m17.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h</label>
+        <link refid="secure__boot_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h</label>
+        <link refid="m17__coder__impl_8h_source"/>
+      </node>
+      <node id="4">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h</label>
+        <link refid="m17__decoder__impl_8h_source"/>
+      </node>
+      <node id="5">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h</label>
+        <link refid="secure__boot_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/haaken/github-projects/gr-m17/libm17/m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structm17__sb__attestation__t" prot="public">m17_sb_attestation_t</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0" prot="public" static="no" strong="no">
+        <type></type>
+        <name>m17_sb_status_t</name>
+        <enumvalue id="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a32277719a640c94182bfa3e56bdab23b" prot="public">
+          <name>M17_SB_SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a8602c00ab5fb3a1bc9095313f1a8ae51" prot="public">
+          <name>M17_SB_ERROR_INVALID_PARAM</name>
+          <initializer>= -1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a387c9a1538db7a75b6cba69e3fd81cc3" prot="public">
+          <name>M17_SB_ERROR_BOOT_CHAIN_INVALID</name>
+          <initializer>= -2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a94d9be5f28d5cd1d9f47f5a195df1bd4" prot="public">
+          <name>M17_SB_ERROR_SIGNATURE_INVALID</name>
+          <initializer>= -3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a30c8ccedbe8efb5da8bf63bbd27b33ad" prot="public">
+          <name>M17_SB_ERROR_HARDWARE_UNAVAILABLE</name>
+          <initializer>= -4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0ab87b0b4414a32e6c74ae273ac6f4af48" prot="public">
+          <name>M17_SB_ERROR_VERIFICATION_FAILED</name>
+          <initializer>= -5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a40545395af307bf954ce9c3f21ca3fc3" prot="public">
+          <name>M17_SB_ERROR_ATTESTATION_FAILED</name>
+          <initializer>= -6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="19" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="19" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670" prot="public" static="no" strong="no">
+        <type></type>
+        <name>m17_sb_level_t</name>
+        <enumvalue id="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670a43dde68df8b0c426959f5f7d0067d3cc" prot="public">
+          <name>M17_SB_LEVEL_NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670ac47d4fcc3b0a117ff3e7f61bde3cc98b" prot="public">
+          <name>M17_SB_LEVEL_BASIC</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670ae005fe01424e882fee06999aac107c6b" prot="public">
+          <name>M17_SB_LEVEL_ENHANCED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670a4b8c377712978499ccfc856dcc4df7b3" prot="public">
+          <name>M17_SB_LEVEL_MAXIMUM</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="30" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="secure__boot_8h_1abb686331a9719486bc9bce3163196962" prot="public" static="no" strong="no">
+        <type></type>
+        <name>m17_sb_component_t</name>
+        <enumvalue id="secure__boot_8h_1abb686331a9719486bc9bce3163196962a2c817dc1d327abf12a9a02960b91c50a" prot="public">
+          <name>M17_SB_COMPONENT_BOOTLOADER</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1abb686331a9719486bc9bce3163196962a397b4c4028e3a2ef4440567793f0ba49" prot="public">
+          <name>M17_SB_COMPONENT_KERNEL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1abb686331a9719486bc9bce3163196962a0b6363cc48d2e235e96591040f6f7533" prot="public">
+          <name>M17_SB_COMPONENT_TEE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1abb686331a9719486bc9bce3163196962afa2a8b78d9340331e3a5ac43a63317e1" prot="public">
+          <name>M17_SB_COMPONENT_M17_LIBRARY</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="secure__boot_8h_1abb686331a9719486bc9bce3163196962ac86352bc9a7adececcf427f73ab9ea10" prot="public">
+          <name>M17_SB_COMPONENT_CRYPTO_MODULE</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="38" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="38" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="secure__boot_8h_1abb36c620c22a5cc710daf8b76c56e306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_validate_boot_chain</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_sb_validate_boot_chain</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="57" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="73" bodyend="127" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="57" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1ac5d374f8d3babe0af21a6309e7e59d7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_get_boot_status</definition>
+        <argsstring>(m17_sb_level_t *level, bool *is_valid)</argsstring>
+        <name>m17_sb_get_boot_status</name>
+        <param>
+          <type>m17_sb_level_t *</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>is_valid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="58" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="129" bodyend="142" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="58" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1abf427a317176e8e8dc13e22a5043f09b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_validate_component</definition>
+        <argsstring>(m17_sb_component_t component)</argsstring>
+        <name>m17_sb_validate_component</name>
+        <param>
+          <type>m17_sb_component_t</type>
+          <declname>component</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="59" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="144" bodyend="188" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="59" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1ae0d3be74548d553400f4e41008ee85ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_create_attestation</definition>
+        <argsstring>(m17_sb_component_t component, m17_sb_attestation_t *attestation)</argsstring>
+        <name>m17_sb_create_attestation</name>
+        <param>
+          <type>m17_sb_component_t</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__sb__attestation__t" kindref="compound">m17_sb_attestation_t</ref> *</type>
+          <declname>attestation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="62" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="191" bodyend="216" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="62" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1ace5d0833bcb85b1758cc051658ae8fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_verify_attestation</definition>
+        <argsstring>(const m17_sb_attestation_t *attestation)</argsstring>
+        <name>m17_sb_verify_attestation</name>
+        <param>
+          <type>const <ref refid="structm17__sb__attestation__t" kindref="compound">m17_sb_attestation_t</ref> *</type>
+          <declname>attestation</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="64" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="218" bodyend="245" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="64" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1a15b296ff0299823b0275dfc0065dd0a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_get_attestation_report</definition>
+        <argsstring>(uint8_t *report, size_t *report_size)</argsstring>
+        <name>m17_sb_get_attestation_report</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>report</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>report_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="65" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="247" bodyend="282" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="65" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1a015e93e86bcc02df5f4c8fb3ce7f19bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_validate_root_key</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_sb_validate_root_key</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="68" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="285" bodyend="297" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="68" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1aeee39b08556fa3f4283d9dcf14d888f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_get_root_key_hash</definition>
+        <argsstring>(uint8_t *hash, size_t *hash_size)</argsstring>
+        <name>m17_sb_get_root_key_hash</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>hash</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>hash_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="69" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="299" bodyend="326" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="69" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1a72751507e96c42aaa5acee1e74823183" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_validate_chain_of_trust</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_sb_validate_chain_of_trust</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="70" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="328" bodyend="360" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="70" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1aed48fc4c6c88a6a993f6f5f98239b3c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_get_boot_measurements</definition>
+        <argsstring>(uint8_t *measurements, size_t *measurement_size)</argsstring>
+        <name>m17_sb_get_boot_measurements</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>measurements</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>measurement_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="73" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="363" bodyend="388" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="73" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1ace7374bb693ada813c79809846268a9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_monitor_integrity</definition>
+        <argsstring>(bool *is_intact)</argsstring>
+        <name>m17_sb_monitor_integrity</name>
+        <param>
+          <type>bool *</type>
+          <declname>is_intact</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="74" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="390" bodyend="409" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="74" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1a08386edd3916f62d8065d9f86733fc32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_detect_tampering</definition>
+        <argsstring>(bool *tampering_detected)</argsstring>
+        <name>m17_sb_detect_tampering</name>
+        <param>
+          <type>bool *</type>
+          <declname>tampering_detected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="75" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="411" bodyend="425" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="75" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1aa7b8e428a5650097c37c8d6d3e14cf69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_check_secure_boot_hardware</definition>
+        <argsstring>(bool *is_available)</argsstring>
+        <name>m17_sb_check_secure_boot_hardware</name>
+        <param>
+          <type>bool *</type>
+          <declname>is_available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="78" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="428" bodyend="439" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="78" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1a63166796322db0f6683eb4a2afbeb2aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_get_hardware_features</definition>
+        <argsstring>(uint32_t *features)</argsstring>
+        <name>m17_sb_get_hardware_features</name>
+        <param>
+          <type>uint32_t *</type>
+          <declname>features</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="79" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="441" bodyend="460" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="79" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__boot_8h_1a957ca08401c588356fcf9926ab14efd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_sb_status_t</type>
+        <definition>m17_sb_status_t m17_sb_validate_hardware_roots_of_trust</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_sb_validate_hardware_roots_of_trust</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="80" column="17" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.c" bodystart="462" bodyend="474" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" declline="80" declcolumn="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>crypto/secure_boot.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>chain<sp/>validation<sp/>for<sp/>M17<sp/>cryptographic<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ensures<sp/>hardware-enforced<sp/>security<sp/>from<sp/>boot<sp/>to<sp/>runtime</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Foundation,<sp/>19<sp/>April<sp/>2025</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>M17_SECURE_BOOT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_SECURE_BOOT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stddef.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>status<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_SUCCESS<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_ERROR_INVALID_PARAM<sp/>=<sp/>-1,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_ERROR_BOOT_CHAIN_INVALID<sp/>=<sp/>-2,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_ERROR_SIGNATURE_INVALID<sp/>=<sp/>-3,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_ERROR_HARDWARE_UNAVAILABLE<sp/>=<sp/>-4,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_ERROR_VERIFICATION_FAILED<sp/>=<sp/>-5,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_ERROR_ATTESTATION_FAILED<sp/>=<sp/>-6</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}<sp/>m17_sb_status_t;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>validation<sp/>levels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_LEVEL_NONE<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_LEVEL_BASIC<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_LEVEL_ENHANCED<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_LEVEL_MAXIMUM<sp/>=<sp/>3</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}<sp/>m17_sb_level_t;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>component<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_COMPONENT_BOOTLOADER<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_COMPONENT_KERNEL<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_COMPONENT_TEE<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_COMPONENT_M17_LIBRARY<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_SB_COMPONENT_CRYPTO_MODULE<sp/>=<sp/>5</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}<sp/>m17_sb_component_t;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>attestation<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structm17__sb__attestation__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>component_id;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>component_hash[32];</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>signature[64];</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>timestamp;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>version;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_verified;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}<sp/><ref refid="structm17__sb__attestation__t" kindref="compound">m17_sb_attestation_t</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>chain<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_validate_boot_chain(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_get_boot_status(m17_sb_level_t<sp/>*level,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*is_valid);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_validate_component(m17_sb_component_t<sp/>component);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>attestation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_create_attestation(m17_sb_component_t<sp/>component,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__sb__attestation__t" kindref="compound">m17_sb_attestation_t</ref><sp/>*attestation);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_verify_attestation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structm17__sb__attestation__t" kindref="compound">m17_sb_attestation_t</ref><sp/>*attestation);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_get_attestation_report(uint8_t<sp/>*report,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*report_size);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>key<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_validate_root_key(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_get_root_key_hash(uint8_t<sp/>*hash,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*hash_size);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_validate_chain_of_trust(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_get_boot_measurements(uint8_t<sp/>*measurements,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*measurement_size);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_monitor_integrity(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*is_intact);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_detect_tampering(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*tampering_detected);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>boot<sp/>hardware<sp/>features</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_check_secure_boot_hardware(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*is_available);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_get_hardware_features(uint32_t<sp/>*features);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">m17_sb_status_t<sp/>m17_sb_validate_hardware_roots_of_trust(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>M17_SECURE_BOOT_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h"/>
+  </compounddef>
+</doxygen>

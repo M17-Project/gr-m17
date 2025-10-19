@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structtee__key__t" kind="struct" language="C++" prot="public">
+    <compoundname>tee_key_t</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structtee__key__t_1a4e96c8ee168ceb57efa74aa98c671082" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t tee_key_t::key_id</definition>
+        <argsstring></argsstring>
+        <name>key_id</name>
+        <qualifiedname>tee_key_t::key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" line="58" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtee__key__t_1a1ac899ba320c82d863bc6a18540971f5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t tee_key_t::key_type</definition>
+        <argsstring></argsstring>
+        <name>key_type</name>
+        <qualifiedname>tee_key_t::key_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" line="59" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtee__key__t_1aa99b84cd48e840036742de840d631553" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t tee_key_t::key_data[64]</definition>
+        <argsstring>[64]</argsstring>
+        <name>key_data</name>
+        <qualifiedname>tee_key_t::key_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" line="60" column="13" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtee__key__t_1a090dee4ccb18fcd55fe611d8ff90ebec" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t tee_key_t::key_size</definition>
+        <argsstring></argsstring>
+        <name>key_size</name>
+        <qualifiedname>tee_key_t::key_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" line="61" column="12" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtee__key__t_1add41197f200c3f581a0d3dc72eb8f632" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool tee_key_t::is_loaded</definition>
+        <argsstring></argsstring>
+        <name>is_loaded</name>
+        <qualifiedname>tee_key_t::is_loaded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" line="62" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtee__key__t_1a7cd9faad7cefb37de6de45e022094c41" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t tee_key_t::permissions</definition>
+        <argsstring></argsstring>
+        <name>permissions</name>
+        <qualifiedname>tee_key_t::permissions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" line="63" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtee__key__t_1af075b99309fbfe24b2c853dab8e2454e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t tee_key_t::created_timestamp</definition>
+        <argsstring></argsstring>
+        <name>created_timestamp</name>
+        <qualifiedname>tee_key_t::created_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" line="64" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" line="57" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="57" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structtee__key__t_1af075b99309fbfe24b2c853dab8e2454e" prot="public" virt="non-virtual"><scope>tee_key_t</scope><name>created_timestamp</name></member>
+      <member refid="structtee__key__t_1add41197f200c3f581a0d3dc72eb8f632" prot="public" virt="non-virtual"><scope>tee_key_t</scope><name>is_loaded</name></member>
+      <member refid="structtee__key__t_1aa99b84cd48e840036742de840d631553" prot="public" virt="non-virtual"><scope>tee_key_t</scope><name>key_data</name></member>
+      <member refid="structtee__key__t_1a4e96c8ee168ceb57efa74aa98c671082" prot="public" virt="non-virtual"><scope>tee_key_t</scope><name>key_id</name></member>
+      <member refid="structtee__key__t_1a090dee4ccb18fcd55fe611d8ff90ebec" prot="public" virt="non-virtual"><scope>tee_key_t</scope><name>key_size</name></member>
+      <member refid="structtee__key__t_1a1ac899ba320c82d863bc6a18540971f5" prot="public" virt="non-virtual"><scope>tee_key_t</scope><name>key_type</name></member>
+      <member refid="structtee__key__t_1a7cd9faad7cefb37de6de45e022094c41" prot="public" virt="non-virtual"><scope>tee_key_t</scope><name>permissions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

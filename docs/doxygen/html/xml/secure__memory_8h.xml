@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="secure__memory_8h" kind="file" language="C++">
+    <compoundname>secure_memory.h</compoundname>
+    <includes local="no">stddef.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includedby refid="m17_8h" local="yes">/home/haaken/github-projects/gr-m17/libm17/m17.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h</label>
+        <link refid="secure__memory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>stddef.h</label>
+      </node>
+      <node id="3">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h</label>
+        <link refid="m17__coder__impl_8h_source"/>
+      </node>
+      <node id="4">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h</label>
+        <link refid="m17__decoder__impl_8h_source"/>
+      </node>
+      <node id="5">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h</label>
+        <link refid="secure__memory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/haaken/github-projects/gr-m17/libm17/m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="secure__memory_8h_1af5ea4df90c31bebe3497bb0cea62d994" prot="public" static="no">
+        <type>struct <ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref></type>
+        <definition>typedef struct m17_secure_key_t m17_secure_key_t</definition>
+        <argsstring></argsstring>
+        <name>m17_secure_key_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="41" column="31" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="secure__memory_8h_1a14331642a2004275332b4fcfec9eaf70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_secure_wipe</definition>
+        <argsstring>(void *ptr, size_t len)</argsstring>
+        <name>m17_secure_wipe</name>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="23" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="19" bodyend="51" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="23" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1a6d6dfb37cbcbb61c37b95a3a1898219c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * m17_secure_alloc</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>m17_secure_alloc</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="26" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="54" bodyend="68" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="26" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1a42ba6b68b180842eea401fb44e69a6fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * m17_secure_realloc</definition>
+        <argsstring>(void *ptr, size_t old_size, size_t new_size)</argsstring>
+        <name>m17_secure_realloc</name>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>old_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>new_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="29" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="71" bodyend="96" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="29" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1a3333a70879b6e45cc188a2ccd48dfa25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_secure_free</definition>
+        <argsstring>(void *ptr, size_t size)</argsstring>
+        <name>m17_secure_free</name>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="32" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="99" bodyend="104" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="32" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1ac0e780203aaf575ce10ac5ef01b35d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int m17_secure_lock_memory</definition>
+        <argsstring>(void *ptr, size_t size)</argsstring>
+        <name>m17_secure_lock_memory</name>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="35" column="5" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="107" bodyend="119" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="35" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1ab2882e77c3f41a2fe0d8f52436f377cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int m17_secure_unlock_memory</definition>
+        <argsstring>(void *ptr, size_t size)</argsstring>
+        <name>m17_secure_unlock_memory</name>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="38" column="5" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="122" bodyend="134" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="38" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1a59d451afd30eeb5289f06801ae7b10be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref> *</type>
+        <definition>m17_secure_key_t * m17_secure_key_create</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>m17_secure_key_create</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="44" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="144" bodyend="164" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="44" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1affab118273041e16c54627f9d9c6f59f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int m17_secure_key_lock</definition>
+        <argsstring>(m17_secure_key_t *key)</argsstring>
+        <name>m17_secure_key_lock</name>
+        <param>
+          <type><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="47" column="5" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="167" bodyend="182" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="47" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1a58218bd97a001db58136ef798d4a227c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int m17_secure_key_unlock</definition>
+        <argsstring>(m17_secure_key_t *key)</argsstring>
+        <name>m17_secure_key_unlock</name>
+        <param>
+          <type><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="50" column="5" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="185" bodyend="200" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="50" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1a9184db8c69cd2714a00482f9371305cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void m17_secure_key_destroy</definition>
+        <argsstring>(m17_secure_key_t *key)</argsstring>
+        <name>m17_secure_key_destroy</name>
+        <param>
+          <type><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="53" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="203" bodyend="215" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="53" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1a731963487296a9bc7ec6bdaa0e833b11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t * m17_secure_key_get_data</definition>
+        <argsstring>(const m17_secure_key_t *key)</argsstring>
+        <name>m17_secure_key_get_data</name>
+        <param>
+          <type>const <ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="56" column="15" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="218" bodyend="224" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="56" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1ae1188b6a42f245ec03b26cff2d1e48df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t m17_secure_key_get_size</definition>
+        <argsstring>(const m17_secure_key_t *key)</argsstring>
+        <name>m17_secure_key_get_size</name>
+        <param>
+          <type>const <ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref> *</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="59" column="8" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="227" bodyend="233" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="59" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="secure__memory_8h_1a3164571c03bba163725aa3dcf7dfb123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int m17_secure_key_copy</definition>
+        <argsstring>(m17_secure_key_t *dest, const uint8_t *src, size_t size)</argsstring>
+        <name>m17_secure_key_copy</name>
+        <param>
+          <type><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref> *</type>
+          <declname>dest</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" line="62" column="5" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.c" bodystart="236" bodyend="257" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h" declline="62" declcolumn="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>crypto/secure_memory.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>memory<sp/>handling<sp/>utilities<sp/>for<sp/>cryptographic<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implements<sp/>secure<sp/>memory<sp/>wiping<sp/>and<sp/>protection<sp/>mechanisms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Foundation,<sp/>19<sp/>April<sp/>2025</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>M17_SECURE_MEMORY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_SECURE_MEMORY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stddef.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>memory<sp/>wiping<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wipes<sp/>memory<sp/>with<sp/>multiple<sp/>patterns<sp/>to<sp/>prevent<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_secure_wipe(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>len);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>memory<sp/>allocation<sp/>with<sp/>automatic<sp/>wiping<sp/>on<sp/>free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>m17_secure_alloc(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>memory<sp/>reallocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>m17_secure_realloc(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>old_size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>new_size);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>memory<sp/>free<sp/>with<sp/>wiping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_secure_free(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lock<sp/>memory<sp/>to<sp/>prevent<sp/>swapping<sp/>to<sp/>disk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m17_secure_lock_memory(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Unlock<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m17_secure_unlock_memory(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Secure<sp/>key<sp/>storage<sp/>structure<sp/>(opaque)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref><sp/><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>secure<sp/>key<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref>*<sp/>m17_secure_key_create(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Lock<sp/>key<sp/>in<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m17_secure_key_lock(<ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref><sp/>*key);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Unlock<sp/>key<sp/>from<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m17_secure_key_unlock(<ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref><sp/>*key);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Destroy<sp/>secure<sp/>key<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>m17_secure_key_destroy(<ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref><sp/>*key);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get<sp/>key<sp/>data<sp/>(read-only<sp/>access)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>m17_secure_key_get_data(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref><sp/>*key);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get<sp/>key<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>m17_secure_key_get_size(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref><sp/>*key);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copy<sp/>key<sp/>data<sp/>securely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m17_secure_key_copy(<ref refid="structm17__secure__key__t" kindref="compound">m17_secure_key_t</ref><sp/>*dest,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*src,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>M17_SECURE_MEMORY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_memory.h"/>
+  </compounddef>
+</doxygen>

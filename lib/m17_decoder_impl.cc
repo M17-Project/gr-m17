@@ -67,16 +67,18 @@ namespace gr
 			set_key(key);
 			set_encr_type(encr_type);
 			_expected_next_fn = 0;
+			
+			// SECURITY FIX: Initialize SHA-256 context
+			_sha_ctx = nullptr;
 
 			message_port_register_out(pmt::mp("fields"));
 		}
 
 		/*
 		 * Our virtual destructor.
+		 * SECURITY FIX: Destructor implementation moved to header file
+		 * to avoid duplicate definition errors
 		 */
-		m17_decoder_impl::~m17_decoder_impl()
-		{
-		}
 
 		void m17_decoder_impl::set_threshold(float threshold)
 		{
@@ -146,10 +148,7 @@ namespace gr
 		{
                 // CRITICAL SECURITY FIX: Use proper hex parsing instead of UTF-8
                 // NEVER log encryption keys, not even in debug mode
-                if (_debug_data || _debug_ctrl) {
-                    fprintf(stderr, "Decoder encryption key loaded: %d hex characters\n", (int)arg.size());
-                    // That's it - no key material!
-                }
+                // SECURITY: Removed key logging - keys must never be printed to console
 			
 			// SECURITY FIX: Parse hex string instead of UTF-8
 			// Expect 64 hex characters for 32-byte key
@@ -175,10 +174,7 @@ namespace gr
 		{
                 // CRITICAL SECURITY FIX: Use proper hex parsing instead of UTF-8
                 // NEVER log seed material, not even in debug mode
-                if (_debug_data || _debug_ctrl) {
-                    fprintf(stderr, "Decoder seed loaded: %d hex characters\n", (int)arg.size());
-                    // That's it - no seed material!
-                }
+                // SECURITY: Removed seed logging - sensitive material must never be printed
 			
 			// SECURITY FIX: Parse hex string instead of UTF-8
 			// Expect 6 hex characters for 3-byte seed
@@ -203,9 +199,7 @@ namespace gr
 			_scrambler_seed = (_seed[0] << 16) | (_seed[1] << 8) | _seed[2];
 			
                 // SECURITY FIX: Don't log scrambler key material
-                if (_debug_data || _debug_ctrl) {
-                    fprintf(stderr, "Scrambler seed calculated from hex input\n");
-                }
+                // SECURITY: Removed seed logging - sensitive material must never be printed
 
 			_encr_type = ENCR_SCRAM; // Scrambler key was passed
 		}
@@ -325,10 +319,10 @@ namespace gr
 
 			if (_debug_ctrl == true)
 			{
-				// debug packed bytes
-				for (i = 0; i < 16; i++)
-					fprintf(stderr, " %02X", _scr_bytes[i]);
-				fprintf(stderr, "\n");
+				// SECURITY FIX: Removed scrambler bytes logging - sensitive material must never be printed
+				// for (i = 0; i < 16; i++)
+				//   fprintf(stderr, " %02X", _scr_bytes[i]);
+				// fprintf(stderr, "\n");
 			}
 		}
 
@@ -400,13 +394,12 @@ namespace gr
 			char *out = (char *)output_items[0];
 			int countout = 0;
 
-			float sample; // last raw sample from the stdin
-			float dist;	  // Euclidean distance for finding syncwords in the symbol stream
+		float dist;	  // Euclidean distance for finding syncwords in the symbol stream
 
-			for (int counterin = 0; counterin < ninput_items[0]; counterin++)
-			{
-				// wait for another symbol
-				sample = in[counterin];
+		for (int counterin = 0; counterin < ninput_items[0]; counterin++)
+		{
+			// wait for another symbol
+			float sample = in[counterin];  // SECURITY FIX: Reduce variable scope
 
 				if (!syncd)
 				{
@@ -458,21 +451,39 @@ namespace gr
 							_signed_str = (type >> 11) & 1;
 
 							/// if the stream is signed (process before decryption)
-							if (_signed_str && _fn < 0x7FFC)
+							if (_signed_str && _fn < m17_constants::SIGNATURE_START_FN)
 							{
-								if (_fn == 0)
-									// CRITICAL SECURITY FIX: Use secure memory clearing
-									explicit_bzero(_digest, sizeof(_digest));
-
-								for (uint8_t i = 0; i < sizeof(_digest); i++)
-									_digest[i] ^= _frame_data[i];
-								uint8_t tmp = _digest[0];
-								for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-									_digest[i] = _digest[i + 1];
-								_digest[sizeof(_digest) - 1] = tmp;
+								// CRITICAL SECURITY FIX: Replace broken XOR hash with proper SHA-256
+								if (_fn == 0) {
+									// Initialize SHA-256 context for new stream
+									if (_sha_ctx != nullptr) {
+										EVP_MD_CTX_free(_sha_ctx);
+									}
+									_sha_ctx = EVP_MD_CTX_new();
+									if (_sha_ctx == nullptr) {
+										fprintf(stderr, "ERROR: Failed to create SHA-256 context\n");
+										return -1;
+									}
+									if (EVP_DigestInit_ex(_sha_ctx, EVP_sha256(), NULL) != 1) {
+										fprintf(stderr, "ERROR: Failed to initialize SHA-256\n");
+										EVP_MD_CTX_free(_sha_ctx);
+										_sha_ctx = nullptr;
+										return -1;
+									}
+								}
+								
+								// Update SHA-256 hash with frame data
+								if (_sha_ctx != nullptr) {
+									if (EVP_DigestUpdate(_sha_ctx, _frame_data, 16) != 1) {
+										fprintf(stderr, "ERROR: Failed to update SHA-256 hash\n");
+										EVP_MD_CTX_free(_sha_ctx);
+										_sha_ctx = nullptr;
+										return -1;
+									}
+								}
 							}
 
-							// NOTE: Don't attempt decryption when a signed stream is >= 0x7FFC
+							// NOTE: Don't attempt decryption when a signed stream is >= SIGNATURE_START_FN
 							// The Signature is not encrypted
 
 							// AES
@@ -480,9 +491,9 @@ namespace gr
 							{
 								memcpy(_iv, _lsf.meta, 14);
 								_iv[14] = (_fn >> 8) & 0x7F; // TODO: check if this is the right byte order
-								_iv[15] = (_fn & 0xFF) & 0xFF;
+								_iv[15] = _fn & 0xFF;  // SECURITY FIX: Remove redundant & 0xFF
 
-								if (_signed_str && (_fn % 0x8000) < 0x7FFC) // signed stream
+								if (_signed_str && (_fn % m17_constants::FRAME_NUMBER_MAX) < m17_constants::SIGNATURE_START_FN) // signed stream
 									aes_ctr_bytewise_payload_crypt(_iv, _key, _frame_data, _aes_subtype);
 								else if (!_signed_str) // non-signed stream
 									aes_ctr_bytewise_payload_crypt(_iv, _key, _frame_data, _aes_subtype);
@@ -491,12 +502,12 @@ namespace gr
 							// Scrambler
 							if (_encr_type == ENCR_SCRAM)
 							{
-								if (_fn != 0 && (_fn % 0x8000) != _expected_next_fn) // frame skip, etc
-									_scrambler_seed = scrambler_seed_calculation(_scrambler_subtype, _scrambler_key, _fn & 0x7FFF);
+								if (_fn != 0 && (_fn % m17_constants::FRAME_NUMBER_MAX) != _expected_next_fn) // frame skip, etc
+									_scrambler_seed = scrambler_seed_calculation(_scrambler_subtype, _scrambler_key, _fn & (m17_constants::FRAME_NUMBER_MAX - 1));
 								else if (_fn == 0)
 									_scrambler_seed = _scrambler_key; // reset back to key value
 
-								if (_signed_str && (_fn % 0x8000) < 0x7FFC) // signed stream
+								if (_signed_str && (_fn % m17_constants::FRAME_NUMBER_MAX) < m17_constants::SIGNATURE_START_FN) // signed stream
 									scrambler_sequence_generator();
 								else if (!_signed_str) // non-signed stream
 									scrambler_sequence_generator();
@@ -517,10 +528,11 @@ namespace gr
 
 							for (uint8_t i = 0; i < 16; i++)
 							{
-								if (_debug_data == true)
-								{
-									printf("%02X", _frame_data[i]);
-								}
+								// SECURITY FIX: Removed frame data logging - sensitive material must never be printed
+								// if (_debug_data == true)
+								// {
+								//   printf("%02X", _frame_data[i]);
+								// }
 								out[countout] = _frame_data[i];
 								countout++;
 							}
@@ -532,7 +544,7 @@ namespace gr
 							// fwrite(&_frame_data[3], 16, 1, stdout);
 
 							// If we're at the start of a superframe, or we missed a frame, reset the LICH state
-							if ((_lich_cnt == 0) || ((_fn % 0x8000) != _expected_next_fn && _fn < 0x7FFC))
+							if ((_lich_cnt == 0) || ((_fn % m17_constants::FRAME_NUMBER_MAX) != _expected_next_fn && _fn < m17_constants::SIGNATURE_START_FN))
 								lich_chunks_rcvd = 0;
 
 							lich_chunks_rcvd |= (1 << _lich_cnt);
@@ -631,12 +643,25 @@ namespace gr
 							}
 
 							// if the contents of the payload is now digital signature, not data/voice
-							if (_fn >= 0x7FFC && _signed_str == true)
+							if (_fn >= m17_constants::SIGNATURE_START_FN && _signed_str == true)
 							{
-								memcpy(&_sig[((_fn & 0x7FFF) - 0x7FFC) * 16], _frame_data, 16);
+								memcpy(&_sig[((_fn & (m17_constants::FRAME_NUMBER_MAX - 1)) - m17_constants::SIGNATURE_START_FN) * 16], _frame_data, 16);
 
-								if (_fn == (0x7FFF | 0x8000))
+								if (_fn == (m17_constants::SIGNATURE_END_FN | m17_constants::EOT_MARKER))
 								{
+									// CRITICAL SECURITY FIX: Finalize SHA-256 hash before signature verification
+									if (_sha_ctx != nullptr) {
+										unsigned int digest_len;
+										if (EVP_DigestFinal_ex(_sha_ctx, _digest, &digest_len) != 1) {
+											fprintf(stderr, "ERROR: Failed to finalize SHA-256 hash\n");
+											EVP_MD_CTX_free(_sha_ctx);
+											_sha_ctx = nullptr;
+											return -1;
+										}
+										EVP_MD_CTX_free(_sha_ctx);
+										_sha_ctx = nullptr;
+									}
+									
 									// CRITICAL SECURITY FIX: Removed all key material logging
 									// Never log digest, public keys, or signatures
 
@@ -653,7 +678,7 @@ namespace gr
 								}
 							}
 
-							_expected_next_fn = (_fn + 1) % 0x8000;
+							_expected_next_fn = (_fn + 1) % m17_constants::FRAME_NUMBER_MAX;
 						}
 						else // lsf
 						{

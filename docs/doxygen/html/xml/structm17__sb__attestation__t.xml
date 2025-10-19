@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structm17__sb__attestation__t" kind="struct" language="C++" prot="public">
+    <compoundname>m17_sb_attestation_t</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structm17__sb__attestation__t_1a4130a9f8c991aa6bdc0822d1cccc7314" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t m17_sb_attestation_t::component_id</definition>
+        <argsstring></argsstring>
+        <name>component_id</name>
+        <qualifiedname>m17_sb_attestation_t::component_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="48" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__sb__attestation__t_1aaf6f8639dd03d646a7780ee4a2921f57" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t m17_sb_attestation_t::component_hash[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>component_hash</name>
+        <qualifiedname>m17_sb_attestation_t::component_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="49" column="13" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__sb__attestation__t_1a922be7cf82b46c705ec87652adcff628" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t m17_sb_attestation_t::signature[64]</definition>
+        <argsstring>[64]</argsstring>
+        <name>signature</name>
+        <qualifiedname>m17_sb_attestation_t::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="50" column="13" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__sb__attestation__t_1a711dd8f8e0cebe4db44f5b88814d12d9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t m17_sb_attestation_t::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>m17_sb_attestation_t::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="51" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__sb__attestation__t_1a6872e36ce21e6597288e83cc9071934f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t m17_sb_attestation_t::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>m17_sb_attestation_t::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="52" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__sb__attestation__t_1a6fa798f98053db93d8a2d8118d8cfd06" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool m17_sb_attestation_t::is_verified</definition>
+        <argsstring></argsstring>
+        <name>is_verified</name>
+        <qualifiedname>m17_sb_attestation_t::is_verified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="53" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" line="47" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/secure_boot.h" bodystart="47" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structm17__sb__attestation__t_1aaf6f8639dd03d646a7780ee4a2921f57" prot="public" virt="non-virtual"><scope>m17_sb_attestation_t</scope><name>component_hash</name></member>
+      <member refid="structm17__sb__attestation__t_1a4130a9f8c991aa6bdc0822d1cccc7314" prot="public" virt="non-virtual"><scope>m17_sb_attestation_t</scope><name>component_id</name></member>
+      <member refid="structm17__sb__attestation__t_1a6fa798f98053db93d8a2d8118d8cfd06" prot="public" virt="non-virtual"><scope>m17_sb_attestation_t</scope><name>is_verified</name></member>
+      <member refid="structm17__sb__attestation__t_1a922be7cf82b46c705ec87652adcff628" prot="public" virt="non-virtual"><scope>m17_sb_attestation_t</scope><name>signature</name></member>
+      <member refid="structm17__sb__attestation__t_1a711dd8f8e0cebe4db44f5b88814d12d9" prot="public" virt="non-virtual"><scope>m17_sb_attestation_t</scope><name>timestamp</name></member>
+      <member refid="structm17__sb__attestation__t_1a6872e36ce21e6597288e83cc9071934f" prot="public" virt="non-virtual"><scope>m17_sb_attestation_t</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

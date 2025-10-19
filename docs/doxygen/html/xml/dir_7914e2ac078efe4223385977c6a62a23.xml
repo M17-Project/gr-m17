@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_7914e2ac078efe4223385977c6a62a23" kind="dir">
+    <compoundname>/home/haaken/github-projects/gr-m17/libm17/build</compoundname>
+    <innerdir refid="dir_7cc8b7615479796271cec414f738a4f0">/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles</innerdir>
+    <innerfile refid="DartConfiguration_8tcl">DartConfiguration.tcl</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/build/"/>
+  </compounddef>
+</doxygen>

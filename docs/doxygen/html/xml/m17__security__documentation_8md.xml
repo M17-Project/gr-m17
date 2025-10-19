@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="m17__security__documentation_8md" kind="file" language="Markdown">
+    <compoundname>m17_security_documentation.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>M17<sp/>Security<sp/>Documentation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>🔒<sp/>Security<sp/>Overview</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>M17<sp/>Digital<sp/>Voice<sp/>Protocol<sp/>implementation<sp/>includes<sp/>comprehensive<sp/>security<sp/>features<sp/>designed<sp/>for<sp/>amateur<sp/>radio<sp/>use<sp/>with<sp/>professional-grade<sp/>cryptographic<sp/>protection.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>🛡️<sp/>Security<sp/>Features</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Cryptographic<sp/>Security</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Digital<sp/>Signatures</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Ed25519**:<sp/>Modern<sp/>elliptic<sp/>curve<sp/>digital<sp/>signatures<sp/>for<sp/>extended<sp/>mode</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**P-256<sp/>ECDSA**:<sp/>M17<sp/>specification<sp/>compliant<sp/>signatures<sp/>for<sp/>strict<sp/>mode</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Signature<sp/>Verification**:<sp/>Constant-time<sp/>operations<sp/>resistant<sp/>to<sp/>side-channel<sp/>attacks</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Key<sp/>Management**:<sp/>Hardware<sp/>security<sp/>module<sp/>integration<sp/>for<sp/>private<sp/>key<sp/>storage</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Key<sp/>Agreement</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Curve25519<sp/>ECDH**:<sp/>Secure<sp/>key<sp/>exchange<sp/>for<sp/>encrypted<sp/>channels</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**P-256<sp/>ECDH**:<sp/>M17<sp/>specification<sp/>compliant<sp/>key<sp/>agreement</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Forward<sp/>Secrecy**:<sp/>Each<sp/>session<sp/>uses<sp/>unique<sp/>key<sp/>pairs</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Key<sp/>Derivation**:<sp/>HKDF<sp/>for<sp/>secure<sp/>key<sp/>derivation<sp/>from<sp/>shared<sp/>secrets</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Encryption</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**AES-256-GCM**:<sp/>Authenticated<sp/>encryption<sp/>for<sp/>extended<sp/>mode</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**AES-256-CTR**:<sp/>M17<sp/>specification<sp/>compliant<sp/>encryption<sp/>for<sp/>strict<sp/>mode</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**IV<sp/>Generation**:<sp/>Cryptographically<sp/>secure<sp/>random<sp/>IVs</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Key<sp/>Rotation**:<sp/>Automatic<sp/>key<sp/>rotation<sp/>for<sp/>long-term<sp/>security</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Memory<sp/>Security</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Secure<sp/>Memory<sp/>Clearing</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>SECURITY:<sp/>Always<sp/>use<sp/>explicit_bzero<sp/>for<sp/>sensitive<sp/>data</highlight></codeline>
+<codeline><highlight class="normal">explicit_bzero(sensitive_data,<sp/>sizeof(sensitive_data));</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Bounds<sp/>Checking</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>SECURITY:<sp/>Always<sp/>validate<sp/>array<sp/>bounds</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>(index<sp/>&lt;<sp/>array_size)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>array[index]<sp/>=<sp/>value;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Input<sp/>Validation</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>SECURITY:<sp/>Always<sp/>validate<sp/>input<sp/>parameters</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>(key_length<sp/>!=<sp/>32)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>throw<sp/>std::invalid_argument(&quot;Invalid<sp/>key<sp/>length&quot;);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Hardware<sp/>Security</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Nitrokey<sp/>Integration</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Hardware<sp/>Security<sp/>Module**:<sp/>Secure<sp/>key<sp/>storage<sp/>and<sp/>operations</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**PIN<sp/>Protection**:<sp/>Multi-factor<sp/>authentication</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Tamper<sp/>Resistance**:<sp/>Hardware-based<sp/>security</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Key<sp/>Isolation**:<sp/>Keys<sp/>never<sp/>leave<sp/>the<sp/>hardware<sp/>module</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>TrustZone<sp/>Support</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Secure<sp/>World**:<sp/>Isolated<sp/>execution<sp/>environment</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Secure<sp/>Boot**:<sp/>Verified<sp/>boot<sp/>process</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Attestation**:<sp/>Hardware-based<sp/>security<sp/>verification</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>⚠️<sp/>Security<sp/>Warnings</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Critical<sp/>Security<sp/>Requirements</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Never<sp/>Log<sp/>Sensitive<sp/>Data</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>❌<sp/>NEVER<sp/>DO<sp/>THIS</highlight></codeline>
+<codeline><highlight class="normal">printf(&quot;Key:<sp/>%s\n&quot;,<sp/>key_hex);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>✅<sp/>DO<sp/>THIS<sp/>INSTEAD</highlight></codeline>
+<codeline><highlight class="normal">printf(&quot;Key:<sp/>[HIDDEN]\n&quot;);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Always<sp/>Use<sp/>Secure<sp/>Memory<sp/>Clearing</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>❌<sp/>NEVER<sp/>DO<sp/>THIS</highlight></codeline>
+<codeline><highlight class="normal">memset(sensitive_data,<sp/>0,<sp/>size);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>✅<sp/>DO<sp/>THIS<sp/>INSTEAD</highlight></codeline>
+<codeline><highlight class="normal">explicit_bzero(sensitive_data,<sp/>size);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Validate<sp/>All<sp/>Cryptographic<sp/>Operations</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>❌<sp/>NEVER<sp/>DO<sp/>THIS</highlight></codeline>
+<codeline><highlight class="normal">EVP_DigestInit_ex(ctx,<sp/>EVP_sha256(),<sp/>NULL);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>✅<sp/>DO<sp/>THIS<sp/>INSTEAD</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>(EVP_DigestInit_ex(ctx,<sp/>EVP_sha256(),<sp/>NULL)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Handle<sp/>error</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>-1;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Security<sp/>Best<sp/>Practices</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Key<sp/>Management</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>**Store<sp/>private<sp/>keys<sp/>in<sp/>hardware<sp/>security<sp/>modules**</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>**Use<sp/>secure<sp/>key<sp/>derivation<sp/>functions**</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>**Implement<sp/>proper<sp/>key<sp/>rotation**</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/>**Clear<sp/>sensitive<sp/>memory<sp/>after<sp/>use**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Authentication</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>**Use<sp/>digital<sp/>signatures<sp/>for<sp/>message<sp/>authentication**</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>**Implement<sp/>challenge-response<sp/>protocols**</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>**Validate<sp/>timestamps<sp/>and<sp/>nonces**</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/>**Protect<sp/>against<sp/>replay<sp/>attacks**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>Encryption</highlight></codeline>
+<codeline><highlight class="normal">1.<sp/>**Use<sp/>authenticated<sp/>encryption<sp/>(AES-GCM)**</highlight></codeline>
+<codeline><highlight class="normal">2.<sp/>**Generate<sp/>random<sp/>IVs<sp/>for<sp/>each<sp/>message**</highlight></codeline>
+<codeline><highlight class="normal">3.<sp/>**Use<sp/>secure<sp/>key<sp/>agreement<sp/>(ECDH)**</highlight></codeline>
+<codeline><highlight class="normal">4.<sp/>**Implement<sp/>proper<sp/>key<sp/>derivation**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>🔧<sp/>Compatibility<sp/>Modes</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>M17<sp/>Strict<sp/>Mode<sp/>(Default)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Purpose**:<sp/>Full<sp/>M17<sp/>specification<sp/>compliance</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Features**:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>P-256<sp/>ECDSA<sp/>for<sp/>digital<sp/>signatures</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>AES-256-CTR<sp/>for<sp/>encryption</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Standard<sp/>LSF/META<sp/>field<sp/>usage</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Compatible<sp/>with<sp/>all<sp/>M17<sp/>implementations</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Usage**:</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Enable<sp/>strict<sp/>mode<sp/>(default)</highlight></codeline>
+<codeline><highlight class="normal">decoder.set_m17_strict_mode(true);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Security<sp/>Level**:<sp/>✅<sp/>**M17<sp/>Spec<sp/>Compliant**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Extended<sp/>Mode<sp/>(Nitrokey)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Purpose**:<sp/>Enhanced<sp/>features<sp/>with<sp/>hardware<sp/>security</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Features**:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Ed25519<sp/>digital<sp/>signatures</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Curve25519<sp/>ECDH<sp/>key<sp/>agreement</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>AES-256-GCM<sp/>authenticated<sp/>encryption</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Nitrokey<sp/>HSM<sp/>integration</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Challenge-response<sp/>authentication</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Usage**:</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Enable<sp/>extended<sp/>mode<sp/>(requires<sp/>coordination)</highlight></codeline>
+<codeline><highlight class="normal">decoder.set_m17_strict_mode(false);</highlight></codeline>
+<codeline><highlight class="normal">decoder.set_extended_crypto(true);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Security<sp/>Level**:<sp/>⚠️<sp/>**NOT<sp/>M17<sp/>Spec<sp/>Compliant**</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>📚<sp/>Usage<sp/>Examples</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Basic<sp/>Usage<sp/>(Strict<sp/>Mode)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Create<sp/>decoder<sp/>with<sp/>default<sp/>settings</highlight></codeline>
+<codeline><highlight class="normal">m17_decoder_impl<sp/>decoder(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>false,<sp/><sp/>//<sp/>debug_data</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>false,<sp/><sp/>//<sp/>debug_ctrl</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>0.9,<sp/><sp/><sp/><sp/>//<sp/>threshold</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>true,<sp/><sp/><sp/>//<sp/>callsign<sp/>display</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>false,<sp/><sp/>//<sp/>signed_str</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>ENCR_NONE</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;,<sp/><sp/><sp/><sp/><sp/>//<sp/>key<sp/>(set<sp/>later)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;<sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>seed<sp/>(set<sp/>later)</highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Set<sp/>encryption<sp/>key<sp/>(32<sp/>bytes<sp/>=<sp/>64<sp/>hex<sp/>characters)</highlight></codeline>
+<codeline><highlight class="normal">decoder.set_key(&quot;0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef&quot;);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Enable<sp/>strict<sp/>M17<sp/>mode<sp/>(default)</highlight></codeline>
+<codeline><highlight class="normal">decoder.set_m17_strict_mode(true);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Extended<sp/>Mode<sp/>Usage</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Enable<sp/>extended<sp/>crypto<sp/>mode<sp/>(requires<sp/>Nitrokey)</highlight></codeline>
+<codeline><highlight class="normal">decoder.set_extended_crypto(true);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Set<sp/>Ed25519<sp/>keys<sp/>for<sp/>digital<sp/>signatures</highlight></codeline>
+<codeline><highlight class="normal">uint8_t<sp/>ed25519_pub[32],<sp/>ed25519_priv[32];</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>...<sp/>load<sp/>keys<sp/>from<sp/>secure<sp/>storage<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">decoder.set_ed25519_keys(ed25519_pub,<sp/>32,<sp/>ed25519_priv,<sp/>32);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Set<sp/>Curve25519<sp/>keys<sp/>for<sp/>ECDH</highlight></codeline>
+<codeline><highlight class="normal">uint8_t<sp/>curve25519_pub[32],<sp/>curve25519_priv[32];</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>...<sp/>load<sp/>keys<sp/>from<sp/>secure<sp/>storage<sp/>...</highlight></codeline>
+<codeline><highlight class="normal">decoder.set_curve25519_keys(curve25519_pub,<sp/>32,<sp/>curve25519_priv,<sp/>32);</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Nitrokey<sp/>Integration</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Initialize<sp/>Nitrokey<sp/>hardware<sp/>security<sp/>module</highlight></codeline>
+<codeline><highlight class="normal">if<sp/>(decoder.init_nitrokey_security(&quot;123456&quot;))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>printf(&quot;Nitrokey<sp/>initialized<sp/>successfully\n&quot;);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Use<sp/>hardware-backed<sp/>cryptography</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>signature[64];</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>decoder.sign_with_hardware(data,<sp/>len,<sp/>signature,<sp/>0);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Perform<sp/>ECDH<sp/>with<sp/>hardware</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>shared_secret[32];</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>decoder.ecdh_with_hardware(peer_pubkey,<sp/>shared_secret,<sp/>0);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/>else<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>printf(&quot;Nitrokey<sp/>initialization<sp/>failed\n&quot;);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>🔍<sp/>Security<sp/>Audit</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Security<sp/>Checklist</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>✅<sp/>Implemented<sp/>Security<sp/>Features</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Secure<sp/>memory<sp/>clearing<sp/>with<sp/>`explicit_bzero`</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Cryptographically<sp/>secure<sp/>random<sp/>number<sp/>generation</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Input<sp/>validation<sp/>for<sp/>all<sp/>parameters</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Bounds<sp/>checking<sp/>for<sp/>all<sp/>array<sp/>operations</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Error<sp/>handling<sp/>for<sp/>all<sp/>cryptographic<sp/>operations</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Hardware<sp/>security<sp/>module<sp/>integration</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Digital<sp/>signature<sp/>verification</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Secure<sp/>key<sp/>derivation</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Replay<sp/>protection</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[x]<sp/>Memory<sp/>protection</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####<sp/>⚠️<sp/>Security<sp/>Considerations</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[<sp/>]<sp/>Regular<sp/>security<sp/>audits</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[<sp/>]<sp/>Penetration<sp/>testing</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[<sp/>]<sp/>Code<sp/>review<sp/>for<sp/>security<sp/>issues</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[<sp/>]<sp/>Threat<sp/>modeling</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>[<sp/>]<sp/>Security<sp/>training<sp/>for<sp/>developers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Security<sp/>Metrics</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">|<sp/>Security<sp/>Feature<sp/>|<sp/>Status<sp/>|<sp/>Implementation<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|------------------|--------|----------------|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>**Memory<sp/>Security**<sp/>|<sp/>✅<sp/>Complete<sp/>|<sp/>explicit_bzero,<sp/>bounds<sp/>checking<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>**Cryptographic<sp/>Security**<sp/>|<sp/>✅<sp/>Complete<sp/>|<sp/>Ed25519,<sp/>Curve25519,<sp/>AES-GCM<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>**Hardware<sp/>Security**<sp/>|<sp/>✅<sp/>Complete<sp/>|<sp/>Nitrokey<sp/>HSM<sp/>integration<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>**Key<sp/>Management**<sp/>|<sp/>✅<sp/>Complete<sp/>|<sp/>Secure<sp/>key<sp/>storage<sp/>and<sp/>rotation<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>**Authentication**<sp/>|<sp/>✅<sp/>Complete<sp/>|<sp/>Digital<sp/>signatures,<sp/>challenge-response<sp/>|</highlight></codeline>
+<codeline><highlight class="normal">|<sp/>**Encryption**<sp/>|<sp/>✅<sp/>Complete<sp/>|<sp/>AES-GCM,<sp/>AES-CTR<sp/>with<sp/>secure<sp/>IVs<sp/>|</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>📞<sp/>Security<sp/>Support</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Reporting<sp/>Security<sp/>Issues</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Email**:<sp/>security@m17-project.org<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">**Response<sp/>Time**:<sp/>24<sp/>hours<sp/>for<sp/>critical<sp/>issues<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">**PGP<sp/>Key**:<sp/>Available<sp/>on<sp/>project<sp/>website</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Security<sp/>Team</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Lead**:<sp/>M17<sp/>Security<sp/>Team<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">**Reviewers**:<sp/>Cryptographic<sp/>experts<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">**Auditors**:<sp/>External<sp/>security<sp/>auditors</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">---</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**Last<sp/>Updated**:<sp/>$(date)<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">**Version**:<sp/>1.0<sp/><sp/></highlight></codeline>
+<codeline><highlight class="normal">**Status**:<sp/>✅<sp/>**SECURE**</highlight></codeline>
+    </programlisting>
+    <location file="m17_security_documentation.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classNitrokeyInterface" kind="class" language="C++" prot="public">
+    <compoundname>NitrokeyInterface</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classNitrokeyInterface_1aee1a07e89300ca98d7d442a8c47aea25" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool NitrokeyInterface::_nitrokey_initialized</definition>
+        <argsstring></argsstring>
+        <name>_nitrokey_initialized</name>
+        <qualifiedname>NitrokeyInterface::_nitrokey_initialized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" line="134" column="10" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classNitrokeyInterface_1a82b64ccd625f33dd74eae65f4bef1925" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int NitrokeyInterface::_current_key_slot</definition>
+        <argsstring></argsstring>
+        <name>_current_key_slot</name>
+        <qualifiedname>NitrokeyInterface::_current_key_slot</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" line="135" column="9" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classNitrokeyInterface_1a7e14ee6c27f98a840b4f8cd607725234" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool NitrokeyInterface::init_nitrokey</definition>
+        <argsstring>(const char *pin)</argsstring>
+        <name>init_nitrokey</name>
+        <qualifiedname>NitrokeyInterface::init_nitrokey</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" line="116" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classNitrokeyInterface_1ac4b7af124900df4c8d6978ea06e5f595" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool NitrokeyInterface::sign_with_nitrokey</definition>
+        <argsstring>(const uint8_t *data, size_t len, uint8_t *signature, int key_slot)</argsstring>
+        <name>sign_with_nitrokey</name>
+        <qualifiedname>NitrokeyInterface::sign_with_nitrokey</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>key_slot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" line="119" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classNitrokeyInterface_1a41b734beef90933f1fcb2899559b81d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool NitrokeyInterface::ecdh_with_nitrokey</definition>
+        <argsstring>(const uint8_t *peer_pubkey, uint8_t *shared_secret, int key_slot)</argsstring>
+        <name>ecdh_with_nitrokey</name>
+        <qualifiedname>NitrokeyInterface::ecdh_with_nitrokey</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>peer_pubkey</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>shared_secret</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>key_slot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" line="123" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classNitrokeyInterface_1a94e19de4b1571f85367fc6aa5a8bdc3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool NitrokeyInterface::decrypt_with_nitrokey</definition>
+        <argsstring>(const uint8_t *ciphertext, size_t len, uint8_t *plaintext, int key_slot)</argsstring>
+        <name>decrypt_with_nitrokey</name>
+        <qualifiedname>NitrokeyInterface::decrypt_with_nitrokey</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>ciphertext</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>key_slot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" line="127" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classNitrokeyInterface_1ac1f7b31826267c251ac84744b8a47f8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void NitrokeyInterface::cleanup_nitrokey</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup_nitrokey</name>
+        <qualifiedname>NitrokeyInterface::cleanup_nitrokey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" line="131" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" line="113" column="1" bodyfile="/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h" bodystart="113" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classNitrokeyInterface_1a82b64ccd625f33dd74eae65f4bef1925" prot="private" virt="non-virtual"><scope>NitrokeyInterface</scope><name>_current_key_slot</name></member>
+      <member refid="classNitrokeyInterface_1aee1a07e89300ca98d7d442a8c47aea25" prot="private" virt="non-virtual"><scope>NitrokeyInterface</scope><name>_nitrokey_initialized</name></member>
+      <member refid="classNitrokeyInterface_1ac1f7b31826267c251ac84744b8a47f8d" prot="public" virt="non-virtual"><scope>NitrokeyInterface</scope><name>cleanup_nitrokey</name></member>
+      <member refid="classNitrokeyInterface_1a94e19de4b1571f85367fc6aa5a8bdc3c" prot="public" virt="non-virtual"><scope>NitrokeyInterface</scope><name>decrypt_with_nitrokey</name></member>
+      <member refid="classNitrokeyInterface_1a41b734beef90933f1fcb2899559b81d1" prot="public" virt="non-virtual"><scope>NitrokeyInterface</scope><name>ecdh_with_nitrokey</name></member>
+      <member refid="classNitrokeyInterface_1a7e14ee6c27f98a840b4f8cd607725234" prot="public" virt="non-virtual"><scope>NitrokeyInterface</scope><name>init_nitrokey</name></member>
+      <member refid="classNitrokeyInterface_1ac4b7af124900df4c8d6978ea06e5f595" prot="public" virt="non-virtual"><scope>NitrokeyInterface</scope><name>sign_with_nitrokey</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

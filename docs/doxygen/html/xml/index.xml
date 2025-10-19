@@ -1,0 +1,1590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.8" xml:lang="en-US">
+  <compound refid="structlsf__t" kind="struct"><name>lsf_t</name>
+    <member refid="structlsf__t_1a1d5d951b6cea99c4d934a13b9b2b4529" kind="variable"><name>dst</name></member>
+    <member refid="structlsf__t_1a4baee260b62c86ed23b49c41189424f8" kind="variable"><name>src</name></member>
+    <member refid="structlsf__t_1ae3dfc3269c4757cae6c475a73dfddcdd" kind="variable"><name>type</name></member>
+    <member refid="structlsf__t_1ab936e459647e5612e6a7561961d27b2c" kind="variable"><name>meta</name></member>
+    <member refid="structlsf__t_1a711ed5b61540ac1efa4f1a2fab07ccbe" kind="variable"><name>crc</name></member>
+  </compound>
+  <compound refid="classgr_1_1m17_1_1m17__coder" kind="class"><name>gr::m17::m17_coder</name>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84" kind="enum"><name>encr_t</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84a531309fc989d6bcbb5b070b0b31271d3" kind="enumvalue"><name>ENCR_NONE</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84a9cb23bf70371c3d11a793f6a8ba73bda" kind="enumvalue"><name>ENCR_SCRAM</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84a9d6079238896e2be2b0de7a4ec773a7e" kind="enumvalue"><name>ENCR_AES</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ab261ddcd333dc472409a158a80c51d84a09f5caf79e6ac8bae50b4833b7a72f01" kind="enumvalue"><name>ENCR_RES</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1aa86a564e4f5c8fe7f9c3671ac753c1bf" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1a3c22bbca8d258bd2a6a101daccf9a9b6" kind="function"><name>make</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1a2426c654140b44ef6a263785573c5c2e" kind="function"><name>set_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1afed1157efe450be5fb8a12613b2d76af" kind="function"><name>set_priv_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ac6639f0973bfe40438728fefdc2f606b" kind="function"><name>set_seed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1abf5489a8c126d34264c535ed52217e04" kind="function"><name>set_meta</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1abb3f77241ee5eab49bd7ab0c8dd719fa" kind="function"><name>set_src_id</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1a53e88b00750e77e75aae285e6cb80d17" kind="function"><name>set_dst_id</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1a0a2aa480a393e59a7d926245d348bfec" kind="function"><name>set_debug</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1a0cbe6ed19cf9de18008c24ebe3bd2066" kind="function"><name>set_signed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ad32e0baacc88a86c2b5baddc0fe052e5" kind="function"><name>set_type</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1a9b8cc033133c45c074f44f6c075ca38f" kind="function"><name>set_mode</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ada05ca6980a477ad23af25d3eb687e85" kind="function"><name>set_data</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1ab014259e014fdf8a2c5435939cd7df80" kind="function"><name>set_encr_type</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1a1c8e4d234f9815a0d9ff694531913f41" kind="function"><name>set_encr_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1a6387c203f2a6d93377dc422810ed47f6" kind="function"><name>set_aes_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder_1aae0404485e1fb17435b3df2c3152aa2d" kind="function"><name>set_can</name></member>
+  </compound>
+  <compound refid="classgr_1_1m17_1_1m17__coder__impl" kind="class"><name>gr::m17::m17_coder_impl</name>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4" kind="enum"><name>aes_t</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4a4836b99bab0851852acd6c6a60c4c87f" kind="enumvalue"><name>AES128</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4ab8656473499f5d5eea03d4e8c2fc0fb6" kind="enumvalue"><name>AES192</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a58699ac1cae1dd83e185f254e71fcea4a50ae814cbe185cbb224e629e9a525777" kind="enumvalue"><name>AES256</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a014ad115b72bde135d96ae717f25c245" kind="variable"><name>_src_id</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a615a5c655d3d2f15a38921179a40f175" kind="variable"><name>_dst_id</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a36a2a5d7739d87c974ca2731eb63ad9b" kind="variable"><name>_mode</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1acdea3fa756cf72f37fe0f6dddeeb068c" kind="variable"><name>_data</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1af9e9e4a6f81c4dc111aef3e373f68c87" kind="variable"><name>_type</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1afd87a42c620b62e280a60dff70456a87" kind="variable"><name>_send_preamble</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1aabe9d295d486fcc26023a673581d5cdf" kind="variable"><name>_encr_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1aa1823d448c6d4fa09109d60fec71c8e4" kind="variable"><name>_aes_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a17f9ba7986e46bea05cd8c21c225ccad" kind="variable"><name>_curve</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1aefa59f114ecb8fa2ea2dce5662dfccb7" kind="variable"><name>_encr_type</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ad5d2b6154e511c8b91236f67501bbe81" kind="variable"><name>_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ae99a82694eac79474e7addadbb70226c" kind="variable"><name>_iv</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1afd7657ed49947098c579c30a48ecd7ec" kind="variable"><name>epoch</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a4cb524014c28902bf4b37e8c07a10108" kind="variable"><name>_lsf</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a27a37ab17f1c1d03f7e23afc285de4dd" kind="variable"><name>_next_lsf</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a50ccfc2be658caa4742d2ad6f0b95890" kind="variable"><name>_meta</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a5419fc26cf75e6da90d316e180b4f0ae" kind="variable"><name>_got_lsf</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1adffc5628eaf66f476fe27591aba6f53a" kind="variable"><name>_fn</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1acfcac9c1a7b20e8995dde1d0d65894f2" kind="variable"><name>_lich_cnt</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ad1e8122b9fa93be4dd1ec40f34a78697" kind="variable"><name>_debug</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a8b9840791665df756bdc62232454edfb" kind="variable"><name>_signed_str</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a90740539856659bb758b1389562d71d7" kind="variable"><name>_finished</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1afee6213463e47384e90758a637eed9b6" kind="variable"><name>_digest</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ac43745026c6582baf600d82d35f3ad48" kind="variable"><name>_priv_key_loaded</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ae15d403f94977dc027c5c420caeca4b8" kind="variable"><name>_priv_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1abab54b72676f7209fa93dad57a1d6beb" kind="variable"><name>_sig</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ae0fd8d473623e0dc59dad44317a7870e" kind="variable"><name>_sha_ctx</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a2d8dcd62314e76d5c2775da21992a685" kind="variable"><name>_init_frame</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1adc10150cf646f6e7f1e57ad6cac5e12c" kind="variable"><name>_seed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a524515a930c89cc67d38d067a1e73e78" kind="variable"><name>_scr_bytes</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ac43988c885dc8e9dee9b14f8ecfc4dfe" kind="variable"><name>_scrambler_pn</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a96be103031a99759721b3f121c162d08" kind="variable"><name>_scrambler_seed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a529d7261a82851d88f26be44804c65f2" kind="variable"><name>_scrambler_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a406805351b1b7e970ca2169981b9fab3" kind="variable"><name>_m17_strict_mode</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a1924ca89ba952dca2dbc79e3ac280910" kind="variable"><name>_extended_crypto_enabled</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1aa9678e73ce348fa98688199461a93432" kind="variable"><name>_can</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a2ee0c79049b1edb5b6d31333bc5ec1f0" kind="function"><name>parse_raw_key_string</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a67500abb50008af3a0f18417069517ea" kind="function"><name>scrambler_sequence_generator</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1addba5dd3ccc46f5051ee21048d3bb351" kind="function"><name>set_src_id</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a2b4e5b6c18d35f2f2beee8aee2305c68" kind="function"><name>set_dst_id</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a71260779869257591202b1c5067abd96" kind="function"><name>set_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a31efa9349f538c5ceb5bdb8a361b6679" kind="function"><name>set_priv_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a5b3fcaf1e12040805221058e1adcee81" kind="function"><name>set_meta</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ae87a08f0985f75379a84377588f4898f" kind="function"><name>set_seed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a746c6c832b99e5a0bb4f9194d7b822bf" kind="function"><name>set_type</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a96f98de298dc5bf730a3b60a0fafa844" kind="function"><name>set_mode</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1afab394e3d0b1a76f68c0e97fbcef123f" kind="function"><name>set_data</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1aedc38c92c85a8b69ba633cfcefedf15b" kind="function"><name>set_encr_type</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a8cb8b172ea28228fb21317657dca5abd" kind="function"><name>set_encr_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a6d8331463dd5437419f824e862313a14" kind="function"><name>set_aes_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a743e1678963db293469e833d766c8c3e" kind="function"><name>set_can</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a74abdbef3fa41816be939e6cc47e37c0" kind="function"><name>set_debug</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ab5e03f2c04d70817f2ee4d3d49fee548" kind="function"><name>set_signed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1af7b57c412e5067028ecee7b7c2ecec03" kind="function"><name>end_of_transmission</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a3e1e61d2948b785655d84a8b6b294b46" kind="function"><name>m17_coder_impl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a5124495c7bed073901ff5f68402a7968" kind="function"><name>~m17_coder_impl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ad72511ace67d1b180a51cd29754d9fc2" kind="function"><name>set_m17_strict_mode</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a09f6e5dfba290656e0486edb48c65021" kind="function"><name>set_extended_crypto</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1acbe21e67c380ce721124860735c283ad" kind="function"><name>set_channel_access_number</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a131cd24ffc3812c06dbd3129f598b362" kind="function"><name>is_m17_compatible</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1aee4d334e325b7880ba7171d3b8803736" kind="function"><name>is_extended_crypto_enabled</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1abe46bd6ca07e7459c28eb40e52cac2ab" kind="function"><name>print_compatibility_warning</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ad82dd1864d12402818de85385a0e22d4" kind="function"><name>print_extended_crypto_warning</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a23c5434f4ff44a6f0c8bc50cb1ded690" kind="function"><name>sign_p256_message</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1af8650cfa0f75c62890d67a3b90983434" kind="function"><name>perform_p256_ecdh</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1ab332dca794f77ee73b2ae3abe18d767c" kind="function"><name>encrypt_aes_ctr</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a0aaa68a841a5639e3e466b602143b6c0" kind="function"><name>forecast</name></member>
+    <member refid="classgr_1_1m17_1_1m17__coder__impl_1a70cd6ff260056e56950ebcf4a929f08c" kind="function"><name>general_work</name></member>
+  </compound>
+  <compound refid="classgr_1_1m17_1_1m17__decoder" kind="class"><name>gr::m17::m17_decoder</name>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1ad908c427fbc2159e8392401c2fb635b5" kind="enum"><name>encr_t</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1ad908c427fbc2159e8392401c2fb635b5ae5e70c694f798df5e53a05fa6fe92458" kind="enumvalue"><name>ENCR_NONE</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1ad908c427fbc2159e8392401c2fb635b5a2059a99ecbcbbfe6ca5ceec2902e2d77" kind="enumvalue"><name>ENCR_SCRAM</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1ad908c427fbc2159e8392401c2fb635b5a5360448fa70fb8aeb34ced94fb98f07d" kind="enumvalue"><name>ENCR_AES</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1ad908c427fbc2159e8392401c2fb635b5a1b66db12580609833a693f30428c0284" kind="enumvalue"><name>ENCR_RES</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a7e68a6c5a99b011df38752b211de9f9b" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a154255909dc5d68b494f21d4dc0dd749" kind="function"><name>make</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a6e9eb827cda661b9ea6414f0e11db845" kind="function"><name>set_debug_data</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1ab52e50a0d80c35c5fead2758e809e887" kind="function"><name>set_debug_ctrl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a6e10bf2f3d0d279947f707b0d37ab720" kind="function"><name>set_callsign</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1acb763673ae96efce5d16e79f1a860d7f" kind="function"><name>set_threshold</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a418d7aab7d5e645e7298fb0f35e990b3" kind="function"><name>set_signed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1ac614366504238e70cce98e85427de6fd" kind="function"><name>set_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a4c799fe9e7c948c8720cd83196579b7a" kind="function"><name>set_seed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a0ec7d8a5afbdacb74b101e711908dcb7" kind="function"><name>parse_raw_key_string</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a0872323299d83331db4bc6ac59f809fe" kind="function"><name>scrambler_sequence_generator</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder_1a67bdc3d1627c2c6ed0b58cdfb6a91393" kind="function"><name>scrambler_seed_calculation</name></member>
+  </compound>
+  <compound refid="classgr_1_1m17_1_1m17__decoder__impl" kind="class"><name>gr::m17::m17_decoder_impl</name>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a3f9d35313d703445b3d49c3dc2dfa2ad" kind="enum"><name>aes_t</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a3f9d35313d703445b3d49c3dc2dfa2ada10a7ec307ed0bc1d853f77533cd95caa" kind="enumvalue"><name>AES128</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a3f9d35313d703445b3d49c3dc2dfa2ada776361aa9005ce308e61ea03de8033c4" kind="enumvalue"><name>AES192</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a3f9d35313d703445b3d49c3dc2dfa2ada804fa8a984e39e06896deb05d7a2ec49" kind="enumvalue"><name>AES256</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a8db74d8edb69469dcd1f442fe1f96fd5" kind="variable"><name>_debug_data</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a0eb0d9afbe4e24aecb301c616ab09959" kind="variable"><name>_debug_ctrl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a6cf1884f748d8d2e68dbd817fd5b1909" kind="variable"><name>_threshold</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a6a3e9439483164e1151546f4f27a9327" kind="variable"><name>_callsign</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a05ffd27e76c3616bc2891801b26fb956" kind="variable"><name>_signed_str</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a989fa4793e09f5375b689436b1d7c541" kind="variable"><name>_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ab6abd494a6e6b6da6ca0e4d84fcfe7a7" kind="variable"><name>_iv</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a5641397a87d66ae5e375ac612a94b26c" kind="variable"><name>_encr_type</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a55eda160862520ad5541bc940621f8af" kind="variable"><name>_digest</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ad16240c00b06ed2fd7c54e0fdadd930b" kind="variable"><name>_sig</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a1d6b036fd43df03e9b65db0d07e6bcab" kind="variable"><name>_sha_ctx</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a0a93ee7eb7053d11ef793ed8fa21275f" kind="variable"><name>_ed25519_public_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a9a69007a9877ed20c2bf50d79c2aea0d" kind="variable"><name>_ed25519_private_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ae858320491eff088da1b34c9cbb3e731" kind="variable"><name>_ed25519_signature</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a5daa644b15629689ca63d0e138efb5c4" kind="variable"><name>_curve25519_public_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a51b1b0686101f03fe1bc957be904d46f" kind="variable"><name>_curve25519_private_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ae9335842389654b837d08fb086d5cfa8" kind="variable"><name>_curve25519_shared_secret</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a1dffeffa5035f59b86f7fb2329e090c6" kind="variable"><name>_aes_gcm_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a6fc4bb15cb68c69b8df66aae44da0ac8" kind="variable"><name>_aes_gcm_iv</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a2ded9882386efde979133dbe7cff5ef2" kind="variable"><name>_aes_gcm_tag</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a30924ca8196f1e56c4190b8f8bda55e4" kind="variable"><name>_p256_public_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ab3bc454e164c402e9ae3ead720004f30" kind="variable"><name>_p256_private_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aa28b3e22d3749c35735d289d7818fb58" kind="variable"><name>_p256_signature</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ab1d3a2c9ca83ec65b3c69c904b3b386e" kind="variable"><name>_aes_ctr_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ae0280ae7e853e4a4458051a375c81042" kind="variable"><name>_aes_ctr_iv</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aef1544a7eaf1944b5dfeaca98270a932" kind="variable"><name>_scrambler_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a4c519441b16f7a6c4e7bf51949ca6dfa" kind="variable"><name>_nitrokey</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a19c78246f00149e2c971b21318a988a9" kind="variable"><name>_use_nitrokey</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1af1668babf0d0ff4980cf65e399b55f1f" kind="variable"><name>_nitrokey_key_slot</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aba77c411090e9707c091c59a1235d249" kind="variable"><name>_m17_strict_mode</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a0343c03e950f33541d4a2c48edcd6a82" kind="variable"><name>_extended_crypto_enabled</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ad1f8435b827d35de10a2f5cc14f362b2" kind="variable"><name>_can</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a64c11de797dfeccc990cdab61a8b2c65" kind="variable"><name>_aes_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a784d444cccfc5250d1fcea479e1fda22" kind="variable"><name>last</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ac9a44c8aaec165ae3c789eb584b09e32" kind="variable"><name>_pld</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a2f1b32ff1f48e61b4c116c0c114fdb46" kind="variable"><name>soft_bit</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a3a1b8c7ee23a3b030adebef6568d1283" kind="variable"><name>d_soft_bit</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a748b174a0db5518c7e82518cab0778af" kind="variable"><name>_expected_next_fn</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1af4ccc6a3060745189a1253304fd72ad7" kind="variable"><name>_fn</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1accd7511eeef8f34a976ab69eeeab1baa" kind="variable"><name>_lsf</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a519089a15bc1ab9a28798aca1f640442" kind="variable"><name>lich_chunk</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a0761ddbeb201af6ed0f310e29f54efc5" kind="variable"><name>_lich_b</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a326cb55a98334e44c127c59584bc594f" kind="variable"><name>_lich_cnt</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aec5df4339feda4adcc75a26c782f4074" kind="variable"><name>lich_chunks_rcvd</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a1cd857a79af618d42ccfed85dd43c4d5" kind="variable"><name>enc_data</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a49313c845446243fa29e753cea408842" kind="variable"><name>_frame_data</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aa3c49c47bd62ff89d53cf1fdcae5fa3a" kind="variable"><name>digest</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a89256c598ae0a61283fc0838915a836e" kind="variable"><name>syncd</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a1adf20107bac29580428e23cc5ec94d4" kind="variable"><name>fl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a104d551b2782743e1802a43e4974a9cc" kind="variable"><name>pushed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ad8a4bfae0586752faee28097ff151bbc" kind="variable"><name>d_dst</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a27b224d32acebba0765319d056d1bde8" kind="variable"><name>d_src</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aa4e3360c5ce5e4bfc23bb3e89b852582" kind="variable"><name>_seed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a721566cfe7787450c5b8f98e61396ac1" kind="variable"><name>_scr_bytes</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a8e12f19d1b61f48a3bccfbc4d0a4e10c" kind="variable"><name>_scrambler_pn</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a8f8e227b884cc7d50abef3fdf38cac7b" kind="variable"><name>_scrambler_seed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ab8aae890117369129ebe8f867d5f95e2" kind="variable"><name>_scrambler_subtype</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ada33e567b8f9a6ba5f44b6abad183e4c" kind="variable"><name>_curve</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a12eedcf32c5c2cd503c717129fe7935e" kind="variable"><name>_challenge_nonce</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a3d80279b5352605178022e084da2287f" kind="variable"><name>_response_nonce</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a5909361d59a10e6dbf671c528b89598c" kind="variable"><name>_challenge_timestamp</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1af8a43605b351976ee6ef8f714f3b27c9" kind="variable"><name>_response_timestamp</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aa0b8dd090aa6d7c7e5f4abfa1b865e51" kind="variable"><name>_challenge_pending</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1af0b9abd1287afee479135440040b2ae2" kind="function"><name>m17_decoder_impl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a91a9dcf28adcfc042b6cd15add3be35c" kind="function"><name>m17_decoder_impl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a9787029d00483f614d22457d8b7a64a3" kind="function"><name>~m17_decoder_impl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a82fa39c697ed0d0f3b9259871d337a71" kind="function"><name>set_debug_data</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1afa413e4015aaddd120ffea1d5e29d77f" kind="function"><name>set_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aac736267e5081a49ca33560cc7a40518" kind="function"><name>set_seed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ac5a35167226fc51c0b62dc4f7d95a843" kind="function"><name>set_debug_ctrl</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ad138fb35aa59ab9e9021c4274775efa8" kind="function"><name>set_callsign</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a63e196c8b5df923f80cce590327ad9de" kind="function"><name>set_threshold</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a28966844280bdcccf6be859e987ac25b" kind="function"><name>set_signed</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a81b6e5072a3566f1d9843a24232e7189" kind="function"><name>set_encr_type</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a2be9e04564f492042a526690dca9462c" kind="function"><name>parse_raw_key_string</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aac44d55b670adbe5ce74fdab44df4561" kind="function"><name>scrambler_sequence_generator</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a913a1535d1215763b44573efe26478c8" kind="function"><name>scrambler_seed_calculation</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a4340eac19f6e8698e3b6b89f3456c17e" kind="function"><name>set_ed25519_keys</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aaef23bab1abea2aa7b44812babbb7014" kind="function"><name>set_curve25519_keys</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a9d4a18b289dcc8d3bebe875d34f995ba" kind="function"><name>verify_ed25519_signature</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ab2840b62ede873e34c423ab3afd045d2" kind="function"><name>sign_ed25519_message</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a6d8e7da9ca57667bbb5b3e9d82e41cb6" kind="function"><name>perform_curve25519_ecdh</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a80629d45174ac5d1fd5b5ebf2c60e3e0" kind="function"><name>derive_encryption_key</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1adf5e0a91d31ee7a7934c452270cc4df5" kind="function"><name>decrypt_aes_gcm</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1abae1346e5009b067bb8068c815a5c0c8" kind="function"><name>generate_authentication_challenge</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a31dc4da05ee353f1f1a5e681ce557c55" kind="function"><name>verify_authentication_response</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ac7bb82c39061979ca67b364a4898d1ab" kind="function"><name>init_nitrokey_security</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1af832cb99e937fc170c037f7055f17fb6" kind="function"><name>sign_with_hardware</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a37f0e63e7f1a208725acc9bf98382360" kind="function"><name>ecdh_with_hardware</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ac8251f35489bd90f614059d193ea5bc3" kind="function"><name>decrypt_with_hardware</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ac004184b69f52541af6965960daccf00" kind="function"><name>cleanup_hardware_security</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a63530651098708ee32718e674fc0cbfa" kind="function"><name>set_m17_strict_mode</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a1cd6841efbed03619d09f9163d78a609" kind="function"><name>set_extended_crypto</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a371f5bb90c064282e50a1f591379bfdd" kind="function"><name>set_channel_access_number</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a977b2ab474e645005805f2011cecfff4" kind="function"><name>is_m17_compatible</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a68ef9d8420fabee332d338a24977c51a" kind="function"><name>is_extended_crypto_enabled</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a2983b048e015e9da4d4ab1dd4b7544fd" kind="function"><name>print_compatibility_warning</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a624153e25227f2dbaab471087caefbe6" kind="function"><name>print_extended_crypto_warning</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a5d601df4562f369f12bb0e659c92afba" kind="function"><name>verify_p256_signature</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a4d3d4db7a6e5be9ccfcf5c691a46eb0e" kind="function"><name>perform_p256_ecdh</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1ae6afd06c854ac7ecb84db9639f84d948" kind="function"><name>decrypt_aes_ctr</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a2a11682e496035f883e872ddd409b50f" kind="function"><name>process_frame_crypto</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1a25d10da68a7a8da2e714a224b88742a2" kind="function"><name>detect_crypto_mode</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1addb6df115205c44ccf9838e420fe7437" kind="function"><name>forecast</name></member>
+    <member refid="classgr_1_1m17_1_1m17__decoder__impl_1aaa45cb5b6fa54878fe70c97f22d6baa9" kind="function"><name>general_work</name></member>
+  </compound>
+  <compound refid="structm17__frame__record__t" kind="struct"><name>m17_frame_record_t</name>
+    <member refid="structm17__frame__record__t_1a1508b6562380b6377f8f533cccf1bbc5" kind="variable"><name>frame_number</name></member>
+    <member refid="structm17__frame__record__t_1a14886862243b0113c876cdb24467b051" kind="variable"><name>timestamp</name></member>
+    <member refid="structm17__frame__record__t_1ad0f4070a0eb3800653e5fd4282aa3a0e" kind="variable"><name>seen</name></member>
+  </compound>
+  <compound refid="structm17__key__context__t" kind="struct"><name>m17_key_context_t</name>
+    <member refid="structm17__key__context__t_1aa67f61dd79caa19ee7db267f96b8ea4b" kind="variable"><name>session_id</name></member>
+    <member refid="structm17__key__context__t_1ada815a973eceda56e714520d7f12cc1c" kind="variable"><name>timestamp</name></member>
+    <member refid="structm17__key__context__t_1a52080891d842bdad20bf5f1422757682" kind="variable"><name>sender_callsign</name></member>
+    <member refid="structm17__key__context__t_1a5b8659fb6b2cfbfd50f590fe37772ff9" kind="variable"><name>receiver_callsign</name></member>
+    <member refid="structm17__key__context__t_1a751594a8fcb16033fc6567aa8f74a85e" kind="variable"><name>frame_number</name></member>
+    <member refid="structm17__key__context__t_1a8e27b326181fbcb28e21c8548fbcb8da" kind="variable"><name>key_type</name></member>
+  </compound>
+  <compound refid="structm17__rate__limit__entry__t" kind="struct"><name>m17_rate_limit_entry_t</name>
+    <member refid="structm17__rate__limit__entry__t_1a30dfc0a956fa962900c7f1a6d4a97be8" kind="variable"><name>identifier</name></member>
+    <member refid="structm17__rate__limit__entry__t_1a5a929b447b28df6be68cc816e5bbf8fc" kind="variable"><name>attempt_count</name></member>
+    <member refid="structm17__rate__limit__entry__t_1a5918b250086cb3e92ad393c177296160" kind="variable"><name>first_attempt</name></member>
+    <member refid="structm17__rate__limit__entry__t_1a4f4299d05412f97d2b3a86a2b9ebe7f2" kind="variable"><name>last_attempt</name></member>
+    <member refid="structm17__rate__limit__entry__t_1ac4c646c8f550df970072d66c8e1640ac" kind="variable"><name>backoff_until</name></member>
+    <member refid="structm17__rate__limit__entry__t_1a55fc173c71596f117f2d9958a50f0a3d" kind="variable"><name>blocked</name></member>
+  </compound>
+  <compound refid="structm17__replay__state__t" kind="struct"><name>m17_replay_state_t</name>
+    <member refid="structm17__replay__state__t_1abbcee0a594b9c7dd79b35844d6944eb5" kind="variable"><name>window</name></member>
+    <member refid="structm17__replay__state__t_1a4649385c60f95acc1da341eec6169b05" kind="variable"><name>window_start</name></member>
+    <member refid="structm17__replay__state__t_1afef007aa2dee76780ae63f3f95550403" kind="variable"><name>window_end</name></member>
+    <member refid="structm17__replay__state__t_1a160db94140fcad2203ea6c2725c7e256" kind="variable"><name>last_cleanup</name></member>
+    <member refid="structm17__replay__state__t_1a1d8a510789129d862fbb02aef6e65048" kind="variable"><name>total_frames</name></member>
+    <member refid="structm17__replay__state__t_1a93eed0d5c2c41da43a987772f1fc6658" kind="variable"><name>rejected_frames</name></member>
+  </compound>
+  <compound refid="structm17__sb__attestation__t" kind="struct"><name>m17_sb_attestation_t</name>
+    <member refid="structm17__sb__attestation__t_1a4130a9f8c991aa6bdc0822d1cccc7314" kind="variable"><name>component_id</name></member>
+    <member refid="structm17__sb__attestation__t_1aaf6f8639dd03d646a7780ee4a2921f57" kind="variable"><name>component_hash</name></member>
+    <member refid="structm17__sb__attestation__t_1a922be7cf82b46c705ec87652adcff628" kind="variable"><name>signature</name></member>
+    <member refid="structm17__sb__attestation__t_1a711dd8f8e0cebe4db44f5b88814d12d9" kind="variable"><name>timestamp</name></member>
+    <member refid="structm17__sb__attestation__t_1a6872e36ce21e6597288e83cc9071934f" kind="variable"><name>version</name></member>
+    <member refid="structm17__sb__attestation__t_1a6fa798f98053db93d8a2d8118d8cfd06" kind="variable"><name>is_verified</name></member>
+  </compound>
+  <compound refid="structm17__secure__key__t" kind="struct"><name>m17_secure_key_t</name>
+    <member refid="structm17__secure__key__t_1aaa6f2a636bc21328f35a9979b9684bc5" kind="variable"><name>key_data</name></member>
+    <member refid="structm17__secure__key__t_1ae713f3913392dcc56e0edbcf3ad9a0ff" kind="variable"><name>key_size</name></member>
+    <member refid="structm17__secure__key__t_1abe39b3838e10cc348533173d5380448c" kind="variable"><name>locked</name></member>
+  </compound>
+  <compound refid="structm17__security__state__t" kind="struct"><name>m17_security_state_t</name>
+    <member refid="structm17__security__state__t_1a67e7a4fdede184a91fcc690593c64617" kind="variable"><name>entries</name></member>
+    <member refid="structm17__security__state__t_1ad5a867fc8b530df0a5d863e060342673" kind="variable"><name>entry_count</name></member>
+    <member refid="structm17__security__state__t_1a1e89799da3bda37802dc66d56587a857" kind="variable"><name>last_cleanup</name></member>
+    <member refid="structm17__security__state__t_1a975e738e9b04ad8c7d4a315d804e23b3" kind="variable"><name>total_events</name></member>
+    <member refid="structm17__security__state__t_1afa216b47ebcca8d16bd067749f01a268" kind="variable"><name>blocked_attempts</name></member>
+  </compound>
+  <compound refid="structm17__tee__context__t" kind="struct"><name>m17_tee_context_t</name>
+    <member refid="structm17__tee__context__t_1aab7265204fc944a888fa6d290c6196f7" kind="variable"><name>context_id</name></member>
+    <member refid="structm17__tee__context__t_1a85574555c2e62a69e76361177feb0a4c" kind="variable"><name>is_connected</name></member>
+    <member refid="structm17__tee__context__t_1a16e155c7f033da1a7b89dd3945070946" kind="variable"><name>session_count</name></member>
+    <member refid="structm17__tee__context__t_1a9f9505a1dd99aa9b6bbb57e8cedcde9e" kind="variable"><name>last_activity</name></member>
+  </compound>
+  <compound refid="structm17__tee__key__handle__t" kind="struct"><name>m17_tee_key_handle_t</name>
+    <member refid="structm17__tee__key__handle__t_1a03c6a6a38faf5866b3f081a77f7ebfe1" kind="variable"><name>key_id</name></member>
+    <member refid="structm17__tee__key__handle__t_1a44b5b23679445b3eb2cdac38acdd6f9d" kind="variable"><name>key_type</name></member>
+    <member refid="structm17__tee__key__handle__t_1ac439ca158801d58ceb3c064a1f5e79d0" kind="variable"><name>is_loaded</name></member>
+    <member refid="structm17__tee__key__handle__t_1ae08f23e15fb440776aaa299edbbd7ce6" kind="variable"><name>permissions</name></member>
+    <member refid="structm17__tee__key__handle__t_1ab1cd0bf18d60499ab5e182f037c8a259" kind="variable"><name>created_timestamp</name></member>
+  </compound>
+  <compound refid="structm17__tee__session__t" kind="struct"><name>m17_tee_session_t</name>
+    <member refid="structm17__tee__session__t_1ab6d52f3177ce7f6016a7cfcb8dd830cf" kind="variable"><name>session_id</name></member>
+    <member refid="structm17__tee__session__t_1a42b58b61545d729520973a9170bff429" kind="variable"><name>context_id</name></member>
+    <member refid="structm17__tee__session__t_1a8c7e8363014c2d9fb708da7a3c6cd32c" kind="variable"><name>is_authenticated</name></member>
+    <member refid="structm17__tee__session__t_1aadf4c761499e0cd0b75e31f2980e30bf" kind="variable"><name>operation_count</name></member>
+    <member refid="structm17__tee__session__t_1a2809729b29bfa07249a046162fd1bf17" kind="variable"><name>created_timestamp</name></member>
+  </compound>
+  <compound refid="structm17__tz__key__handle__t" kind="struct"><name>m17_tz_key_handle_t</name>
+    <member refid="structm17__tz__key__handle__t_1a792e5f73636e724d1cdfead738a6cfe0" kind="variable"><name>key_id</name></member>
+    <member refid="structm17__tz__key__handle__t_1ae1bd5cba6e61c7b2852a42d439a88587" kind="variable"><name>key_type</name></member>
+    <member refid="structm17__tz__key__handle__t_1a3417157337c1b61f03e828c5321700c7" kind="variable"><name>permissions</name></member>
+    <member refid="structm17__tz__key__handle__t_1ad18a522fcaf906a0ccda378ca7d0e6c0" kind="variable"><name>is_loaded</name></member>
+  </compound>
+  <compound refid="structm17__tz__session__t" kind="struct"><name>m17_tz_session_t</name>
+    <member refid="structm17__tz__session__t_1ae969eddbfbb5b3f1b1016d6643f1deb9" kind="variable"><name>session_id</name></member>
+    <member refid="structm17__tz__session__t_1a3fe1a0fb01d710ccf18b602a8270670f" kind="variable"><name>caller_id</name></member>
+    <member refid="structm17__tz__session__t_1a63408b48c6a97d792de06b851d94c0b4" kind="variable"><name>timestamp</name></member>
+    <member refid="structm17__tz__session__t_1afa10ed7d44c11ffd7f7a3d1a065be360" kind="variable"><name>operation_count</name></member>
+    <member refid="structm17__tz__session__t_1a419fab6843cd306bb6aab33915875b75" kind="variable"><name>is_authenticated</name></member>
+  </compound>
+  <compound refid="classNitrokeyInterface" kind="class"><name>NitrokeyInterface</name>
+    <member refid="classNitrokeyInterface_1aee1a07e89300ca98d7d442a8c47aea25" kind="variable"><name>_nitrokey_initialized</name></member>
+    <member refid="classNitrokeyInterface_1a82b64ccd625f33dd74eae65f4bef1925" kind="variable"><name>_current_key_slot</name></member>
+    <member refid="classNitrokeyInterface_1a7e14ee6c27f98a840b4f8cd607725234" kind="function"><name>init_nitrokey</name></member>
+    <member refid="classNitrokeyInterface_1ac4b7af124900df4c8d6978ea06e5f595" kind="function"><name>sign_with_nitrokey</name></member>
+    <member refid="classNitrokeyInterface_1a41b734beef90933f1fcb2899559b81d1" kind="function"><name>ecdh_with_nitrokey</name></member>
+    <member refid="classNitrokeyInterface_1a94e19de4b1571f85367fc6aa5a8bdc3c" kind="function"><name>decrypt_with_nitrokey</name></member>
+    <member refid="classNitrokeyInterface_1ac1f7b31826267c251ac84744b8a47f8d" kind="function"><name>cleanup_nitrokey</name></member>
+  </compound>
+  <compound refid="structsb__component__t" kind="struct"><name>sb_component_t</name>
+    <member refid="structsb__component__t_1a4d0549d24d07d6e1ad11f89c953ca2f0" kind="variable"><name>component</name></member>
+    <member refid="structsb__component__t_1aff806f208984acd6eb8e2abaea964d18" kind="variable"><name>hash</name></member>
+    <member refid="structsb__component__t_1a1d53fc6e781f16785b7a559f3c1da554" kind="variable"><name>signature</name></member>
+    <member refid="structsb__component__t_1a941958c4985e0e755d5d75c1b1757161" kind="variable"><name>timestamp</name></member>
+    <member refid="structsb__component__t_1a63e29b2c2dfe415c00337115c189c193" kind="variable"><name>is_verified</name></member>
+  </compound>
+  <compound refid="structsecure__key__t" kind="struct"><name>secure_key_t</name>
+    <member refid="structsecure__key__t_1aba05881030d3be8abbe223407924f072" kind="variable"><name>key_id</name></member>
+    <member refid="structsecure__key__t_1a58671b1496db8193a051a7e78cfd7be8" kind="variable"><name>key_type</name></member>
+    <member refid="structsecure__key__t_1af2c688e7c9a6f4c67c712ac4ab6c0a66" kind="variable"><name>key_data</name></member>
+    <member refid="structsecure__key__t_1a84443a7e6c7d24b901c7632d8e0e14b4" kind="variable"><name>key_size</name></member>
+    <member refid="structsecure__key__t_1a1b2a2f86224684449723474f008bdb30" kind="variable"><name>permissions</name></member>
+    <member refid="structsecure__key__t_1a050dabac9f4bfa50feb4f6754fa95545" kind="variable"><name>is_loaded</name></member>
+    <member refid="structsecure__key__t_1adc821dac1be74fe3b4cfb824853a3819" kind="variable"><name>created_timestamp</name></member>
+  </compound>
+  <compound refid="structsecure__session__t" kind="struct"><name>secure_session_t</name>
+    <member refid="structsecure__session__t_1aac7b63aa99922e4a252dfec082eaacd0" kind="variable"><name>session_id</name></member>
+    <member refid="structsecure__session__t_1ac96b25e9c738fc72b42199cdabdad798" kind="variable"><name>caller_id</name></member>
+    <member refid="structsecure__session__t_1a120ab5c8bb42c54380de0463313d15be" kind="variable"><name>timestamp</name></member>
+    <member refid="structsecure__session__t_1adebd0911dd908476cc981f6751245c61" kind="variable"><name>operation_count</name></member>
+    <member refid="structsecure__session__t_1a21b63fa04f54c6565e56dd56efaf15de" kind="variable"><name>is_authenticated</name></member>
+    <member refid="structsecure__session__t_1aefc1d526c3caec93b54dcfd2426d0c44" kind="variable"><name>key_handles</name></member>
+    <member refid="structsecure__session__t_1ac83e2e6cf4aff09e630521bc3124f9ec" kind="variable"><name>key_count</name></member>
+  </compound>
+  <compound refid="structtee__context__t" kind="struct"><name>tee_context_t</name>
+    <member refid="structtee__context__t_1a1dc9ac5b6388f9743562932e4dde6fdf" kind="variable"><name>context_id</name></member>
+    <member refid="structtee__context__t_1af69f1bfe09f8e6a1f2e9041a26c3fd67" kind="variable"><name>is_connected</name></member>
+    <member refid="structtee__context__t_1a7e937c3bfe807677c76bd5ef633a508f" kind="variable"><name>session_count</name></member>
+    <member refid="structtee__context__t_1a287ea48fd05b491bdc33dc6773dd1c06" kind="variable"><name>last_activity</name></member>
+  </compound>
+  <compound refid="structtee__key__t" kind="struct"><name>tee_key_t</name>
+    <member refid="structtee__key__t_1a4e96c8ee168ceb57efa74aa98c671082" kind="variable"><name>key_id</name></member>
+    <member refid="structtee__key__t_1a1ac899ba320c82d863bc6a18540971f5" kind="variable"><name>key_type</name></member>
+    <member refid="structtee__key__t_1aa99b84cd48e840036742de840d631553" kind="variable"><name>key_data</name></member>
+    <member refid="structtee__key__t_1a090dee4ccb18fcd55fe611d8ff90ebec" kind="variable"><name>key_size</name></member>
+    <member refid="structtee__key__t_1add41197f200c3f581a0d3dc72eb8f632" kind="variable"><name>is_loaded</name></member>
+    <member refid="structtee__key__t_1a7cd9faad7cefb37de6de45e022094c41" kind="variable"><name>permissions</name></member>
+    <member refid="structtee__key__t_1af075b99309fbfe24b2c853dab8e2454e" kind="variable"><name>created_timestamp</name></member>
+  </compound>
+  <compound refid="structtee__session__t" kind="struct"><name>tee_session_t</name>
+    <member refid="structtee__session__t_1ae1034e49c6f9766eaf2e070b30308c72" kind="variable"><name>session_id</name></member>
+    <member refid="structtee__session__t_1ac3d422e990321f77e1cddc4829caa4e2" kind="variable"><name>context_id</name></member>
+    <member refid="structtee__session__t_1aa7379135c4cc57b378ad957bc3b2f936" kind="variable"><name>is_authenticated</name></member>
+    <member refid="structtee__session__t_1a156e5051bb9563c38bdb954ab3c3c0ab" kind="variable"><name>operation_count</name></member>
+    <member refid="structtee__session__t_1ade953ae6ad25a6b2e07d900a72a88da0" kind="variable"><name>created_timestamp</name></member>
+    <member refid="structtee__session__t_1ab47691e333ad2d6dc5a670f4ff712dda" kind="variable"><name>ta_uuid</name></member>
+  </compound>
+  <compound refid="structviterbi__state__t" kind="struct"><name>viterbi_state_t</name>
+    <member refid="structviterbi__state__t_1acb27a828a5bff217f5848302e411991b" kind="variable"><name>prevMetrics</name></member>
+    <member refid="structviterbi__state__t_1ae1278c4a6825d3e0914e43c0fc033e0c" kind="variable"><name>currMetrics</name></member>
+    <member refid="structviterbi__state__t_1a4695d2cb4e58f68826116c2ae64da866" kind="variable"><name>prevMetricsData</name></member>
+    <member refid="structviterbi__state__t_1a962d2c4fe72216991e320382f1611e09" kind="variable"><name>currMetricsData</name></member>
+    <member refid="structviterbi__state__t_1a977655e27276350e808f8be44570ffa7" kind="variable"><name>viterbi_history</name></member>
+    <member refid="structviterbi__state__t_1a58bba8efef13fefbf8fe2a3e4cf65249" kind="variable"><name>initialized</name></member>
+  </compound>
+  <compound refid="namespacegr" kind="namespace"><name>gr</name>
+  </compound>
+  <compound refid="namespacegr_1_1m17" kind="namespace"><name>gr::m17</name>
+  </compound>
+  <compound refid="namespacem17__constants" kind="namespace"><name>m17_constants</name>
+    <member refid="m17__coder__impl_8h_1a3f64ebdb4e4beef2a8d452fe0bf0c0f6" kind="variable"><name>MAX_CALLSIGN_LENGTH</name></member>
+    <member refid="m17__coder__impl_8h_1ab8689233fa79533178b6d3113ee4b97b" kind="variable"><name>CALLSIGN_BUFFER_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1ad22c2ec50f8e09ea77bb00b0beb61e07" kind="variable"><name>FRAME_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a8625600059b9bc9aa472ddb6fc303567" kind="variable"><name>SYMBOLS_PER_FRAME</name></member>
+    <member refid="m17__coder__impl_8h_1a9b442d513ea36d428d83f520ecddb167" kind="variable"><name>AES_KEY_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a9d3bf67ee24933b972f1601ec9bc6a88" kind="variable"><name>AES_IV_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1aeae82c6a841b140acb5dae888b91ebd5" kind="variable"><name>ECC_PRIVATE_KEY_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a07320dfba5c5e629cf76947435748c7b" kind="variable"><name>ECC_PUBLIC_KEY_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a07047abe81be206d6397762ff8550f8f" kind="variable"><name>SEED_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1ab678fbc18f883592ac036019bbda2849" kind="variable"><name>HEX_KEY_LENGTH</name></member>
+    <member refid="m17__coder__impl_8h_1aef1744173b2fd9f817aef50199630bb0" kind="variable"><name>HEX_SEED_LENGTH</name></member>
+    <member refid="m17__coder__impl_8h_1ac6358ee75caf953fe8c2372947aea458" kind="variable"><name>FRAME_NUMBER_BITS</name></member>
+    <member refid="m17__coder__impl_8h_1a27d2c299e27810a2b07a8ae4b57d3958" kind="variable"><name>META_FIELD_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a22c2d5023bd5aabbd65c82bfd75e6000" kind="variable"><name>LSF_CRC_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a0691a1552b4accdb19d5c7561edd6b97" kind="variable"><name>SCRAMBLER_BYTES_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1aeb3efa42f1d194aa1f68496eb9e5abf3" kind="variable"><name>MAX_META_LENGTH</name></member>
+    <member refid="m17__coder__impl_8h_1a0f39292cdcfd4c423d6be6a9a580b2dd" kind="variable"><name>IV_FRAME_NUMBER_OFFSET</name></member>
+    <member refid="m17__coder__impl_8h_1a3a71b32e1392f68f4f0493643fb7e1b7" kind="variable"><name>IV_FRAME_NUMBER_MASK</name></member>
+    <member refid="m17__coder__impl_8h_1ac7745975e4d428d0fd47b2a3f759dec0" kind="variable"><name>FRAME_NUMBER_MASK</name></member>
+    <member refid="m17__coder__impl_8h_1abd9ffd93b26593a8f511cd6450f16897" kind="variable"><name>FRAME_NUMBER_MAX</name></member>
+    <member refid="m17__coder__impl_8h_1a9405a1f2ead881d8bcc68cf8c6755a32" kind="variable"><name>SIGNATURE_START_FN</name></member>
+    <member refid="m17__coder__impl_8h_1a9bf219eb038fafe5936a58ba377a95dc" kind="variable"><name>SIGNATURE_END_FN</name></member>
+    <member refid="m17__coder__impl_8h_1a963b597787defe5fe5b6daabb9b011d5" kind="variable"><name>EOT_MARKER</name></member>
+    <member refid="m17__coder__impl_8h_1a19504512b23936421373b06ce2311c76" kind="variable"><name>CAN_STANDARD</name></member>
+    <member refid="m17__coder__impl_8h_1a867325311a3527a79799d4fab53622a9" kind="variable"><name>CAN_NITROKEY_EXTENDED</name></member>
+    <member refid="m17__coder__impl_8h_1a2ce9336f9fd08243a0e343d083574ce6" kind="variable"><name>CAN_RESERVED</name></member>
+    <member refid="m17__coder__impl_8h_1a0fa78eecaf6c8429fd63096cd3d15422" kind="variable"><name>M17_ENCR_NONE</name></member>
+    <member refid="m17__coder__impl_8h_1a63d0d51b1f1f2a5df5ac1ccb6a304849" kind="variable"><name>M17_ENCR_AES</name></member>
+    <member refid="m17__coder__impl_8h_1af3119e8f2ae98bf7cc6a2eb6644a941c" kind="variable"><name>CUSTOM_ENCR_SCRAMBLER</name></member>
+    <member refid="m17__coder__impl_8h_1a5be631defd7c6ce85c9f328e4ecbf275" kind="variable"><name>CUSTOM_ENCR_EXTENDED</name></member>
+    <member refid="m17__coder__impl_8h_1a77c84368482b02e4cfba3b26f44bd6ad" kind="variable"><name>TYPE_EXTENDED_CRYPTO_BIT</name></member>
+    <member refid="m17__coder__impl_8h_1aa8534c40a85554911c61b6b6e8d12d71" kind="variable"><name>P256_PRIVATE_KEY_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a81e217b4bf858c35698210115a84a72a" kind="variable"><name>P256_PUBLIC_KEY_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1aae45e82c5e3be734a827330f7b12de16" kind="variable"><name>P256_SIGNATURE_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a733d5ca832e72b1cd3bebc05caab00ca" kind="variable"><name>AES_CTR_KEY_SIZE</name></member>
+    <member refid="m17__coder__impl_8h_1a7f4d7f6a2fd866cf28f7c96dc038fd73" kind="variable"><name>AES_CTR_IV_SIZE</name></member>
+  </compound>
+  <compound refid="function__documentation_8h" kind="file"><name>function_documentation.h</name>
+    <member refid="function__documentation_8h_1a560b205367d28a4b05fe73144a70db45" kind="function"><name>set_key</name></member>
+    <member refid="function__documentation_8h_1a0e52b3459c04f731eb8f9a6054ff4d95" kind="function"><name>set_seed</name></member>
+    <member refid="function__documentation_8h_1a885acb85ce4d72ac86a4fc232c34ec1b" kind="function"><name>set_ed25519_keys</name></member>
+    <member refid="function__documentation_8h_1afc04d69befe1383bf7c23ff9b4618e58" kind="function"><name>set_curve25519_keys</name></member>
+    <member refid="function__documentation_8h_1a00d610910f54f42ab04d99204d686a15" kind="function"><name>verify_ed25519_signature</name></member>
+    <member refid="function__documentation_8h_1a8b62c4920369e22adcc7c61ba81dbbe1" kind="function"><name>perform_curve25519_ecdh</name></member>
+    <member refid="function__documentation_8h_1a1224487882bddae056adfc137c04d78f" kind="function"><name>set_m17_strict_mode</name></member>
+    <member refid="function__documentation_8h_1a68e6dfa9d090461140f3e9032bcbf1b8" kind="function"><name>init_nitrokey_security</name></member>
+  </compound>
+  <compound refid="m17__documentation_8h" kind="file"><name>m17_documentation.h</name>
+  </compound>
+  <compound refid="m17__security__documentation_8md" kind="file"><name>m17_security_documentation.md</name>
+  </compound>
+  <compound refid="api_8h" kind="file"><name>api.h</name>
+    <member refid="api_8h_1ab6d65a52c804383816b67c8c62c0a325" kind="define"><name>M17_API</name></member>
+  </compound>
+  <compound refid="m17__coder_8h" kind="file"><name>m17_coder.h</name>
+  </compound>
+  <compound refid="m17__decoder_8h" kind="file"><name>m17_decoder.h</name>
+  </compound>
+  <compound refid="m17__coder__impl_8cc" kind="file"><name>m17_coder_impl.cc</name>
+  </compound>
+  <compound refid="m17__coder__impl_8h" kind="file"><name>m17_coder_impl.h</name>
+    <member refid="m17__coder__impl_8h_1a5412ac9ff64f4ab68c289a0da739eaef" kind="define"><name>AES</name></member>
+    <member refid="m17__coder__impl_8h_1ab3a208d95994c5d4abe4f978af8be821" kind="define"><name>ECC</name></member>
+  </compound>
+  <compound refid="m17__decoder__impl_8cc" kind="file"><name>m17_decoder_impl.cc</name>
+  </compound>
+  <compound refid="m17__decoder__impl_8h" kind="file"><name>m17_decoder_impl.h</name>
+    <member refid="m17__decoder__impl_8h_1a0807bc8b129517a2f8e8b68b79706d16" kind="define"><name>M17_ED25519_PUBLIC_KEY_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1ae3f2061a7da1cfbf574651147ad43731" kind="define"><name>M17_ED25519_PRIVATE_KEY_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1a80b98a27ca26d4b5842dc249825d3b59" kind="define"><name>M17_ED25519_SIGNATURE_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1a92ae61f3e7399c0552825f3af94d0d50" kind="define"><name>M17_CURVE25519_PUBLIC_KEY_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1ac34fb1654b2dc3c5254299be9694a06f" kind="define"><name>M17_CURVE25519_PRIVATE_KEY_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1a4e541f9b444077b75eaf82a138788d6a" kind="define"><name>M17_CURVE25519_SHARED_SECRET_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1abb8cf3e37d8b07ee071c3f4fc5352159" kind="define"><name>M17_AES_GCM_KEY_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1adc365fcaa0a798d7f4e79de483810039" kind="define"><name>M17_AES_GCM_IV_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1ac585023911f1ebba4aa40f0707529b42" kind="define"><name>M17_AES_GCM_TAG_SIZE</name></member>
+    <member refid="m17__decoder__impl_8h_1a5412ac9ff64f4ab68c289a0da739eaef" kind="define"><name>AES</name></member>
+    <member refid="m17__decoder__impl_8h_1ab3a208d95994c5d4abe4f978af8be821" kind="define"><name>ECC</name></member>
+  </compound>
+  <compound refid="CMakeCCompilerId_8c" kind="file"><name>CMakeCCompilerId.c</name>
+    <member refid="CMakeCCompilerId_8c_1ae5510d82e4946f1656f4969911c54736" kind="define"><name>__has_include</name></member>
+    <member refid="CMakeCCompilerId_8c_1a81dee0709ded976b2e0319239f72d174" kind="define"><name>COMPILER_ID</name></member>
+    <member refid="CMakeCCompilerId_8c_1a2ae9b72bb13abaabfcf2ee0ba7d3fa1d" kind="define"><name>STRINGIFY_HELPER</name></member>
+    <member refid="CMakeCCompilerId_8c_1a43e1cad902b6477bec893cb6430bd6c8" kind="define"><name>STRINGIFY</name></member>
+    <member refid="CMakeCCompilerId_8c_1adbc5372f40838899018fadbc89bd588b" kind="define"><name>PLATFORM_ID</name></member>
+    <member refid="CMakeCCompilerId_8c_1aba35d0d200deaeb06aee95ca297acb28" kind="define"><name>ARCHITECTURE_ID</name></member>
+    <member refid="CMakeCCompilerId_8c_1ad1280362da42492bbc11aa78cbf776ad" kind="define"><name>DEC</name></member>
+    <member refid="CMakeCCompilerId_8c_1a46d5d95daa1bef867bd0179594310ed5" kind="define"><name>HEX</name></member>
+    <member refid="CMakeCCompilerId_8c_1adaee3ee7c5a7a22451ea25e762e1d7d5" kind="define"><name>C_VERSION</name></member>
+    <member refid="CMakeCCompilerId_8c_1a4b0efeb7a5d59313986b3a0390f050f6" kind="variable"><name>info_compiler</name></member>
+    <member refid="CMakeCCompilerId_8c_1a2321403dee54ee23f0c2fa849c60f7d4" kind="variable"><name>info_platform</name></member>
+    <member refid="CMakeCCompilerId_8c_1a59647e99d304ed33b15cb284c27ed391" kind="variable"><name>info_arch</name></member>
+    <member refid="CMakeCCompilerId_8c_1a4607cccf070750927b458473ca82c090" kind="variable"><name>info_language_standard_default</name></member>
+    <member refid="CMakeCCompilerId_8c_1a0f46a8a39e09d9b803c4766904fd7e99" kind="variable"><name>info_language_extensions_default</name></member>
+    <member refid="CMakeCCompilerId_8c_1a0ddf1224851353fc92bfbff6f499fa97" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2aes__gcm_8c_8o_8d" kind="file"><name>aes_gcm.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2aes__gcm_8c_8o_8d" kind="file"><name>aes_gcm.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2bounds__checking_8c_8o_8d" kind="file"><name>bounds_checking.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2bounds__checking_8c_8o_8d" kind="file"><name>bounds_checking.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2curve25519_8c_8o_8d" kind="file"><name>curve25519.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2curve25519_8c_8o_8d" kind="file"><name>curve25519.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2ed25519_8c_8o_8d" kind="file"><name>ed25519.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2ed25519_8c_8o_8d" kind="file"><name>ed25519.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2hkdf_8c_8o_8d" kind="file"><name>hkdf.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2hkdf_8c_8o_8d" kind="file"><name>hkdf.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2key__derivation_8c_8o_8d" kind="file"><name>key_derivation.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2key__derivation_8c_8o_8d" kind="file"><name>key_derivation.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2optee_8c_8o_8d" kind="file"><name>optee.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2optee_8c_8o_8d" kind="file"><name>optee.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2replay__protection_8c_8o_8d" kind="file"><name>replay_protection.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2replay__protection_8c_8o_8d" kind="file"><name>replay_protection.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2secure__boot_8c_8o_8d" kind="file"><name>secure_boot.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2secure__boot_8c_8o_8d" kind="file"><name>secure_boot.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2secure__memory_8c_8o_8d" kind="file"><name>secure_memory.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2secure__memory_8c_8o_8d" kind="file"><name>secure_memory.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2security__monitoring_8c_8o_8d" kind="file"><name>security_monitoring.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2security__monitoring_8c_8o_8d" kind="file"><name>security_monitoring.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2trustzone_8c_8o_8d" kind="file"><name>trustzone.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2trustzone_8c_8o_8d" kind="file"><name>trustzone.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2crypto_2validation_8c_8o_8d" kind="file"><name>validation.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2crypto_2validation_8c_8o_8d" kind="file"><name>validation.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2decode_2viterbi_8c_8o_8d" kind="file"><name>viterbi.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2decode_2viterbi_8c_8o_8d" kind="file"><name>viterbi.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2encode_2convol_8c_8o_8d" kind="file"><name>convol.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2encode_2convol_8c_8o_8d" kind="file"><name>convol.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2decode_2symbols_8c_8o_8d" kind="file"><name>symbols.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2encode_2symbols_8c_8o_8d" kind="file"><name>symbols.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2decode_2symbols_8c_8o_8d" kind="file"><name>symbols.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2encode_2symbols_8c_8o_8d" kind="file"><name>symbols.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2m17_8c_8o_8d" kind="file"><name>m17.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2m17_8c_8o_8d" kind="file"><name>m17.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2m17__safe_8c_8o_8d" kind="file"><name>m17_safe.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2m17__safe_8c_8o_8d" kind="file"><name>m17_safe.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2m17__simd_8c_8o_8d" kind="file"><name>m17_simd.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2m17__simd_8c_8o_8d" kind="file"><name>m17_simd.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2math_2golay_8c_8o_8d" kind="file"><name>golay.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2math_2golay_8c_8o_8d" kind="file"><name>golay.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2math_2math_8c_8o_8d" kind="file"><name>math.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2math_2math_8c_8o_8d" kind="file"><name>math.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2math_2rrc_8c_8o_8d" kind="file"><name>rrc.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2math_2rrc_8c_8o_8d" kind="file"><name>rrc.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2payload_2call_8c_8o_8d" kind="file"><name>call.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2payload_2call_8c_8o_8d" kind="file"><name>call.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2payload_2crc_8c_8o_8d" kind="file"><name>crc.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2payload_2crc_8c_8o_8d" kind="file"><name>crc.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2payload_2lich_8c_8o_8d" kind="file"><name>lich.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2payload_2lich_8c_8o_8d" kind="file"><name>lich.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2phy_2interleave_8c_8o_8d" kind="file"><name>interleave.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2phy_2interleave_8c_8o_8d" kind="file"><name>interleave.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2phy_2randomize_8c_8o_8d" kind="file"><name>randomize.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2phy_2randomize_8c_8o_8d" kind="file"><name>randomize.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2phy_2slice_8c_8o_8d" kind="file"><name>slice.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2phy_2slice_8c_8o_8d" kind="file"><name>slice.c.o.d</name>
+  </compound>
+  <compound refid="libm17_8dir_2phy_2sync_8c_8o_8d" kind="file"><name>sync.c.o.d</name>
+  </compound>
+  <compound refid="m17-static_8dir_2phy_2sync_8c_8o_8d" kind="file"><name>sync.c.o.d</name>
+  </compound>
+  <compound refid="test__critical__security_8c_8o_8d" kind="file"><name>test_critical_security.c.o.d</name>
+  </compound>
+  <compound refid="test__crypto_8c_8o_8d" kind="file"><name>test_crypto.c.o.d</name>
+  </compound>
+  <compound refid="test__improvements_8c_8o_8d" kind="file"><name>test_improvements.c.o.d</name>
+  </compound>
+  <compound refid="test__security_8c_8o_8d" kind="file"><name>test_security.c.o.d</name>
+  </compound>
+  <compound refid="test__trustzone__tee_8c_8o_8d" kind="file"><name>test_trustzone_tee.c.o.d</name>
+  </compound>
+  <compound refid="DartConfiguration_8tcl" kind="file"><name>DartConfiguration.tcl</name>
+  </compound>
+  <compound refid="aes__gcm_8c" kind="file"><name>aes_gcm.c</name>
+    <member refid="aes__gcm_8c_1abbe9eedbb9b5208d6397f95262f7f25a" kind="define"><name>M17_AES_GCM_BLOCK_SIZE</name></member>
+    <member refid="aes__gcm_8c_1ada98ae1552d30b6c561744e4d6ae2c6d" kind="define"><name>M17_AES_GCM_GHASH_SIZE</name></member>
+    <member refid="aes__gcm_8c_1a4e3c167b62692f6e3ce5bb69c37d9bd8" kind="function"><name>generate_secure_iv</name></member>
+    <member refid="aes__gcm_8c_1a6b822da987cc251c9d855ef95fe0e395" kind="function"><name>m17_aes_gcm_encrypt</name></member>
+    <member refid="aes__gcm_8c_1ab4dbab700a540a53f39e213232fa76dd" kind="function"><name>m17_aes_gcm_decrypt</name></member>
+  </compound>
+  <compound refid="bounds__checking_8c" kind="file"><name>bounds_checking.c</name>
+    <member refid="bounds__checking_8c_1a2f152a43802c6849cae5f1356a834e37" kind="function"><name>m17_safe_memmove</name></member>
+    <member refid="bounds__checking_8c_1a7952ec1a9150482f233db38a3aa9c201" kind="function"><name>m17_safe_strcpy</name></member>
+    <member refid="bounds__checking_8c_1a6df8ac51ff00cf5bed94f1750f652b4a" kind="function"><name>m17_safe_strcat</name></member>
+    <member refid="bounds__checking_8c_1a95e40bc866cdd157af6d3be21de4e776" kind="function"><name>m17_safe_utf8_parse</name></member>
+    <member refid="bounds__checking_8c_1a972f58652a79481f16c0f26cf7b6c251" kind="function"><name>m17_safe_array_access</name></member>
+    <member refid="bounds__checking_8c_1a44914787a5e7e44ae02ba433ab836ae8" kind="function"><name>m17_safe_pointer_add</name></member>
+    <member refid="bounds__checking_8c_1ae71f5847978b18d5d863a537c3ad5e68" kind="function"><name>m17_safe_malloc</name></member>
+    <member refid="bounds__checking_8c_1acf72d15f34201a18a2c3865df9815e01" kind="function"><name>m17_safe_realloc</name></member>
+    <member refid="bounds__checking_8c_1a84a1fc2085dfc6967fe8bc3609bbb80c" kind="function"><name>m17_safe_add</name></member>
+    <member refid="bounds__checking_8c_1a58b37c7b70207ce80babaaec76591ad3" kind="function"><name>m17_safe_multiply</name></member>
+    <member refid="bounds__checking_8c_1add546e1391aa31bec64e0f39ffbc3a02" kind="function"><name>m17_validate_string_bounds</name></member>
+    <member refid="bounds__checking_8c_1a7cd3b5ae404bb9a5c61c0c4a2586c194" kind="function"><name>m17_safe_strlen</name></member>
+  </compound>
+  <compound refid="bounds__checking_8h" kind="file"><name>bounds_checking.h</name>
+    <member refid="bounds__checking_8h_1a4244072673b7e22f50030f588f076590" kind="function"><name>m17_safe_memcpy</name></member>
+    <member refid="bounds__checking_8h_1a2f152a43802c6849cae5f1356a834e37" kind="function"><name>m17_safe_memmove</name></member>
+    <member refid="bounds__checking_8h_1a7952ec1a9150482f233db38a3aa9c201" kind="function"><name>m17_safe_strcpy</name></member>
+    <member refid="bounds__checking_8h_1a6df8ac51ff00cf5bed94f1750f652b4a" kind="function"><name>m17_safe_strcat</name></member>
+    <member refid="bounds__checking_8h_1a95e40bc866cdd157af6d3be21de4e776" kind="function"><name>m17_safe_utf8_parse</name></member>
+    <member refid="bounds__checking_8h_1a2d4fdd80a80925dd4b666c1745e42697" kind="function"><name>m17_validate_buffer_bounds</name></member>
+    <member refid="bounds__checking_8h_1a972f58652a79481f16c0f26cf7b6c251" kind="function"><name>m17_safe_array_access</name></member>
+    <member refid="bounds__checking_8h_1a44914787a5e7e44ae02ba433ab836ae8" kind="function"><name>m17_safe_pointer_add</name></member>
+    <member refid="bounds__checking_8h_1ae71f5847978b18d5d863a537c3ad5e68" kind="function"><name>m17_safe_malloc</name></member>
+    <member refid="bounds__checking_8h_1acf72d15f34201a18a2c3865df9815e01" kind="function"><name>m17_safe_realloc</name></member>
+    <member refid="bounds__checking_8h_1a84a1fc2085dfc6967fe8bc3609bbb80c" kind="function"><name>m17_safe_add</name></member>
+    <member refid="bounds__checking_8h_1a58b37c7b70207ce80babaaec76591ad3" kind="function"><name>m17_safe_multiply</name></member>
+    <member refid="bounds__checking_8h_1add546e1391aa31bec64e0f39ffbc3a02" kind="function"><name>m17_validate_string_bounds</name></member>
+    <member refid="bounds__checking_8h_1a7cd3b5ae404bb9a5c61c0c4a2586c194" kind="function"><name>m17_safe_strlen</name></member>
+  </compound>
+  <compound refid="constant__time_8c" kind="file"><name>constant_time.c</name>
+    <member refid="constant__time_8c_1a1675eecfd033f99110eb7227a21732d7" kind="function"><name>m17_constant_time_memcmp</name></member>
+    <member refid="constant__time_8c_1aa3b4ff9f24a58eccb1c12a99bc81fa11" kind="function"><name>m17_constant_time_memcpy</name></member>
+    <member refid="constant__time_8c_1a21894677485c22482788eeb63ca0855a" kind="function"><name>m17_constant_time_memzero</name></member>
+    <member refid="constant__time_8c_1a036d1771c9104063d0d0c53e7df022d9" kind="function"><name>m17_constant_time_conditional_copy</name></member>
+    <member refid="constant__time_8c_1a0a1d19ab81f1dee83bbf2ea57a8eefeb" kind="function"><name>m17_constant_time_conditional_zero</name></member>
+    <member refid="constant__time_8c_1ab257b566f1bacbb2c56ba03f27a81c50" kind="function"><name>m17_constant_time_select</name></member>
+    <member refid="constant__time_8c_1a1bf365a1b938a2810ce19cbbebed2b3f" kind="function"><name>m17_constant_time_intcmp</name></member>
+    <member refid="constant__time_8c_1ae0d67e695d169d9360dae5e134564708" kind="function"><name>m17_constant_time_intselect</name></member>
+    <member refid="constant__time_8c_1a65bbb9de4775ef17ebff69e2eaed5e23" kind="function"><name>m17_constant_time_array_equal</name></member>
+    <member refid="constant__time_8c_1a8504bae49842765b7e625a91e057bf2a" kind="function"><name>m17_constant_time_array_copy</name></member>
+    <member refid="constant__time_8c_1a4bfd424bbf79735ed66d49639ad63bab" kind="function"><name>m17_constant_time_array_zero</name></member>
+  </compound>
+  <compound refid="constant__time_8h" kind="file"><name>constant_time.h</name>
+    <member refid="constant__time_8h_1a1675eecfd033f99110eb7227a21732d7" kind="function"><name>m17_constant_time_memcmp</name></member>
+    <member refid="constant__time_8h_1aa3b4ff9f24a58eccb1c12a99bc81fa11" kind="function"><name>m17_constant_time_memcpy</name></member>
+    <member refid="constant__time_8h_1a21894677485c22482788eeb63ca0855a" kind="function"><name>m17_constant_time_memzero</name></member>
+    <member refid="constant__time_8h_1a036d1771c9104063d0d0c53e7df022d9" kind="function"><name>m17_constant_time_conditional_copy</name></member>
+    <member refid="constant__time_8h_1a0a1d19ab81f1dee83bbf2ea57a8eefeb" kind="function"><name>m17_constant_time_conditional_zero</name></member>
+    <member refid="constant__time_8h_1ab257b566f1bacbb2c56ba03f27a81c50" kind="function"><name>m17_constant_time_select</name></member>
+    <member refid="constant__time_8h_1a1bf365a1b938a2810ce19cbbebed2b3f" kind="function"><name>m17_constant_time_intcmp</name></member>
+    <member refid="constant__time_8h_1ae0d67e695d169d9360dae5e134564708" kind="function"><name>m17_constant_time_intselect</name></member>
+    <member refid="constant__time_8h_1a65bbb9de4775ef17ebff69e2eaed5e23" kind="function"><name>m17_constant_time_array_equal</name></member>
+    <member refid="constant__time_8h_1a8504bae49842765b7e625a91e057bf2a" kind="function"><name>m17_constant_time_array_copy</name></member>
+    <member refid="constant__time_8h_1a4bfd424bbf79735ed66d49639ad63bab" kind="function"><name>m17_constant_time_array_zero</name></member>
+  </compound>
+  <compound refid="curve25519_8c" kind="file"><name>curve25519.c</name>
+    <member refid="curve25519_8c_1a0d4b921388b684d4bbb67b768e513345" kind="function"><name>m17_curve25519_generate_keypair</name></member>
+    <member refid="curve25519_8c_1a9f0216508832a981182af052d823b838" kind="function"><name>m17_curve25519_public_key_from_private</name></member>
+    <member refid="curve25519_8c_1acd0e600656f7599eff9257410647a298" kind="function"><name>m17_curve25519_ecdh</name></member>
+  </compound>
+  <compound refid="ed25519_8c" kind="file"><name>ed25519.c</name>
+    <member refid="ed25519_8c_1ad7d7edb45f384e63c75a9a77244a04ba" kind="function"><name>m17_ed25519_generate_keypair</name></member>
+    <member refid="ed25519_8c_1afb273f3c6ec7397cfc9cd8f38c409b07" kind="function"><name>m17_ed25519_public_key_from_private</name></member>
+    <member refid="ed25519_8c_1ad68df2cb051130ccdd205840df550a7d" kind="function"><name>m17_ed25519_sign</name></member>
+    <member refid="ed25519_8c_1a2e487bf4626df0515e9b1f64a78d2581" kind="function"><name>m17_ed25519_verify</name></member>
+  </compound>
+  <compound refid="hkdf_8c" kind="file"><name>hkdf.c</name>
+    <member refid="hkdf_8c_1ad729c2b8c10b34a8f3adb8feeb97ab9c" kind="define"><name>M17_HKDF_HASH_SIZE</name></member>
+    <member refid="hkdf_8c_1a761c8ef2413418d64d9ef5526e7471bd" kind="define"><name>M17_HKDF_BLOCK_SIZE</name></member>
+    <member refid="hkdf_8c_1ab648c08c83cb46baf6c0e1fead7c8a4b" kind="function"><name>hkdf_extract</name></member>
+    <member refid="hkdf_8c_1a6627e32128dec2b1c1b43d3f05865a3f" kind="function"><name>hkdf_expand</name></member>
+    <member refid="hkdf_8c_1a98ae69e3e4cbf33680a8a633428d3c70" kind="function"><name>m17_hkdf_derive</name></member>
+  </compound>
+  <compound refid="key__derivation_8c" kind="file"><name>key_derivation.c</name>
+    <member refid="key__derivation_8c_1a9a9a22fbf8a49334505af97f77e70554" kind="define"><name>M17_KEY_TYPE_ENCRYPTION</name></member>
+    <member refid="key__derivation_8c_1a10e98d4b6deccb44670b04304c351e99" kind="define"><name>M17_KEY_TYPE_AUTHENTICATION</name></member>
+    <member refid="key__derivation_8c_1adaf283125a426ee3fbaaf4bd167ce687" kind="define"><name>M17_KEY_TYPE_INTEGRITY</name></member>
+    <member refid="key__derivation_8c_1a29513d0e02dee78c8ea4b699fa374cfe" kind="define"><name>M17_KEY_TYPE_SESSION</name></member>
+    <member refid="key__derivation_8c_1a98dd8a67036f654835cb98abcf49a486" kind="function"><name>generate_session_id</name></member>
+    <member refid="key__derivation_8c_1a03d507561110308c2ce4071ff3e7c13e" kind="function"><name>m17_create_key_context</name></member>
+    <member refid="key__derivation_8c_1a3f2b96c8859cb90c6031b9f6d373b8a1" kind="function"><name>m17_derive_session_key</name></member>
+    <member refid="key__derivation_8c_1a85c48fac657090526c49de6fd334411e" kind="function"><name>m17_derive_session_keys</name></member>
+    <member refid="key__derivation_8c_1ab9fc424fe1394f0e76b21d9c942daecd" kind="function"><name>m17_verify_key_context</name></member>
+    <member refid="key__derivation_8c_1a5f134dd3131e6e927bf1c36c4bea0346" kind="function"><name>m17_secure_key_compare</name></member>
+    <member refid="key__derivation_8c_1aff9b8fc8b78f9fe51749e65b3bd87910" kind="function"><name>m17_secure_key_wipe</name></member>
+  </compound>
+  <compound refid="key__derivation_8h" kind="file"><name>key_derivation.h</name>
+    <member refid="key__derivation_8h_1a9a9a22fbf8a49334505af97f77e70554" kind="define"><name>M17_KEY_TYPE_ENCRYPTION</name></member>
+    <member refid="key__derivation_8h_1a10e98d4b6deccb44670b04304c351e99" kind="define"><name>M17_KEY_TYPE_AUTHENTICATION</name></member>
+    <member refid="key__derivation_8h_1adaf283125a426ee3fbaaf4bd167ce687" kind="define"><name>M17_KEY_TYPE_INTEGRITY</name></member>
+    <member refid="key__derivation_8h_1a29513d0e02dee78c8ea4b699fa374cfe" kind="define"><name>M17_KEY_TYPE_SESSION</name></member>
+    <member refid="key__derivation_8h_1a03d507561110308c2ce4071ff3e7c13e" kind="function"><name>m17_create_key_context</name></member>
+    <member refid="key__derivation_8h_1a3f2b96c8859cb90c6031b9f6d373b8a1" kind="function"><name>m17_derive_session_key</name></member>
+    <member refid="key__derivation_8h_1a85c48fac657090526c49de6fd334411e" kind="function"><name>m17_derive_session_keys</name></member>
+    <member refid="key__derivation_8h_1ab9fc424fe1394f0e76b21d9c942daecd" kind="function"><name>m17_verify_key_context</name></member>
+    <member refid="key__derivation_8h_1a5f134dd3131e6e927bf1c36c4bea0346" kind="function"><name>m17_secure_key_compare</name></member>
+    <member refid="key__derivation_8h_1aff9b8fc8b78f9fe51749e65b3bd87910" kind="function"><name>m17_secure_key_wipe</name></member>
+  </compound>
+  <compound refid="optee_8c" kind="file"><name>optee.c</name>
+    <member refid="optee_8c_1a748b30cef00733a41df9a89cfe15be40" kind="define"><name>TEE_DEVICE_PATH</name></member>
+    <member refid="optee_8c_1a7bf01bc6ef9e98f3f642d596e563ef5d" kind="define"><name>MAX_TEE_CONTEXTS</name></member>
+    <member refid="optee_8c_1afb0480fa797352fa6c352c95d74239e2" kind="define"><name>MAX_TEE_SESSIONS</name></member>
+    <member refid="optee_8c_1aa9563084300a724d25b8e9b4bde44a04" kind="define"><name>MAX_TEE_KEYS</name></member>
+    <member refid="optee_8c_1a2c0d7f842cd6fa8b8ea3ebab3b6d6162" kind="variable"><name>is_initialized</name></member>
+    <member refid="optee_8c_1aabb512bfd3244f79687cdaeb4bdacc31" kind="variable"><name>tee_available</name></member>
+    <member refid="optee_8c_1a9bafff94e9b36639bfad02534dc90ecd" kind="variable"><name>tee_fd</name></member>
+    <member refid="optee_8c_1ace232c3eb7dd41dc228d3e8876b527a6" kind="variable"><name>next_context_id</name></member>
+    <member refid="optee_8c_1a983d847435bfe7ede611018e20e30ba6" kind="variable"><name>next_session_id</name></member>
+    <member refid="optee_8c_1a000a78e2a7ce009d244323944035c31d" kind="variable"><name>next_key_id</name></member>
+    <member refid="optee_8c_1a6120d2f86bb876db313e335e59571f46" kind="variable"><name>g_tee_state</name></member>
+    <member refid="optee_8c_1a3184dbada8127aa181bd451be28dc5af" kind="variable"><name>g_tee_contexts</name></member>
+    <member refid="optee_8c_1ae8445c478a77f3a1c93b8cf0e1ae9dbe" kind="variable"><name>g_tee_sessions</name></member>
+    <member refid="optee_8c_1a92e4d763c1929d00d5dbb8b8277ae37e" kind="variable"><name>g_tee_keys</name></member>
+    <member refid="optee_8c_1ae5d2f5f209948f95b40a763044280f7e" kind="function"><name>m17_tee_initialize</name></member>
+    <member refid="optee_8c_1ace75b30a2b27b94cee392b78f85228d8" kind="function"><name>m17_tee_finalize</name></member>
+    <member refid="optee_8c_1a19801c2eafc5f2c0db53b37c10899069" kind="function"><name>m17_tee_open_context</name></member>
+    <member refid="optee_8c_1a488f9beff02842d09d9f17d9beb918ad" kind="function"><name>m17_tee_close_context</name></member>
+    <member refid="optee_8c_1a9d1335cf6e182267a20ac6d3567489a5" kind="function"><name>m17_tee_open_session</name></member>
+    <member refid="optee_8c_1af961770c430ab1ce11541803230f2f81" kind="function"><name>m17_tee_close_session</name></member>
+    <member refid="optee_8c_1a2c809c660713f0b109dea84762e0ce02" kind="function"><name>m17_tee_authenticate_session</name></member>
+    <member refid="optee_8c_1a3f8afa8097b1d7f15484972ad0eb077b" kind="function"><name>m17_tee_generate_keypair</name></member>
+    <member refid="optee_8c_1acbd9fc4d05bca63edc305e8714a4cf3f" kind="function"><name>m17_tee_wipe_key</name></member>
+    <member refid="optee_8c_1aca7d6700cb2a197e6153f4ba90bc90f3" kind="function"><name>m17_tee_sign_data</name></member>
+    <member refid="optee_8c_1a053e0fe3917c7872041c34ae854fdfc4" kind="function"><name>m17_tee_verify_signature</name></member>
+    <member refid="optee_8c_1a2f9e8f566466829a4e441ba94b727cd8" kind="function"><name>m17_tee_secure_memory_alloc</name></member>
+    <member refid="optee_8c_1ab6ebfd359dec084951a996718b628535" kind="function"><name>m17_tee_secure_memory_free</name></member>
+    <member refid="optee_8c_1af295b2f41043a079c603ee490ab17c0c" kind="function"><name>m17_tee_secure_memory_wipe</name></member>
+    <member refid="optee_8c_1ac63d2a7b9c9743fc90f9741cd732065d" kind="function"><name>m17_tee_get_status</name></member>
+    <member refid="optee_8c_1a953c104dc034400b43137de9b64d594e" kind="function"><name>m17_tee_get_session_info</name></member>
+    <member refid="optee_8c_1af27eb379f05e0678b8ab2fe20ed83209" kind="function"><name>m17_tee_validate_secure_boot</name></member>
+    <member refid="optee_8c_1a851cd4ca00c793219179a1a82ada74f5" kind="function"><name>m17_tee_get_secure_boot_status</name></member>
+  </compound>
+  <compound refid="optee_8h" kind="file"><name>optee.h</name>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48" kind="enum"><name>m17_tee_status_t</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a1fd2acbcbe00e7301441d6c9987be1f2" kind="enumvalue"><name>M17_TEE_SUCCESS</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a1d9dd595d2213bf9885153b14592c5b8" kind="enumvalue"><name>M17_TEE_ERROR_INVALID_PARAM</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a579e294a2eced25ee8bc908c87bfc342" kind="enumvalue"><name>M17_TEE_ERROR_TEE_UNAVAILABLE</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48af71f6d8dce7772f4196229c03d5e3a46" kind="enumvalue"><name>M17_TEE_ERROR_OUT_OF_MEMORY</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a549880a3410b346d8b57da2f10f43d5b" kind="enumvalue"><name>M17_TEE_ERROR_AUTHENTICATION_FAILED</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48ad01cb1d63f2520f513e6813783185217" kind="enumvalue"><name>M17_TEE_ERROR_OPERATION_NOT_PERMITTED</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a9abdccd17599d99d411ffa18b6f88f10" kind="enumvalue"><name>M17_TEE_ERROR_COMMUNICATION_FAILED</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a07785fd321e89c79bacdb9ca3b6bf5e6" kind="enumvalue"><name>M17_TEE_ERROR_KEY_NOT_FOUND</name></member>
+    <member refid="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48ac883e6a43c1e0a2b131eaa52748918ea" kind="enumvalue"><name>M17_TEE_ERROR_SIGNATURE_INVALID</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000b" kind="enum"><name>m17_tee_operation_t</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000ba2bb7caefc317bd61870e58e2d9dbb330" kind="enumvalue"><name>M17_TEE_OP_GENERATE_KEYPAIR</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000ba6157e7599abade21613b88f690835230" kind="enumvalue"><name>M17_TEE_OP_SIGN_DATA</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000baa11f29049665790aa5b26e92e07b268e" kind="enumvalue"><name>M17_TEE_OP_VERIFY_SIGNATURE</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000bad57aac228049bfe74e8a684af15ae178" kind="enumvalue"><name>M17_TEE_OP_ECDH_KEY_EXCHANGE</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000baa42833f264ba57e8ec1e2e64602aeab8" kind="enumvalue"><name>M17_TEE_OP_ENCRYPT_DATA</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000baabbd840a7bc6f68f9f82b78f233f3dbd" kind="enumvalue"><name>M17_TEE_OP_DECRYPT_DATA</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000ba619463c19ebffa226ee448e9937ac8b4" kind="enumvalue"><name>M17_TEE_OP_DERIVE_SESSION_KEY</name></member>
+    <member refid="optee_8h_1a8964542f6056d9e9282105726edc000ba9949e4b7171401f76c55406f4507ee80" kind="enumvalue"><name>M17_TEE_OP_WIPE_KEY</name></member>
+    <member refid="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208" kind="enum"><name>m17_tee_key_type_t</name></member>
+    <member refid="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a3b82d4e20608a30df7ef1a91485dc805" kind="enumvalue"><name>M17_TEE_KEY_TYPE_ED25519_PRIVATE</name></member>
+    <member refid="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a4ecd755edae4c8ecb638a3354b7b8f59" kind="enumvalue"><name>M17_TEE_KEY_TYPE_ED25519_PUBLIC</name></member>
+    <member refid="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a3997a1ae7cc094afddfc9c4eba596775" kind="enumvalue"><name>M17_TEE_KEY_TYPE_CURVE25519_PRIVATE</name></member>
+    <member refid="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a1686c11d3f24db1ec97adb24dad733ce" kind="enumvalue"><name>M17_TEE_KEY_TYPE_CURVE25519_PUBLIC</name></member>
+    <member refid="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a3f5417c60a279dbe4bec3b7c80f60f70" kind="enumvalue"><name>M17_TEE_KEY_TYPE_SESSION_ENCRYPTION</name></member>
+    <member refid="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a15913f8843fa7e9058638ed87643438b" kind="enumvalue"><name>M17_TEE_KEY_TYPE_SESSION_AUTHENTICATION</name></member>
+    <member refid="optee_8h_1ae5d2f5f209948f95b40a763044280f7e" kind="function"><name>m17_tee_initialize</name></member>
+    <member refid="optee_8h_1ace75b30a2b27b94cee392b78f85228d8" kind="function"><name>m17_tee_finalize</name></member>
+    <member refid="optee_8h_1a19801c2eafc5f2c0db53b37c10899069" kind="function"><name>m17_tee_open_context</name></member>
+    <member refid="optee_8h_1a488f9beff02842d09d9f17d9beb918ad" kind="function"><name>m17_tee_close_context</name></member>
+    <member refid="optee_8h_1a9d1335cf6e182267a20ac6d3567489a5" kind="function"><name>m17_tee_open_session</name></member>
+    <member refid="optee_8h_1af961770c430ab1ce11541803230f2f81" kind="function"><name>m17_tee_close_session</name></member>
+    <member refid="optee_8h_1a2c809c660713f0b109dea84762e0ce02" kind="function"><name>m17_tee_authenticate_session</name></member>
+    <member refid="optee_8h_1a3f8afa8097b1d7f15484972ad0eb077b" kind="function"><name>m17_tee_generate_keypair</name></member>
+    <member refid="optee_8h_1a35f1b5e81a0a34a254099e6ae7db2857" kind="function"><name>m17_tee_load_key</name></member>
+    <member refid="optee_8h_1acbd9fc4d05bca63edc305e8714a4cf3f" kind="function"><name>m17_tee_wipe_key</name></member>
+    <member refid="optee_8h_1aca7d6700cb2a197e6153f4ba90bc90f3" kind="function"><name>m17_tee_sign_data</name></member>
+    <member refid="optee_8h_1a053e0fe3917c7872041c34ae854fdfc4" kind="function"><name>m17_tee_verify_signature</name></member>
+    <member refid="optee_8h_1ad882f37e4c3a22c141980dd90eda9a7e" kind="function"><name>m17_tee_ecdh_key_exchange</name></member>
+    <member refid="optee_8h_1a96b96bcda40bec66325ae9ca5775b888" kind="function"><name>m17_tee_encrypt_data</name></member>
+    <member refid="optee_8h_1a04114706c102a4c465fbf78a501572e0" kind="function"><name>m17_tee_decrypt_data</name></member>
+    <member refid="optee_8h_1a1a495bb5cbcd9990ba7198b696958351" kind="function"><name>m17_tee_derive_session_key</name></member>
+    <member refid="optee_8h_1a2f9e8f566466829a4e441ba94b727cd8" kind="function"><name>m17_tee_secure_memory_alloc</name></member>
+    <member refid="optee_8h_1ab6ebfd359dec084951a996718b628535" kind="function"><name>m17_tee_secure_memory_free</name></member>
+    <member refid="optee_8h_1af295b2f41043a079c603ee490ab17c0c" kind="function"><name>m17_tee_secure_memory_wipe</name></member>
+    <member refid="optee_8h_1ac63d2a7b9c9743fc90f9741cd732065d" kind="function"><name>m17_tee_get_status</name></member>
+    <member refid="optee_8h_1a953c104dc034400b43137de9b64d594e" kind="function"><name>m17_tee_get_session_info</name></member>
+    <member refid="optee_8h_1af27eb379f05e0678b8ab2fe20ed83209" kind="function"><name>m17_tee_validate_secure_boot</name></member>
+    <member refid="optee_8h_1a851cd4ca00c793219179a1a82ada74f5" kind="function"><name>m17_tee_get_secure_boot_status</name></member>
+  </compound>
+  <compound refid="replay__protection_8c" kind="file"><name>replay_protection.c</name>
+    <member refid="replay__protection_8c_1aeec66c806848f52506d61b3abae15f7f" kind="define"><name>M17_REPLAY_WINDOW_SIZE</name></member>
+    <member refid="replay__protection_8c_1a8ef24900c65a106c35dad4dcf2eb4373" kind="define"><name>M17_REPLAY_MAX_AGE_SECONDS</name></member>
+    <member refid="replay__protection_8c_1a4fc9b066df46b3b2c92d58c3defa4915" kind="define"><name>M17_REPLAY_MAX_FRAMES</name></member>
+    <member refid="replay__protection_8c_1a2dc9d1866e416e7717efca20eee0f635" kind="variable"><name>g_replay_state</name></member>
+    <member refid="replay__protection_8c_1a72d18e7d2704445a2f07bb072a255c50" kind="function"><name>m17_replay_protection_init</name></member>
+    <member refid="replay__protection_8c_1a2e987bc753766e37bd6eb0b382bc5b52" kind="function"><name>m17_check_frame_replay</name></member>
+    <member refid="replay__protection_8c_1a39656e7bb49bfd02e17bdc2402504500" kind="function"><name>m17_add_frame_to_window</name></member>
+    <member refid="replay__protection_8c_1a31b8449bb77b2f47c73df2f9debbc519" kind="function"><name>m17_replay_cleanup_old_entries</name></member>
+    <member refid="replay__protection_8c_1af1fab6caac663910c8cd6398e2589ab1" kind="function"><name>m17_get_replay_stats</name></member>
+    <member refid="replay__protection_8c_1a60918c0545b61567bf7193ceccee5537" kind="function"><name>m17_replay_protection_reset</name></member>
+    <member refid="replay__protection_8c_1ad899eace6f13308fd4e738f234ba1479" kind="function"><name>m17_validate_frame_sequence</name></member>
+    <member refid="replay__protection_8c_1ab0080eeb3723a5b84f19a11ac0e3f83c" kind="function"><name>m17_detect_suspicious_patterns</name></member>
+  </compound>
+  <compound refid="replay__protection_8h" kind="file"><name>replay_protection.h</name>
+    <member refid="replay__protection_8h_1a72d18e7d2704445a2f07bb072a255c50" kind="function"><name>m17_replay_protection_init</name></member>
+    <member refid="replay__protection_8h_1a2e987bc753766e37bd6eb0b382bc5b52" kind="function"><name>m17_check_frame_replay</name></member>
+    <member refid="replay__protection_8h_1a39656e7bb49bfd02e17bdc2402504500" kind="function"><name>m17_add_frame_to_window</name></member>
+    <member refid="replay__protection_8h_1a31b8449bb77b2f47c73df2f9debbc519" kind="function"><name>m17_replay_cleanup_old_entries</name></member>
+    <member refid="replay__protection_8h_1af1fab6caac663910c8cd6398e2589ab1" kind="function"><name>m17_get_replay_stats</name></member>
+    <member refid="replay__protection_8h_1a60918c0545b61567bf7193ceccee5537" kind="function"><name>m17_replay_protection_reset</name></member>
+    <member refid="replay__protection_8h_1ad899eace6f13308fd4e738f234ba1479" kind="function"><name>m17_validate_frame_sequence</name></member>
+    <member refid="replay__protection_8h_1ab0080eeb3723a5b84f19a11ac0e3f83c" kind="function"><name>m17_detect_suspicious_patterns</name></member>
+  </compound>
+  <compound refid="secure__boot_8c" kind="file"><name>secure_boot.c</name>
+    <member refid="secure__boot_8c_1ad4d4d8a290bf789feff2c57c9d3b240d" kind="define"><name>MAX_SB_COMPONENTS</name></member>
+    <member refid="secure__boot_8c_1a4c5cdcab2ff6c911bb56908038a11914" kind="define"><name>MAX_SB_MEASUREMENTS</name></member>
+    <member refid="secure__boot_8c_1a2c0d7f842cd6fa8b8ea3ebab3b6d6162" kind="variable"><name>is_initialized</name></member>
+    <member refid="secure__boot_8c_1a6b4ee728cbfac15d61b47242b29c2c64" kind="variable"><name>secure_boot_available</name></member>
+    <member refid="secure__boot_8c_1a8d8f94cb1795a72ee5996257cec4d3c5" kind="variable"><name>boot_level</name></member>
+    <member refid="secure__boot_8c_1a780567f75a44de99b7c977bd6321527d" kind="variable"><name>chain_valid</name></member>
+    <member refid="secure__boot_8c_1a2ce3b9c8c9faef67fce18efe40736a65" kind="variable"><name>last_validation</name></member>
+    <member refid="secure__boot_8c_1a1bd69bccb44251c59dcdcd6a390ad059" kind="variable"><name>validation_count</name></member>
+    <member refid="secure__boot_8c_1aa23ad4b4ef52ce158dc7323b787e06c5" kind="variable"><name>g_sb_state</name></member>
+    <member refid="secure__boot_8c_1a40527a0c7bd8268d86cda62b06e31f3d" kind="variable"><name>g_sb_components</name></member>
+    <member refid="secure__boot_8c_1aa4323378ddb625a6e298e3eee2053202" kind="variable"><name>g_sb_measurements</name></member>
+    <member refid="secure__boot_8c_1aed252fa2322d23fc0b10eb44b5dfcd7e" kind="variable"><name>g_sb_measurement_count</name></member>
+    <member refid="secure__boot_8c_1a7f28cad8c4c418f9eea068710ea80f12" kind="function"><name>secure_boot_init</name></member>
+    <member refid="secure__boot_8c_1abb36c620c22a5cc710daf8b76c56e306" kind="function"><name>m17_sb_validate_boot_chain</name></member>
+    <member refid="secure__boot_8c_1ac5d374f8d3babe0af21a6309e7e59d7c" kind="function"><name>m17_sb_get_boot_status</name></member>
+    <member refid="secure__boot_8c_1abf427a317176e8e8dc13e22a5043f09b" kind="function"><name>m17_sb_validate_component</name></member>
+    <member refid="secure__boot_8c_1ae0d3be74548d553400f4e41008ee85ec" kind="function"><name>m17_sb_create_attestation</name></member>
+    <member refid="secure__boot_8c_1ace5d0833bcb85b1758cc051658ae8fb8" kind="function"><name>m17_sb_verify_attestation</name></member>
+    <member refid="secure__boot_8c_1a15b296ff0299823b0275dfc0065dd0a9" kind="function"><name>m17_sb_get_attestation_report</name></member>
+    <member refid="secure__boot_8c_1a015e93e86bcc02df5f4c8fb3ce7f19bc" kind="function"><name>m17_sb_validate_root_key</name></member>
+    <member refid="secure__boot_8c_1aeee39b08556fa3f4283d9dcf14d888f4" kind="function"><name>m17_sb_get_root_key_hash</name></member>
+    <member refid="secure__boot_8c_1a72751507e96c42aaa5acee1e74823183" kind="function"><name>m17_sb_validate_chain_of_trust</name></member>
+    <member refid="secure__boot_8c_1aed48fc4c6c88a6a993f6f5f98239b3c8" kind="function"><name>m17_sb_get_boot_measurements</name></member>
+    <member refid="secure__boot_8c_1ace7374bb693ada813c79809846268a9d" kind="function"><name>m17_sb_monitor_integrity</name></member>
+    <member refid="secure__boot_8c_1a08386edd3916f62d8065d9f86733fc32" kind="function"><name>m17_sb_detect_tampering</name></member>
+    <member refid="secure__boot_8c_1aa7b8e428a5650097c37c8d6d3e14cf69" kind="function"><name>m17_sb_check_secure_boot_hardware</name></member>
+    <member refid="secure__boot_8c_1a63166796322db0f6683eb4a2afbeb2aa" kind="function"><name>m17_sb_get_hardware_features</name></member>
+    <member refid="secure__boot_8c_1a957ca08401c588356fcf9926ab14efd6" kind="function"><name>m17_sb_validate_hardware_roots_of_trust</name></member>
+  </compound>
+  <compound refid="secure__boot_8h" kind="file"><name>secure_boot.h</name>
+    <member refid="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0" kind="enum"><name>m17_sb_status_t</name></member>
+    <member refid="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a32277719a640c94182bfa3e56bdab23b" kind="enumvalue"><name>M17_SB_SUCCESS</name></member>
+    <member refid="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a8602c00ab5fb3a1bc9095313f1a8ae51" kind="enumvalue"><name>M17_SB_ERROR_INVALID_PARAM</name></member>
+    <member refid="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a387c9a1538db7a75b6cba69e3fd81cc3" kind="enumvalue"><name>M17_SB_ERROR_BOOT_CHAIN_INVALID</name></member>
+    <member refid="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a94d9be5f28d5cd1d9f47f5a195df1bd4" kind="enumvalue"><name>M17_SB_ERROR_SIGNATURE_INVALID</name></member>
+    <member refid="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a30c8ccedbe8efb5da8bf63bbd27b33ad" kind="enumvalue"><name>M17_SB_ERROR_HARDWARE_UNAVAILABLE</name></member>
+    <member refid="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0ab87b0b4414a32e6c74ae273ac6f4af48" kind="enumvalue"><name>M17_SB_ERROR_VERIFICATION_FAILED</name></member>
+    <member refid="secure__boot_8h_1a5127bf0daf5da50c8b8bf54d223e7cd0a40545395af307bf954ce9c3f21ca3fc3" kind="enumvalue"><name>M17_SB_ERROR_ATTESTATION_FAILED</name></member>
+    <member refid="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670" kind="enum"><name>m17_sb_level_t</name></member>
+    <member refid="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670a43dde68df8b0c426959f5f7d0067d3cc" kind="enumvalue"><name>M17_SB_LEVEL_NONE</name></member>
+    <member refid="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670ac47d4fcc3b0a117ff3e7f61bde3cc98b" kind="enumvalue"><name>M17_SB_LEVEL_BASIC</name></member>
+    <member refid="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670ae005fe01424e882fee06999aac107c6b" kind="enumvalue"><name>M17_SB_LEVEL_ENHANCED</name></member>
+    <member refid="secure__boot_8h_1a0246b2daaf0b26cff4460850a537d670a4b8c377712978499ccfc856dcc4df7b3" kind="enumvalue"><name>M17_SB_LEVEL_MAXIMUM</name></member>
+    <member refid="secure__boot_8h_1abb686331a9719486bc9bce3163196962" kind="enum"><name>m17_sb_component_t</name></member>
+    <member refid="secure__boot_8h_1abb686331a9719486bc9bce3163196962a2c817dc1d327abf12a9a02960b91c50a" kind="enumvalue"><name>M17_SB_COMPONENT_BOOTLOADER</name></member>
+    <member refid="secure__boot_8h_1abb686331a9719486bc9bce3163196962a397b4c4028e3a2ef4440567793f0ba49" kind="enumvalue"><name>M17_SB_COMPONENT_KERNEL</name></member>
+    <member refid="secure__boot_8h_1abb686331a9719486bc9bce3163196962a0b6363cc48d2e235e96591040f6f7533" kind="enumvalue"><name>M17_SB_COMPONENT_TEE</name></member>
+    <member refid="secure__boot_8h_1abb686331a9719486bc9bce3163196962afa2a8b78d9340331e3a5ac43a63317e1" kind="enumvalue"><name>M17_SB_COMPONENT_M17_LIBRARY</name></member>
+    <member refid="secure__boot_8h_1abb686331a9719486bc9bce3163196962ac86352bc9a7adececcf427f73ab9ea10" kind="enumvalue"><name>M17_SB_COMPONENT_CRYPTO_MODULE</name></member>
+    <member refid="secure__boot_8h_1abb36c620c22a5cc710daf8b76c56e306" kind="function"><name>m17_sb_validate_boot_chain</name></member>
+    <member refid="secure__boot_8h_1ac5d374f8d3babe0af21a6309e7e59d7c" kind="function"><name>m17_sb_get_boot_status</name></member>
+    <member refid="secure__boot_8h_1abf427a317176e8e8dc13e22a5043f09b" kind="function"><name>m17_sb_validate_component</name></member>
+    <member refid="secure__boot_8h_1ae0d3be74548d553400f4e41008ee85ec" kind="function"><name>m17_sb_create_attestation</name></member>
+    <member refid="secure__boot_8h_1ace5d0833bcb85b1758cc051658ae8fb8" kind="function"><name>m17_sb_verify_attestation</name></member>
+    <member refid="secure__boot_8h_1a15b296ff0299823b0275dfc0065dd0a9" kind="function"><name>m17_sb_get_attestation_report</name></member>
+    <member refid="secure__boot_8h_1a015e93e86bcc02df5f4c8fb3ce7f19bc" kind="function"><name>m17_sb_validate_root_key</name></member>
+    <member refid="secure__boot_8h_1aeee39b08556fa3f4283d9dcf14d888f4" kind="function"><name>m17_sb_get_root_key_hash</name></member>
+    <member refid="secure__boot_8h_1a72751507e96c42aaa5acee1e74823183" kind="function"><name>m17_sb_validate_chain_of_trust</name></member>
+    <member refid="secure__boot_8h_1aed48fc4c6c88a6a993f6f5f98239b3c8" kind="function"><name>m17_sb_get_boot_measurements</name></member>
+    <member refid="secure__boot_8h_1ace7374bb693ada813c79809846268a9d" kind="function"><name>m17_sb_monitor_integrity</name></member>
+    <member refid="secure__boot_8h_1a08386edd3916f62d8065d9f86733fc32" kind="function"><name>m17_sb_detect_tampering</name></member>
+    <member refid="secure__boot_8h_1aa7b8e428a5650097c37c8d6d3e14cf69" kind="function"><name>m17_sb_check_secure_boot_hardware</name></member>
+    <member refid="secure__boot_8h_1a63166796322db0f6683eb4a2afbeb2aa" kind="function"><name>m17_sb_get_hardware_features</name></member>
+    <member refid="secure__boot_8h_1a957ca08401c588356fcf9926ab14efd6" kind="function"><name>m17_sb_validate_hardware_roots_of_trust</name></member>
+  </compound>
+  <compound refid="secure__memory_8c" kind="file"><name>secure_memory.c</name>
+    <member refid="secure__memory_8c_1a14331642a2004275332b4fcfec9eaf70" kind="function"><name>m17_secure_wipe</name></member>
+    <member refid="secure__memory_8c_1a6d6dfb37cbcbb61c37b95a3a1898219c" kind="function"><name>m17_secure_alloc</name></member>
+    <member refid="secure__memory_8c_1a42ba6b68b180842eea401fb44e69a6fb" kind="function"><name>m17_secure_realloc</name></member>
+    <member refid="secure__memory_8c_1a3333a70879b6e45cc188a2ccd48dfa25" kind="function"><name>m17_secure_free</name></member>
+    <member refid="secure__memory_8c_1ac0e780203aaf575ce10ac5ef01b35d4a" kind="function"><name>m17_secure_lock_memory</name></member>
+    <member refid="secure__memory_8c_1ab2882e77c3f41a2fe0d8f52436f377cf" kind="function"><name>m17_secure_unlock_memory</name></member>
+    <member refid="secure__memory_8c_1a59d451afd30eeb5289f06801ae7b10be" kind="function"><name>m17_secure_key_create</name></member>
+    <member refid="secure__memory_8c_1affab118273041e16c54627f9d9c6f59f" kind="function"><name>m17_secure_key_lock</name></member>
+    <member refid="secure__memory_8c_1a58218bd97a001db58136ef798d4a227c" kind="function"><name>m17_secure_key_unlock</name></member>
+    <member refid="secure__memory_8c_1a9184db8c69cd2714a00482f9371305cc" kind="function"><name>m17_secure_key_destroy</name></member>
+    <member refid="secure__memory_8c_1a731963487296a9bc7ec6bdaa0e833b11" kind="function"><name>m17_secure_key_get_data</name></member>
+    <member refid="secure__memory_8c_1ae1188b6a42f245ec03b26cff2d1e48df" kind="function"><name>m17_secure_key_get_size</name></member>
+    <member refid="secure__memory_8c_1a3164571c03bba163725aa3dcf7dfb123" kind="function"><name>m17_secure_key_copy</name></member>
+  </compound>
+  <compound refid="secure__memory_8h" kind="file"><name>secure_memory.h</name>
+    <member refid="secure__memory_8h_1af5ea4df90c31bebe3497bb0cea62d994" kind="typedef"><name>m17_secure_key_t</name></member>
+    <member refid="secure__memory_8h_1a14331642a2004275332b4fcfec9eaf70" kind="function"><name>m17_secure_wipe</name></member>
+    <member refid="secure__memory_8h_1a6d6dfb37cbcbb61c37b95a3a1898219c" kind="function"><name>m17_secure_alloc</name></member>
+    <member refid="secure__memory_8h_1a42ba6b68b180842eea401fb44e69a6fb" kind="function"><name>m17_secure_realloc</name></member>
+    <member refid="secure__memory_8h_1a3333a70879b6e45cc188a2ccd48dfa25" kind="function"><name>m17_secure_free</name></member>
+    <member refid="secure__memory_8h_1ac0e780203aaf575ce10ac5ef01b35d4a" kind="function"><name>m17_secure_lock_memory</name></member>
+    <member refid="secure__memory_8h_1ab2882e77c3f41a2fe0d8f52436f377cf" kind="function"><name>m17_secure_unlock_memory</name></member>
+    <member refid="secure__memory_8h_1a59d451afd30eeb5289f06801ae7b10be" kind="function"><name>m17_secure_key_create</name></member>
+    <member refid="secure__memory_8h_1affab118273041e16c54627f9d9c6f59f" kind="function"><name>m17_secure_key_lock</name></member>
+    <member refid="secure__memory_8h_1a58218bd97a001db58136ef798d4a227c" kind="function"><name>m17_secure_key_unlock</name></member>
+    <member refid="secure__memory_8h_1a9184db8c69cd2714a00482f9371305cc" kind="function"><name>m17_secure_key_destroy</name></member>
+    <member refid="secure__memory_8h_1a731963487296a9bc7ec6bdaa0e833b11" kind="function"><name>m17_secure_key_get_data</name></member>
+    <member refid="secure__memory_8h_1ae1188b6a42f245ec03b26cff2d1e48df" kind="function"><name>m17_secure_key_get_size</name></member>
+    <member refid="secure__memory_8h_1a3164571c03bba163725aa3dcf7dfb123" kind="function"><name>m17_secure_key_copy</name></member>
+  </compound>
+  <compound refid="security__monitoring_8c" kind="file"><name>security_monitoring.c</name>
+    <member refid="security__monitoring_8c_1af4c610862f0036f4ee8c77255d43ed3c" kind="define"><name>M17_MAX_AUTH_ATTEMPTS</name></member>
+    <member refid="security__monitoring_8c_1aaa579dd6c7f6c7013b932d7d88f10911" kind="define"><name>M17_RATE_LIMIT_WINDOW_SECONDS</name></member>
+    <member refid="security__monitoring_8c_1a65e56f604e828b955508d3580b20060a" kind="define"><name>M17_BACKOFF_BASE_SECONDS</name></member>
+    <member refid="security__monitoring_8c_1ab2468cbe5acc45209c0307be4350477f" kind="define"><name>M17_MAX_BACKOFF_SECONDS</name></member>
+    <member refid="security__monitoring_8c_1ae43ba48f76c77d51a9e69890d26c4b4a" kind="variable"><name>g_security_state</name></member>
+    <member refid="security__monitoring_8c_1ab994fa29f37070223181a1788dc389f7" kind="function"><name>m17_security_monitoring_init</name></member>
+    <member refid="security__monitoring_8c_1ab5ece32b212eafc1dd95aa45bc6a1c81" kind="function"><name>m17_check_rate_limit</name></member>
+    <member refid="security__monitoring_8c_1a6af0b6046fcc1dae7379b27a438e51e3" kind="function"><name>m17_record_security_event</name></member>
+    <member refid="security__monitoring_8c_1a16dff477af1007169e3c200ca03cc3cb" kind="function"><name>m17_detect_suspicious_activity</name></member>
+    <member refid="security__monitoring_8c_1a72dfe95b1350c7ce217e4f802a54418f" kind="function"><name>m17_get_security_stats</name></member>
+    <member refid="security__monitoring_8c_1aff617b5e5461235973dd44cbd3edb9ad" kind="function"><name>m17_security_cleanup_old_entries</name></member>
+    <member refid="security__monitoring_8c_1a095196cdb310643e358a069a643af286" kind="function"><name>m17_security_monitoring_reset</name></member>
+    <member refid="security__monitoring_8c_1a484d64d85131c68c5ed2970a34c02815" kind="function"><name>m17_is_identifier_blocked</name></member>
+    <member refid="security__monitoring_8c_1a1ee1a0140784c71041d030a74d1b52cb" kind="function"><name>m17_unblock_identifier</name></member>
+  </compound>
+  <compound refid="security__monitoring_8h" kind="file"><name>security_monitoring.h</name>
+    <member refid="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35ce" kind="enum"><name>m17_security_event_t</name></member>
+    <member refid="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35ceafdf50d3fa74550d62183f9f6a0ce2ac1" kind="enumvalue"><name>M17_EVENT_AUTH_FAILURE</name></member>
+    <member refid="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35cea7723e47f6edec4279c9c0765ef94eb7d" kind="enumvalue"><name>M17_EVENT_DECRYPT_FAILURE</name></member>
+    <member refid="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35ceab72817ebef7053e94c015c6909d8778f" kind="enumvalue"><name>M17_EVENT_SIGNATURE_FAILURE</name></member>
+    <member refid="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35cea05a51f2d6d78cc39964f2c6b80cc36d3" kind="enumvalue"><name>M17_EVENT_REPLAY_ATTACK</name></member>
+    <member refid="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35cea69f3aa62aeb5d24eb7592f423452188b" kind="enumvalue"><name>M17_EVENT_SUSPICIOUS_PATTERN</name></member>
+    <member refid="security__monitoring_8h_1af9baf696ecfe24d77f2c6f720b0e35cea48794d28e0c132e79dc791f4fcdaea65" kind="enumvalue"><name>M17_EVENT_RATE_LIMIT_EXCEEDED</name></member>
+    <member refid="security__monitoring_8h_1ab994fa29f37070223181a1788dc389f7" kind="function"><name>m17_security_monitoring_init</name></member>
+    <member refid="security__monitoring_8h_1ab5ece32b212eafc1dd95aa45bc6a1c81" kind="function"><name>m17_check_rate_limit</name></member>
+    <member refid="security__monitoring_8h_1a6af0b6046fcc1dae7379b27a438e51e3" kind="function"><name>m17_record_security_event</name></member>
+    <member refid="security__monitoring_8h_1a16dff477af1007169e3c200ca03cc3cb" kind="function"><name>m17_detect_suspicious_activity</name></member>
+    <member refid="security__monitoring_8h_1a72dfe95b1350c7ce217e4f802a54418f" kind="function"><name>m17_get_security_stats</name></member>
+    <member refid="security__monitoring_8h_1aff617b5e5461235973dd44cbd3edb9ad" kind="function"><name>m17_security_cleanup_old_entries</name></member>
+    <member refid="security__monitoring_8h_1a095196cdb310643e358a069a643af286" kind="function"><name>m17_security_monitoring_reset</name></member>
+    <member refid="security__monitoring_8h_1a484d64d85131c68c5ed2970a34c02815" kind="function"><name>m17_is_identifier_blocked</name></member>
+    <member refid="security__monitoring_8h_1a1ee1a0140784c71041d030a74d1b52cb" kind="function"><name>m17_unblock_identifier</name></member>
+  </compound>
+  <compound refid="trustzone_8c" kind="file"><name>trustzone.c</name>
+    <member refid="trustzone_8c_1a28e5b3e86e6c5aeedf2c205c7c5e4ee5" kind="define"><name>MAX_SECURE_KEYS</name></member>
+    <member refid="trustzone_8c_1a3f816a1805438af168df634325ddcd4d" kind="define"><name>MAX_SECURE_SESSIONS</name></member>
+    <member refid="trustzone_8c_1a2c0d7f842cd6fa8b8ea3ebab3b6d6162" kind="variable"><name>is_initialized</name></member>
+    <member refid="trustzone_8c_1a238a041da85473588803f6c565ca6def" kind="variable"><name>secure_world_available</name></member>
+    <member refid="trustzone_8c_1a983d847435bfe7ede611018e20e30ba6" kind="variable"><name>next_session_id</name></member>
+    <member refid="trustzone_8c_1a000a78e2a7ce009d244323944035c31d" kind="variable"><name>next_key_id</name></member>
+    <member refid="trustzone_8c_1a897b38a9bdd468c0017438c272905663" kind="variable"><name>max_keys</name></member>
+    <member refid="trustzone_8c_1a938cb68c63543c88b7cd153d75e99627" kind="variable"><name>current_keys</name></member>
+    <member refid="trustzone_8c_1a0622c7368ede8202e0d518978c2f7740" kind="variable"><name>g_tz_state</name></member>
+    <member refid="trustzone_8c_1a6eb61502b34636ae7fc3de2c96781bba" kind="variable"><name>g_secure_keys</name></member>
+    <member refid="trustzone_8c_1a4b999235b0d76e6e713f1106ce6e8c0d" kind="variable"><name>g_secure_sessions</name></member>
+    <member refid="trustzone_8c_1a63796e18b5ca8753932290b3840d7fa8" kind="function"><name>m17_tz_init</name></member>
+    <member refid="trustzone_8c_1a701edb6f0cc093f5e05b0cc43a1838e7" kind="function"><name>m17_tz_create_session</name></member>
+    <member refid="trustzone_8c_1a45a2b3b8cf16ccc086c13fdfaae154fc" kind="function"><name>m17_tz_authenticate_session</name></member>
+    <member refid="trustzone_8c_1a2b98ba870af1ad60dd789bc24473cc37" kind="function"><name>m17_tz_close_session</name></member>
+    <member refid="trustzone_8c_1a01c1c19a15a1ce3b73ca865fd4527356" kind="function"><name>m17_tz_generate_keypair</name></member>
+    <member refid="trustzone_8c_1a386dc30ad0bcf9a35d9983767953a214" kind="function"><name>m17_tz_wipe_key</name></member>
+    <member refid="trustzone_8c_1aae78efa5855e9fd8f9fc0959e82553ec" kind="function"><name>m17_tz_sign_data</name></member>
+    <member refid="trustzone_8c_1a5f20de3137cff25f46de76e08bb0e484" kind="function"><name>m17_tz_verify_signature</name></member>
+    <member refid="trustzone_8c_1a88afd7b7c6ea9f2aaf0e554281981e59" kind="function"><name>m17_tz_secure_memory_alloc</name></member>
+    <member refid="trustzone_8c_1a221353d1165a4358f70551039dd21437" kind="function"><name>m17_tz_secure_memory_free</name></member>
+    <member refid="trustzone_8c_1a9380e2e2e1ad3bfc9eee48b34cd4a399" kind="function"><name>m17_tz_secure_memory_wipe</name></member>
+    <member refid="trustzone_8c_1a620ea760b1b30b6c9a55fa9185bf3927" kind="function"><name>m17_tz_get_secure_world_status</name></member>
+    <member refid="trustzone_8c_1a69ba9c3acc4479cb45f3d9fa257c6dc8" kind="function"><name>m17_tz_get_key_count</name></member>
+    <member refid="trustzone_8c_1a99831e13623a6ecead8ad76e6965ffe8" kind="function"><name>m17_tz_get_operation_count</name></member>
+    <member refid="trustzone_8c_1a37d90db310055626780d78f7016a8144" kind="function"><name>m17_tz_cleanup</name></member>
+  </compound>
+  <compound refid="trustzone_8h" kind="file"><name>trustzone.h</name>
+    <member refid="trustzone_8h_1a622b7a861be4a562257bb9d4cf06d9a7" kind="enum"><name>m17_tz_status_t</name></member>
+    <member refid="trustzone_8h_1a622b7a861be4a562257bb9d4cf06d9a7a40f577a4386e1457e0964c2bd1985a63" kind="enumvalue"><name>M17_TZ_SUCCESS</name></member>
+    <member refid="trustzone_8h_1a622b7a861be4a562257bb9d4cf06d9a7a1d427a20cb62c4439e071f978ff18675" kind="enumvalue"><name>M17_TZ_ERROR_INVALID_PARAM</name></member>
+    <member refid="trustzone_8h_1a622b7a861be4a562257bb9d4cf06d9a7a2afacc07bb86b9b55efa0844cea4efe4" kind="enumvalue"><name>M17_TZ_ERROR_SECURE_WORLD_UNAVAILABLE</name></member>
+    <member refid="trustzone_8h_1a622b7a861be4a562257bb9d4cf06d9a7ab53af7574ce486493d4d6c88e1118d72" kind="enumvalue"><name>M17_TZ_ERROR_KEY_STORAGE_FULL</name></member>
+    <member refid="trustzone_8h_1a622b7a861be4a562257bb9d4cf06d9a7ad6b5a5361b21b44b80ca03ce9a86ff09" kind="enumvalue"><name>M17_TZ_ERROR_AUTHENTICATION_FAILED</name></member>
+    <member refid="trustzone_8h_1a622b7a861be4a562257bb9d4cf06d9a7aa3be6827d8dbaffab5b9bdb3fbad77a8" kind="enumvalue"><name>M17_TZ_ERROR_OPERATION_NOT_PERMITTED</name></member>
+    <member refid="trustzone_8h_1a622b7a861be4a562257bb9d4cf06d9a7af1daac2b0a9b5084e5eb63331927e926" kind="enumvalue"><name>M17_TZ_ERROR_MEMORY_PROTECTION_VIOLATION</name></member>
+    <member refid="trustzone_8h_1afc648328d1a693634813e5c7fc738d87" kind="enum"><name>m17_tz_key_type_t</name></member>
+    <member refid="trustzone_8h_1afc648328d1a693634813e5c7fc738d87a3dc3d05373a0b112ac40d4815a570924" kind="enumvalue"><name>M17_TZ_KEY_TYPE_ED25519_PRIVATE</name></member>
+    <member refid="trustzone_8h_1afc648328d1a693634813e5c7fc738d87ac18357c61e7ef1c256d853dc09e678c2" kind="enumvalue"><name>M17_TZ_KEY_TYPE_ED25519_PUBLIC</name></member>
+    <member refid="trustzone_8h_1afc648328d1a693634813e5c7fc738d87a95649d3931f2a5e0b0b1f165251a0e0f" kind="enumvalue"><name>M17_TZ_KEY_TYPE_CURVE25519_PRIVATE</name></member>
+    <member refid="trustzone_8h_1afc648328d1a693634813e5c7fc738d87a2291764db7ef55857477df136d216d5a" kind="enumvalue"><name>M17_TZ_KEY_TYPE_CURVE25519_PUBLIC</name></member>
+    <member refid="trustzone_8h_1afc648328d1a693634813e5c7fc738d87ad562c09f46cc775fbaf4d9b371195104" kind="enumvalue"><name>M17_TZ_KEY_TYPE_SESSION_ENCRYPTION</name></member>
+    <member refid="trustzone_8h_1afc648328d1a693634813e5c7fc738d87a62128878e756aac68b51c6a7882d94c4" kind="enumvalue"><name>M17_TZ_KEY_TYPE_SESSION_AUTHENTICATION</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65" kind="enum"><name>m17_tz_operation_t</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65a0846ea61a52183563d03c324df2679e8" kind="enumvalue"><name>M17_TZ_OP_GENERATE_KEYPAIR</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65ac943ef9b96fb25267ff8e57099f57faa" kind="enumvalue"><name>M17_TZ_OP_SIGN_DATA</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65a2da7a4fcd69e371bab0fecb810be8c6e" kind="enumvalue"><name>M17_TZ_OP_VERIFY_SIGNATURE</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65acaedebfb9fb600bda502e6f77acc384e" kind="enumvalue"><name>M17_TZ_OP_ECDH_KEY_EXCHANGE</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65aaea7cb2c8e1abe178c554e6e12c79fdf" kind="enumvalue"><name>M17_TZ_OP_ENCRYPT_DATA</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65ab5c6ad1799be91e66713341c4b2c04e1" kind="enumvalue"><name>M17_TZ_OP_DECRYPT_DATA</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65ae3d1f545470d0cb23070df58f1519d25" kind="enumvalue"><name>M17_TZ_OP_DERIVE_SESSION_KEY</name></member>
+    <member refid="trustzone_8h_1a2f0b0b6e9b5e2506d89f905efa6dbd65ad3dba1f065785b3df4cfa57ff5829240" kind="enumvalue"><name>M17_TZ_OP_WIPE_KEY</name></member>
+    <member refid="trustzone_8h_1a63796e18b5ca8753932290b3840d7fa8" kind="function"><name>m17_tz_init</name></member>
+    <member refid="trustzone_8h_1a701edb6f0cc093f5e05b0cc43a1838e7" kind="function"><name>m17_tz_create_session</name></member>
+    <member refid="trustzone_8h_1a45a2b3b8cf16ccc086c13fdfaae154fc" kind="function"><name>m17_tz_authenticate_session</name></member>
+    <member refid="trustzone_8h_1a2b98ba870af1ad60dd789bc24473cc37" kind="function"><name>m17_tz_close_session</name></member>
+    <member refid="trustzone_8h_1a01c1c19a15a1ce3b73ca865fd4527356" kind="function"><name>m17_tz_generate_keypair</name></member>
+    <member refid="trustzone_8h_1a25db3c736cc9dd0ab7a44a56a9fc19cc" kind="function"><name>m17_tz_load_key</name></member>
+    <member refid="trustzone_8h_1a386dc30ad0bcf9a35d9983767953a214" kind="function"><name>m17_tz_wipe_key</name></member>
+    <member refid="trustzone_8h_1aae78efa5855e9fd8f9fc0959e82553ec" kind="function"><name>m17_tz_sign_data</name></member>
+    <member refid="trustzone_8h_1a5f20de3137cff25f46de76e08bb0e484" kind="function"><name>m17_tz_verify_signature</name></member>
+    <member refid="trustzone_8h_1a296873543fdeaab7f9bd276c1ee0c5d1" kind="function"><name>m17_tz_ecdh_key_exchange</name></member>
+    <member refid="trustzone_8h_1afd12f09819bd8c27756e197bd35f6e73" kind="function"><name>m17_tz_encrypt_data</name></member>
+    <member refid="trustzone_8h_1a394706247688a203da163f3ae1232b26" kind="function"><name>m17_tz_decrypt_data</name></member>
+    <member refid="trustzone_8h_1ae228229d718edc9cf32ccf37ff5261ea" kind="function"><name>m17_tz_derive_session_key</name></member>
+    <member refid="trustzone_8h_1a88afd7b7c6ea9f2aaf0e554281981e59" kind="function"><name>m17_tz_secure_memory_alloc</name></member>
+    <member refid="trustzone_8h_1a221353d1165a4358f70551039dd21437" kind="function"><name>m17_tz_secure_memory_free</name></member>
+    <member refid="trustzone_8h_1a9380e2e2e1ad3bfc9eee48b34cd4a399" kind="function"><name>m17_tz_secure_memory_wipe</name></member>
+    <member refid="trustzone_8h_1a620ea760b1b30b6c9a55fa9185bf3927" kind="function"><name>m17_tz_get_secure_world_status</name></member>
+    <member refid="trustzone_8h_1a69ba9c3acc4479cb45f3d9fa257c6dc8" kind="function"><name>m17_tz_get_key_count</name></member>
+    <member refid="trustzone_8h_1a99831e13623a6ecead8ad76e6965ffe8" kind="function"><name>m17_tz_get_operation_count</name></member>
+    <member refid="trustzone_8h_1a37d90db310055626780d78f7016a8144" kind="function"><name>m17_tz_cleanup</name></member>
+  </compound>
+  <compound refid="validation_8c" kind="file"><name>validation.c</name>
+    <member refid="validation_8c_1a7e8207292be91c99c0e9e3f9ed806061" kind="function"><name>m17_validate_key_length</name></member>
+    <member refid="validation_8c_1a54d54a69009a6594ed4cb262ee9d6a1d" kind="function"><name>m17_validate_iv_length</name></member>
+    <member refid="validation_8c_1a2d4fdd80a80925dd4b666c1745e42697" kind="function"><name>m17_validate_buffer_bounds</name></member>
+    <member refid="validation_8c_1ab509c9d52bed2a67e3607b3a494585f2" kind="function"><name>m17_validate_key_material</name></member>
+    <member refid="validation_8c_1a6cc67500347598d32c6f13a50b426d28" kind="function"><name>m17_validate_iv_uniqueness</name></member>
+    <member refid="validation_8c_1a31cfca42ad2be4767251fd45dc6fa360" kind="function"><name>m17_validate_frame_number</name></member>
+    <member refid="validation_8c_1a87deb581f2306cb14a4f4486151f9667" kind="function"><name>m17_validate_callsign_format</name></member>
+    <member refid="validation_8c_1a06891a0e1b71d4fb79f7b26adf91a252" kind="function"><name>m17_validate_encryption_type</name></member>
+    <member refid="validation_8c_1ab3d1dfd8a078e60695a75dd5869f0956" kind="function"><name>m17_validate_signature_length</name></member>
+    <member refid="validation_8c_1a09f2ca97e6e377de8bf6d50c14fb95a9" kind="function"><name>m17_validate_encryption_data_length</name></member>
+    <member refid="validation_8c_1a0b60cf09360661fe04fc9f1a2626ef0b" kind="function"><name>m17_validate_encryption_operation</name></member>
+    <member refid="validation_8c_1a8079b2f788203184b9ac9da5a981507a" kind="function"><name>m17_validate_decryption_operation</name></member>
+    <member refid="validation_8c_1a467c68f45d250ff12a53459435db03e2" kind="function"><name>m17_validate_signature_operation</name></member>
+    <member refid="validation_8c_1aa1bdcf8584420a8242faef1adc6dffb4" kind="function"><name>m17_validate_verification_operation</name></member>
+  </compound>
+  <compound refid="validation_8h" kind="file"><name>validation.h</name>
+    <member refid="validation_8h_1a7f2a46c8809c08aab50929eae22a0609" kind="define"><name>M17_AES_128</name></member>
+    <member refid="validation_8h_1a0c7857109413878f56ad7487f8bb7321" kind="define"><name>M17_AES_192</name></member>
+    <member refid="validation_8h_1a2484026ecd2f5f222461e1ad413ab1f2" kind="define"><name>M17_AES_256</name></member>
+    <member refid="validation_8h_1af8c72279004019049738f24380162dce" kind="define"><name>M17_ED25519_PRIVATE</name></member>
+    <member refid="validation_8h_1a84d6fc500f7b1b9320442ad4791da62e" kind="define"><name>M17_ED25519_PUBLIC</name></member>
+    <member refid="validation_8h_1a12e574e08c5f2194dc90c3da436b14f8" kind="define"><name>M17_CURVE25519_PRIVATE</name></member>
+    <member refid="validation_8h_1a4660329951980e634226d43254819b11" kind="define"><name>M17_CURVE25519_PUBLIC</name></member>
+    <member refid="validation_8h_1a4e9b8683937e1b4d501ac21c2be5d565" kind="define"><name>M17_AES_CTR</name></member>
+    <member refid="validation_8h_1aa0e1fd60d1261c9972f4ffb9d0a7527f" kind="define"><name>M17_AES_GCM</name></member>
+    <member refid="validation_8h_1a192577539e94b1588e0a962817555866" kind="define"><name>M17_ED25519_SIGNATURE</name></member>
+    <member refid="validation_8h_1ada198ac47eb002d004ecde96fc6a9442" kind="define"><name>M17_ECDSA_SIGNATURE</name></member>
+    <member refid="validation_8h_1a7e8207292be91c99c0e9e3f9ed806061" kind="function"><name>m17_validate_key_length</name></member>
+    <member refid="validation_8h_1a54d54a69009a6594ed4cb262ee9d6a1d" kind="function"><name>m17_validate_iv_length</name></member>
+    <member refid="validation_8h_1a2d4fdd80a80925dd4b666c1745e42697" kind="function"><name>m17_validate_buffer_bounds</name></member>
+    <member refid="validation_8h_1ab509c9d52bed2a67e3607b3a494585f2" kind="function"><name>m17_validate_key_material</name></member>
+    <member refid="validation_8h_1a6cc67500347598d32c6f13a50b426d28" kind="function"><name>m17_validate_iv_uniqueness</name></member>
+    <member refid="validation_8h_1a31cfca42ad2be4767251fd45dc6fa360" kind="function"><name>m17_validate_frame_number</name></member>
+    <member refid="validation_8h_1a87deb581f2306cb14a4f4486151f9667" kind="function"><name>m17_validate_callsign_format</name></member>
+    <member refid="validation_8h_1a06891a0e1b71d4fb79f7b26adf91a252" kind="function"><name>m17_validate_encryption_type</name></member>
+    <member refid="validation_8h_1ab3d1dfd8a078e60695a75dd5869f0956" kind="function"><name>m17_validate_signature_length</name></member>
+    <member refid="validation_8h_1a09f2ca97e6e377de8bf6d50c14fb95a9" kind="function"><name>m17_validate_encryption_data_length</name></member>
+    <member refid="validation_8h_1a0b60cf09360661fe04fc9f1a2626ef0b" kind="function"><name>m17_validate_encryption_operation</name></member>
+    <member refid="validation_8h_1a8079b2f788203184b9ac9da5a981507a" kind="function"><name>m17_validate_decryption_operation</name></member>
+    <member refid="validation_8h_1a467c68f45d250ff12a53459435db03e2" kind="function"><name>m17_validate_signature_operation</name></member>
+    <member refid="validation_8h_1aa1bdcf8584420a8242faef1adc6dffb4" kind="function"><name>m17_validate_verification_operation</name></member>
+  </compound>
+  <compound refid="viterbi_8c" kind="file"><name>viterbi.c</name>
+    <member refid="viterbi_8c_1aae1614993ac3cbba26bc3161ef6c9568" kind="variable"><name>viterbi_state</name></member>
+    <member refid="viterbi_8c_1af91bf584ce8979014c46ad3f81d44b34" kind="function"><name>viterbi_init_state</name></member>
+    <member refid="viterbi_8c_1ad7b580f80b7a713c7dfe6e55ccd923da" kind="function"><name>viterbi_decode</name></member>
+    <member refid="viterbi_8c_1a63c1ff51b16fa5620ae366c430e21587" kind="function"><name>viterbi_decode_punctured</name></member>
+    <member refid="viterbi_8c_1a313710278eee1c3034d2033c84512f0e" kind="function"><name>viterbi_decode_bit</name></member>
+    <member refid="viterbi_8c_1adc1bf1f88e82f383caecac6806c43221" kind="function"><name>viterbi_chainback</name></member>
+    <member refid="viterbi_8c_1a5fac74f726f03a8fd0bafaa705cdaeb7" kind="function"><name>viterbi_reset</name></member>
+  </compound>
+  <compound refid="mainpage_8dox" kind="file"><name>mainpage.dox</name>
+  </compound>
+  <compound refid="convol_8c" kind="file"><name>convol.c</name>
+    <member refid="convol_8c_1acf3e454588bf301087327c7a7061f094" kind="variable"><name>puncture_pattern_1</name></member>
+    <member refid="convol_8c_1a344fd3f55ad99eae44551a3cdbf6548c" kind="variable"><name>puncture_pattern_2</name></member>
+    <member refid="convol_8c_1a58fe581fd6133aca0bf8b174fa3854ea" kind="variable"><name>puncture_pattern_3</name></member>
+    <member refid="convol_8c_1a233e72bf275ba5fcc919e843ffaf4893" kind="function"><name>conv_encode_stream_frame</name></member>
+    <member refid="convol_8c_1a03087bc33768e2c64806bb0de3fad4d6" kind="function"><name>conv_encode_packet_frame</name></member>
+    <member refid="convol_8c_1a5301766eded7dc3dc209ec0929546801" kind="function"><name>conv_encode_LSF</name></member>
+    <member refid="convol_8c_1a573028f0d107ce9f9878ff978c160745" kind="function"><name>conv_encode_bert_frame</name></member>
+  </compound>
+  <compound refid="decode_2symbols_8c" kind="file"><name>symbols.c</name>
+    <member refid="decode_2symbols_8c_1a3848610fb2138ed48df8edb94e3954d4" kind="variable"><name>lsf_sync_symbols</name></member>
+    <member refid="decode_2symbols_8c_1a47776318a7900b3318ac07362fda57d6" kind="variable"><name>str_sync_symbols</name></member>
+    <member refid="decode_2symbols_8c_1a528a4bed53457a7dd4c163436dbb577d" kind="variable"><name>pkt_sync_symbols</name></member>
+  </compound>
+  <compound refid="encode_2symbols_8c" kind="file"><name>symbols.c</name>
+    <member refid="encode_2symbols_8c_1a10dbf751334af2ffb18e9899f3975888" kind="variable"><name>symbol_map</name></member>
+    <member refid="encode_2symbols_8c_1ab626bd2783461530f13b8b5e60608c95" kind="variable"><name>symbol_list</name></member>
+    <member refid="encode_2symbols_8c_1a04ffa9ef2f133fd7b2b1f38c50bf850f" kind="variable"><name>eot_symbols</name></member>
+  </compound>
+  <compound refid="m17_8c" kind="file"><name>m17.c</name>
+    <member refid="m17_8c_1a44ca7af5c025032a6c9dbd99bb753c81" kind="function"><name>__attribute__</name></member>
+    <member refid="m17_8c_1ae237fcdbb6819bbc1bed058cd9d6805d" kind="function"><name>gen_preamble_i8</name></member>
+    <member refid="m17_8c_1a97a617e6bd8c709ae2cfdc4c65874b76" kind="function"><name>gen_syncword</name></member>
+    <member refid="m17_8c_1a6e6f882a622d3051f4cc2ccdec594b35" kind="function"><name>gen_syncword_i8</name></member>
+    <member refid="m17_8c_1a3834b13f7881366c66edf79c340a2818" kind="function"><name>gen_data</name></member>
+    <member refid="m17_8c_1a005cb26b94b5d314902181a134688e5d" kind="function"><name>gen_data_i8</name></member>
+    <member refid="m17_8c_1ab51ccc192219b034a91cafedc66272ab" kind="function"><name>gen_eot</name></member>
+    <member refid="m17_8c_1aca4d9269d1e731e7d04d8016de488909" kind="function"><name>gen_eot_i8</name></member>
+    <member refid="m17_8c_1ac48399c052af88a3f3f22973e4792b0b" kind="function"><name>gen_frame</name></member>
+    <member refid="m17_8c_1a99ff872fb873580bc2b4720af420f2e7" kind="function"><name>gen_frame_i8</name></member>
+    <member refid="m17_8c_1a9dfee4aa304cea1a011c761e337696e4" kind="function"><name>decode_LSF</name></member>
+    <member refid="m17_8c_1a9cf1169c625eb4d25fda7f97e15cef74" kind="function"><name>decode_str_frame</name></member>
+    <member refid="m17_8c_1a38746a854354f7b0cda6ae2503cc475f" kind="function"><name>decode_pkt_frame</name></member>
+  </compound>
+  <compound refid="m17_8h" kind="file"><name>m17.h</name>
+    <member refid="m17_8h_1a4e0c4e9cbe06c546887c54a364177ba8" kind="define"><name>LIBM17_VERSION</name></member>
+    <member refid="m17_8h_1a44af1b3b7c0b6b83b425d6675833cb1d" kind="define"><name>SYM_PER_SWD</name></member>
+    <member refid="m17_8h_1af41df78b2585df7899961489ba7d6c3e" kind="define"><name>SYM_PER_PLD</name></member>
+    <member refid="m17_8h_1a4d9b80d43146e1c668ece5858acdeeb6" kind="define"><name>SYM_PER_FRA</name></member>
+    <member refid="m17_8h_1aba8bb567fa86c404c5709f3dad233a61" kind="define"><name>M17_TYPE_PACKET</name></member>
+    <member refid="m17_8h_1a9285c4d2d4863a3824e4508bef1aaf17" kind="define"><name>M17_TYPE_STREAM</name></member>
+    <member refid="m17_8h_1aaa035efb1de09d2a1a8a416bd5a58915" kind="define"><name>M17_TYPE_DATA</name></member>
+    <member refid="m17_8h_1a51c13c46444c53670e4dd97a885a4832" kind="define"><name>M17_TYPE_VOICE</name></member>
+    <member refid="m17_8h_1a1d59737edea604fd30a4b366a94b59c5" kind="define"><name>M17_TYPE_ENCR_NONE</name></member>
+    <member refid="m17_8h_1afa8219bd134efad42d78f80c65b4bcf7" kind="define"><name>M17_TYPE_ENCR_SCRAM</name></member>
+    <member refid="m17_8h_1ad1e94a9e484d772f413418af0afc0924" kind="define"><name>M17_TYPE_ENCR_AES</name></member>
+    <member refid="m17_8h_1ae668026cd1f1d949b891facb06514e87" kind="define"><name>M17_TYPE_ENCR_ED25519</name></member>
+    <member refid="m17_8h_1aa78bba7599e1a7153c4ae72361f28d48" kind="define"><name>M17_TYPE_ENCR_CURVE25519</name></member>
+    <member refid="m17_8h_1accc6dbd790d9819bb5b07a349acad52c" kind="define"><name>M17_TYPE_ENCR_SCRAM_8</name></member>
+    <member refid="m17_8h_1ad51ee7d0d889502065cde76635524242" kind="define"><name>M17_TYPE_ENCR_SCRAM_16</name></member>
+    <member refid="m17_8h_1a147d4d406ad5db3282a288a4bebd4569" kind="define"><name>M17_TYPE_ENCR_SCRAM_24</name></member>
+    <member refid="m17_8h_1a01d11f5301b9968a517f2531417a7c09" kind="define"><name>M17_TYPE_ENCR_AES128</name></member>
+    <member refid="m17_8h_1a7a38ea3213275352a9199f0429da02d4" kind="define"><name>M17_TYPE_ENCR_AES192</name></member>
+    <member refid="m17_8h_1aede510cf78259c307b5dda38d0a36a30" kind="define"><name>M17_TYPE_ENCR_AES256</name></member>
+    <member refid="m17_8h_1acae45f24d97c664dd430d5982130a502" kind="define"><name>M17_TYPE_ENCR_ED25519_SIGN</name></member>
+    <member refid="m17_8h_1ab24625506a123feca2101f3462b4c653" kind="define"><name>M17_TYPE_ENCR_ED25519_VERIFY</name></member>
+    <member refid="m17_8h_1a3a02106f28d822c15d1d618a99392334" kind="define"><name>M17_TYPE_ENCR_CURVE25519_ECDH</name></member>
+    <member refid="m17_8h_1ab0abfdbab057fb99ac4e1c2713c6b849" kind="define"><name>M17_TYPE_ENCR_CURVE25519_DERIVE</name></member>
+    <member refid="m17_8h_1ac9861d024258989134da3b89da7b9747" kind="define"><name>M17_TYPE_CAN</name></member>
+    <member refid="m17_8h_1afd5e0d7e24251e83a57a4ad593527950" kind="define"><name>M17_TYPE_UNSIGNED</name></member>
+    <member refid="m17_8h_1a35162e8d9326e1ef90be662177d24d47" kind="define"><name>M17_TYPE_SIGNED</name></member>
+    <member refid="m17_8h_1a9806b7edd8ace3ea1d6d5e00e7f0ce31" kind="define"><name>M17_TYPE_META_TEXT</name></member>
+    <member refid="m17_8h_1aa458247af3888df39f5d18f72844b781" kind="define"><name>M17_TYPE_META_POSITION</name></member>
+    <member refid="m17_8h_1addb506f5e4d6e6c3e241d2fdc2f2c82e" kind="define"><name>M17_TYPE_META_EXT_CALL</name></member>
+    <member refid="m17_8h_1a3ef347ca8b566323b1781ce63e691283" kind="define"><name>M17_META_SOURCE_M17C</name></member>
+    <member refid="m17_8h_1a73b58677269debc0d63432cb2061b375" kind="define"><name>M17_META_SOURCE_OPENRTX</name></member>
+    <member refid="m17_8h_1a5d8bbbd373273239785c567006e55eeb" kind="define"><name>M17_META_SOURCE_OTHER</name></member>
+    <member refid="m17_8h_1a3ef347ca8b566323b1781ce63e691283" kind="define"><name>M17_META_SOURCE_M17C</name></member>
+    <member refid="m17_8h_1a7319530d3e46622244eb87319a3d21c1" kind="define"><name>M17_META_STATION_FIXED</name></member>
+    <member refid="m17_8h_1ab5098fcbbe930ccd688a91ac97a61676" kind="define"><name>M17_META_STATION_MOBILE</name></member>
+    <member refid="m17_8h_1a541f19029f02f3078a79bacfee02000f" kind="define"><name>M17_META_STATION_HANDHELD</name></member>
+    <member refid="m17_8h_1a38d4316f1fddae19d0990848528b5f26" kind="define"><name>M17_META_LAT_NORTH</name></member>
+    <member refid="m17_8h_1a19763fb1edc27dfac3a14dc74fc1af74" kind="define"><name>M17_META_LAT_SOUTH</name></member>
+    <member refid="m17_8h_1a175ef2ed1f5c1f849e200f8cf722068c" kind="define"><name>M17_META_LON_EAST</name></member>
+    <member refid="m17_8h_1a64c42b86959f8a9ddc3339e84f7e1e7e" kind="define"><name>M17_META_LON_WEST</name></member>
+    <member refid="m17_8h_1a06fac19fe3dcfd070382b20350d990c5" kind="define"><name>M17_META_ALT_DATA_INVALID</name></member>
+    <member refid="m17_8h_1a3c099293bdd45edb82456c7e8310cfbd" kind="define"><name>M17_META_ALT_DATA_VALID</name></member>
+    <member refid="m17_8h_1a23a813b176eaf2ea5e553a6bd03d27fa" kind="define"><name>M17_META_SPD_BEARING_INVALID</name></member>
+    <member refid="m17_8h_1a885da8e73e9ad2095bfc412dc1c513b3" kind="define"><name>M17_META_SPD_BEARING_VALID</name></member>
+    <member refid="m17_8h_1afbed5d2a01f85c5c187c548320112a9c" kind="define"><name>CHAR_MAP</name></member>
+    <member refid="m17_8h_1a234a3ee7ebd76d2e4727a1055b4912c1" kind="define"><name>U40_9</name></member>
+    <member refid="m17_8h_1a73ad6b804780a16da285aaca9857bf3a" kind="define"><name>U40_9_8</name></member>
+    <member refid="m17_8h_1a2b00e1ba5793441c565686728a398a27" kind="define"><name>M17_CONVOL_K</name></member>
+    <member refid="m17_8h_1a2749f39d223b4694dd44844cb567ebb4" kind="define"><name>M17_CONVOL_STATES</name></member>
+    <member refid="m17_8h_1a0807bc8b129517a2f8e8b68b79706d16" kind="define"><name>M17_ED25519_PUBLIC_KEY_SIZE</name></member>
+    <member refid="m17_8h_1ae3f2061a7da1cfbf574651147ad43731" kind="define"><name>M17_ED25519_PRIVATE_KEY_SIZE</name></member>
+    <member refid="m17_8h_1a80b98a27ca26d4b5842dc249825d3b59" kind="define"><name>M17_ED25519_SIGNATURE_SIZE</name></member>
+    <member refid="m17_8h_1a49fc77bee54f5ba86cce395461662eb4" kind="define"><name>M17_ED25519_SEED_SIZE</name></member>
+    <member refid="m17_8h_1a92ae61f3e7399c0552825f3af94d0d50" kind="define"><name>M17_CURVE25519_PUBLIC_KEY_SIZE</name></member>
+    <member refid="m17_8h_1ac34fb1654b2dc3c5254299be9694a06f" kind="define"><name>M17_CURVE25519_PRIVATE_KEY_SIZE</name></member>
+    <member refid="m17_8h_1a4e541f9b444077b75eaf82a138788d6a" kind="define"><name>M17_CURVE25519_SHARED_SECRET_SIZE</name></member>
+    <member refid="m17_8h_1ac74629c1c7a03d28e347dcff872b4309" kind="define"><name>M17_HKDF_MAX_OUTPUT_SIZE</name></member>
+    <member refid="m17_8h_1af17e0c683bf8fa929efd16c744bc1f6a" kind="define"><name>M17_HKDF_SALT_SIZE</name></member>
+    <member refid="m17_8h_1a717ee55bc48ea9946f8a630dad7f671d" kind="define"><name>M17_HKDF_INFO_SIZE</name></member>
+    <member refid="m17_8h_1abb8cf3e37d8b07ee071c3f4fc5352159" kind="define"><name>M17_AES_GCM_KEY_SIZE</name></member>
+    <member refid="m17_8h_1adc365fcaa0a798d7f4e79de483810039" kind="define"><name>M17_AES_GCM_IV_SIZE</name></member>
+    <member refid="m17_8h_1ac585023911f1ebba4aa40f0707529b42" kind="define"><name>M17_AES_GCM_TAG_SIZE</name></member>
+    <member refid="m17_8h_1a9e70389fa12865060876f7bf015d8965" kind="enum"><name>pream_t</name></member>
+    <member refid="m17_8h_1a9e70389fa12865060876f7bf015d8965aabf91adf435b254ec3a29f457f54fbf4" kind="enumvalue"><name>PREAM_LSF</name></member>
+    <member refid="m17_8h_1a9e70389fa12865060876f7bf015d8965a72777d2352c9991599c199e7b783ba52" kind="enumvalue"><name>PREAM_BERT</name></member>
+    <member refid="m17_8h_1a959a70edcd204b25bcec80c9b5dbece1" kind="enum"><name>frame_t</name></member>
+    <member refid="m17_8h_1a959a70edcd204b25bcec80c9b5dbece1a950346e9c16e500811fa5a519285247e" kind="enumvalue"><name>FRAME_LSF</name></member>
+    <member refid="m17_8h_1a959a70edcd204b25bcec80c9b5dbece1ab4820e6daaaeb79512c71eed2ee6354b" kind="enumvalue"><name>FRAME_STR</name></member>
+    <member refid="m17_8h_1a959a70edcd204b25bcec80c9b5dbece1ae58539997f3dc527cfe09505edfc39be" kind="enumvalue"><name>FRAME_PKT</name></member>
+    <member refid="m17_8h_1a959a70edcd204b25bcec80c9b5dbece1a3de0fa668afd6d5707414d32c993e704" kind="enumvalue"><name>FRAME_BERT</name></member>
+    <member refid="m17_8h_1acf3e454588bf301087327c7a7061f094" kind="variable"><name>puncture_pattern_1</name></member>
+    <member refid="m17_8h_1a344fd3f55ad99eae44551a3cdbf6548c" kind="variable"><name>puncture_pattern_2</name></member>
+    <member refid="m17_8h_1a58fe581fd6133aca0bf8b174fa3854ea" kind="variable"><name>puncture_pattern_3</name></member>
+    <member refid="m17_8h_1a2d67d4db0f4c5bcc4885d289d7804528" kind="variable"><name>M17_CRC_POLY</name></member>
+    <member refid="m17_8h_1a6f64468dba31783511c82ac2c9c35b54" kind="variable"><name>encode_matrix</name></member>
+    <member refid="m17_8h_1a9dc73157be8d3dc231b19bd9dcb42108" kind="variable"><name>decode_matrix</name></member>
+    <member refid="m17_8h_1a0d2931530c1f0c002603840572a77354" kind="variable"><name>intrl_seq</name></member>
+    <member refid="m17_8h_1a2050d40f98b961619df4b1f8f67ed00d" kind="variable"><name>rand_seq</name></member>
+    <member refid="m17_8h_1a9b7d59fce94f758eb30aac763bfdfa79" kind="variable"><name>rrc_taps_10</name></member>
+    <member refid="m17_8h_1a4476bee65e6343495fb42dbebb2baf12" kind="variable"><name>rrc_taps_5</name></member>
+    <member refid="m17_8h_1a10dbf751334af2ffb18e9899f3975888" kind="variable"><name>symbol_map</name></member>
+    <member refid="m17_8h_1ab626bd2783461530f13b8b5e60608c95" kind="variable"><name>symbol_list</name></member>
+    <member refid="m17_8h_1a97b9eab25f4126bd6a04b3a76b14d7e1" kind="variable"><name>SYNC_LSF</name></member>
+    <member refid="m17_8h_1a4c91f514ba9c2c20eb09b4418c9c3ee6" kind="variable"><name>SYNC_STR</name></member>
+    <member refid="m17_8h_1a1095de3839867d000c7e2d4df9d3f5c7" kind="variable"><name>SYNC_PKT</name></member>
+    <member refid="m17_8h_1a0c04c4f0a826f62dfe9f0b7857014487" kind="variable"><name>SYNC_BER</name></member>
+    <member refid="m17_8h_1ade1700dec4f90b55a5666945ab8e2416" kind="variable"><name>EOT_MRKR</name></member>
+    <member refid="m17_8h_1a04ffa9ef2f133fd7b2b1f38c50bf850f" kind="variable"><name>eot_symbols</name></member>
+    <member refid="m17_8h_1a3848610fb2138ed48df8edb94e3954d4" kind="variable"><name>lsf_sync_symbols</name></member>
+    <member refid="m17_8h_1a47776318a7900b3318ac07362fda57d6" kind="variable"><name>str_sync_symbols</name></member>
+    <member refid="m17_8h_1a528a4bed53457a7dd4c163436dbb577d" kind="variable"><name>pkt_sync_symbols</name></member>
+    <member refid="m17_8h_1a59ce5e3b66e4f6965f723e1efc84dcab" kind="function"><name>gen_preamble</name></member>
+    <member refid="m17_8h_1aa963da543d6b6be4eab431cb2424f28b" kind="function"><name>gen_preamble_i8</name></member>
+    <member refid="m17_8h_1a2d106aee3bf7c1d21dbff3df8a17dec9" kind="function"><name>gen_syncword</name></member>
+    <member refid="m17_8h_1a05c785fc9f72edce33e90e30ee533cf1" kind="function"><name>gen_syncword_i8</name></member>
+    <member refid="m17_8h_1a3834b13f7881366c66edf79c340a2818" kind="function"><name>gen_data</name></member>
+    <member refid="m17_8h_1a005cb26b94b5d314902181a134688e5d" kind="function"><name>gen_data_i8</name></member>
+    <member refid="m17_8h_1ab51ccc192219b034a91cafedc66272ab" kind="function"><name>gen_eot</name></member>
+    <member refid="m17_8h_1aca4d9269d1e731e7d04d8016de488909" kind="function"><name>gen_eot_i8</name></member>
+    <member refid="m17_8h_1a9d0a38129b75ef97c30ea2e6bdfb2c0c" kind="function"><name>gen_frame</name></member>
+    <member refid="m17_8h_1ab9a918e15d8e79e27c2eec41d76dc7e4" kind="function"><name>gen_frame_i8</name></member>
+    <member refid="m17_8h_1a9dfee4aa304cea1a011c761e337696e4" kind="function"><name>decode_LSF</name></member>
+    <member refid="m17_8h_1a9cf1169c625eb4d25fda7f97e15cef74" kind="function"><name>decode_str_frame</name></member>
+    <member refid="m17_8h_1a38746a854354f7b0cda6ae2503cc475f" kind="function"><name>decode_pkt_frame</name></member>
+    <member refid="m17_8h_1a761604e6d525bd8b8f61a896021fbf7f" kind="function"><name>conv_encode_stream_frame</name></member>
+    <member refid="m17_8h_1a03087bc33768e2c64806bb0de3fad4d6" kind="function"><name>conv_encode_packet_frame</name></member>
+    <member refid="m17_8h_1a5301766eded7dc3dc209ec0929546801" kind="function"><name>conv_encode_LSF</name></member>
+    <member refid="m17_8h_1a573028f0d107ce9f9878ff978c160745" kind="function"><name>conv_encode_bert_frame</name></member>
+    <member refid="m17_8h_1abaa23d7446502b488f0c2bdd3309e4ab" kind="function"><name>decode_callsign_bytes</name></member>
+    <member refid="m17_8h_1af8768a139d0e331ada0224ef56a7f81a" kind="function"><name>decode_callsign_value</name></member>
+    <member refid="m17_8h_1a3c47af3a10d7453cefbb9cc988e39732" kind="function"><name>encode_callsign_bytes</name></member>
+    <member refid="m17_8h_1a464c865a8ea90c12d3c1ea91f460de2e" kind="function"><name>encode_callsign_value</name></member>
+    <member refid="m17_8h_1a1994738e5c29a9d80594a26932dcfa71" kind="function"><name>CRC_M17</name></member>
+    <member refid="m17_8h_1a3e31ba6b80094ce6215ece75bf3469e4" kind="function"><name>LSF_CRC</name></member>
+    <member refid="m17_8h_1ae9261b4533b4f8d76b891857cd163cb1" kind="function"><name>extract_LICH</name></member>
+    <member refid="m17_8h_1a21d266dd9aed0abb202e8b6ae96582b9" kind="function"><name>unpack_LICH</name></member>
+    <member refid="m17_8h_1aab55c8f92ed171ddc8afdba449f173f9" kind="function"><name>update_LSF_CRC</name></member>
+    <member refid="m17_8h_1a7e92764244ff3880c41995cfaaa558dd" kind="function"><name>set_LSF</name></member>
+    <member refid="m17_8h_1a06d350c02ee5635218f433da1afde900" kind="function"><name>set_LSF_meta</name></member>
+    <member refid="m17_8h_1a22907929558a1118a3630b6713257122" kind="function"><name>set_LSF_meta_position</name></member>
+    <member refid="m17_8h_1afb5dc205abb04de67fff759601b169d0" kind="function"><name>set_LSF_meta_ecd</name></member>
+    <member refid="m17_8h_1ae1a49d17a06b7053109813aeebffa463" kind="function"><name>set_LSF_meta_nonce</name></member>
+    <member refid="m17_8h_1a69aefcf41a4337a711fc06643038ca9d" kind="function"><name>get_LSF_meta_position</name></member>
+    <member refid="m17_8h_1a5a68cc9f063d854dc8973684f806809c" kind="function"><name>golay24_encode</name></member>
+    <member refid="m17_8h_1a3f51fa5fd9e9dbe75a155c64b7a85ebd" kind="function"><name>golay24_sdecode</name></member>
+    <member refid="m17_8h_1abf6693ac97edd038e4995903af711f6b" kind="function"><name>decode_LICH</name></member>
+    <member refid="m17_8h_1a741fbf4fcc93d6acaefe4515d0109f23" kind="function"><name>encode_LICH</name></member>
+    <member refid="m17_8h_1a8fb6467450191c083f516e16111beeee" kind="function"><name>reorder_bits</name></member>
+    <member refid="m17_8h_1aae3b85443865b00a3bf7c9d4940f08d5" kind="function"><name>reorder_soft_bits</name></member>
+    <member refid="m17_8h_1a703fd386d485c62dba458e6527dcbab5" kind="function"><name>q_abs_diff</name></member>
+    <member refid="m17_8h_1a5597d1dc7d6fba3ae62adcc0cac1269a" kind="function"><name>eucl_norm</name></member>
+    <member refid="m17_8h_1acefe564b259f47d46331b59c707ad582" kind="function"><name>int_to_soft</name></member>
+    <member refid="m17_8h_1a22428cad16b07fa6f684803cdd536c56" kind="function"><name>soft_to_int</name></member>
+    <member refid="m17_8h_1ada627b48ccf0d684b583142b701ba818" kind="function"><name>div16</name></member>
+    <member refid="m17_8h_1aa720ba1f93c8b9a964c00982b2649c92" kind="function"><name>mul16</name></member>
+    <member refid="m17_8h_1a2030f3f98f4aa2ce0d6f9b50171e482d" kind="function"><name>soft_bit_XOR</name></member>
+    <member refid="m17_8h_1aa38ccf665e97abc7b66643e4720b97e8" kind="function"><name>soft_bit_NOT</name></member>
+    <member refid="m17_8h_1ab2a44daae6eedd9bac699dead7d131b7" kind="function"><name>soft_XOR</name></member>
+    <member refid="m17_8h_1abaa09b456b43d6527ff0b67558d90b59" kind="function"><name>randomize_bits</name></member>
+    <member refid="m17_8h_1ab8d1d50395c7fe663625b559e310854f" kind="function"><name>randomize_soft_bits</name></member>
+    <member refid="m17_8h_1ab6b8755249e377c7780b969b06b2a20b" kind="function"><name>slice_symbols</name></member>
+    <member refid="m17_8h_1a0780119c08d8b742fd440b880723d96f" kind="function"><name>viterbi_decode</name></member>
+    <member refid="m17_8h_1a54c203201e35dbfe6d06b2e3561848f4" kind="function"><name>viterbi_decode_punctured</name></member>
+    <member refid="m17_8h_1ab45289f7f55640c99fd14eb37cb5d11a" kind="function"><name>viterbi_decode_bit</name></member>
+    <member refid="m17_8h_1adc1bf1f88e82f383caecac6806c43221" kind="function"><name>viterbi_chainback</name></member>
+    <member refid="m17_8h_1a5fac74f726f03a8fd0bafaa705cdaeb7" kind="function"><name>viterbi_reset</name></member>
+    <member refid="m17_8h_1ad7d7edb45f384e63c75a9a77244a04ba" kind="function"><name>m17_ed25519_generate_keypair</name></member>
+    <member refid="m17_8h_1ad68df2cb051130ccdd205840df550a7d" kind="function"><name>m17_ed25519_sign</name></member>
+    <member refid="m17_8h_1a2e487bf4626df0515e9b1f64a78d2581" kind="function"><name>m17_ed25519_verify</name></member>
+    <member refid="m17_8h_1afb273f3c6ec7397cfc9cd8f38c409b07" kind="function"><name>m17_ed25519_public_key_from_private</name></member>
+    <member refid="m17_8h_1a0d4b921388b684d4bbb67b768e513345" kind="function"><name>m17_curve25519_generate_keypair</name></member>
+    <member refid="m17_8h_1acd0e600656f7599eff9257410647a298" kind="function"><name>m17_curve25519_ecdh</name></member>
+    <member refid="m17_8h_1a9f0216508832a981182af052d823b838" kind="function"><name>m17_curve25519_public_key_from_private</name></member>
+    <member refid="m17_8h_1a98ae69e3e4cbf33680a8a633428d3c70" kind="function"><name>m17_hkdf_derive</name></member>
+    <member refid="m17_8h_1a6b822da987cc251c9d855ef95fe0e395" kind="function"><name>m17_aes_gcm_encrypt</name></member>
+    <member refid="m17_8h_1ab4dbab700a540a53f39e213232fa76dd" kind="function"><name>m17_aes_gcm_decrypt</name></member>
+  </compound>
+  <compound refid="m17__safe_8c" kind="file"><name>m17_safe.c</name>
+    <member refid="m17__safe_8c_1a4244072673b7e22f50030f588f076590" kind="function"><name>m17_safe_memcpy</name></member>
+    <member refid="m17__safe_8c_1a45b60b7da4e735d00a330b74120250ac" kind="function"><name>m17_safe_memset</name></member>
+    <member refid="m17__safe_8c_1a19287b9e11ac55f115c8b0df3d143fed" kind="function"><name>m17_validate_callsign</name></member>
+    <member refid="m17__safe_8c_1a7fa75de4740f663151f99a08c640e36d" kind="function"><name>m17_validate_frame_type</name></member>
+    <member refid="m17__safe_8c_1a4ecb3d353e61ee5d8261d589ed483cc5" kind="function"><name>m17_validate_syncword</name></member>
+    <member refid="m17__safe_8c_1a0613197acae523923f636e277798b683" kind="function"><name>m17_error_string</name></member>
+  </compound>
+  <compound refid="m17__safe_8h" kind="file"><name>m17_safe.h</name>
+    <member refid="m17__safe_8h_1a2c8e1b073e46c666669db72dcae73ed0" kind="define"><name>M17_MUTEX_DECLARE</name></member>
+    <member refid="m17__safe_8h_1a2c34dbc1b48a731b3174e8e17c36ade4" kind="define"><name>M17_MUTEX_LOCK</name></member>
+    <member refid="m17__safe_8h_1a8d6d01555eeca4a4948fbae8ea2e88a7" kind="define"><name>M17_MUTEX_UNLOCK</name></member>
+    <member refid="m17__safe_8h_1a87bd37b333bd44edca0493a6620941ea" kind="define"><name>M17_BOUNDS_CHECK</name></member>
+    <member refid="m17__safe_8h_1a7d5c8b61edb08fb632a3a0c15a6997a2" kind="define"><name>M17_BUFFER_CHECK</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532" kind="enum"><name>m17_error_t</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a186cf9ef0a93f86e7314e4a6e642d60f" kind="enumvalue"><name>M17_SUCCESS</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a9210f0aad3a82266dac342c99466f0a4" kind="enumvalue"><name>M17_ERROR_NULL_POINTER</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a576f47f685b9b65135f1abae0727d0db" kind="enumvalue"><name>M17_ERROR_INVALID_PARAM</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a5bfd3d68d5151252b40b6416f772723d" kind="enumvalue"><name>M17_ERROR_BUFFER_OVERFLOW</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a7c7f0dd2c359fe120260188714a26ca6" kind="enumvalue"><name>M17_ERROR_INVALID_LENGTH</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a6831ad0f04492797cc93d34adb68144e" kind="enumvalue"><name>M17_ERROR_INVALID_SYNCWORD</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532ac3942c09ead93a1d7dbfd33321d54892" kind="enumvalue"><name>M17_ERROR_DECODE_FAILED</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a6f1ec3c9a9df1ca669a55faadc48fc6f" kind="enumvalue"><name>M17_ERROR_CRC_MISMATCH</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a5e4ee14ba56cd47d8fa0231dcbdc7ef4" kind="enumvalue"><name>M17_ERROR_INVALID_CALLSIGN</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a65abec18552b0c019efb60681d4ca596" kind="enumvalue"><name>M17_ERROR_INVALID_FRAME_TYPE</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a2a8bd7db8c9fa96266b4d70731b28fb8" kind="enumvalue"><name>M17_ERROR_MEMORY_ALLOCATION</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a930c05c2c9da35d1c9f6df4bc40fb8e4" kind="enumvalue"><name>M17_ERROR_THREAD_SAFETY</name></member>
+    <member refid="m17__safe_8h_1a700f9699fdb0634439b7fff2c22ac532a9d250d441720a2223503b677c22fe5cb" kind="enumvalue"><name>M17_ERROR_INTERNAL</name></member>
+    <member refid="m17__safe_8h_1a4244072673b7e22f50030f588f076590" kind="function"><name>m17_safe_memcpy</name></member>
+    <member refid="m17__safe_8h_1a45b60b7da4e735d00a330b74120250ac" kind="function"><name>m17_safe_memset</name></member>
+    <member refid="m17__safe_8h_1a19287b9e11ac55f115c8b0df3d143fed" kind="function"><name>m17_validate_callsign</name></member>
+    <member refid="m17__safe_8h_1a7fa75de4740f663151f99a08c640e36d" kind="function"><name>m17_validate_frame_type</name></member>
+    <member refid="m17__safe_8h_1a4ecb3d353e61ee5d8261d589ed483cc5" kind="function"><name>m17_validate_syncword</name></member>
+    <member refid="m17__safe_8h_1a0613197acae523923f636e277798b683" kind="function"><name>m17_error_string</name></member>
+  </compound>
+  <compound refid="m17__simd_8c" kind="file"><name>m17_simd.c</name>
+    <member refid="m17__simd_8c_1aa59759c85dac0637633bd0b0dddb0750" kind="function"><name>m17_get_simd_capabilities</name></member>
+    <member refid="m17__simd_8c_1aa83f76f984f2982ac6562145dcb4c30f" kind="function"><name>m17_scalar_euclidean_norm</name></member>
+    <member refid="m17__simd_8c_1af5940fee6e6b5d6905822255796bbe23" kind="function"><name>m17_scalar_symbol_slice</name></member>
+    <member refid="m17__simd_8c_1a2e8e568cc73fe5691e898179a2184bb7" kind="function"><name>m17_scalar_soft_xor</name></member>
+    <member refid="m17__simd_8c_1aa226d24a26c67d4bef01252f83a6a389" kind="function"><name>m17_scalar_soft_add</name></member>
+  </compound>
+  <compound refid="m17__simd_8h" kind="file"><name>m17_simd.h</name>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70" kind="enum"><name>m17_simd_capabilities_t</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70ab703747ef9dc810e180799efa2c207cf" kind="enumvalue"><name>M17_SIMD_NONE</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70a08a591f20168418d6817dfa143cdc9c4" kind="enumvalue"><name>M17_SIMD_SSE2</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70a1761eee55f0fd09267070f15de3c4175" kind="enumvalue"><name>M17_SIMD_SSE3</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70aead4a714ccab73df6f2804eccb47826f" kind="enumvalue"><name>M17_SIMD_SSSE3</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70ab8a4bcec450652d201cfde1faf68551c" kind="enumvalue"><name>M17_SIMD_SSE4_1</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70a15be2b5ae27bc701b1505b43d030b4ca" kind="enumvalue"><name>M17_SIMD_SSE4_2</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70af8a1a16c87737d346b3469f2a7a41621" kind="enumvalue"><name>M17_SIMD_AVX</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70abb99023bdeae47257874682992534c15" kind="enumvalue"><name>M17_SIMD_AVX2</name></member>
+    <member refid="m17__simd_8h_1ab7801b6618f632c16a48c56c1aa35b70af8202b66dd9ce3f09f6ce9b907fe98ef" kind="enumvalue"><name>M17_SIMD_NEON</name></member>
+    <member refid="m17__simd_8h_1aa59759c85dac0637633bd0b0dddb0750" kind="function"><name>m17_get_simd_capabilities</name></member>
+    <member refid="m17__simd_8h_1a4941e042da3dd54eceb1a38607d4e8b3" kind="function"><name>m17_simd_euclidean_norm</name></member>
+    <member refid="m17__simd_8h_1ae9a030d249531d815938f1d7e8be2d62" kind="function"><name>m17_simd_symbol_slice</name></member>
+    <member refid="m17__simd_8h_1afbe56ad3bd5020cfbdf5bf973fda0de0" kind="function"><name>m17_simd_soft_xor</name></member>
+    <member refid="m17__simd_8h_1a902c1c886da3de656fa144bae1f9a692" kind="function"><name>m17_simd_soft_add</name></member>
+    <member refid="m17__simd_8h_1a1dc1a3ef51697567238b4546b3c10f26" kind="function"><name>m17_simd_viterbi_metrics</name></member>
+    <member refid="m17__simd_8h_1aa83f76f984f2982ac6562145dcb4c30f" kind="function"><name>m17_scalar_euclidean_norm</name></member>
+    <member refid="m17__simd_8h_1af5940fee6e6b5d6905822255796bbe23" kind="function"><name>m17_scalar_symbol_slice</name></member>
+    <member refid="m17__simd_8h_1a2e8e568cc73fe5691e898179a2184bb7" kind="function"><name>m17_scalar_soft_xor</name></member>
+    <member refid="m17__simd_8h_1aa226d24a26c67d4bef01252f83a6a389" kind="function"><name>m17_scalar_soft_add</name></member>
+  </compound>
+  <compound refid="golay_8c" kind="file"><name>golay.c</name>
+    <member refid="golay_8c_1a6f64468dba31783511c82ac2c9c35b54" kind="variable"><name>encode_matrix</name></member>
+    <member refid="golay_8c_1a9dc73157be8d3dc231b19bd9dcb42108" kind="variable"><name>decode_matrix</name></member>
+    <member refid="golay_8c_1aadc18f405f6f3509276a7587bd7202b1" kind="function"><name>golay24_encode</name></member>
+    <member refid="golay_8c_1a4e3f15ed66359d58345e7e57fb265583" kind="function"><name>s_popcount</name></member>
+    <member refid="golay_8c_1a96b06529bc5f1052c552b106ef038714" kind="function"><name>s_calc_checksum</name></member>
+    <member refid="golay_8c_1ad3ee88c3d722942e8e197aa5f8dcdee4" kind="function"><name>s_detect_errors</name></member>
+    <member refid="golay_8c_1a3f51fa5fd9e9dbe75a155c64b7a85ebd" kind="function"><name>golay24_sdecode</name></member>
+    <member refid="golay_8c_1abf6693ac97edd038e4995903af711f6b" kind="function"><name>decode_LICH</name></member>
+    <member refid="golay_8c_1a741fbf4fcc93d6acaefe4515d0109f23" kind="function"><name>encode_LICH</name></member>
+  </compound>
+  <compound refid="math_8c" kind="file"><name>math.c</name>
+    <member refid="math_8c_1ae255b5a2b5e9cb7051fd1713ed53c420" kind="function"><name>q_abs_diff</name></member>
+    <member refid="math_8c_1a42e2e975a5755d4e0e1a49f981b17ee4" kind="function"><name>eucl_norm</name></member>
+    <member refid="math_8c_1ab21d852b8fb8bb45efdce762af5c7cf0" kind="function"><name>int_to_soft</name></member>
+    <member refid="math_8c_1a9fa59ef8a2c172d1541b0f301677f6d0" kind="function"><name>soft_to_int</name></member>
+    <member refid="math_8c_1a94328d0789feab9f7eab4cde3435b740" kind="function"><name>add16</name></member>
+    <member refid="math_8c_1a11e141e29aa5bc75e0f4cb2815829652" kind="function"><name>sub16</name></member>
+    <member refid="math_8c_1a8b80f806c90c88a6e9e18cae33c95dc3" kind="function"><name>div16</name></member>
+    <member refid="math_8c_1a8082542ef232c0e356209cba83d89a7b" kind="function"><name>mul16</name></member>
+    <member refid="math_8c_1aa6b1209b2920140441f99f5045bb308e" kind="function"><name>soft_bit_XOR</name></member>
+    <member refid="math_8c_1a695b225eeaa8ecea9ca64eb5277cce31" kind="function"><name>soft_bit_NOT</name></member>
+    <member refid="math_8c_1a9453fc7a0a680674b25b03501f3f5eef" kind="function"><name>soft_XOR</name></member>
+  </compound>
+  <compound refid="rrc_8c" kind="file"><name>rrc.c</name>
+    <member refid="rrc_8c_1a9b7d59fce94f758eb30aac763bfdfa79" kind="variable"><name>rrc_taps_10</name></member>
+    <member refid="rrc_8c_1a4476bee65e6343495fb42dbebb2baf12" kind="variable"><name>rrc_taps_5</name></member>
+  </compound>
+  <compound refid="call_8c" kind="file"><name>call.c</name>
+    <member refid="call_8c_1a6f087df09c39c6f6f331f2aa0cd578b1" kind="function"><name>decode_callsign_value</name></member>
+    <member refid="call_8c_1abaa23d7446502b488f0c2bdd3309e4ab" kind="function"><name>decode_callsign_bytes</name></member>
+    <member refid="call_8c_1a464c865a8ea90c12d3c1ea91f460de2e" kind="function"><name>encode_callsign_value</name></member>
+    <member refid="call_8c_1a3c47af3a10d7453cefbb9cc988e39732" kind="function"><name>encode_callsign_bytes</name></member>
+  </compound>
+  <compound refid="crc_8c" kind="file"><name>crc.c</name>
+    <member refid="crc_8c_1a2d67d4db0f4c5bcc4885d289d7804528" kind="variable"><name>M17_CRC_POLY</name></member>
+    <member refid="crc_8c_1a8be801f67ebceb356d303db88729a972" kind="function"><name>CRC_M17</name></member>
+    <member refid="crc_8c_1a3e31ba6b80094ce6215ece75bf3469e4" kind="function"><name>LSF_CRC</name></member>
+  </compound>
+  <compound refid="lich_8c" kind="file"><name>lich.c</name>
+    <member refid="lich_8c_1a3a64177c40a17723877fe379f0adb0ea" kind="function"><name>extract_LICH</name></member>
+    <member refid="lich_8c_1a21d266dd9aed0abb202e8b6ae96582b9" kind="function"><name>unpack_LICH</name></member>
+  </compound>
+  <compound refid="lsf_8c" kind="file"><name>lsf.c</name>
+    <member refid="lsf_8c_1aab55c8f92ed171ddc8afdba449f173f9" kind="function"><name>update_LSF_CRC</name></member>
+    <member refid="lsf_8c_1a7e92764244ff3880c41995cfaaa558dd" kind="function"><name>set_LSF</name></member>
+    <member refid="lsf_8c_1a06d350c02ee5635218f433da1afde900" kind="function"><name>set_LSF_meta</name></member>
+    <member refid="lsf_8c_1a7462240f452d89f1300d272282e55e94" kind="function"><name>set_LSF_meta_position</name></member>
+    <member refid="lsf_8c_1afb5dc205abb04de67fff759601b169d0" kind="function"><name>set_LSF_meta_ecd</name></member>
+    <member refid="lsf_8c_1a1921fe885132fa66f0ec20afff00ad5f" kind="function"><name>set_LSF_meta_nonce</name></member>
+    <member refid="lsf_8c_1a69aefcf41a4337a711fc06643038ca9d" kind="function"><name>get_LSF_meta_position</name></member>
+  </compound>
+  <compound refid="interleave_8c" kind="file"><name>interleave.c</name>
+    <member refid="interleave_8c_1a0d2931530c1f0c002603840572a77354" kind="variable"><name>intrl_seq</name></member>
+    <member refid="interleave_8c_1a8fb6467450191c083f516e16111beeee" kind="function"><name>reorder_bits</name></member>
+    <member refid="interleave_8c_1aae3b85443865b00a3bf7c9d4940f08d5" kind="function"><name>reorder_soft_bits</name></member>
+  </compound>
+  <compound refid="randomize_8c" kind="file"><name>randomize.c</name>
+    <member refid="randomize_8c_1a2050d40f98b961619df4b1f8f67ed00d" kind="variable"><name>rand_seq</name></member>
+    <member refid="randomize_8c_1abaa09b456b43d6527ff0b67558d90b59" kind="function"><name>randomize_bits</name></member>
+    <member refid="randomize_8c_1ab8d1d50395c7fe663625b559e310854f" kind="function"><name>randomize_soft_bits</name></member>
+  </compound>
+  <compound refid="slice_8c" kind="file"><name>slice.c</name>
+    <member refid="slice_8c_1ab6b8755249e377c7780b969b06b2a20b" kind="function"><name>slice_symbols</name></member>
+  </compound>
+  <compound refid="sync_8c" kind="file"><name>sync.c</name>
+    <member refid="sync_8c_1a97b9eab25f4126bd6a04b3a76b14d7e1" kind="variable"><name>SYNC_LSF</name></member>
+    <member refid="sync_8c_1a4c91f514ba9c2c20eb09b4418c9c3ee6" kind="variable"><name>SYNC_STR</name></member>
+    <member refid="sync_8c_1a1095de3839867d000c7e2d4df9d3f5c7" kind="variable"><name>SYNC_PKT</name></member>
+    <member refid="sync_8c_1a0c04c4f0a826f62dfe9f0b7857014487" kind="variable"><name>SYNC_BER</name></member>
+    <member refid="sync_8c_1ade1700dec4f90b55a5666945ab8e2416" kind="variable"><name>EOT_MRKR</name></member>
+  </compound>
+  <compound refid="README_8md" kind="file"><name>README.md</name>
+  </compound>
+  <compound refid="test__critical__security_8c" kind="file"><name>test_critical_security.c</name>
+    <member refid="test__critical__security_8c_1a5c22fd77c6a40e14a165befb3be74006" kind="function"><name>test_key_derivation_with_context</name></member>
+    <member refid="test__critical__security_8c_1a6a5dff0c85e41811302fb738a6ed2e0b" kind="function"><name>test_replay_attack_protection</name></member>
+    <member refid="test__critical__security_8c_1aa8f9a10791977ccac4a9ef647dc8cf98" kind="function"><name>test_buffer_overflow_protection</name></member>
+    <member refid="test__critical__security_8c_1ac5fa3f8c6295201e723b1295a238dcaf" kind="function"><name>test_rate_limiting_and_monitoring</name></member>
+    <member refid="test__critical__security_8c_1aaffe1d7423c5ce4f0628441d668b2bad" kind="function"><name>test_constant_time_operations</name></member>
+    <member refid="test__critical__security_8c_1aae601a00dc53353cdb3fe22d4f40a452" kind="function"><name>test_comprehensive_error_handling</name></member>
+    <member refid="test__critical__security_8c_1adfae495615c8c4f6bea4091083e93b69" kind="function"><name>test_secure_memory_operations</name></member>
+    <member refid="test__critical__security_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="test__crypto_8c" kind="file"><name>test_crypto.c</name>
+    <member refid="test__crypto_8c_1a39f8b2376e2bf866aa1be781752ae4b4" kind="function"><name>test_ed25519</name></member>
+    <member refid="test__crypto_8c_1a4bab83d435ce4f4665ad4d4b409c614f" kind="function"><name>test_curve25519</name></member>
+    <member refid="test__crypto_8c_1ab788313958c15de53d9d028341dd4151" kind="function"><name>test_hkdf</name></member>
+    <member refid="test__crypto_8c_1ab542b7a819128cd5d14f839ef3117876" kind="function"><name>test_aes_gcm</name></member>
+    <member refid="test__crypto_8c_1a6090d3518354882a6859bff1a0072330" kind="function"><name>test_integrated_workflow</name></member>
+    <member refid="test__crypto_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
+    <member refid="test__crypto_8c_1a69aefe4c08a54473f7870840929995f0" kind="function"><name>test_constant_time</name></member>
+  </compound>
+  <compound refid="test__improvements_8c" kind="file"><name>test_improvements.c</name>
+    <member refid="test__improvements_8c_1aa8b3b66c98f077874de048e666ccb7b2" kind="function"><name>test_error_handling</name></member>
+    <member refid="test__improvements_8c_1a83c6f8ba463ea88737ae16aa777a244d" kind="function"><name>test_memory_safety</name></member>
+    <member refid="test__improvements_8c_1aa36df030c8aa470541f5a2960ea99615" kind="function"><name>test_thread_safety</name></member>
+    <member refid="test__improvements_8c_1a0d923e86a06b4dbe0dc693ce4d410ace" kind="function"><name>test_simd_optimizations</name></member>
+    <member refid="test__improvements_8c_1a4b9f98324ae7e5ee9ef7c5702d918dbe" kind="function"><name>test_performance</name></member>
+    <member refid="test__improvements_8c_1a5c399cd859cde102e899d6fe9a1941a4" kind="function"><name>test_input_validation</name></member>
+    <member refid="test__improvements_8c_1a840291bc02cba5474a4cb46a9b9566fe" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="test__security_8c" kind="file"><name>test_security.c</name>
+    <member refid="test__security_8c_1add7a1c6490a9bd3f9c21ec085302351b" kind="function"><name>test_iv_uniqueness</name></member>
+    <member refid="test__security_8c_1a43959286129c975952b1b0760da36c59" kind="function"><name>test_secure_cleanup</name></member>
+    <member refid="test__security_8c_1ac0cfe9a892a246b94bb85ca6b91798d0" kind="function"><name>test_digest_security</name></member>
+    <member refid="test__security_8c_1afee4d462b3c2b18fe7b91ec8d078a0c1" kind="function"><name>test_key_parsing</name></member>
+    <member refid="test__security_8c_1a1fb384588911d7861eb5b99271d93cfc" kind="function"><name>test_crypto_error_handling</name></member>
+    <member refid="test__security_8c_1a12952046ae044d2e2e3bdf0c3122e113" kind="function"><name>test_frame_number_overflow</name></member>
+    <member refid="test__security_8c_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="test__trustzone__tee_8c" kind="file"><name>test_trustzone_tee.c</name>
+    <member refid="test__trustzone__tee_8c_1a8180f7f3b708184e1e43775873a133e8" kind="function"><name>test_trustzone_initialization</name></member>
+    <member refid="test__trustzone__tee_8c_1a2a7d0c0c5c573820102fbbfececefb12" kind="function"><name>test_trustzone_session_management</name></member>
+    <member refid="test__trustzone__tee_8c_1a0810546de02df7509ee6500ed27d6156" kind="function"><name>test_trustzone_key_management</name></member>
+    <member refid="test__trustzone__tee_8c_1a3053eee1f71bf78e7f4a8bc278cee7c4" kind="function"><name>test_trustzone_cryptographic_operations</name></member>
+    <member refid="test__trustzone__tee_8c_1a1b84f03ea2660170bbd58ef901a7252c" kind="function"><name>test_trustzone_secure_memory</name></member>
+    <member refid="test__trustzone__tee_8c_1ae16c659a127e00dc0d9277bfa3876adb" kind="function"><name>test_optee_initialization</name></member>
+    <member refid="test__trustzone__tee_8c_1aa37dba21e219766e5a488ea29bf93fa1" kind="function"><name>test_optee_context_management</name></member>
+    <member refid="test__trustzone__tee_8c_1a4349e0d63f2e09bf9ca3940f621bb419" kind="function"><name>test_optee_cryptographic_operations</name></member>
+    <member refid="test__trustzone__tee_8c_1abd8f3f52bb7b8ab6f4edcd9e6eac6eb6" kind="function"><name>test_secure_boot_validation</name></member>
+    <member refid="test__trustzone__tee_8c_1a6e8b40e6361845c5cec5b5e23cb11756" kind="function"><name>test_secure_boot_attestation</name></member>
+    <member refid="test__trustzone__tee_8c_1aa81aa6dfbde5028d1ff32ed9204f136f" kind="function"><name>test_secure_boot_monitoring</name></member>
+    <member refid="test__trustzone__tee_8c_1aa5f75aba977dc293a19c601b2abfa5cc" kind="function"><name>test_integrated_secure_workflow</name></member>
+    <member refid="test__trustzone__tee_8c_1a840291bc02cba5474a4cb46a9b9566fe" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="unit__tests_8c" kind="file"><name>unit_tests.c</name>
+    <member refid="unit__tests_8c_1a95c834d6178047ce9e1bce7cbfea2836" kind="function"><name>setUp</name></member>
+    <member refid="unit__tests_8c_1a9909011e5fea0c018842eec4d93d0662" kind="function"><name>tearDown</name></member>
+    <member refid="unit__tests_8c_1aa3af7e55c38cece8265c24e9d5a00289" kind="function"><name>soft_logic_xor</name></member>
+    <member refid="unit__tests_8c_1a95b874ac4749503021512fef15e61f87" kind="function"><name>symbol_to_soft_dibit</name></member>
+    <member refid="unit__tests_8c_1afb1d4db065c0ee4fb79646b9022420fa" kind="function"><name>symbol_to_dibit</name></member>
+    <member refid="unit__tests_8c_1a5e04015240e6fd3a0b5d20ac1efefb3c" kind="function"><name>apply_errors</name></member>
+    <member refid="unit__tests_8c_1a769c0731f05f222b2004a21222051b5e" kind="function"><name>golay_encode</name></member>
+    <member refid="unit__tests_8c_1a7208e79aa7a2c675f866936b06905482" kind="function"><name>golay_soft_decode_clean</name></member>
+    <member refid="unit__tests_8c_1adc71e4001de4d646bee71a28838f4311" kind="function"><name>golay_soft_decode_flipped_parity_1</name></member>
+    <member refid="unit__tests_8c_1a157216b172dd731a803f1379d1c2d2b1" kind="function"><name>golay_soft_decode_erased_parity_1</name></member>
+    <member refid="unit__tests_8c_1a4ff15c8fc9f3c4664b32129dbaf2aba1" kind="function"><name>golay_soft_decode_flipped_parity_2</name></member>
+    <member refid="unit__tests_8c_1a30bee73689c83168b7d4bf8272a11405" kind="function"><name>golay_soft_decode_erased_parity_2</name></member>
+    <member refid="unit__tests_8c_1ac21d4d5e7770ff96ca1dbb61b057b8e4" kind="function"><name>golay_soft_decode_flipped_parity_3</name></member>
+    <member refid="unit__tests_8c_1a7fd6e31f9f7cb90a53cf97ed07f16ba1" kind="function"><name>golay_soft_decode_erased_parity_3</name></member>
+    <member refid="unit__tests_8c_1a32883f879274d2b4f2f89090cf31d317" kind="function"><name>golay_soft_decode_erased_parity_3_5</name></member>
+    <member refid="unit__tests_8c_1ad11ea840aaf429b01d0a2e4ae9dfcc03" kind="function"><name>golay_soft_decode_flipped_parity_4</name></member>
+    <member refid="unit__tests_8c_1afbff4d6476cb3f7d1a85c12d0990310a" kind="function"><name>golay_soft_decode_erased_parity_5</name></member>
+    <member refid="unit__tests_8c_1a42099f8f1287c61cd193f6d65d12a39c" kind="function"><name>golay_soft_decode_flipped_parity_5</name></member>
+    <member refid="unit__tests_8c_1a2c1829f31f29bf725508dbc31987d031" kind="function"><name>golay_soft_decode_flipped_data_1</name></member>
+    <member refid="unit__tests_8c_1a3d638108fe63d026f30ca50da1376f94" kind="function"><name>golay_soft_decode_erased_data_1</name></member>
+    <member refid="unit__tests_8c_1a21c56dc72c668d4b159418ad0728ac24" kind="function"><name>golay_soft_decode_flipped_data_2</name></member>
+    <member refid="unit__tests_8c_1a2a612e6f52f97c71ddf45bddef724543" kind="function"><name>golay_soft_decode_erased_data_2</name></member>
+    <member refid="unit__tests_8c_1afe5a584045aa5ad20b3781df952f7ab7" kind="function"><name>golay_soft_decode_flipped_data_3</name></member>
+    <member refid="unit__tests_8c_1a4c52049218dd353792579c9f9cfb02c7" kind="function"><name>golay_soft_decode_erased_data_3</name></member>
+    <member refid="unit__tests_8c_1a3a68a39affc9e14ba5e3019ee83147bd" kind="function"><name>golay_soft_decode_erased_data_3_5</name></member>
+    <member refid="unit__tests_8c_1a46d0f0242ba4ff9312cccf15f41a483d" kind="function"><name>golay_soft_decode_flipped_data_4</name></member>
+    <member refid="unit__tests_8c_1a8afc5f18a2a8cc690daf21f98405c7fe" kind="function"><name>golay_soft_decode_corrupt_data_4_5</name></member>
+    <member refid="unit__tests_8c_1ae2eb4e47ba54099133fa792544494943" kind="function"><name>golay_soft_decode_erased_data_5</name></member>
+    <member refid="unit__tests_8c_1a8438d336fb7423f3b4c1813fa8fe66f7" kind="function"><name>golay_soft_decode_flipped_data_5</name></member>
+    <member refid="unit__tests_8c_1a9db9475c5632a41af841627acee67630" kind="function"><name>lsf_encode_decode</name></member>
+    <member refid="unit__tests_8c_1abc04dc370dcb90fba8e5420b9f4f3c4f" kind="function"><name>str_encode_decode</name></member>
+    <member refid="unit__tests_8c_1a828d37d7cce1150cbe4088f8d3016ca3" kind="function"><name>pkt_encode_decode</name></member>
+    <member refid="unit__tests_8c_1ac365e85ce5a47482206905c00c73c3f7" kind="function"><name>callsign_encode_decode</name></member>
+    <member refid="unit__tests_8c_1a259ead3fa449e45f8584ab88cb30fabc" kind="function"><name>meta_position</name></member>
+    <member refid="unit__tests_8c_1a1b1a008afd7dd8a5faffcf4b1c46ac11" kind="function"><name>crc_checks</name></member>
+    <member refid="unit__tests_8c_1a840291bc02cba5474a4cb46a9b9566fe" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="md__2home_2haaken_2github-projects_2gr-m17_2libm17_2README" kind="page"><name>md__2home_2haaken_2github-projects_2gr-m17_2libm17_2README</name>
+  </compound>
+  <compound refid="md_m17__security__documentation" kind="page"><name>md_m17__security__documentation</name>
+  </compound>
+  <compound refid="dir_e2f15d31276365becb7ab5834e0084f2" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/3.28.3</name>
+  </compound>
+  <compound refid="dir_7914e2ac078efe4223385977c6a62a23" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build</name>
+  </compound>
+  <compound refid="dir_7cc8b7615479796271cec414f738a4f0" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles</name>
+  </compound>
+  <compound refid="dir_7bf6ca4ece09249ad0561450afa8bca4" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/3.28.3/CompilerIdC</name>
+  </compound>
+  <compound refid="dir_e8dc72df1f60d6d73685a938b49bf4d8" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/crypto</name>
+  </compound>
+  <compound refid="dir_14e109b13eb9eb863b6b6b1996c33a1d" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/m17-static.dir/crypto</name>
+  </compound>
+  <compound refid="dir_351416d581c6a2a975232a7631aacaf1" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/crypto</name>
+  </compound>
+  <compound refid="dir_850000fdd32463b71a7a48dd7cd5d3af" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/decode</name>
+  </compound>
+  <compound refid="dir_5a643d1df6b9a948108f5633b1dc746d" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/m17-static.dir/decode</name>
+  </compound>
+  <compound refid="dir_996a6ade131c284bfb4a3185c4d9eb98" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/decode</name>
+  </compound>
+  <compound refid="dir_3e19c0601390c8735713c8890dfdead3" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/doc</name>
+  </compound>
+  <compound refid="dir_dd3adf06c11cdf2c1e2a12dd69843f9c" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/encode</name>
+  </compound>
+  <compound refid="dir_7dc06502a24c5031b341daaf232d9b08" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/m17-static.dir/encode</name>
+  </compound>
+  <compound refid="dir_0e9621227786ecbfb3974d400844fe0d" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/encode</name>
+  </compound>
+  <compound refid="dir_902d6fe55786be073ae6681293cdb979" kind="dir"><name>/home/haaken/github-projects/gr-m17/include/gnuradio</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>/home/haaken/github-projects/gr-m17/include</name>
+  </compound>
+  <compound refid="dir_97aefd0d527b934f1d99a682da8fe6a9" kind="dir"><name>/home/haaken/github-projects/gr-m17/lib</name>
+  </compound>
+  <compound refid="dir_6087fe4967fa6bc4f3b20f5a8d732299" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17</name>
+  </compound>
+  <compound refid="dir_b66b242ce14ecec3a0a7205e6f5afd50" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir</name>
+  </compound>
+  <compound refid="dir_4fb782ece21f908ba0d590d30d171033" kind="dir"><name>/home/haaken/github-projects/gr-m17/include/gnuradio/m17</name>
+  </compound>
+  <compound refid="dir_f97ad87f39945837cc033a36f1f199c2" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/m17-static.dir</name>
+  </compound>
+  <compound refid="dir_20484fd67ab267a12f1b001efeffe385" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/math</name>
+  </compound>
+  <compound refid="dir_22ee7c655a91cbe0cd04e157651d5871" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/m17-static.dir/math</name>
+  </compound>
+  <compound refid="dir_27e0774be9c67582f0f2cf91e587dd45" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/math</name>
+  </compound>
+  <compound refid="dir_bde5e7565ba33e7673ed135cbb0439d3" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/payload</name>
+  </compound>
+  <compound refid="dir_609f6edc42171bf94fdde97dfb8b6788" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/m17-static.dir/payload</name>
+  </compound>
+  <compound refid="dir_fde5f620b7ae2edad80378c64c4fcd0c" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/payload</name>
+  </compound>
+  <compound refid="dir_11bbdc0ec0144ff51d745977a3f79861" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/phy</name>
+  </compound>
+  <compound refid="dir_e056b08c0bc0f8542ce0e4f74189eb16" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/m17-static.dir/phy</name>
+  </compound>
+  <compound refid="dir_aba16083405a31e0ab56126625390beb" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/phy</name>
+  </compound>
+  <compound refid="dir_7ceb612d4d5ab6457a0cac5d8f1fe5c3" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_critical_security.dir</name>
+  </compound>
+  <compound refid="dir_cb51c9b4514139a4e6864a406bac7e93" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_crypto.dir</name>
+  </compound>
+  <compound refid="dir_d9fd6daf120d8fff4c75adc0287a9729" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_improvements.dir</name>
+  </compound>
+  <compound refid="dir_4ecf09006366164cd1ebf4ac8af27d1b" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_security.dir</name>
+  </compound>
+  <compound refid="dir_3e6b51e7ac19cf85bc0fe58a74f85515" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/test_trustzone_tee.dir</name>
+  </compound>
+  <compound refid="dir_acdad573d57a431e8d45b735e00d2181" kind="dir"><name>/home/haaken/github-projects/gr-m17/libm17/unit_tests</name>
+  </compound>
+  <compound refid="indexpage" kind="page"><name>index</name>
+  </compound>
+</doxygenindex>

@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structm17__tee__context__t" kind="struct" language="C++" prot="public">
+    <compoundname>m17_tee_context_t</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structm17__tee__context__t_1aab7265204fc944a888fa6d290c6196f7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t m17_tee_context_t::context_id</definition>
+        <argsstring></argsstring>
+        <name>context_id</name>
+        <qualifiedname>m17_tee_context_t::context_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="33" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__tee__context__t_1a85574555c2e62a69e76361177feb0a4c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool m17_tee_context_t::is_connected</definition>
+        <argsstring></argsstring>
+        <name>is_connected</name>
+        <qualifiedname>m17_tee_context_t::is_connected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="34" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__tee__context__t_1a16e155c7f033da1a7b89dd3945070946" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t m17_tee_context_t::session_count</definition>
+        <argsstring></argsstring>
+        <name>session_count</name>
+        <qualifiedname>m17_tee_context_t::session_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="35" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__tee__context__t_1a9f9505a1dd99aa9b6bbb57e8cedcde9e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t m17_tee_context_t::last_activity</definition>
+        <argsstring></argsstring>
+        <name>last_activity</name>
+        <qualifiedname>m17_tee_context_t::last_activity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="36" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="32" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structm17__tee__context__t_1aab7265204fc944a888fa6d290c6196f7" prot="public" virt="non-virtual"><scope>m17_tee_context_t</scope><name>context_id</name></member>
+      <member refid="structm17__tee__context__t_1a85574555c2e62a69e76361177feb0a4c" prot="public" virt="non-virtual"><scope>m17_tee_context_t</scope><name>is_connected</name></member>
+      <member refid="structm17__tee__context__t_1a9f9505a1dd99aa9b6bbb57e8cedcde9e" prot="public" virt="non-virtual"><scope>m17_tee_context_t</scope><name>last_activity</name></member>
+      <member refid="structm17__tee__context__t_1a16e155c7f033da1a7b89dd3945070946" prot="public" virt="non-virtual"><scope>m17_tee_context_t</scope><name>session_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

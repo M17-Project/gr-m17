@@ -1,0 +1,63 @@
+rules:
+  - id: key-logging
+    pattern: |
+      printf(..., $_key, ...)
+      fprintf(..., $_key, ...)
+      cout << ... << $_key
+    message: "CRITICAL: Never log cryptographic keys"
+    severity: ERROR
+    
+  - id: seed-logging
+    pattern: |
+      printf(..., $_seed, ...)
+      fprintf(..., $_seed, ...)
+    message: "CRITICAL: Never log cryptographic seeds"
+    severity: ERROR
+    
+  - id: signature-logging
+    pattern: |
+      printf(..., $_sig, ...)
+      fprintf(..., $_sig, ...)
+    message: "CRITICAL: Never log digital signatures"
+    severity: ERROR
+    
+  - id: insecure-random
+    patterns:
+      - pattern: rand()
+      - pattern: srand(...)
+      - pattern: time(NULL)
+    message: "Use cryptographically secure RNG (/dev/urandom, RAND_bytes)"
+    severity: WARNING
+    
+  - id: missing-explicit-bzero
+    pattern: memset($PTR, 0, ...)
+    message: "Use explicit_bzero for sensitive data clearing"
+    severity: WARNING
+    
+  - id: weak-hash
+    pattern: |
+      for (int i = 0; i < sizeof($HASH); i++) {
+        $HASH[i] ^= $DATA[i];
+      }
+    message: "CRITICAL: Trivial XOR hash provides no security"
+    severity: ERROR
+    
+  - id: magic-numbers
+    pattern: |
+      0x8000|0x7FFC|0x7FFF|0x8000
+    message: "Use named constants instead of magic numbers"
+    severity: WARNING
+    
+  - id: missing-error-check
+    pattern: |
+      EVP_$FUNC(...);
+      $NEXT_LINE
+    message: "Check OpenSSL function return values"
+    severity: WARNING
+    
+  - id: buffer-overflow-risk
+    pattern: |
+      memcpy($DEST, $SRC, $SIZE)
+      strcpy($DEST, $SRC)
+    message: "Use bounds-checked functions (memcpy_s, strcpy_s)"
+    severity: WARNING

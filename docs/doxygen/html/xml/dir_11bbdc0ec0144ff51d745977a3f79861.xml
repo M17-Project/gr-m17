@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_11bbdc0ec0144ff51d745977a3f79861" kind="dir">
+    <compoundname>/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/phy</compoundname>
+    <innerfile refid="libm17_8dir_2phy_2interleave_8c_8o_8d">interleave.c.o.d</innerfile>
+    <innerfile refid="libm17_8dir_2phy_2randomize_8c_8o_8d">randomize.c.o.d</innerfile>
+    <innerfile refid="libm17_8dir_2phy_2slice_8c_8o_8d">slice.c.o.d</innerfile>
+    <innerfile refid="libm17_8dir_2phy_2sync_8c_8o_8d">sync.c.o.d</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/build/CMakeFiles/libm17.dir/phy/"/>
+  </compounddef>
+</doxygen>

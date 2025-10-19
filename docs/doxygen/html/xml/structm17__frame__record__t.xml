@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structm17__frame__record__t" kind="struct" language="C++" prot="public">
+    <compoundname>m17_frame_record_t</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structm17__frame__record__t_1a1508b6562380b6377f8f533cccf1bbc5" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t m17_frame_record_t::frame_number</definition>
+        <argsstring></argsstring>
+        <name>frame_number</name>
+        <qualifiedname>m17_frame_record_t::frame_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" line="24" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__frame__record__t_1a14886862243b0113c876cdb24467b051" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t m17_frame_record_t::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>m17_frame_record_t::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" line="25" column="14" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structm17__frame__record__t_1ad0f4070a0eb3800653e5fd4282aa3a0e" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t m17_frame_record_t::seen</definition>
+        <argsstring></argsstring>
+        <name>seen</name>
+        <qualifiedname>m17_frame_record_t::seen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" line="26" column="13" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" line="23" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/replay_protection.c" bodystart="23" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structm17__frame__record__t_1a1508b6562380b6377f8f533cccf1bbc5" prot="public" virt="non-virtual"><scope>m17_frame_record_t</scope><name>frame_number</name></member>
+      <member refid="structm17__frame__record__t_1ad0f4070a0eb3800653e5fd4282aa3a0e" prot="public" virt="non-virtual"><scope>m17_frame_record_t</scope><name>seen</name></member>
+      <member refid="structm17__frame__record__t_1a14886862243b0113c876cdb24467b051" prot="public" virt="non-virtual"><scope>m17_frame_record_t</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

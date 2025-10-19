@@ -1,0 +1,1035 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="optee_8h" kind="file" language="C++">
+    <compoundname>optee.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includedby refid="optee_8c" local="yes">/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c</includedby>
+    <includedby refid="m17_8h" local="yes">/home/haaken/github-projects/gr-m17/libm17/m17.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h</label>
+        <link refid="optee_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+      <node id="2">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_coder_impl.h</label>
+        <link refid="m17__coder__impl_8h_source"/>
+      </node>
+      <node id="4">
+        <label>/home/haaken/github-projects/gr-m17/lib/m17_decoder_impl.h</label>
+        <link refid="m17__decoder__impl_8h_source"/>
+      </node>
+      <node id="5">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h</label>
+        <link refid="optee_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/haaken/github-projects/gr-m17/libm17/m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structm17__tee__context__t" prot="public">m17_tee_context_t</innerclass>
+    <innerclass refid="structm17__tee__session__t" prot="public">m17_tee_session_t</innerclass>
+    <innerclass refid="structm17__tee__key__handle__t" prot="public">m17_tee_key_handle_t</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48" prot="public" static="no" strong="no">
+        <type></type>
+        <name>m17_tee_status_t</name>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a1fd2acbcbe00e7301441d6c9987be1f2" prot="public">
+          <name>M17_TEE_SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a1d9dd595d2213bf9885153b14592c5b8" prot="public">
+          <name>M17_TEE_ERROR_INVALID_PARAM</name>
+          <initializer>= -1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a579e294a2eced25ee8bc908c87bfc342" prot="public">
+          <name>M17_TEE_ERROR_TEE_UNAVAILABLE</name>
+          <initializer>= -2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48af71f6d8dce7772f4196229c03d5e3a46" prot="public">
+          <name>M17_TEE_ERROR_OUT_OF_MEMORY</name>
+          <initializer>= -3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a549880a3410b346d8b57da2f10f43d5b" prot="public">
+          <name>M17_TEE_ERROR_AUTHENTICATION_FAILED</name>
+          <initializer>= -4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48ad01cb1d63f2520f513e6813783185217" prot="public">
+          <name>M17_TEE_ERROR_OPERATION_NOT_PERMITTED</name>
+          <initializer>= -5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a9abdccd17599d99d411ffa18b6f88f10" prot="public">
+          <name>M17_TEE_ERROR_COMMUNICATION_FAILED</name>
+          <initializer>= -6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48a07785fd321e89c79bacdb9ca3b6bf5e6" prot="public">
+          <name>M17_TEE_ERROR_KEY_NOT_FOUND</name>
+          <initializer>= -7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a4d9f4acea50c28d59fbf44b71c3d7f48ac883e6a43c1e0a2b131eaa52748918ea" prot="public">
+          <name>M17_TEE_ERROR_SIGNATURE_INVALID</name>
+          <initializer>= -8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="19" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" bodystart="19" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="optee_8h_1a8964542f6056d9e9282105726edc000b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>m17_tee_operation_t</name>
+        <enumvalue id="optee_8h_1a8964542f6056d9e9282105726edc000ba2bb7caefc317bd61870e58e2d9dbb330" prot="public">
+          <name>M17_TEE_OP_GENERATE_KEYPAIR</name>
+          <initializer>= 0x1001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a8964542f6056d9e9282105726edc000ba6157e7599abade21613b88f690835230" prot="public">
+          <name>M17_TEE_OP_SIGN_DATA</name>
+          <initializer>= 0x1002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a8964542f6056d9e9282105726edc000baa11f29049665790aa5b26e92e07b268e" prot="public">
+          <name>M17_TEE_OP_VERIFY_SIGNATURE</name>
+          <initializer>= 0x1003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a8964542f6056d9e9282105726edc000bad57aac228049bfe74e8a684af15ae178" prot="public">
+          <name>M17_TEE_OP_ECDH_KEY_EXCHANGE</name>
+          <initializer>= 0x1004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a8964542f6056d9e9282105726edc000baa42833f264ba57e8ec1e2e64602aeab8" prot="public">
+          <name>M17_TEE_OP_ENCRYPT_DATA</name>
+          <initializer>= 0x1005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a8964542f6056d9e9282105726edc000baabbd840a7bc6f68f9f82b78f233f3dbd" prot="public">
+          <name>M17_TEE_OP_DECRYPT_DATA</name>
+          <initializer>= 0x1006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a8964542f6056d9e9282105726edc000ba619463c19ebffa226ee448e9937ac8b4" prot="public">
+          <name>M17_TEE_OP_DERIVE_SESSION_KEY</name>
+          <initializer>= 0x1007</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a8964542f6056d9e9282105726edc000ba9949e4b7171401f76c55406f4507ee80" prot="public">
+          <name>M17_TEE_OP_WIPE_KEY</name>
+          <initializer>= 0x1008</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="58" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" bodystart="58" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208" prot="public" static="no" strong="no">
+        <type></type>
+        <name>m17_tee_key_type_t</name>
+        <enumvalue id="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a3b82d4e20608a30df7ef1a91485dc805" prot="public">
+          <name>M17_TEE_KEY_TYPE_ED25519_PRIVATE</name>
+          <initializer>= 0x2001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a4ecd755edae4c8ecb638a3354b7b8f59" prot="public">
+          <name>M17_TEE_KEY_TYPE_ED25519_PUBLIC</name>
+          <initializer>= 0x2002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a3997a1ae7cc094afddfc9c4eba596775" prot="public">
+          <name>M17_TEE_KEY_TYPE_CURVE25519_PRIVATE</name>
+          <initializer>= 0x2003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a1686c11d3f24db1ec97adb24dad733ce" prot="public">
+          <name>M17_TEE_KEY_TYPE_CURVE25519_PUBLIC</name>
+          <initializer>= 0x2004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a3f5417c60a279dbe4bec3b7c80f60f70" prot="public">
+          <name>M17_TEE_KEY_TYPE_SESSION_ENCRYPTION</name>
+          <initializer>= 0x2005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="optee_8h_1a0e1db79c2d6b8943ad8a536a1508c208a15913f8843fa7e9058638ed87643438b" prot="public">
+          <name>M17_TEE_KEY_TYPE_SESSION_AUTHENTICATION</name>
+          <initializer>= 0x2006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="70" column="1" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" bodystart="70" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="optee_8h_1ae5d2f5f209948f95b40a763044280f7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_initialize</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_tee_initialize</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="80" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="72" bodyend="99" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="80" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1ace75b30a2b27b94cee392b78f85228d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_finalize</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_tee_finalize</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="81" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="101" bodyend="128" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="81" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a19801c2eafc5f2c0db53b37c10899069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_open_context</definition>
+        <argsstring>(m17_tee_context_t *context)</argsstring>
+        <name>m17_tee_open_context</name>
+        <param>
+          <type><ref refid="structm17__tee__context__t" kindref="compound">m17_tee_context_t</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="84" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="131" bodyend="160" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="84" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a488f9beff02842d09d9f17d9beb918ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_close_context</definition>
+        <argsstring>(m17_tee_context_t *context)</argsstring>
+        <name>m17_tee_close_context</name>
+        <param>
+          <type><ref refid="structm17__tee__context__t" kindref="compound">m17_tee_context_t</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="85" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="162" bodyend="185" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="85" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a9d1335cf6e182267a20ac6d3567489a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_open_session</definition>
+        <argsstring>(m17_tee_context_t *context, m17_tee_session_t *session, const char *ta_uuid)</argsstring>
+        <name>m17_tee_open_session</name>
+        <param>
+          <type><ref refid="structm17__tee__context__t" kindref="compound">m17_tee_context_t</ref> *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>ta_uuid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="88" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="188" bodyend="242" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="88" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1af961770c430ab1ce11541803230f2f81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_close_session</definition>
+        <argsstring>(m17_tee_session_t *session)</argsstring>
+        <name>m17_tee_close_session</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="91" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="244" bodyend="267" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="91" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a2c809c660713f0b109dea84762e0ce02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_authenticate_session</definition>
+        <argsstring>(m17_tee_session_t *session, const char *credentials)</argsstring>
+        <name>m17_tee_authenticate_session</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>credentials</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="92" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="269" bodyend="290" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="92" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a3f8afa8097b1d7f15484972ad0eb077b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_generate_keypair</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_type_t key_type, m17_tee_key_handle_t *private_handle, m17_tee_key_handle_t *public_handle)</argsstring>
+        <name>m17_tee_generate_keypair</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>m17_tee_key_type_t</type>
+          <declname>key_type</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>private_handle</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>public_handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="96" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="293" bodyend="421" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="96" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a35f1b5e81a0a34a254099e6ae7db2857" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_load_key</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_type_t key_type, const uint8_t *key_data, size_t key_size, m17_tee_key_handle_t *handle)</argsstring>
+        <name>m17_tee_load_key</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>m17_tee_key_type_t</type>
+          <declname>key_type</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>key_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>key_size</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="101" column="18" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="101" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1acbd9fc4d05bca63edc305e8714a4cf3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_wipe_key</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_handle_t *handle)</argsstring>
+        <name>m17_tee_wipe_key</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="107" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="423" bodyend="448" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="107" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1aca7d6700cb2a197e6153f4ba90bc90f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_sign_data</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_handle_t *private_handle, const uint8_t *data, size_t data_size, uint8_t *signature, size_t *signature_size)</argsstring>
+        <name>m17_tee_sign_data</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>private_handle</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>data_size</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>signature_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="111" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="451" bodyend="488" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="111" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a053e0fe3917c7872041c34ae854fdfc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_verify_signature</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_handle_t *public_handle, const uint8_t *data, size_t data_size, const uint8_t *signature, size_t signature_size, bool *is_valid)</argsstring>
+        <name>m17_tee_verify_signature</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>public_handle</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>data_size</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>signature_size</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>is_valid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="118" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="490" bodyend="532" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="118" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1ad882f37e4c3a22c141980dd90eda9a7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_ecdh_key_exchange</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_handle_t *private_handle, m17_tee_key_handle_t *peer_public_handle, m17_tee_key_handle_t *shared_secret_handle)</argsstring>
+        <name>m17_tee_ecdh_key_exchange</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>private_handle</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>peer_public_handle</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>shared_secret_handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="126" column="18" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="126" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a96b96bcda40bec66325ae9ca5775b888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_encrypt_data</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_handle_t *encryption_handle, const uint8_t *plaintext, size_t plaintext_size, uint8_t *ciphertext, size_t *ciphertext_size, uint8_t *iv, size_t *iv_size)</argsstring>
+        <name>m17_tee_encrypt_data</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>encryption_handle</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>plaintext_size</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>ciphertext</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>ciphertext_size</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>iv</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>iv_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="131" column="18" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="131" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a04114706c102a4c465fbf78a501572e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_decrypt_data</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_handle_t *encryption_handle, const uint8_t *ciphertext, size_t ciphertext_size, const uint8_t *iv, size_t iv_size, uint8_t *plaintext, size_t *plaintext_size)</argsstring>
+        <name>m17_tee_decrypt_data</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>encryption_handle</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>ciphertext</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ciphertext_size</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>iv</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iv_size</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>plaintext</declname>
+        </param>
+        <param>
+          <type>size_t *</type>
+          <declname>plaintext_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="140" column="18" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="140" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a1a495bb5cbcd9990ba7198b696958351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_derive_session_key</definition>
+        <argsstring>(m17_tee_session_t *session, m17_tee_key_handle_t *shared_secret_handle, const char *context, m17_tee_key_handle_t *session_key_handle)</argsstring>
+        <name>m17_tee_derive_session_key</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>shared_secret_handle</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref> *</type>
+          <declname>session_key_handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="149" column="18" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="149" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a2f9e8f566466829a4e441ba94b727cd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_secure_memory_alloc</definition>
+        <argsstring>(size_t size, void **secure_ptr)</argsstring>
+        <name>m17_tee_secure_memory_alloc</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>void **</type>
+          <declname>secure_ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="155" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="535" bodyend="554" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="155" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1ab6ebfd359dec084951a996718b628535" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_secure_memory_free</definition>
+        <argsstring>(void *secure_ptr)</argsstring>
+        <name>m17_tee_secure_memory_free</name>
+        <param>
+          <type>void *</type>
+          <declname>secure_ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="156" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="556" bodyend="565" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="156" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1af295b2f41043a079c603ee490ab17c0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_secure_memory_wipe</definition>
+        <argsstring>(void *secure_ptr, size_t size)</argsstring>
+        <name>m17_tee_secure_memory_wipe</name>
+        <param>
+          <type>void *</type>
+          <declname>secure_ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="157" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="567" bodyend="589" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="157" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1ac63d2a7b9c9743fc90f9741cd732065d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_get_status</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_tee_get_status</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="160" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="592" bodyend="598" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="160" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a953c104dc034400b43137de9b64d594e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_get_session_info</definition>
+        <argsstring>(m17_tee_session_t *session, uint32_t *operation_count, uint32_t *key_count)</argsstring>
+        <name>m17_tee_get_session_info</name>
+        <param>
+          <type><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref> *</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>operation_count</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>key_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="161" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="600" bodyend="629" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="161" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1af27eb379f05e0678b8ab2fe20ed83209" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_validate_secure_boot</definition>
+        <argsstring>(void)</argsstring>
+        <name>m17_tee_validate_secure_boot</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="166" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="632" bodyend="636" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="166" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="optee_8h_1a851cd4ca00c793219179a1a82ada74f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>m17_tee_status_t</type>
+        <definition>m17_tee_status_t m17_tee_get_secure_boot_status</definition>
+        <argsstring>(bool *is_valid)</argsstring>
+        <name>m17_tee_get_secure_boot_status</name>
+        <param>
+          <type>bool *</type>
+          <declname>is_valid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" line="167" column="18" bodyfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.c" bodystart="638" bodyend="645" declfile="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h" declline="167" declcolumn="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>crypto/optee.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>(Open<sp/>Portable<sp/>TEE)<sp/>integration<sp/>for<sp/>M17<sp/>cryptographic<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>Linux<sp/>TEE<sp/>integration<sp/>for<sp/>secure<sp/>cryptographic<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Foundation,<sp/>19<sp/>April<sp/>2025</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>M17_OP_TEE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>M17_OP_TEE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stddef.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>status<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_SUCCESS<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_ERROR_INVALID_PARAM<sp/>=<sp/>-1,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_ERROR_TEE_UNAVAILABLE<sp/>=<sp/>-2,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_ERROR_OUT_OF_MEMORY<sp/>=<sp/>-3,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_ERROR_AUTHENTICATION_FAILED<sp/>=<sp/>-4,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_ERROR_OPERATION_NOT_PERMITTED<sp/>=<sp/>-5,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_ERROR_COMMUNICATION_FAILED<sp/>=<sp/>-6,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_ERROR_KEY_NOT_FOUND<sp/>=<sp/>-7,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_ERROR_SIGNATURE_INVALID<sp/>=<sp/>-8</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}<sp/>m17_tee_status_t;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>context<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structm17__tee__context__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>context_id;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_connected;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>session_count;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>last_activity;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/><ref refid="structm17__tee__context__t" kindref="compound">m17_tee_context_t</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>session<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structm17__tee__session__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>session_id;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>context_id;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_authenticated;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>operation_count;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>created_timestamp;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}<sp/><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>key<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structm17__tee__key__handle__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>key_id;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>key_type;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_loaded;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>permissions;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>created_timestamp;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}<sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>operation<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_OP_GENERATE_KEYPAIR<sp/>=<sp/>0x1001,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_OP_SIGN_DATA<sp/>=<sp/>0x1002,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_OP_VERIFY_SIGNATURE<sp/>=<sp/>0x1003,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_OP_ECDH_KEY_EXCHANGE<sp/>=<sp/>0x1004,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_OP_ENCRYPT_DATA<sp/>=<sp/>0x1005,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_OP_DECRYPT_DATA<sp/>=<sp/>0x1006,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_OP_DERIVE_SESSION_KEY<sp/>=<sp/>0x1007,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_OP_WIPE_KEY<sp/>=<sp/>0x1008</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}<sp/>m17_tee_operation_t;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>key<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_KEY_TYPE_ED25519_PRIVATE<sp/>=<sp/>0x2001,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_KEY_TYPE_ED25519_PUBLIC<sp/>=<sp/>0x2002,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_KEY_TYPE_CURVE25519_PRIVATE<sp/>=<sp/>0x2003,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_KEY_TYPE_CURVE25519_PUBLIC<sp/>=<sp/>0x2004,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_KEY_TYPE_SESSION_ENCRYPTION<sp/>=<sp/>0x2005,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>M17_TEE_KEY_TYPE_SESSION_AUTHENTICATION<sp/>=<sp/>0x2006</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}<sp/>m17_tee_key_type_t;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>initialization<sp/>and<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_initialize(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_finalize(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>context<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_open_context(<ref refid="structm17__tee__context__t" kindref="compound">m17_tee_context_t</ref><sp/>*context);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_close_context(<ref refid="structm17__tee__context__t" kindref="compound">m17_tee_context_t</ref><sp/>*context);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>session<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_open_session(<ref refid="structm17__tee__context__t" kindref="compound">m17_tee_context_t</ref><sp/>*context,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*ta_uuid);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_close_session(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_authenticate_session(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*credentials);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>key<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_generate_keypair(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m17_tee_key_type_t<sp/>key_type,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*private_handle,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*public_handle);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_load_key(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m17_tee_key_type_t<sp/>key_type,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*key_data,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>key_size,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*handle);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_wipe_key(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*handle);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>cryptographic<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_sign_data(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*private_handle,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*data,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_size,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*signature,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*signature_size);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_verify_signature(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*public_handle,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*data,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_size,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*signature,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>signature_size,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*is_valid);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_ecdh_key_exchange(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*private_handle,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*peer_public_handle,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*shared_secret_handle);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_encrypt_data(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*encryption_handle,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*plaintext,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>plaintext_size,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*ciphertext,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*ciphertext_size,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*iv,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*iv_size);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_decrypt_data(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*encryption_handle,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*ciphertext,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ciphertext_size,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>*iv,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>iv_size,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>*plaintext,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>*plaintext_size);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_derive_session_key(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*shared_secret_handle,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*context,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structm17__tee__key__handle__t" kindref="compound">m17_tee_key_handle_t</ref><sp/>*session_key_handle);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>secure<sp/>memory<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_secure_memory_alloc(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>**secure_ptr);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_secure_memory_free(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*secure_ptr);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_secure_memory_wipe(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*secure_ptr,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>status<sp/>and<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_get_status(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_get_session_info(<ref refid="structm17__tee__session__t" kindref="compound">m17_tee_session_t</ref><sp/>*session,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>*operation_count,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>*key_count);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>OP-TEE<sp/>secure<sp/>boot<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_validate_secure_boot(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">m17_tee_status_t<sp/>m17_tee_get_secure_boot_status(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>*is_valid);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>M17_OP_TEE_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/crypto/optee.h"/>
+  </compounddef>
+</doxygen>

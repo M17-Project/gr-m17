@@ -1,0 +1,776 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="math_8c" kind="file" language="C++">
+    <compoundname>math.c</compoundname>
+    <includes local="no">math.h</includes>
+    <includes refid="m17_8h" local="no">m17.h</includes>
+    <includes refid="m17__simd_8h" local="no">m17_simd.h</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>crypto/bounds_checking.h</label>
+        <link refid="bounds__checking_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>crypto/constant_time.h</label>
+        <link refid="constant__time_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>crypto/key_derivation.h</label>
+        <link refid="key__derivation_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>crypto/optee.h</label>
+        <link refid="optee_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>crypto/replay_protection.h</label>
+        <link refid="replay__protection_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>crypto/secure_boot.h</label>
+        <link refid="secure__boot_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>crypto/secure_memory.h</label>
+        <link refid="secure__memory_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>crypto/security_monitoring.h</label>
+        <link refid="security__monitoring_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>crypto/trustzone.h</label>
+        <link refid="trustzone_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>crypto/validation.h</label>
+        <link refid="validation_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>m17.h</label>
+        <link refid="m17_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>m17_simd.h</label>
+        <link refid="m17__simd_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/haaken/github-projects/gr-m17/libm17/math/math.c</label>
+        <link refid="math_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>math.h</label>
+      </node>
+      <node id="10">
+        <label>stdbool.h</label>
+      </node>
+      <node id="5">
+        <label>stddef.h</label>
+      </node>
+      <node id="4">
+        <label>stdint.h</label>
+      </node>
+      <node id="6">
+        <label>string.h</label>
+      </node>
+      <node id="7">
+        <label>time.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="math_8c_1ae255b5a2b5e9cb7051fd1713ed53c420" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t q_abs_diff</definition>
+        <argsstring>(const uint16_t v1, const uint16_t v2)</argsstring>
+        <name>q_abs_diff</name>
+        <param>
+          <type>const uint16_t</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>v2</declname>
+        </param>
+        <briefdescription>
+<para>Utility function returning the absolute value of a difference between two fixed-point values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>abs(v1-v2) value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="25" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1a42e2e975a5755d4e0e1a49f981b17ee4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float eucl_norm</definition>
+        <argsstring>(const float *in1, const int8_t *in2, const uint8_t n)</argsstring>
+        <name>eucl_norm</name>
+        <param>
+          <type>const float *</type>
+          <declname>in1</declname>
+        </param>
+        <param>
+          <type>const int8_t *</type>
+          <declname>in2</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Calculate L2 norm between two n-dimensional vectors of floats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>in1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector 1. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector 2. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vectors&apos; size. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>float L2 norm. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="39" column="7" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="39" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1ab21d852b8fb8bb45efdce762af5c7cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void int_to_soft</definition>
+        <argsstring>(uint16_t *out, const uint16_t in, const uint8_t len)</argsstring>
+        <name>int_to_soft</name>
+        <param>
+          <type>uint16_t *</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Convert an unsigned int into an array of soft, fixed-point values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum length is 16. LSB is at index 0. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an array of uint16_t. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input&apos;s bit length. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="58" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1a9fa59ef8a2c172d1541b0f301677f6d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t soft_to_int</definition>
+        <argsstring>(const uint16_t *in, const uint8_t len)</argsstring>
+        <name>soft_to_int</name>
+        <param>
+          <type>const uint16_t *</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Convert an array of soft, fixed-point Maximum length is 16. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>LSB is at index 0. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an array of uint16_t. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input&apos;s length. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="73" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="73" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1a94328d0789feab9f7eab4cde3435b740" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t add16</definition>
+        <argsstring>(const uint16_t a, const uint16_t b)</argsstring>
+        <name>add16</name>
+        <param>
+          <type>const uint16_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>1st quadrant fixed point addition with saturation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Addend 1. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Addend 2. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Sum = a+b. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="93" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="93" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1a11e141e29aa5bc75e0f4cb2815829652" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t sub16</definition>
+        <argsstring>(const uint16_t a, const uint16_t b)</argsstring>
+        <name>sub16</name>
+        <param>
+          <type>const uint16_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>1st quadrant fixed point subtraction with saturation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minuend. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subtrahent. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Difference = a-b. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="107" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="107" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1a8b80f806c90c88a6e9e18cae33c95dc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t div16</definition>
+        <argsstring>(const uint16_t a, const uint16_t b)</argsstring>
+        <name>div16</name>
+        <param>
+          <type>const uint16_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>1st quadrant fixed point division with saturation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dividend. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Divisor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Quotient = a/b. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="122" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1a8082542ef232c0e356209cba83d89a7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t mul16</definition>
+        <argsstring>(const uint16_t a, const uint16_t b)</argsstring>
+        <name>mul16</name>
+        <param>
+          <type>const uint16_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>1st quadrant fixed point multiplication. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Multiplicand. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Multiplier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Product = a*b. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="137" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1aa6b1209b2920140441f99f5045bb308e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t soft_bit_XOR</definition>
+        <argsstring>(const uint16_t a, const uint16_t b)</argsstring>
+        <name>soft_bit_XOR</name>
+        <param>
+          <type>const uint16_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Bilinear interpolation (soft-valued expansion) for XOR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This approach retains XOR(0.5, 0.5)=0.5 <ulink url="https://math.stackexchange.com/questions/3505934/evaluation-of-not-and-xor-in-fuzzy-logic-rules">https://math.stackexchange.com/questions/3505934/evaluation-of-not-and-xor-in-fuzzy-logic-rules</ulink> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input A. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input B. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Output = A xor B. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="150" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="150" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1a695b225eeaa8ecea9ca64eb5277cce31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>uint16_t soft_bit_NOT</definition>
+        <argsstring>(const uint16_t a)</argsstring>
+        <name>soft_bit_NOT</name>
+        <param>
+          <type>const uint16_t</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+<para>Soft logic NOT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input A. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint16_t Output = not A. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="163" column="10" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="math_8c_1a9453fc7a0a680674b25b03501f3f5eef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void soft_XOR</definition>
+        <argsstring>(uint16_t *out, const uint16_t *a, const uint16_t *b, const uint8_t len)</argsstring>
+        <name>soft_XOR</name>
+        <param>
+          <type>uint16_t *</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const uint16_t *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const uint16_t *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>const uint8_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>XOR for vectors of soft-valued logic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Max length is 255. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output vector = A xor B. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector A. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector B. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vectors&apos; size. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c" line="176" column="6" bodyfile="/home/haaken/github-projects/gr-m17/libm17/math/math.c" bodystart="176" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>C<sp/>library<sp/>-<sp/>math/math.c</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>file<sp/>contains:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>absolute<sp/>difference<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Euclidean<sp/>norm<sp/>(L2)<sp/>calculation<sp/>for<sp/>n-dimensional<sp/>vectors<sp/>(float)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>soft-valued<sp/>arrays<sp/>to<sp/>integer<sp/>conversion<sp/>(and<sp/>vice-versa)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>fixed-valued<sp/>multiplication<sp/>and<sp/>division</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wojciech<sp/>Kaczmarski,<sp/>SP5WWP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>M17<sp/>Project,<sp/>29<sp/>December<sp/>2023</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;math.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;m17.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;m17_simd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">uint16_t<sp/>q_abs_diff(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>v1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>v2)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(v2<sp/>&gt;<sp/>v1)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v2<sp/>-<sp/>v1;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v1<sp/>-<sp/>v2;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>eucl_norm(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>in1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int8_t*<sp/>in2,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>n)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Input<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(in1<sp/>==<sp/>NULL<sp/>||<sp/>in2<sp/>==<sp/>NULL<sp/>||<sp/>n<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0f;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>m17_simd_euclidean_norm(in1,<sp/>in2,<sp/>&amp;result,<sp/>n);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>int_to_soft(uint16_t*<sp/>out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>in,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>len)</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint8_t<sp/>i=0;<sp/>i&lt;len;<sp/>i++)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(in&gt;&gt;i)&amp;1<sp/>?<sp/>(out[i]=0xFFFF)<sp/>:<sp/>(out[i]=0);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">uint16_t<sp/>soft_to_int(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t*<sp/>in,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>len)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>tmp=0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint8_t<sp/>i=0;<sp/>i&lt;len;<sp/>i++)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(in[i]&gt;0x7FFFU)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tmp|=(1&lt;&lt;i);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tmp;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">uint16_t<sp/>add16(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>b)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>r=(uint32_t)a+b;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r&lt;=0xFFFFU<sp/>?<sp/>r<sp/>:<sp/>0xFFFFU;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">uint16_t<sp/>sub16(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>b)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">{<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(a&gt;=b)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>a-b;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0x0000U;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">uint16_t<sp/>div16(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>b)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>aa=(uint32_t)a&lt;&lt;16;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>r=aa/b;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r&lt;=0xFFFFU<sp/>?<sp/>r<sp/>:<sp/>0xFFFFU;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">uint16_t<sp/>mul16(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>b)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(uint16_t)(((uint32_t)a*b)&gt;&gt;16);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">uint16_t<sp/>soft_bit_XOR(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>b)</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//a(1-b)+b(1-a)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//return<sp/>mul16(div16(0xFFFF-b,<sp/>0xFFFF),<sp/>div16(a,<sp/>0xFFFF))<sp/>+<sp/>mul16(div16(b,<sp/>0xFFFF),<sp/>div16(0xFFFF-a,<sp/>0xFFFF));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>add16(mul16(a,<sp/>sub16(0xFFFF,<sp/>b)),<sp/>mul16(b,<sp/>sub16(0xFFFF,<sp/>a)));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">uint16_t<sp/>soft_bit_NOT(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>a)</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0xFFFFU-a;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>soft_XOR(uint16_t*<sp/>out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t*<sp/>b,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>len)</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(uint8_t<sp/>i=0;<sp/>i&lt;len;<sp/>i++)</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out[i]=soft_bit_XOR(a[i],<sp/>b[i]);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/home/haaken/github-projects/gr-m17/libm17/math/math.c"/>
+  </compounddef>
+</doxygen>
