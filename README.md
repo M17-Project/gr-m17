@@ -28,6 +28,12 @@ export PYTHONPATH=/usr/local/lib/python3.11/dist-packages/
 gnuradio-companion ../examples/m17_loopback.grc
 ```
 
+When running the flowgraph found in `examples` with `gnuradio-companion ../examples/m17_loopback.grc`
+
+<img src="examples/m17_loopback.png">
+
+See <a href="examples/README.md">examples/README.md</a> for the expected output and unit testing examples.
+
 ## Core Features
 
 ### **Fully Implemented**
@@ -81,6 +87,25 @@ gnuradio-companion ../examples/m17_loopback.grc
 - **TrustZone Support**: Hardware-enforced isolation
 - **Secure Memory**: Protected key storage
 
+## Legal Disclaimer
+
+**IMPORTANT: Encryption of radio amateur signals is illegal in many countries.**
+
+**User Responsibility:**
+- Users are entirely responsible for compliance with local laws and regulations
+- Check your local regulations before using encryption features
+- Some countries prohibit encryption of amateur radio communications or civilian usage
+- Penalties may apply for non-compliance with local laws
+
+**Regulatory Considerations:**
+- Amateur radio regulations vary significantly by country
+- Encryption restrictions may apply to amateur radio bands
+- Commercial use of encrypted amateur radio may be prohibited
+- Export restrictions may apply to cryptographic software
+
+**Recommendation:**
+Always consult with your local amateur radio regulatory authority before using encryption features on amateur radio frequencies.
+
 ### Advanced Security
 - **Rate Limiting**: Brute force protection
 - **Replay Protection**: Anti-replay mechanisms
@@ -91,8 +116,7 @@ gnuradio-companion ../examples/m17_loopback.grc
 
 ### Current Support
 - **USB Interface**: Primary KISS TNC communication
-- **MCM-iMX93**: System on Module with dual-core ARM Cortex-A55
-- **SX1255 RF Frontend**: IQ modulator/demodulator
+
 
 ### Hardware Security Modules
 - **Nitrokey 3**: Recommended for production use
@@ -127,24 +151,7 @@ gnuradio-companion examples/m17_loopback_noisychannel.grc
 - **[Security Features](security/docs/)**: Advanced security documentation
 - **[API Reference](docs/DOCUMENTATION.md)**: Complete API documentation
 
-## Legal Disclaimer
 
-**IMPORTANT: Encryption of radio amateur signals is illegal in many countries.**
-
-**User Responsibility:**
-- Users are entirely responsible for compliance with local laws and regulations
-- Check your local regulations before using encryption features
-- Some countries prohibit encryption of amateur radio communications
-- Penalties may apply for non-compliance with local laws
-
-**Regulatory Considerations:**
-- Amateur radio regulations vary significantly by country
-- Encryption restrictions may apply to amateur radio bands
-- Commercial use of encrypted amateur radio may be prohibited
-- Export restrictions may apply to cryptographic software
-
-**Recommendation:**
-Always consult with your local amateur radio regulatory authority before using encryption features on amateur radio frequencies.
 
 ## Developer Information
 
