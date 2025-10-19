@@ -192,18 +192,18 @@ assert(!validate_nitrokey_label("test\tkey"));
 
 ### Security Standards Compliance
 
-- **Input Validation**: ✅ Implemented
-- **Output Encoding**: ✅ Implemented
-- **Error Handling**: ✅ Implemented
-- **Session Management**: ✅ Implemented
-- **Audit Logging**: ✅ Implemented
+- **Input Validation**: Implemented
+- **Output Encoding**: Implemented
+- **Error Handling**: Implemented
+- **Session Management**: Implemented
+- **Audit Logging**: Implemented
 
 ### Cryptographic Security
 
-- **Key Isolation**: ✅ Private keys never leave Nitrokey
-- **PIN Protection**: ✅ PINs handled securely by nitropy
-- **Session Security**: ✅ Proper session lifecycle management
-- **Memory Security**: ✅ No sensitive data in memory
+- **Key Isolation**: Private keys never leave Nitrokey
+- **PIN Protection**: PINs handled securely by nitropy
+- **Session Security**: Proper session lifecycle management
+- **Memory Security**: No sensitive data in memory
 
 ## Recommendations
 

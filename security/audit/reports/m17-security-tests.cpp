@@ -37,13 +37,13 @@ void test_memory_clearing() {
 }
 
 int main() {
-    std::cout << "🔐 M17 Cryptographic Security Tests" << std::endl;
+    std::cout << "M17 Cryptographic Security Tests" << std::endl;
     std::cout << "====================================" << std::endl;
     
     test_key_logging();
     test_randomness();
     test_memory_clearing();
     
-    std::cout << "✅ All security tests passed!" << std::endl;
+    std::cout << "All security tests passed!" << std::endl;
     return 0;
 }

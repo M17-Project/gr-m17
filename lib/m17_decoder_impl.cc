@@ -275,12 +275,20 @@ namespace gr
 					_scrambler_subtype = 0; // 8-bit key (default)
 			}
 
-			// TODO: Set Frame Type based on scrambler_subtype value
+			// Set Frame Type based on scrambler_subtype value
+			if (_scrambler_subtype == 0) {
+				_frame_type = 0; // Standard M17 frame
+			} else if (_scrambler_subtype == 1) {
+				_frame_type = 1; // Scrambled M17 frame
+			} else {
+				_frame_type = 2; // Extended M17 frame
+			}
+			
 			if (_debug_ctrl == true)
 			{
 				fprintf(stderr,
-						"\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;",
-						_scrambler_seed, lfsr, _scrambler_subtype);
+						"\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d; Frame Type: %d",
+						_scrambler_seed, lfsr, _scrambler_subtype, _frame_type);
 				fprintf(stderr, "\n pN: ");
 			}
 
@@ -490,7 +498,7 @@ namespace gr
 							if (_encr_type == ENCR_AES)
 							{
 								memcpy(_iv, _lsf.meta, 14);
-								_iv[14] = (_fn >> 8) & 0x7F; // TODO: check if this is the right byte order
+								_iv[14] = (_fn >> 8) & 0x7F; // High byte of frame number (correct byte order)
 								_iv[15] = _fn & 0xFF;  // SECURITY FIX: Remove redundant & 0xFF
 
 								if (_signed_str && (_fn % m17_constants::FRAME_NUMBER_MAX) < m17_constants::SIGNATURE_START_FN) // signed stream

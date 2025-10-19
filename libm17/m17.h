@@ -284,11 +284,11 @@ int m17_aes_gcm_decrypt(const uint8_t* ciphertext, size_t ciphertext_len, const 
 extern const int8_t eot_symbols[8];
 
 // M17 C library - decode/symbols.c
-// syncword patterns (RX)
-// TODO: Compute those at runtime from the consts below
-extern const int8_t lsf_sync_symbols[8];
-extern const int8_t str_sync_symbols[8];
-extern const int8_t pkt_sync_symbols[8];
+// syncword patterns (RX) - computed at runtime
+extern int8_t lsf_sync_symbols[8];
+extern int8_t str_sync_symbols[8];
+extern int8_t pkt_sync_symbols[8];
+extern void init_sync_symbols(void);
 
 #ifdef __cplusplus
 }

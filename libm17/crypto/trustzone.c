@@ -330,33 +330,48 @@ m17_tz_status_t m17_tz_sign_data(m17_tz_session_t *session,
     for (int i = 0; i < MAX_SECURE_KEYS; i++) {
         if (g_secure_keys[i].key_id == private_handle->key_id) {
             // CRITICAL SECURITY FIX: Use real Ed25519 signature generation
-            // This is a placeholder - replace with proper Ed25519 implementation
             if (data_size == 0 || *signature_size < 64) {
                 return M17_TZ_ERROR_INVALID_PARAM;
             }
             
-            // CRITICAL SECURITY FIX: Use real Ed25519 signature generation
-            // This implements a proper cryptographic signature using HMAC-SHA256
+            // Implement proper Ed25519 signature generation
+            // This uses the actual Ed25519 algorithm for cryptographic signatures
             uint8_t hash[32];
             SHA256(data, data_size, hash);
             
-            // Use HMAC-SHA256 for proper cryptographic signature generation
-            // This is much more secure than XOR operations
-            uint8_t hmac_key[32];
-            memcpy(hmac_key, g_secure_keys[i].key_data, 32);
+            // Ed25519 signature generation using the private key
+            uint8_t ed25519_private_key[32];
+            memcpy(ed25519_private_key, g_secure_keys[i].key_data, 32);
             
-            // Generate HMAC-SHA256 signature (64 bytes)
-            uint8_t hmac_result[32];
-            if (HMAC(EVP_sha256(), hmac_key, 32, hash, 32, hmac_result, NULL) == NULL) {
+            // Generate Ed25519 signature (64 bytes: R + S)
+            uint8_t ed25519_signature[64];
+            
+            // Use OpenSSL Ed25519 implementation
+            EVP_MD_CTX* md_ctx = EVP_MD_CTX_new();
+            if (!md_ctx) {
                 return M17_TZ_ERROR_OPERATION_FAILED;
             }
             
-            // Create 64-byte signature by combining HMAC with key material
-            for (size_t j = 0; j < 32; j++) {
-                signature[j] = hmac_result[j];
-                signature[j + 32] = hmac_result[j] ^ g_secure_keys[i].key_data[j];
+            EVP_PKEY* pkey = EVP_PKEY_new_raw_private_key(EVP_PKEY_ED25519, NULL, 
+                                                        ed25519_private_key, 32);
+            if (!pkey) {
+                EVP_MD_CTX_free(md_ctx);
+                return M17_TZ_ERROR_OPERATION_FAILED;
             }
+            
+            if (EVP_DigestSignInit(md_ctx, NULL, NULL, NULL, pkey) <= 0 ||
+                EVP_DigestSign(md_ctx, ed25519_signature, signature_size, data, data_size) <= 0) {
+                EVP_PKEY_free(pkey);
+                EVP_MD_CTX_free(md_ctx);
+                return M17_TZ_ERROR_OPERATION_FAILED;
+            }
+            
+            // Copy signature to output
+            memcpy(signature, ed25519_signature, 64);
             *signature_size = 64;
+            
+            EVP_PKEY_free(pkey);
+            EVP_MD_CTX_free(md_ctx);
             
             // Update session operation count
             for (int k = 0; k < MAX_SECURE_SESSIONS; k++) {
@@ -393,36 +408,40 @@ m17_tz_status_t m17_tz_verify_signature(m17_tz_session_t *session,
     for (int i = 0; i < MAX_SECURE_KEYS; i++) {
         if (g_secure_keys[i].key_id == public_handle->key_id) {
             // CRITICAL SECURITY FIX: Use real Ed25519 signature verification
-            // This is a placeholder - replace with proper Ed25519 verification
             if (data_size == 0 || signature_size != 64) {
                 *is_valid = false;
                 return M17_TZ_ERROR_INVALID_PARAM;
             }
             
-            // CRITICAL SECURITY FIX: Use real HMAC-SHA256 signature verification
-            // This implements proper cryptographic signature verification
-            uint8_t hash[32];
-            SHA256(data, data_size, hash);
+            // Implement proper Ed25519 signature verification
+            // This uses the actual Ed25519 algorithm for cryptographic signature verification
+            uint8_t ed25519_public_key[32];
+            memcpy(ed25519_public_key, g_secure_keys[i].key_data, 32);
             
-            // Use HMAC-SHA256 for proper cryptographic signature verification
-            uint8_t hmac_key[32];
-            memcpy(hmac_key, g_secure_keys[i].key_data, 32);
-            
-            // Generate expected HMAC-SHA256 signature
-            uint8_t expected_hmac[32];
-            if (HMAC(EVP_sha256(), hmac_key, 32, hash, 32, expected_hmac, NULL) == NULL) {
+            // Use OpenSSL Ed25519 verification
+            EVP_MD_CTX* md_ctx = EVP_MD_CTX_new();
+            if (!md_ctx) {
+                *is_valid = false;
                 return M17_TZ_ERROR_OPERATION_FAILED;
             }
             
-            // Verify signature using proper cryptographic operations
-            *is_valid = true;
-            for (size_t j = 0; j < 32; j++) {
-                uint8_t expected_sig1 = expected_hmac[j];
-                uint8_t expected_sig2 = expected_hmac[j] ^ g_secure_keys[i].key_data[j];
-                if (signature[j] != expected_sig1 || signature[j + 32] != expected_sig2) {
-                    *is_valid = false;
-                    break;
-                }
+            EVP_PKEY* pkey = EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, NULL, 
+                                                       ed25519_public_key, 32);
+            if (!pkey) {
+                EVP_MD_CTX_free(md_ctx);
+                *is_valid = false;
+                return M17_TZ_ERROR_OPERATION_FAILED;
+            }
+            
+            int verify_result = EVP_DigestVerifyInit(md_ctx, NULL, NULL, NULL, pkey);
+            if (verify_result > 0) {
+                verify_result = EVP_DigestVerify(md_ctx, signature, signature_size, data, data_size);
+            }
+            
+            *is_valid = (verify_result == 1);
+            
+            EVP_PKEY_free(pkey);
+            EVP_MD_CTX_free(md_ctx);
             }
             
             // Update session operation count

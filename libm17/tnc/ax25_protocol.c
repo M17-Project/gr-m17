@@ -105,7 +105,13 @@ int ax25_set_address(ax25_address_t* addr, const char* callsign, uint8_t ssid, b
     }
     
     // Set SSID and flags
-    addr->ssid = (ssid & 0x0F) | (command ? 0x80 : 0x00);
+    // AX.25 SSID byte format (Dire Wolf authoritative):
+    // Bit 7 (MSB): H bit (has-been-repeated/command-response)
+    // Bit 6: Reserved (should be 1)
+    // Bit 5: Reserved (should be 1)
+    // Bits 4-1: SSID (0-15)
+    // Bit 0 (LSB): Last address flag (1 = last address, 0 = more addresses)
+    addr->ssid = (ssid & 0x0F) << 1 | 0x60 | (command ? 0x80 : 0x00) | 0x01;
     addr->command = command;
     addr->has_been_repeated = false;
     
@@ -129,11 +135,11 @@ int ax25_get_address(const ax25_address_t* addr, char* callsign, uint8_t* ssid, 
     callsign[6] = '\0';
     
     if (ssid) {
-        *ssid = addr->ssid & 0x0F;
+        *ssid = (addr->ssid >> 1) & 0x0F;  // SSID is in bits 4-1
     }
     
     if (command) {
-        *command = (addr->ssid & 0x80) != 0;
+        *command = (addr->ssid & 0x80) != 0;  // Bit 7 is H/C/R bit
     }
     
     return 0;
@@ -146,7 +152,7 @@ int ax25_address_equal(const ax25_address_t* addr1, const ax25_address_t* addr2)
     }
     
     return (memcmp(addr1->callsign, addr2->callsign, 6) == 0) &&
-           ((addr1->ssid & 0x0F) == (addr2->ssid & 0x0F));
+           (((addr1->ssid >> 1) & 0x0F) == ((addr2->ssid >> 1) & 0x0F));
 }
 
 // Create AX.25 frame
@@ -198,13 +204,19 @@ int ax25_parse_frame(const uint8_t* data, uint16_t length, ax25_frame_t* frame) 
     while (pos < length - 2) { // Leave room for control field
         if (pos + 7 > length) break;
         
-        // Check if this is the last address (bit 0 of SSID is set)
+        // Check if this is the last address (bit 0 of SSID byte is set)
+        // AX.25 SSID byte format (Dire Wolf authoritative):
+        // Bit 7: H bit, Bit 6-5: Reserved (11), Bits 4-1: SSID, Bit 0: Last address flag
+        // Bit 0 (LSB) is the address extension bit: 1 = last address, 0 = more addresses
         bool last_addr = (data[pos + 6] & 0x01) != 0;
         
         // Copy address
         memcpy(frame->addresses[frame->num_addresses].callsign, &data[pos], 6);
-        frame->addresses[frame->num_addresses].ssid = data[pos + 6];
-        frame->addresses[frame->num_addresses].command = (data[pos + 6] & 0x80) != 0;
+        // Extract SSID from bits 4-1 of SSID byte
+        frame->addresses[frame->num_addresses].ssid = (data[pos + 6] >> 1) & 0x0F;
+        frame->addresses[frame->num_addresses].command = (data[pos + 6] & 0x80) != 0;  // Bit 7 is H/C/R bit
+        // has_been_repeated indicates if this address was repeated by a digipeater
+        // This is determined by checking if the H bit is set (bit 7)
         frame->addresses[frame->num_addresses].has_been_repeated = (data[pos + 6] & 0x80) != 0;
         
         frame->num_addresses++;
@@ -277,9 +289,9 @@ int ax25_encode_frame(const ax25_frame_t* frame, uint8_t* data, uint16_t* length
         memcpy(&data[pos], frame->addresses[i].callsign, 6);
         data[pos + 6] = frame->addresses[i].ssid;
         
-        // Set last address bit
+        // Set last address bit (bit 0 of SSID byte)
         if (i == frame->num_addresses - 1) {
-            data[pos + 6] |= 0x01;
+            data[pos + 6] |= 0x01;  // Bit 0 (LSB) is the extension bit
         }
         
         pos += 7;

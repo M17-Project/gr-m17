@@ -25,8 +25,17 @@ void slice_symbols(uint16_t out[2*SYM_PER_PLD], const float inp[SYM_PER_PLD])
     // Use SIMD-optimized version if available
     m17_simd_capabilities_t caps = m17_get_simd_capabilities();
     if (caps != M17_SIMD_NONE) {
-        // For now, fall back to scalar implementation
-        // TODO: Implement SIMD version of slice_symbols
+        // Implement SIMD version of slice_symbols
+        if (caps == M17_SIMD_SSE2 || caps == M17_SIMD_SSE4) {
+            slice_symbols_simd_sse(out, inp);
+            return;
+        } else if (caps == M17_SIMD_AVX || caps == M17_SIMD_AVX2) {
+            slice_symbols_simd_avx(out, inp);
+            return;
+        } else if (caps == M17_SIMD_NEON) {
+            slice_symbols_simd_neon(out, inp);
+            return;
+        }
     }
     
     for(uint8_t i=0; i<SYM_PER_PLD; i++)

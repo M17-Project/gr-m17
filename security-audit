@@ -10,6 +10,7 @@ echo "  audit     - Run complete security audit"
 echo "  monitor   - Start security monitoring"
 echo "  fuzz      - Run fuzz testing"
 echo "  docs      - View security documentation"
+echo "  incomplete - Check for incomplete implementations"
 echo ""
 
 case "$1" in
@@ -35,14 +36,48 @@ case "$1" in
             cat security/README.md
         fi
         ;;
+    "incomplete")
+        echo "Checking for incomplete implementations..."
+        echo ""
+        
+        # Find TODO/FIXME comments
+        echo "=== TODO/FIXME Comments ==="
+        find . -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hpp" | \
+        xargs grep -n "TODO\|FIXME\|XXX\|HACK" 2>/dev/null || echo "No TODO/FIXME comments found"
+        echo ""
+        
+        # Find common stub patterns
+        echo "=== Stub Patterns ==="
+        find . -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hpp" | \
+        xargs grep -n "assert(false)\|abort()\|NOT_IMPLEMENTED" 2>/dev/null || echo "No stub patterns found"
+        echo ""
+        
+        # Find placeholder implementations
+        echo "=== Placeholder Implementations ==="
+        find . -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.h" -o -name "*.hpp" | \
+        xargs grep -ni "placeholder\|stub\|not implemented\|not yet implemented" 2>/dev/null || echo "No placeholder implementations found"
+        echo ""
+        
+        # Find suspicious return patterns
+        echo "=== Suspicious Return Patterns ==="
+        find . -name "*.c" -o -name "*.cpp" -o -name "*.cc" | \
+        xargs grep -n "return 0;" 2>/dev/null | head -20 || echo "No suspicious return patterns found"
+        echo ""
+        
+        # Find empty or minimal function bodies
+        echo "=== Minimal Function Bodies ==="
+        find . -name "*.c" -o -name "*.cpp" -o -name "*.cc" | \
+        xargs grep -n "return -1;" 2>/dev/null | head -10 || echo "No minimal function bodies found"
+        ;;
     *)
-        echo "Usage: $0 {audit|monitor|fuzz|docs}"
+        echo "Usage: $0 {audit|monitor|fuzz|docs|incomplete}"
         echo ""
         echo "Examples:"
-        echo "  $0 audit    # Run complete security audit"
-        echo "  $0 monitor  # Start security monitoring"
-        echo "  $0 fuzz     # Run fuzz testing (ultra-quick mode)"
-        echo "  $0 docs     # View security documentation"
+        echo "  $0 audit       # Run complete security audit"
+        echo "  $0 monitor    # Start security monitoring"
+        echo "  $0 fuzz       # Run fuzz testing (ultra-quick mode)"
+        echo "  $0 docs       # View security documentation"
+        echo "  $0 incomplete # Check for incomplete implementations"
         echo ""
         echo "Fuzzing modes:"
         echo "  ./security/fuzzing/fuzz-testing-improved.sh ultra-quick  # 10 minutes"

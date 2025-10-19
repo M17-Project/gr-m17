@@ -47,6 +47,134 @@ m17_simd_capabilities_t m17_get_simd_capabilities(void)
     return caps;
 }
 
+// SIMD-optimized slice_symbols implementations
+void slice_symbols_simd_sse(uint16_t* out, const float* inp) {
+#ifdef __SSE2__
+    // SSE2 implementation for slice_symbols
+    // Process 4 symbols at a time using SSE2
+    for (int i = 0; i < SYM_PER_PLD; i += 4) {
+        // Load 4 input symbols
+        __m128 input = _mm_loadu_ps(&inp[i]);
+        
+        // Compare against symbol thresholds
+        __m128 thresh1 = _mm_set1_ps(symbol_list[1]);
+        __m128 thresh2 = _mm_set1_ps(symbol_list[2]);
+        __m128 thresh3 = _mm_set1_ps(symbol_list[3]);
+        
+        // Generate soft decisions
+        __m128i bit0 = _mm_castps_si128(_mm_cmpge_ps(input, thresh2));
+        __m128i bit1 = _mm_castps_si128(_mm_cmpge_ps(input, thresh1));
+        
+        // Store results
+        for (int j = 0; j < 4 && (i + j) < SYM_PER_PLD; j++) {
+            out[(i + j) * 2] = _mm_extract_epi16(bit1, j) ? 0xFFFF : 0x0000;
+            out[(i + j) * 2 + 1] = _mm_extract_epi16(bit0, j) ? 0xFFFF : 0x0000;
+        }
+    }
+#else
+    // Fallback to scalar implementation
+    for (int i = 0; i < SYM_PER_PLD; i++) {
+        if (inp[i] >= symbol_list[3]) {
+            out[i * 2 + 1] = 0xFFFF;
+        } else if (inp[i] >= symbol_list[2]) {
+            out[i * 2 + 1] = 0x0000;
+        } else if (inp[i] >= symbol_list[1]) {
+            out[i * 2 + 1] = 0x0000;
+        } else if (inp[i] >= symbol_list[0]) {
+            out[i * 2 + 1] = 0xFFFF;
+        } else {
+            out[i * 2 + 1] = 0xFFFF;
+        }
+        
+        if (inp[i] >= symbol_list[2]) {
+            out[i * 2] = 0x0000;
+        } else if (inp[i] >= symbol_list[1]) {
+            out[i * 2] = 0x7FFF;
+        } else {
+            out[i * 2] = 0xFFFF;
+        }
+    }
+#endif
+}
+
+void slice_symbols_simd_avx(uint16_t* out, const float* inp) {
+#ifdef __AVX__
+    // AVX implementation for slice_symbols
+    // Process 8 symbols at a time using AVX
+    for (int i = 0; i < SYM_PER_PLD; i += 8) {
+        // Load 8 input symbols
+        __m256 input = _mm256_loadu_ps(&inp[i]);
+        
+        // Compare against symbol thresholds
+        __m256 thresh1 = _mm256_set1_ps(symbol_list[1]);
+        __m256 thresh2 = _mm256_set1_ps(symbol_list[2]);
+        __m256 thresh3 = _mm256_set1_ps(symbol_list[3]);
+        
+        // Generate soft decisions
+        __m256i bit0 = _mm256_castps_si256(_mm256_cmp_ps(input, thresh2, _CMP_GE_OQ));
+        __m256i bit1 = _mm256_castps_si256(_mm256_cmp_ps(input, thresh1, _CMP_GE_OQ));
+        
+        // Store results
+        for (int j = 0; j < 8 && (i + j) < SYM_PER_PLD; j++) {
+            out[(i + j) * 2] = _mm256_extract_epi16(bit1, j) ? 0xFFFF : 0x0000;
+            out[(i + j) * 2 + 1] = _mm256_extract_epi16(bit0, j) ? 0xFFFF : 0x0000;
+        }
+    }
+#else
+    // Fallback to SSE implementation
+    slice_symbols_simd_sse(out, inp);
+#endif
+}
+
+void slice_symbols_simd_neon(uint16_t* out, const float* inp) {
+#ifdef __ARM_NEON
+    // NEON implementation for slice_symbols
+    // Process 4 symbols at a time using NEON
+    for (int i = 0; i < SYM_PER_PLD; i += 4) {
+        // Load 4 input symbols
+        float32x4_t input = vld1q_f32(&inp[i]);
+        
+        // Compare against symbol thresholds
+        float32x4_t thresh1 = vdupq_n_f32(symbol_list[1]);
+        float32x4_t thresh2 = vdupq_n_f32(symbol_list[2]);
+        float32x4_t thresh3 = vdupq_n_f32(symbol_list[3]);
+        
+        // Generate soft decisions
+        uint32x4_t bit0 = vcgeq_f32(input, thresh2);
+        uint32x4_t bit1 = vcgeq_f32(input, thresh1);
+        
+        // Store results
+        for (int j = 0; j < 4 && (i + j) < SYM_PER_PLD; j++) {
+            out[(i + j) * 2] = vgetq_lane_u32(bit1, j) ? 0xFFFF : 0x0000;
+            out[(i + j) * 2 + 1] = vgetq_lane_u32(bit0, j) ? 0xFFFF : 0x0000;
+        }
+    }
+#else
+    // Fallback to scalar implementation
+    for (int i = 0; i < SYM_PER_PLD; i++) {
+        if (inp[i] >= symbol_list[3]) {
+            out[i * 2 + 1] = 0xFFFF;
+        } else if (inp[i] >= symbol_list[2]) {
+            out[i * 2 + 1] = 0x0000;
+        } else if (inp[i] >= symbol_list[1]) {
+            out[i * 2 + 1] = 0x0000;
+        } else if (inp[i] >= symbol_list[0]) {
+            out[i * 2 + 1] = 0xFFFF;
+        } else {
+            out[i * 2 + 1] = 0xFFFF;
+        }
+        
+        if (inp[i] >= symbol_list[2]) {
+            out[i * 2] = 0x0000;
+        } else if (inp[i] >= symbol_list[1]) {
+            out[i * 2] = 0x7FFF;
+        } else {
+            out[i * 2] = 0xFFFF;
+        }
+    }
+#endif
+}
+
 // Scalar fallback implementations
 void m17_scalar_euclidean_norm(const float* in1, const int8_t* in2, float* result, size_t n)
 {

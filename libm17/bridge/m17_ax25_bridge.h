@@ -14,6 +14,30 @@
 #include <stddef.h>
 #include "kiss_protocol.h"
 #include "ax25_protocol.h"
+#include "fx25_protocol.h"
+#include "il2p_protocol.h"
+
+// M17 Type Definitions
+typedef struct {
+    uint8_t data[16];
+    uint16_t length;
+} m17_audio_frame_t;
+
+typedef struct {
+    uint8_t type;
+    uint8_t data[256];
+    uint16_t length;
+} m17_packet_frame_t;
+
+typedef struct {
+    uint8_t data[256];
+    uint16_t length;
+} m17_frame_t;
+
+// M17 Packet Types
+#define M17_PACKET_TYPE_DATA  0
+#define M17_PACKET_TYPE_APRS  1
+#define M17_PACKET_TYPE_TEXT  2
 
 #ifdef __cplusplus
 extern "C" {
@@ -23,12 +47,16 @@ extern "C" {
 typedef struct {
     bool m17_enabled;        // Enable M17 mode
     bool ax25_enabled;       // Enable AX.25 mode
+    bool fx25_enabled;       // Enable FX.25 FEC
+    bool il2p_enabled;       // Enable IL2P protocol
     bool auto_detect;        // Auto-detect protocol
     uint32_t m17_frequency;  // M17 frequency
     uint32_t ax25_frequency; // AX.25 frequency
     uint8_t m17_can;         // M17 Channel Access Number
     char ax25_callsign[7];   // AX.25 callsign
     uint8_t ax25_ssid;       // AX.25 SSID
+    uint8_t fx25_rs_type;    // FX.25 Reed-Solomon type
+    uint8_t il2p_debug;      // IL2P debug level
 } bridge_config_t;
 
 // Protocol Detection
@@ -36,6 +64,8 @@ typedef enum {
     PROTOCOL_UNKNOWN,
     PROTOCOL_M17,
     PROTOCOL_AX25,
+    PROTOCOL_FX25,
+    PROTOCOL_IL2P,
     PROTOCOL_APRS
 } protocol_type_t;
 
@@ -45,8 +75,12 @@ typedef struct {
     protocol_type_t current_protocol;
     bool m17_active;
     bool ax25_active;
+    bool fx25_active;
+    bool il2p_active;
     uint32_t last_activity;
     uint32_t protocol_timeout;
+    fx25_context_t fx25_ctx;
+    il2p_context_t il2p_ctx;
 } bridge_state_t;
 
 // M17 to AX.25 Conversion
@@ -57,6 +91,9 @@ typedef struct {
     bool active;             // Conversion active
 } m17_ax25_mapping_t;
 
+// Event handler function type
+typedef void (*bridge_event_handler_t)(const char* event, const char* data);
+
 // Bridge Interface
 typedef struct {
     bridge_state_t state;
@@ -64,6 +101,10 @@ typedef struct {
     ax25_tnc_t ax25_tnc;
     m17_ax25_mapping_t mappings[16];
     uint8_t num_mappings;
+    bridge_event_handler_t event_handler;
+    bool event_handler_registered;
+    bool debug_enabled;
+    int debug_level;
 } m17_ax25_bridge_t;
 
 // Bridge Core Functions
@@ -89,6 +130,18 @@ int m17_ax25_bridge_convert_m17_lsf_to_aprs(m17_ax25_bridge_t* bridge, const uin
 int m17_ax25_bridge_convert_m17_packet_to_ax25(m17_ax25_bridge_t* bridge, const uint8_t* m17_data, uint16_t m17_length,
                                               uint8_t* ax25_data, uint16_t* ax25_length);
 
+// M17 Processing Functions
+int m17_ax25_bridge_process_m17_tx(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_process_ax25_tx(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+
+// M17 Helper Functions
+int m17_decode_audio_frame(const uint8_t* data, uint16_t length, m17_audio_frame_t* frame);
+int m17_audio_to_pcm(const m17_audio_frame_t* frame, int16_t* pcm_samples, uint16_t sample_count);
+int m17_decode_packet_frame(const uint8_t* data, uint16_t length, m17_packet_frame_t* frame);
+int m17_validate_packet_data(const uint8_t* data, uint16_t length);
+int m17_create_frame(const uint8_t* data, uint16_t length, m17_frame_t* frame);
+int m17_encode_frame(const m17_frame_t* frame, uint8_t* data, uint16_t* length);
+
 // Callsign Mapping
 int m17_ax25_bridge_add_mapping(m17_ax25_bridge_t* bridge, const char* m17_callsign, 
                                 const char* ax25_callsign, uint8_t ax25_ssid);
@@ -109,18 +162,32 @@ int m17_ax25_bridge_process_ax25_frame(m17_ax25_bridge_t* bridge, const uint8_t*
 int m17_ax25_bridge_process_m17_lsf(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
 int m17_ax25_bridge_process_m17_stream(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
 int m17_ax25_bridge_process_m17_packet(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
-int m17_ax25_bridge_process_m17_eos(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_process_m17_bert(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
 
 // AX.25 Frame Processing
 int m17_ax25_bridge_parse_ax25_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
 int m17_ax25_bridge_process_ax25_iframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
-                                       const char* src_callsign, const char* dst_callsign);
+                                         const char* src_callsign, const char* dst_callsign);
 int m17_ax25_bridge_process_ax25_sframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
-                                       const char* src_callsign, const char* dst_callsign);
+                                         const char* src_callsign, const char* dst_callsign);
 int m17_ax25_bridge_process_ax25_uframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
-                                       const char* src_callsign, const char* dst_callsign);
+                                         const char* src_callsign, const char* dst_callsign);
 int m17_ax25_bridge_process_aprs_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
-                                      const char* src_callsign, const char* dst_callsign);
+                                        const char* src_callsign, const char* dst_callsign);
+
+// FX.25 Frame Processing
+int m17_ax25_bridge_process_fx25_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_encode_fx25_frame(m17_ax25_bridge_t* bridge, const uint8_t* ax25_data, uint16_t ax25_length,
+                                       uint8_t* fx25_data, uint16_t* fx25_length);
+int m17_ax25_bridge_decode_fx25_frame(m17_ax25_bridge_t* bridge, const uint8_t* fx25_data, uint16_t fx25_length,
+                                       uint8_t* ax25_data, uint16_t* ax25_length);
+
+// IL2P Frame Processing
+int m17_ax25_bridge_process_il2p_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_encode_il2p_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
+                                      uint8_t* il2p_data, uint16_t* il2p_length);
+int m17_ax25_bridge_decode_il2p_frame(m17_ax25_bridge_t* bridge, const uint8_t* il2p_data, uint16_t il2p_length,
+                                      uint8_t* data, uint16_t* length);
 
 // M17 Specific Functions
 int m17_ax25_bridge_m17_to_aprs(m17_ax25_bridge_t* bridge, const uint8_t* m17_data, uint16_t m17_length,

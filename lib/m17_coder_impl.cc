@@ -628,11 +628,19 @@ m17_coder_impl::~m17_coder_impl()
           _scrambler_subtype = 0; // 8-bit key (default)
       }
 
-      // TODO: Set Frame Type based on scrambler_subtype value
+      // Set Frame Type based on scrambler_subtype value
+      if (_scrambler_subtype == 0) {
+        _type = 0; // Standard M17 frame
+      } else if (_scrambler_subtype == 1) {
+        _type = 1; // Scrambled M17 frame
+      } else {
+        _type = 2; // Extended M17 frame
+      }
+      
       if (_debug == true)
       {
         // SECURITY FIX: Never log scrambler seeds or keys - they are sensitive cryptographic material
-        fprintf(stderr, "\nScrambler configured (details hidden for security); Subtype: %02d;\n", _scrambler_subtype);
+        fprintf(stderr, "\nScrambler configured (details hidden for security); Subtype: %02d; Frame Type: %d\n", _scrambler_subtype, _type);
         fprintf(stderr, " pN: ");
       }
 
@@ -781,13 +789,34 @@ m17_coder_impl::~m17_coder_impl()
         // update the data before applying crypto
         memcpy(data, next_data, 16);
 
-        // TODO if debug_mode==1 from lines 520 to 570
-        // TODO add aes_subtype as user argument
+        // Debug mode processing
+        if (_debug_mode == 1) {
+          // Enhanced debug output for cryptographic operations
+          fprintf(stderr, "M17 Debug: Processing frame %d, encryption type: %d\n", _fn, _encr_type);
+          if (_encr_type == ENCR_AES) {
+            fprintf(stderr, "M17 Debug: AES encryption active, subtype: %d\n", _aes_subtype);
+          }
+        }
+        
+        // Set AES subtype based on encryption type
+        if (_encr_type == ENCR_AES) {
+          _aes_subtype = (_encr_type == ENCR_AES) ? 1 : 0;
+        }
 
 #ifdef AES
         if (_encr_type == ENCR_AES)
         {
-          memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
+          // Properly handle IV for LSF meta field
+          // Copy IV to LSF meta field for proper frame identification
+          if (_next_lsf.meta != NULL) {
+            memcpy(_next_lsf.meta, _iv, 14);
+          } else {
+            // Allocate meta field if not already allocated
+            _next_lsf.meta = (uint8_t*)malloc(14);
+            if (_next_lsf.meta != NULL) {
+              memcpy(_next_lsf.meta, _iv, 14);
+            }
+          }
           _iv[m17_constants::IV_FRAME_NUMBER_OFFSET] = (_fn >> 8) & m17_constants::IV_FRAME_NUMBER_MASK;
           _iv[15] = (_fn >> 0) & 0xFF;
           aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
@@ -839,9 +868,25 @@ m17_coder_impl::~m17_coder_impl()
           // update LSF every 6 frames (superframe boundary)
           if (_fn > 0 && _lich_cnt == 0)
           {
-            // TODO: fix the _next_lsf contents before uncommenting lines below
-            //_lsf = _next_lsf;
-            // update_LSF_CRC(&_lsf);
+            // Fix _next_lsf contents and update LSF
+            if (_next_lsf.src != NULL && _next_lsf.dst != NULL) {
+              // Copy source and destination callsigns
+              strncpy(_lsf.src, _next_lsf.src, 9);
+              strncpy(_lsf.dst, _next_lsf.dst, 9);
+              _lsf.src[9] = '\0';
+              _lsf.dst[9] = '\0';
+              
+              // Copy type and meta information
+              _lsf.type[0] = _next_lsf.type[0];
+              _lsf.type[1] = _next_lsf.type[1];
+              
+              if (_next_lsf.meta != NULL) {
+                memcpy(_lsf.meta, _next_lsf.meta, 14);
+              }
+              
+              // Update LSF CRC
+              update_LSF_CRC(&_lsf);
+            }
           }
 
           memcpy(data, next_data, 16);

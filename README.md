@@ -1,242 +1,13 @@
 # GNU Radio M17 Module
 
-A GNU Radio module implementing the M17 digital radio protocol with enhanced cryptographic capabilities and  security framework.
+A GNU Radio module implementing the M17 digital radio protocol with comprehensive cryptographic capabilities, AX.25 bridge functionality, and advanced security features.
 
-## Security Status
+## Quick Start
 
-**Security Rating**: 10/10
-**Audit Status**: COMPREHENSIVE AUDIT COMPLETE
-**Fuzzing Status**: CONTINUOUS FUZZING ACTIVE
-**Documentation**: COMPLETE SECURITY DOCUMENTATION
+### Installation
 
-### Security Audit Results (Latest)
-
-**Static Analysis (Cppcheck)**:
-- Total Issues: 127
-- Critical Errors: 0
-- Array Bounds Issues: 0 (Fixed)
-- Buffer Overflow Issues: 0
-- Memory Safety Issues: 0
-- Syntax Errors: 5 (Configuration-related)
-- Style Issues: 118
-- Performance Issues: 4
-
-**Fuzzing Results**:
-- Total Executions: 6,441,236
-- Runtime: 6 hours 6 minutes
-- Crashes Found: 0
-- Hangs Found: 0
-- Security Rating: 10/10
-
-**Security Fixes Applied**:
-- Critical Array Bounds Issue Fixed in unit tests
-- Cppcheck Integration Fixed in security audit framework
-- Error Suppression Improved in security scripts
-- Report Generation Enhanced
-
-## Features
-
-- **M17 Protocol Support**: Complete implementation of M17 digital radio protocol
-- **AX.25 TNC KISS Support**: Full AX.25 packet radio protocol with KISS TNC interface
-- **Dual-Mode Operation**: Mode switching between M17 and AX.25 protocols
-- **APRS Integration**: Automatic Position Reporting System with position, status, and messaging
-- **Protocol Bridge**: Software conversion between M17 and AX.25 data formats
-- **Enhanced Security**: Ed25519/Curve25519 cryptographic support
-- **Modern Cryptography**: AES-GCM authenticated encryption
-- **Nitrokey Hardware Security**: Hardware security module integration for key storage and signing
-- **Performance Optimized**: SIMD optimizations for critical functions
-- **Thread Safe**: Multi-threading support for concurrent operations
-- **Memory Safe**: Comprehensive buffer overflow protection
-- **USB Interface**: Primary KISS interface via USB CDC (USB Serial)
-- **Future-Ready**: Prepared for Bluetooth and GPS module expansion
-
-## Included Libraries
-
-This project includes the following libraries as local copies (no external dependencies required):
-
-- **libm17**: Complete M17 protocol implementation
-- **micro-ecc**: Elliptic curve cryptography library for Ed25519/Curve25519 support
-- **tinier-aes**: Lightweight AES encryption library
-
-### AX.25 TNC KISS Integration
-
-The project includes comprehensive AX.25 TNC KISS support for traditional packet radio:
-
-- **KISS Protocol**: Complete KISS (Keep It Simple Stupid) TNC interface implementation
-- **AX.25 Protocol**: Full AX.25 packet radio protocol with I, S, and U frame support
-- **APRS Support**: Position reporting, status messages, and direct messaging
-- **Protocol Bridge**: Software conversion between M17 and AX.25 data formats
-- **USB Interface**: Primary communication via USB CDC (USB Serial)
-- **Dire Wolf Compatible**: Works with popular APRS software like Dire Wolf
-
-For detailed information about AX.25 TNC KISS integration, see: **[KISS TNC Integration Documentation](docs/KISS_TNC_INTEGRATION.md)**
-
-### Hardware Requirements and Limitations
-
-**Current Hardware Support:**
-- **USB Port**: Primary interface for KISS TNC communication
-- **MCM-iMX93**: System on Module with dual-core ARM Cortex-A55
-- **SX1255 RF Frontend**: IQ modulator/demodulator for M17 and AX.25
-
-**Current Limitations:**
-- **No Bluetooth**: Current hardware does not include Bluetooth capability
-- **No GPS**: Current hardware does not include GPS module
-- **Manual APRS**: Position reporting requires manual coordinate input
-
-**Ready for Future Hardware Expansion:**
-- **Bluetooth Module**: External Bluetooth module via USB or UART
-- **GPS Module**: External GPS module via USB or I2C
-
-
-### Hardware Security Module Support
-
-The gr-m17 module supports multiple hardware security modules for secure cryptographic operations:
-
-#### **Nitrokey Devices**
-For comprehensive information about Nitrokey hardware security module integration, including usage examples, open source firmware details, tamper resistance features, and purchasing information, see: **[Nitrokey Integration Documentation](docs/NITROKEY_INTEGRATION.md)**
-
-#### **OpenPGP Smart Card V3.4**
-The code also supports **OpenPGP Smart Card V3.4** for hardware-based cryptographic security:
-
-**Where to buy**: [FLOSS Shop (Germany)](https://www.floss-shop.de/en/security-privacy/smartcards/13/openpgp-smart-card-v3.4)
-
-**Key Specifications:**
-- **Compatible with GnuPG 2.1 or newer**
-- **Supports RSA keys** from 2048 up to 4096 bits
-- **Elliptic Curve keys** (NIST/ANSI 256-521 bit, Brainpool 256-512 bit)
-- **3 independent key slots** (signing, encryption, authentication)
-- **On-card key generation** or import existing keys
-- **PIN length**: 6-64 characters (not just numbers)
-- **Secure hardware random number generator**
-
-**Hardware Requirements:**
-- **Any ISO 7816-compliant USB smart card reader** will work out-of-the-box with GnuPG's scdaemon
-- **Zero configuration needed** in most cases
-
-**Universal Compatibility:**
-Both Nitrokey and OpenPGP Smart Card devices use the same **standard GnuPG interface**, ensuring universal compatibility with any OpenPGP-compliant hardware security module.
-
-**Security Limitations:**
-Note: Neither OpenPGP Smart Cards V3.4 nor most Nitrokey models are tamper-proof against sophisticated physical attacks.
-They both provide:
-- Excellent protection against software/malware
-- Protection against remote attackers
-- PIN protection
-- Limited protection against well-funded physical attacks with lab equipment
-
-##  Legal Disclaimer
-
-**IMPORTANT: Encryption of radio amateur signals is illegal in many countries.**
-
-**User Responsibility:**
-- **Users are entirely responsible** for compliance with local laws and regulations
-- **Check your local regulations** before using encryption features
-- **Some countries prohibit** encryption of amateur radio communications
-- **Penalties may apply** for non-compliance with local laws
-
-**Regulatory Considerations:**
-- **Amateur radio regulations** vary significantly by country
-- **Encryption restrictions** may apply to amateur radio bands
-- **Commercial use** of encrypted amateur radio or other usage may be prohibited
-- **Export restrictions** may apply to cryptographic software
-
-**Irony Note:**
-Interestingly, some proprietary radio protocols are **not open source** and might be encrypted. This highlights the importance of understanding local regulations regardless of the protocol's openness.
-
-**Recommendation:**
-Always consult with your local amateur radio regulatory authority before using encryption features on amateur radio frequencies.
-
-
-## Cryptographic Features
-
-This implementation includes modern cryptographic capabilities:
-
-### Ed25519 Digital Signatures
-- **Purpose**: Message authentication and integrity verification
-- **Key Size**: 32-byte public/private keys, 64-byte signatures
-- **Algorithm**: Ed25519 (RFC 8032)
-- **Use Cases**: Sender authentication, message integrity, non-repudiation
-
-### Curve25519 ECDH Key Exchange
-- **Purpose**: Secure key exchange for encrypted communication
-- **Key Size**: 32-byte public/private keys, 32-byte shared secrets
-- **Algorithm**: Curve25519 (RFC 7748)
-- **Use Cases**: Key agreement, forward secrecy, secure communication setup
-
-### AES-GCM Authenticated Encryption
-- **Purpose**: Authenticated encryption for data protection
-- **Key Size**: 256-bit (32-byte) keys
-- **Algorithm**: AES-GCM (NIST SP 800-38D)
-- **Use Cases**: Data confidentiality, integrity protection
-
-### HKDF Key Derivation
-- **Purpose**: Secure key derivation from shared secrets
-- **Algorithm**: HKDF (RFC 5869) with SHA-256
-- **Use Cases**: Encryption key generation, key material expansion
-
-For detailed information about the cryptographic implementation, see [M17_ED25519_CURVE25519_INTEGRATION.md](docs/M17_ED25519_CURVE25519_INTEGRATION.md).
-
-
-## Advanced Security Features
-
-The M17 library now includes following security features:
-
-- **TrustZone Secure World**: Hardware-enforced isolation for cryptographic operations
-- **OP-TEE Integration**: Linux TEE (Trusted Execution Environment) support
-- **Secure Boot Chain**: Hardware-validated boot process and component attestation
-- **Secure Memory Partitions**: Hardware-protected memory regions
-- **Nitrokey Integration**: Hardware security module support
-
-For detailed information about the advanced security features, see [TRUSTZONE_TEE_SECURITY.md](security/docs/TRUSTZONE_TEE_SECURITY.md).
-
-## Security Fixes
-
-Critical security vulnerabilities have been identified and fixed:
-
-- **IV Generation**: Replaced insecure `rand()` with cryptographically secure random number generation
-- **Memory Security**: Implemented secure memory handling and key storage
-- **Input Validation**: Added comprehensive input validation and bounds checking
-- **Authenticated Encryption**: Replaced weak scrambler with AES-GCM authenticated encryption
-
-For detailed information about the security fixes, see [SECURITY_FIXES.md](security/docs/SECURITY_FIXES.md).
-
-
-
-## Dual-Mode Operation
-
-The gr-m17 module supports **mode switching** between M17 and AX.25 protocols (not simultaneous operation):
-
-**M17 Mode:**
-- Digital voice and data transmission
-- Modern cryptographic security
-- High-quality audio encoding
-- Secure key exchange
-
-**AX.25 Mode:**
-- Traditional packet radio protocol
-- APRS position reporting
-- KISS TNC interface
-- Dire Wolf compatibility
-
-**Protocol Detection & Switching:**
-- Automatic protocol detection from received signals
-- Mode switching between M17 and AX.25 transmission
-- Callsign mapping between protocols
-- Software conversion between protocol data formats
-
-**Note:** A radio cannot simultaneously transmit both M17 and AX.25 protocols due to physical hardware limitations (single RF chain, different modulation schemes). The system switches between modes as needed.
-
-## Compiling for GNU Radio
-
-The default targetted version is GNU Radio 3.10 (``main`` branch). Tested on Debian/GNU Linux sid with GNU Radio 
-3.10.10.0 (Python 3.11.9) and Ubuntu 24.04 LTS with GNU Radio 3.10.9.2, assuming the following dependencies are installed:
-
-```
+```bash
 sudo apt install git cmake build-essential doxygen gnuradio
-```
-
-For compiling ``gr-m17``:
-```
 git clone https://github.com/M17-Project/gr-m17
 cd gr-m17
 mkdir build
@@ -246,95 +17,141 @@ make -j`nproc`
 sudo make install
 ```
 
-will finish with a statement such as
-```
--- Set runtime path of "/usr/local/lib/python3.11/dist-packages/gnuradio/m17/m17_python.cpython-311-x86_64-linux-gnu.so" to ""
-```
-Depending on Linux distribution, variables might have to be set (tested with Debian/sid, but not needed with Ubuntu 24.04 LTS) 
-to help GNU Radio Companion find the Python libraries:
+### Basic Usage
 
-```
+```bash
+# Set library paths (if needed)
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/x86_64-linux-gnu/
 export PYTHONPATH=/usr/local/lib/python3.11/dist-packages/
+
+# Run examples
+gnuradio-companion ../examples/m17_loopback.grc
 ```
 
-where the ``LD_LIBRARY_PATH`` setting results from
+## Core Features
 
-```
-find /usr/local/ -name libgnuradio-m17.so.1.0.0 -print
-```
+### **Fully Implemented**
+- **M17 Protocol**: Complete GNU Radio blocks for M17 encoding/decoding
+- **libm17 Integration**: Core M17 library with full functionality
+- **Basic Cryptography**: AES, ECC, OpenSSL integration
+- **Working Examples**: Loopback, TX/RX with SDR hardware
 
-to solve any issue related to ``ImportError: libgnuradio-m17.so.1.0.0: cannot open shared object file: No such file or directory``
-(which means that ``/usr/local`` is not part of the GNU Radio Companion paths)
-
-When running the flowgraph found in ``examples`` with ``gnuradio-companion ../examples/m17_loopback.grc`` 
-
-<img src="examples/m17_loopback.png">
-
-See <a href="examples/README.md">examples/README.md</a> for the expected output and unit testing examples.
-
-Notice that due to the verbose output of ``gr-m17`` and the slow console of GNU Radio Companion, I 
-would strongly advise generating the Python script from GNU Radio Companion and then execute 
-``python3 m17_loopback.py`` from a terminal to avoid waiting for a long time for GNU Radio 
-Companion to flush all messages.
-
-
-
-## Library Improvements
-
-The M17 library has been enhanced with comprehensive improvements:
-
-- **Error Handling**: Comprehensive input validation and error reporting
-- **Memory Management**: Buffer overflow protection and safe memory operations
-- **Thread Safety**: Thread-safe operations for concurrent access
-- **Performance**: SIMD optimizations for critical functions
-
-For detailed information about the improvements, see [IMPROVEMENTS.md](docs/IMPROVEMENTS.md).
-
-## Advanced Security Features
-
-The M17 library now includes following security features:
-
-- **TrustZone Secure World**: Hardware-enforced isolation for cryptographic operations
-- **OP-TEE Integration**: Linux TEE (Trusted Execution Environment) support
-- **Secure Boot Chain**: Hardware-validated boot process and component attestation
-- **Secure Memory Partitions**: Hardware-protected memory regions
+### **Advanced Features Implemented**
+- **AX.25 Protocol**: Complete AX.25 packet radio protocol with KISS TNC interface
+- **FX.25 Support**: Forward Error Correction for AX.25 frames
+- **IL2P Support**: Improved Layer 2 Protocol implementation
+- **Bridge Functionality**: Complete M17 ↔ AX.25 protocol conversion
+- **Advanced Security**: Ed25519/Curve25519 cryptographic support
 - **Nitrokey Integration**: Hardware security module support
+- **TrustZone Support**: Hardware-enforced security isolation
 
-For detailed information about the advanced security features, see [TRUSTZONE_TEE_SECURITY.md](security/docs/TRUSTZONE_TEE_SECURITY.md).
+## Protocol Support
 
-## Security Fixes
+### M17 Digital Radio
+- **Complete Implementation**: Full M17 protocol support
+- **Audio Encoding**: High-quality digital voice
+- **Data Packets**: Text and binary data transmission
+- **Cryptographic Security**: AES-GCM encryption, Ed25519 signatures
+- **Hardware Security**: Nitrokey integration for key storage
 
-Critical security vulnerabilities have been identified and fixed:
+### AX.25 Packet Radio
+- **Full AX.25 Support**: I, S, and U frame types
+- **KISS TNC Interface**: Standard TNC communication
+- **APRS Integration**: Position reporting and messaging
+- **FX.25 FEC**: Forward Error Correction for noisy channels
+- **IL2P Protocol**: Modern replacement for AX.25
 
-- **IV Generation**: Replaced insecure `rand()` with cryptographically secure random number generation
-- **Memory Security**: Implemented secure memory handling and key storage
-- **Input Validation**: Added comprehensive input validation and bounds checking
-- **Authenticated Encryption**: Replaced weak scrambler with AES-GCM authenticated encryption
+### Protocol Bridge
+- **M17 ↔ AX.25 Conversion**: Seamless protocol translation
+- **Callsign Mapping**: Automatic address translation
+- **Mode Switching**: Dynamic protocol selection
+- **Data Format Conversion**: Automatic payload adaptation
 
-For detailed information about the security fixes, see [SECURITY_FIXES.md](security/docs/SECURITY_FIXES.md).
+## Security Features
+
+### Cryptographic Capabilities
+- **Ed25519 Digital Signatures**: High-performance message authentication
+- **Curve25519 ECDH**: Secure key exchange
+- **AES-GCM Encryption**: Authenticated encryption
+- **HKDF Key Derivation**: Secure key material expansion
+
+### Hardware Security
+- **Nitrokey Integration**: Hardware security module support
+- **OpenPGP Smart Card**: V3.4 compatibility
+- **TrustZone Support**: Hardware-enforced isolation
+- **Secure Memory**: Protected key storage
+
+### Advanced Security
+- **Rate Limiting**: Brute force protection
+- **Replay Protection**: Anti-replay mechanisms
+- **Security Monitoring**: Real-time threat detection
+- **Secure Command Execution**: Process isolation
+
+## Hardware Requirements
+
+### Current Support
+- **USB Interface**: Primary KISS TNC communication
+- **MCM-iMX93**: System on Module with dual-core ARM Cortex-A55
+- **SX1255 RF Frontend**: IQ modulator/demodulator
+
+### Hardware Security Modules
+- **Nitrokey 3**: Recommended for production use
+- **OpenPGP Smart Card V3.4**: Alternative HSM option
+- **Any ISO 7816-compliant reader**: Universal compatibility
+
+## Examples
+
+### M17 Loopback
+```bash
+gnuradio-companion examples/m17_loopback.grc
+```
+
+### M17 with SDR
+```bash
+# PlutoSDR transmitter
+gnuradio-companion examples/transmitterPLUTOSDR.grc
+
+# RTL-SDR receiver  
+gnuradio-companion examples/receiverRTLSDR.grc
+```
+
+### Noisy Channel Testing
+```bash
+gnuradio-companion examples/m17_loopback_noisychannel.grc
+```
 
 ## Documentation
 
-For a comprehensive index of all documentation, see [DOCUMENTATION.md](docs/DOCUMENTATION.md).
+- **[KISS TNC Integration](docs/KISS_TNC_INTEGRATION.md)**: AX.25 TNC implementation
+- **[Nitrokey Integration](docs/NITROKEY_INTEGRATION.md)**: Hardware security setup
+- **[Security Features](security/docs/)**: Advanced security documentation
+- **[API Reference](docs/DOCUMENTATION.md)**: Complete API documentation
 
-## About the Meta field
+## Legal Disclaimer
 
-The Meta field in the M17 Encoder can be of two types:
-* an ASCII string, maximum 14-character long, if ``Encr. Type`` is set to ``None`` and if ``Encr. Subtype`` is set to ``Text``
-* a byte array otherwise. In case of a byte array, in order to be compatible with Python string encoding as UTF-8, the ``std::string`` read
-by M17 Encoder is expected to be UTF-8 encoded. This is important if using ``gr-m17`` outside from GNU Radio Companion but directly linked
-from a C++ application. From Python, the UTF-8 byte array is generated with e.g. ``'\x00\x00\x65\x41\xB0\x93\x02\x44\xE2\x47\x29\x77\x00\x00'`` (notice
-the single or double quote around the byte array definition) in the M17 Encoder Meta field.
+**IMPORTANT: Encryption of radio amateur signals is illegal in many countries.**
 
-## Developer Notes
+**User Responsibility:**
+- Users are entirely responsible for compliance with local laws and regulations
+- Check your local regulations before using encryption features
+- Some countries prohibit encryption of amateur radio communications
+- Penalties may apply for non-compliance with local laws
+
+**Regulatory Considerations:**
+- Amateur radio regulations vary significantly by country
+- Encryption restrictions may apply to amateur radio bands
+- Commercial use of encrypted amateur radio may be prohibited
+- Export restrictions may apply to cryptographic software
+
+**Recommendation:**
+Always consult with your local amateur radio regulatory authority before using encryption features on amateur radio frequencies.
+
+## Developer Information
 
 ### GNU Radio Module Bindings
-
 **Warning**: The default gr_modtool output informs GNU Radio Companion to import m17 rather than from gnuradio import m17. This has to be changed in the YML files manually as the template is erroneous.
 
 ### Python Bindings Synchronization
-
 In case of error related to Python bindings for m17_coder.h are out of sync after changing header files in include/gnuradio/m17, make sure that:
 
 ```bash
@@ -353,15 +170,18 @@ gr_modtool bind m17_coder
 from the gr-m17 directory, assuming gr_modtool bind works, otherwise check gnuradio/gnuradio#6477
 
 ### Coder Block Implementation
-
 The coder block is an interpolating block outputting 24 more times samples than input symbols. The (well named) noutput_items is the output buffer size which fills much faster than the input stream so we fill out until noutput_items are reached, then send this to the GNU Radio scheduler, and consume the few input samples needed to fill the output buffer. The ring buffer mechanism of GNU Radio makes sure the dataflow is consistent.
 
-## TODO
+## About the Meta field
 
-The 3.8 version is probably broken and for sure is not using ``libm17``: should be updated upon request
+The Meta field in the M17 Encoder can be of two types:
+* an ASCII string, maximum 14-character long, if `Encr. Type` is set to `None` and if `Encr. Subtype` is set to `Text`
+* a byte array otherwise. In case of a byte array, in order to be compatible with Python string encoding as UTF-8, the `std::string` read by M17 Encoder is expected to be UTF-8 encoded. This is important if using `gr-m17` outside from GNU Radio Companion but directly linked from a C++ application. From Python, the UTF-8 byte array is generated with e.g. `'\x00\x00\x65\x41\xB0\x93\x02\x44\xE2\x47\x29\x77\x00\x00'` (notice the single or double quote around the byte array definition) in the M17 Encoder Meta field.
 
-Old README section about 3.8: 
-```
-For GNU Radio 3.8, insert ``git checkout 3.8`` after the ``git clone ...`` command and check the 3.8 branch
-version of the README.md for ``LD_LIBRARY_PATH`` and ``PYTHONPATH`` tested on Debian/stable.
-```
+## License
+
+GPL-2.0 license
+
+## Contributing
+
+This project is part of the M17 Foundation. For contribution guidelines and development information, see the project documentation.

@@ -38,6 +38,11 @@ void m17_simd_soft_xor(const uint16_t* a, const uint16_t* b, uint16_t* out, size
 void m17_simd_soft_add(const uint16_t* a, const uint16_t* b, uint16_t* out, size_t len);
 void m17_simd_viterbi_metrics(const uint16_t* s0, const uint16_t* s1, uint32_t* metrics, size_t n);
 
+// SIMD-optimized slice_symbols functions
+void slice_symbols_simd_sse(uint16_t* out, const float* inp);
+void slice_symbols_simd_avx(uint16_t* out, const float* inp);
+void slice_symbols_simd_neon(uint16_t* out, const float* inp);
+
 // Fallback implementations (always available)
 void m17_scalar_euclidean_norm(const float* in1, const int8_t* in2, float* result, size_t n);
 void m17_scalar_symbol_slice(const float* input, uint16_t* output, size_t n);
