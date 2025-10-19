@@ -1,9 +1,3 @@
-[submodule "libm17"]
-	path = libm17
-	url = https://github.com/M17-Project/libm17/
-[submodule "micro-ecc"]
-	path = micro-ecc
-	url = https://github.com/kmackay/micro-ecc
-[submodule "tinier-aes"]
-	path = tinier-aes
-	url = https://github.com/lwvmobile/tinier-aes
+# Git submodules removed - libraries are now included as local copies
+# libm17, micro-ecc, and tinier-aes are included locally in this repository
+# No external dependencies required
