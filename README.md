@@ -4,7 +4,7 @@ A GNU Radio module implementing the M17 digital radio protocol with enhanced cry
 
 ## Security Status
 
-**Security Rating**: 10/10 - ENTERPRISE READY
+**Security Rating**: 10/10
 **Audit Status**: COMPREHENSIVE AUDIT COMPLETE
 **Fuzzing Status**: CONTINUOUS FUZZING ACTIVE
 **Documentation**: COMPLETE SECURITY DOCUMENTATION
@@ -289,6 +289,28 @@ The M17 library has been enhanced with comprehensive improvements:
 
 For detailed information about the improvements, see [IMPROVEMENTS.md](docs/IMPROVEMENTS.md).
 
+## Advanced Security Features
+
+The M17 library now includes following security features:
+
+- **TrustZone Secure World**: Hardware-enforced isolation for cryptographic operations
+- **OP-TEE Integration**: Linux TEE (Trusted Execution Environment) support
+- **Secure Boot Chain**: Hardware-validated boot process and component attestation
+- **Secure Memory Partitions**: Hardware-protected memory regions
+- **Nitrokey Integration**: Hardware security module support
+
+For detailed information about the advanced security features, see [TRUSTZONE_TEE_SECURITY.md](security/docs/TRUSTZONE_TEE_SECURITY.md).
+
+## Security Fixes
+
+Critical security vulnerabilities have been identified and fixed:
+
+- **IV Generation**: Replaced insecure `rand()` with cryptographically secure random number generation
+- **Memory Security**: Implemented secure memory handling and key storage
+- **Input Validation**: Added comprehensive input validation and bounds checking
+- **Authenticated Encryption**: Replaced weak scrambler with AES-GCM authenticated encryption
+
+For detailed information about the security fixes, see [SECURITY_FIXES.md](security/docs/SECURITY_FIXES.md).
 
 ## Documentation
 
