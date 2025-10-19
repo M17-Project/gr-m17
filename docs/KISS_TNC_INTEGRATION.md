@@ -138,6 +138,12 @@ int dual_mode_controller_send_ax25(dual_mode_controller_t* controller, const uin
 - **GNU Radio**: SDR framework (optional)
 - **Dire Wolf**: APRS software (optional)
 
+### Current Hardware Limitations
+- **No Bluetooth**: Current hardware does not include Bluetooth capability
+- **No GPS**: Current hardware does not include GPS module
+- **USB Available**: USB port available for external devices and KISS interface
+- **Future Expansion**: Bluetooth and GPS modules can be added via USB or other interfaces
+
 ### Build Configuration
 ```bash
 # Build with TNC support
@@ -285,20 +291,20 @@ make test_controller
 ./examples/dual_mode_radio -m bridge -f 144800000
 ```
 
-## Future Enhancements
+## Future Enhancements?
 
-### Planned Features
-- **Dire Wolf Integration**: Direct integration with Dire Wolf
+
+
 - **APRS-IS Gateway**: Internet gateway for APRS
-- **Digital Voice**: M17 voice with AX.25 compatibility
-- **Mesh Networking**: Multi-hop packet routing
-- **Encryption Bridge**: Secure M17 ↔ AX.25 conversion
-
-### Hardware Support
 - **Additional SDRs**: Support for other SDR platforms
 - **Multiple Channels**: Simultaneous M17 and AX.25
-- **GPS Integration**: Automatic position reporting
+- **USB Expansion**: External devices via USB port
 - **Display Interface**: LCD/OLED status display
+
+
+- **Bluetooth Module**: External Bluetooth module via USB or UART
+- **GPS Module**: External GPS module via USB or I2C
+- **Additional Interfaces**: Support for future hardware expansions
 
 ## Troubleshooting
 

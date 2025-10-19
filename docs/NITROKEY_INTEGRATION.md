@@ -2,7 +2,7 @@
 
 ## Overview
 
-The M17 GNU Radio module includes comprehensive Nitrokey hardware security module (HSM) integration, providing enterprise-grade cryptographic key storage and operations. This integration ensures that private keys never leave the hardware security module, providing maximum security for M17 digital radio communications.
+The M17 GNU Radio module includes comprehensive Nitrokey hardware security module (HSM) integration, ryptographic key storage and operations. This integration ensures that private keys never leave the hardware security module, providing maximum security for M17 digital radio communications.
 
 ## Nitrokey Features
 

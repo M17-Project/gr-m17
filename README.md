@@ -1,6 +1,6 @@
 # GNU Radio M17 Module
 
-A GNU Radio module implementing the M17 digital radio protocol with enhanced cryptographic capabilities and enterprise-grade security framework.
+A GNU Radio module implementing the M17 digital radio protocol with enhanced cryptographic capabilities and  security framework.
 
 ## Security Status
 
@@ -37,16 +37,192 @@ A GNU Radio module implementing the M17 digital radio protocol with enhanced cry
 ## Features
 
 - **M17 Protocol Support**: Complete implementation of M17 digital radio protocol
+- **AX.25 TNC KISS Support**: Full AX.25 packet radio protocol with KISS TNC interface
+- **Dual-Mode Operation**: Simultaneous M17 and AX.25 protocol support
+- **APRS Integration**: Automatic Position Reporting System with position, status, and messaging
+- **Protocol Bridge**: Seamless conversion between M17 and AX.25 protocols
 - **Enhanced Security**: Ed25519/Curve25519 cryptographic support
 - **Modern Cryptography**: AES-GCM authenticated encryption
 - **Nitrokey Hardware Security**: Hardware security module integration for key storage and signing
 - **Performance Optimized**: SIMD optimizations for critical functions
 - **Thread Safe**: Multi-threading support for concurrent operations
 - **Memory Safe**: Comprehensive buffer overflow protection
+- **USB Interface**: Primary KISS interface via USB CDC (USB Serial)
+- **Future-Ready**: Prepared for Bluetooth and GPS module expansion
 
-### Nitrokey Hardware Security
+## Included Libraries
 
+This project includes the following libraries as local copies (no external dependencies required):
+
+- **libm17**: Complete M17 protocol implementation
+- **micro-ecc**: Elliptic curve cryptography library for Ed25519/Curve25519 support
+- **tinier-aes**: Lightweight AES encryption library
+
+### AX.25 TNC KISS Integration
+
+The project includes comprehensive AX.25 TNC KISS support for traditional packet radio:
+
+- **KISS Protocol**: Complete KISS (Keep It Simple Stupid) TNC interface implementation
+- **AX.25 Protocol**: Full AX.25 packet radio protocol with I, S, and U frame support
+- **APRS Support**: Position reporting, status messages, and direct messaging
+- **Protocol Bridge**: Automatic conversion between M17 and AX.25 protocols
+- **USB Interface**: Primary communication via USB CDC (USB Serial)
+- **Dire Wolf Compatible**: Works with popular APRS software like Dire Wolf
+
+For detailed information about AX.25 TNC KISS integration, see: **[KISS TNC Integration Documentation](docs/KISS_TNC_INTEGRATION.md)**
+
+### Hardware Requirements and Limitations
+
+**Current Hardware Support:**
+- **USB Port**: Primary interface for KISS TNC communication
+- **MCM-iMX93**: System on Module with dual-core ARM Cortex-A55
+- **SX1255 RF Frontend**: IQ modulator/demodulator for M17 and AX.25
+
+**Current Limitations:**
+- **No Bluetooth**: Current hardware does not include Bluetooth capability
+- **No GPS**: Current hardware does not include GPS module
+- **Manual APRS**: Position reporting requires manual coordinate input
+
+**Ready for Future Hardware Expansion:**
+- **Bluetooth Module**: External Bluetooth module via USB or UART
+- **GPS Module**: External GPS module via USB or I2C
+- **Additional Interfaces**: USB expansion hub for multiple devices
+
+### Hardware Security Module Support
+
+The gr-m17 module supports multiple hardware security modules for secure cryptographic operations:
+
+#### **Nitrokey Devices**
 For comprehensive information about Nitrokey hardware security module integration, including usage examples, open source firmware details, tamper resistance features, and purchasing information, see: **[Nitrokey Integration Documentation](docs/NITROKEY_INTEGRATION.md)**
+
+#### **OpenPGP Smart Card V3.4**
+The code also supports **OpenPGP Smart Card V3.4** for hardware-based cryptographic security:
+
+**Where to buy**: [FLOSS Shop (Germany)](https://www.floss-shop.de/en/security-privacy/smartcards/13/openpgp-smart-card-v3.4)
+
+**Key Specifications:**
+- **Compatible with GnuPG 2.1 or newer**
+- **Supports RSA keys** from 2048 up to 4096 bits
+- **Elliptic Curve keys** (NIST/ANSI 256-521 bit, Brainpool 256-512 bit)
+- **3 independent key slots** (signing, encryption, authentication)
+- **On-card key generation** or import existing keys
+- **PIN length**: 6-64 characters (not just numbers)
+- **Secure hardware random number generator**
+
+**Hardware Requirements:**
+- **Any ISO 7816-compliant USB smart card reader** will work out-of-the-box with GnuPG's scdaemon
+- **Zero configuration needed** in most cases
+
+**Universal Compatibility:**
+Both Nitrokey and OpenPGP Smart Card devices use the same **standard GnuPG interface**, ensuring universal compatibility with any OpenPGP-compliant hardware security module.
+
+**Security Limitations:**
+Note: Neither OpenPGP Smart Cards V3.4 nor most Nitrokey models are tamper-proof against sophisticated physical attacks.
+They both provide:
+- Excellent protection against software/malware
+- Protection against remote attackers
+- PIN protection
+- Limited protection against well-funded physical attacks with lab equipment
+
+##  Legal Disclaimer
+
+**IMPORTANT: Encryption of radio amateur signals is be illegal in many countries.**
+
+**User Responsibility:**
+- **Users are entirely responsible** for compliance with local laws and regulations
+- **Check your local regulations** before using encryption features
+- **Some countries prohibit** encryption of amateur radio communications
+- **Penalties may apply** for non-compliance with local laws
+
+**Regulatory Considerations:**
+- **Amateur radio regulations** vary significantly by country
+- **Encryption restrictions** may apply to amateur radio bands
+- **Commercial use** of encrypted amateur radio or other usage may be prohibited
+- **Export restrictions** may apply to cryptographic software
+
+**Irony Note:**
+Interestingly, some proprietary radio protocols are **not open source** and might be encrypted. This highlights the importance of understanding local regulations regardless of the protocol's openness.
+
+**Recommendation:**
+Always consult with your local amateur radio regulatory authority before using encryption features on amateur radio frequencies.
+
+
+## Cryptographic Features
+
+This implementation includes modern cryptographic capabilities:
+
+### Ed25519 Digital Signatures
+- **Purpose**: Message authentication and integrity verification
+- **Key Size**: 32-byte public/private keys, 64-byte signatures
+- **Algorithm**: Ed25519 (RFC 8032)
+- **Use Cases**: Sender authentication, message integrity, non-repudiation
+
+### Curve25519 ECDH Key Exchange
+- **Purpose**: Secure key exchange for encrypted communication
+- **Key Size**: 32-byte public/private keys, 32-byte shared secrets
+- **Algorithm**: Curve25519 (RFC 7748)
+- **Use Cases**: Key agreement, forward secrecy, secure communication setup
+
+### AES-GCM Authenticated Encryption
+- **Purpose**: Authenticated encryption for data protection
+- **Key Size**: 256-bit (32-byte) keys
+- **Algorithm**: AES-GCM (NIST SP 800-38D)
+- **Use Cases**: Data confidentiality, integrity protection
+
+### HKDF Key Derivation
+- **Purpose**: Secure key derivation from shared secrets
+- **Algorithm**: HKDF (RFC 5869) with SHA-256
+- **Use Cases**: Encryption key generation, key material expansion
+
+For detailed information about the cryptographic implementation, see [M17_ED25519_CURVE25519_INTEGRATION.md](docs/M17_ED25519_CURVE25519_INTEGRATION.md).
+
+
+## Advanced Security Features
+
+The M17 library now includes following security features:
+
+- **TrustZone Secure World**: Hardware-enforced isolation for cryptographic operations
+- **OP-TEE Integration**: Linux TEE (Trusted Execution Environment) support
+- **Secure Boot Chain**: Hardware-validated boot process and component attestation
+- **Secure Memory Partitions**: Hardware-protected memory regions
+- **Nitrokey Integration**: Hardware security module support
+
+For detailed information about the advanced security features, see [TRUSTZONE_TEE_SECURITY.md](security/docs/TRUSTZONE_TEE_SECURITY.md).
+
+## Security Fixes
+
+Critical security vulnerabilities have been identified and fixed:
+
+- **IV Generation**: Replaced insecure `rand()` with cryptographically secure random number generation
+- **Memory Security**: Implemented secure memory handling and key storage
+- **Input Validation**: Added comprehensive input validation and bounds checking
+- **Authenticated Encryption**: Replaced weak scrambler with AES-GCM authenticated encryption
+
+For detailed information about the security fixes, see [SECURITY_FIXES.md](security/docs/SECURITY_FIXES.md).
+
+
+
+## Dual-Mode Operation
+
+The gr-m17 module supports dual-mode operation, allowing simultaneous use of both M17 and AX.25 protocols:
+
+**M17 Mode:**
+- Digital voice and data transmission
+- Modern cryptographic security
+- High-quality audio encoding
+- Secure key exchange
+
+**AX.25 Mode:**
+- Traditional packet radio protocol
+- APRS position reporting
+- KISS TNC interface
+- Dire Wolf compatibility
+
+**Bridge Mode:**
+- Automatic protocol detection
+- Seamless conversion between M17 and AX.25
+- Callsign mapping between protocols
+- Unified interface for both protocols
 
 ## Compiling for GNU Radio
 
@@ -59,7 +235,7 @@ sudo apt install git cmake build-essential doxygen gnuradio
 
 For compiling ``gr-m17``:
 ```
-git clone --recursive https://github.com/M17-Project/gr-m17
+git clone https://github.com/M17-Project/gr-m17
 cd gr-m17
 mkdir build
 cd build
@@ -100,34 +276,7 @@ would strongly advise generating the Python script from GNU Radio Companion and 
 ``python3 m17_loopback.py`` from a terminal to avoid waiting for a long time for GNU Radio 
 Companion to flush all messages.
 
-## Cryptographic Features
 
-This implementation includes modern cryptographic capabilities:
-
-### Ed25519 Digital Signatures
-- **Purpose**: Message authentication and integrity verification
-- **Key Size**: 32-byte public/private keys, 64-byte signatures
-- **Algorithm**: Ed25519 (RFC 8032)
-- **Use Cases**: Sender authentication, message integrity, non-repudiation
-
-### Curve25519 ECDH Key Exchange
-- **Purpose**: Secure key exchange for encrypted communication
-- **Key Size**: 32-byte public/private keys, 32-byte shared secrets
-- **Algorithm**: Curve25519 (RFC 7748)
-- **Use Cases**: Key agreement, forward secrecy, secure communication setup
-
-### AES-GCM Authenticated Encryption
-- **Purpose**: Authenticated encryption for data protection
-- **Key Size**: 256-bit (32-byte) keys
-- **Algorithm**: AES-GCM (NIST SP 800-38D)
-- **Use Cases**: Data confidentiality, integrity protection
-
-### HKDF Key Derivation
-- **Purpose**: Secure key derivation from shared secrets
-- **Algorithm**: HKDF (RFC 5869) with SHA-256
-- **Use Cases**: Encryption key generation, key material expansion
-
-For detailed information about the cryptographic implementation, see [M17_ED25519_CURVE25519_INTEGRATION.md](docs/M17_ED25519_CURVE25519_INTEGRATION.md).
 
 ## Library Improvements
 
@@ -140,28 +289,6 @@ The M17 library has been enhanced with comprehensive improvements:
 
 For detailed information about the improvements, see [IMPROVEMENTS.md](docs/IMPROVEMENTS.md).
 
-## Advanced Security Features
-
-The M17 library now includes military-grade security features:
-
-- **TrustZone Secure World**: Hardware-enforced isolation for cryptographic operations
-- **OP-TEE Integration**: Linux TEE (Trusted Execution Environment) support
-- **Secure Boot Chain**: Hardware-validated boot process and component attestation
-- **Secure Memory Partitions**: Hardware-protected memory regions
-- **Nitrokey Integration**: Hardware security module support
-
-For detailed information about the advanced security features, see [TRUSTZONE_TEE_SECURITY.md](security/docs/TRUSTZONE_TEE_SECURITY.md).
-
-## Security Fixes
-
-Critical security vulnerabilities have been identified and fixed:
-
-- **IV Generation**: Replaced insecure `rand()` with cryptographically secure random number generation
-- **Memory Security**: Implemented secure memory handling and key storage
-- **Input Validation**: Added comprehensive input validation and bounds checking
-- **Authenticated Encryption**: Replaced weak scrambler with AES-GCM authenticated encryption
-
-For detailed information about the security fixes, see [SECURITY_FIXES.md](security/docs/SECURITY_FIXES.md).
 
 ## Documentation
 

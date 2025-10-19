@@ -341,6 +341,19 @@ namespace gr
       bool delete_nitrokey_key(const std::string& label);
       bool set_nitrokey_key(const std::string& label);
       
+      // Enhanced Nitrokey PIN Authentication
+      enum class NitrokeyStatus {
+        DEVICE_NOT_FOUND,    // Device not connected
+        PIN_REQUIRED,        // Device connected but PIN authentication needed
+        AUTHENTICATED,       // Device connected and PIN authenticated
+        ERROR               // Other error condition
+      };
+      
+      NitrokeyStatus check_nitrokey_pin_status();
+      bool attempt_nitrokey_pin_authentication();
+      void report_nitrokey_status();
+      bool handle_nitrokey_pin_authentication();
+      
       // Public Key Import
       bool import_public_key(const std::string& callsign, const std::string& hex_key);
       bool import_public_key_from_file(const std::string& callsign, const std::string& pem_file);
@@ -367,6 +380,60 @@ namespace gr
       bool validate_hex_key(const std::string& hex_key);
       std::string get_key_fingerprint(const uint8_t* key);
       void secure_wipe_key(PublicKey& key);
+      
+      // SECURITY FIX: Input validation functions
+      bool validate_nitrokey_label(const std::string& label);
+      std::string sanitize_shell_input(const std::string& input);
+      
+      // SECURITY FIX: Secure command execution
+      int secure_execute_command(const std::vector<std::string>& args);
+      bool execute_nitropy_command(const std::vector<std::string>& args, std::string& output);
+      
+      // SECURITY FIX: Memory protection and encryption
+      class SecureKeyStorage {
+      private:
+          uint8_t* _encrypted_key;
+          size_t _key_size;
+          uint8_t _encryption_key[32];
+          bool _is_encrypted;
+          
+      public:
+          SecureKeyStorage();
+          ~SecureKeyStorage();
+          
+          bool store_key(const uint8_t* key, size_t size);
+          bool retrieve_key(uint8_t* key, size_t size);
+          void clear_key();
+          bool is_encrypted() const { return _is_encrypted; }
+      };
+      
+      // SECURITY FIX: Process isolation for key operations
+      class KeyIsolationManager {
+      private:
+          pid_t _key_process_pid;
+          int _communication_pipe[2];
+          bool _isolation_active;
+          
+      public:
+          KeyIsolationManager();
+          ~KeyIsolationManager();
+          
+          bool start_key_isolation();
+          bool stop_key_isolation();
+          bool execute_secure_key_operation(const std::string& operation, const uint8_t* data, size_t data_size, uint8_t* result, size_t result_size);
+          bool is_isolation_active() const { return _isolation_active; }
+      };
+      
+      // SECURITY FIX: Memory encryption functions
+      bool encrypt_key_in_memory(uint8_t* key, size_t key_size, const uint8_t* encryption_key);
+      bool decrypt_key_in_memory(uint8_t* key, size_t key_size, const uint8_t* encryption_key);
+      bool generate_encryption_key(uint8_t* encryption_key, size_t key_size);
+      void secure_wipe_memory(void* ptr, size_t size);
+      
+      // SECURITY FIX: Enhanced key management
+      SecureKeyStorage _secure_private_key;
+      SecureKeyStorage _secure_encryption_key;
+      KeyIsolationManager _key_isolation;
 
       // Where all the action really happens
       void forecast (int noutput_items,

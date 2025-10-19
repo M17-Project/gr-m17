@@ -117,9 +117,10 @@ This document provides a comprehensive index of all documentation for the M17 di
 - **Features**: SIMD optimizations, security flags, test configuration
 
 ### Dependencies
-- **micro-ecc**: Elliptic curve cryptography library
-- **tinier-aes**: AES encryption library
-- **GNU Radio**: Software-defined radio framework
+- **libm17**: M17 protocol implementation (included locally)
+- **micro-ecc**: Elliptic curve cryptography library (included locally)
+- **tinier-aes**: AES encryption library (included locally)
+- **GNU Radio**: Software-defined radio framework (external dependency)
 
 ## Testing Documentation
 

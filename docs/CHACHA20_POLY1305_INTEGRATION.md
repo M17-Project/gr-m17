@@ -290,18 +290,6 @@ make test_chacha20_poly1305
 - **ARM NEON**: Optional SIMD acceleration on ARM processors
 - **x86 AVX2**: Optional SIMD acceleration on x86_64 processors
 
-## Future Enhancements
-
-### Planned Features
-- **Hardware Acceleration**: Integration with ARM CryptoCell
-- **Key Exchange**: X25519 key exchange for ChaCha20 keys
-- **Perfect Forward Secrecy**: Ephemeral key generation
-- **Multi-receiver**: Group encryption with multiple recipients
-
-### Research Areas
-- **Post-Quantum**: Integration with post-quantum cryptography
-- **Zero-Knowledge**: Zero-knowledge proof integration
-- **Homomorphic**: Homomorphic encryption for secure processing
 
 ## References
 

@@ -315,19 +315,6 @@ make
 - **macOS**: Full support with Clang
 - **ARM**: Optimized for ARM64/ARM32
 
-## Future Enhancements
-
-### **Planned Features**
-1. **Hardware Acceleration**: Integration with hardware crypto modules
-2. **Post-Quantum Crypto**: Support for quantum-resistant algorithms
-3. **Advanced Key Management**: PKI integration and certificate support
-4. **Performance Optimization**: SIMD optimizations and parallel processing
-
-### **Research Areas**
-1. **Lattice-Based Crypto**: Post-quantum signature schemes
-2. **Isogeny-Based Crypto**: Alternative post-quantum approaches
-3. **Zero-Knowledge Proofs**: Privacy-preserving authentication
-4. **Homomorphic Encryption**: Computation on encrypted data
 
 ## Conclusion
 

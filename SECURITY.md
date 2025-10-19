@@ -124,16 +124,7 @@ We maintain security through multiple layers of protection:
 
 ## Security Incident Response
 
-### **Reporting Security Issues**
-- **Email**: security@m17-project.org
-- **Response Time**: 24 hours for critical issues
-- **Confidentiality**: All reports handled confidentially
-- **Acknowledgement**: Response within 24 hours
 
-### **Security Team**
-- **Lead**: M17 Security Team
-- **Reviewers**: Cryptographic experts
-- **Auditors**: External security auditors
 
 ---
 
@@ -197,34 +188,9 @@ We maintain security through multiple layers of protection:
 
 ---
 
-## Security Goals
 
-### **Short-term Goals**
-- Maintain zero critical vulnerabilities
-- Complete weekly fuzzing campaigns
-- Implement continuous security monitoring
-- Enhance security documentation
 
-### **Long-term Goals**
-- Achieve security certification
-- Implement hardware security features
-- Develop security training program
-- Establish security community
 
----
-
-## Contact Information
-
-### **Security Team**
-- **Lead Security Engineer**: M17 Security Team
-- **Email**: security@m17-project.org
-- **Response Time**: 24 hours for critical issues
-- **Confidentiality**: All communications confidential
-
-### **Security Reporting**
-- **Vulnerability Reports**: security@m17-project.org
-- **Security Questions**: security@m17-project.org
-- **Security Training**: security@m17-project.org
 
 ---
 
