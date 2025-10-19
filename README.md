@@ -4,7 +4,7 @@ A GNU Radio module implementing the M17 digital radio protocol with enhanced cry
 
 ## Security Status
 
-**Security Rating**: 10/10 - ENTERPRISE READY
+**Security Rating**: 10/10
 **Audit Status**: COMPREHENSIVE AUDIT COMPLETE
 **Fuzzing Status**: CONTINUOUS FUZZING ACTIVE
 **Documentation**: COMPLETE SECURITY DOCUMENTATION
@@ -142,7 +142,7 @@ For detailed information about the improvements, see [IMPROVEMENTS.md](docs/IMPR
 
 ## Advanced Security Features
 
-The M17 library now includes military-grade security features:
+The M17 library now includes following  security features:
 
 - **TrustZone Secure World**: Hardware-enforced isolation for cryptographic operations
 - **OP-TEE Integration**: Linux TEE (Trusted Execution Environment) support
