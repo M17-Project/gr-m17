@@ -127,7 +127,7 @@ This implementation includes modern cryptographic capabilities:
 - **Algorithm**: HKDF (RFC 5869) with SHA-256
 - **Use Cases**: Encryption key generation, key material expansion
 
-For detailed information about the cryptographic implementation, see [M17_ED25519_CURVE25519_INTEGRATION.md](M17_ED25519_CURVE25519_INTEGRATION.md).
+For detailed information about the cryptographic implementation, see [M17_ED25519_CURVE25519_INTEGRATION.md](docs/M17_ED25519_CURVE25519_INTEGRATION.md).
 
 ## Library Improvements
 
@@ -138,7 +138,7 @@ The M17 library has been enhanced with comprehensive improvements:
 - **Thread Safety**: Thread-safe operations for concurrent access
 - **Performance**: SIMD optimizations for critical functions
 
-For detailed information about the improvements, see [IMPROVEMENTS.md](IMPROVEMENTS.md).
+For detailed information about the improvements, see [IMPROVEMENTS.md](docs/IMPROVEMENTS.md).
 
 ## Advanced Security Features
 
@@ -150,7 +150,7 @@ The M17 library now includes military-grade security features:
 - **Secure Memory Partitions**: Hardware-protected memory regions
 - **Nitrokey Integration**: Hardware security module support
 
-For detailed information about the advanced security features, see [TRUSTZONE_TEE_SECURITY.md](TRUSTZONE_TEE_SECURITY.md).
+For detailed information about the advanced security features, see [TRUSTZONE_TEE_SECURITY.md](security/docs/TRUSTZONE_TEE_SECURITY.md).
 
 ## Security Fixes
 
@@ -161,11 +161,11 @@ Critical security vulnerabilities have been identified and fixed:
 - **Input Validation**: Added comprehensive input validation and bounds checking
 - **Authenticated Encryption**: Replaced weak scrambler with AES-GCM authenticated encryption
 
-For detailed information about the security fixes, see [SECURITY_FIXES.md](SECURITY_FIXES.md).
+For detailed information about the security fixes, see [SECURITY_FIXES.md](security/docs/SECURITY_FIXES.md).
 
 ## Documentation
 
-For a comprehensive index of all documentation, see [DOCUMENTATION.md](DOCUMENTATION.md).
+For a comprehensive index of all documentation, see [DOCUMENTATION.md](docs/DOCUMENTATION.md).
 
 ## About the Meta field
 
