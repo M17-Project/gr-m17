@@ -1,0 +1,175 @@
+//--------------------------------------------------------------------
+// M17 C library - m17_simd.c
+//
+// SIMD optimizations implementation for M17 library
+//
+// Wojciech Kaczmarski, SP5WWP
+// M17 Foundation, 12 March 2025
+//--------------------------------------------------------------------
+#include <m17_simd.h>
+#include <string.h>
+#include <math.h>
+
+// SIMD capability detection
+m17_simd_capabilities_t m17_get_simd_capabilities(void)
+{
+    m17_simd_capabilities_t caps = M17_SIMD_NONE;
+    
+#ifdef __x86_64__
+    // Check CPUID for x86_64 capabilities
+    uint32_t eax, ebx, ecx, edx;
+    
+    // Check basic CPUID
+    __asm__ volatile ("cpuid" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "a"(0));
+    if (eax >= 1) {
+        __asm__ volatile ("cpuid" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "a"(1));
+        
+        if (edx & (1 << 26)) caps |= M17_SIMD_SSE2;
+        if (ecx & (1 << 0))  caps |= M17_SIMD_SSE3;
+        if (ecx & (1 << 9))  caps |= M17_SIMD_SSSE3;
+        if (ecx & (1 << 19)) caps |= M17_SIMD_SSE4_1;
+        if (ecx & (1 << 20)) caps |= M17_SIMD_SSE4_2;
+        if (ecx & (1 << 28)) caps |= M17_SIMD_AVX;
+    }
+    
+    // Check AVX2
+    if (eax >= 7) {
+        __asm__ volatile ("cpuid" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "a"(7), "c"(0));
+        if (ebx & (1 << 5)) caps |= M17_SIMD_AVX2;
+    }
+#endif
+
+#ifdef __aarch64__
+    // ARM64 always has NEON
+    caps |= M17_SIMD_NEON;
+#endif
+
+    return caps;
+}
+
+// Scalar fallback implementations
+void m17_scalar_euclidean_norm(const float* in1, const int8_t* in2, float* result, size_t n)
+{
+    float sum = 0.0f;
+    for (size_t i = 0; i < n; i++) {
+        float diff = in1[i] - (float)in2[i];
+        sum += diff * diff;
+    }
+    *result = sqrtf(sum);
+}
+
+void m17_scalar_symbol_slice(const float* input, uint16_t* output, size_t n)
+{
+    for (size_t i = 0; i < n; i++) {
+        if (input[i] >= 3.0f) {
+            output[i] = 0xFFFF;
+        } else if (input[i] >= 1.0f) {
+            output[i] = 0x7FFF;
+        } else if (input[i] >= -1.0f) {
+            output[i] = 0x0000;
+        } else {
+            output[i] = 0x8000;
+        }
+    }
+}
+
+void m17_scalar_soft_xor(const uint16_t* a, const uint16_t* b, uint16_t* out, size_t len)
+{
+    for (size_t i = 0; i < len; i++) {
+        // Soft XOR: if both are high confidence, result is low confidence
+        // if one is high confidence, result follows that one
+        if (a[i] > 0x7FFF && b[i] > 0x7FFF) {
+            out[i] = 0x0000; // Both 1, XOR = 0
+        } else if (a[i] > 0x7FFF && b[i] <= 0x7FFF) {
+            out[i] = 0xFFFF; // One 1, one 0, XOR = 1
+        } else if (a[i] <= 0x7FFF && b[i] > 0x7FFF) {
+            out[i] = 0xFFFF; // One 0, one 1, XOR = 1
+        } else {
+            out[i] = 0x0000; // Both 0, XOR = 0
+        }
+    }
+}
+
+void m17_scalar_soft_add(const uint16_t* a, const uint16_t* b, uint16_t* out, size_t len)
+{
+    for (size_t i = 0; i < len; i++) {
+        uint32_t sum = (uint32_t)a[i] + (uint32_t)b[i];
+        out[i] = (sum > 0xFFFF) ? 0xFFFF : (uint16_t)sum;
+    }
+}
+
+// SIMD-optimized implementations
+#ifdef __SSE2__
+#include <emmintrin.h>
+
+void m17_simd_euclidean_norm(const float* in1, const int8_t* in2, float* result, size_t n)
+{
+    __m128 sum = _mm_setzero_ps();
+    size_t i;
+    
+    // Process 4 floats at a time
+    for (i = 0; i < n - 3; i += 4) {
+        __m128 v1 = _mm_loadu_ps(&in1[i]);
+        __m128 v2 = _mm_set_ps(in2[i+3], in2[i+2], in2[i+1], in2[i]);
+        __m128 diff = _mm_sub_ps(v1, v2);
+        __m128 diff_sq = _mm_mul_ps(diff, diff);
+        sum = _mm_add_ps(sum, diff_sq);
+    }
+    
+    // Handle remaining elements
+    for (; i < n; i++) {
+        float diff = in1[i] - (float)in2[i];
+        sum = _mm_add_ss(sum, _mm_set_ss(diff * diff));
+    }
+    
+    // Horizontal sum
+    __m128 shuf = _mm_movehl_ps(sum, sum);
+    __m128 sums = _mm_add_ps(sum, shuf);
+    shuf = _mm_shuffle_ps(sums, sums, 1);
+    sums = _mm_add_ss(sums, shuf);
+    
+    *result = sqrtf(_mm_cvtss_f32(sums));
+}
+
+void m17_simd_symbol_slice(const float* input, uint16_t* output, size_t n)
+{
+    __m128 thresh1 = _mm_set1_ps(3.0f);
+    __m128 thresh2 = _mm_set1_ps(1.0f);
+    __m128 thresh3 = _mm_set1_ps(-1.0f);
+    
+    size_t i;
+    for (i = 0; i < n - 3; i += 4) {
+        __m128 v = _mm_loadu_ps(&input[i]);
+        __m128 cmp1 = _mm_cmpge_ps(v, thresh1);
+        __m128 cmp2 = _mm_cmpge_ps(v, thresh2);
+        __m128 cmp3 = _mm_cmpge_ps(v, thresh3);
+        
+        // Convert to uint16_t values
+        for (int j = 0; j < 4; j++) {
+            if (_mm_movemask_ps(cmp1) & (1 << j)) {
+                output[i + j] = 0xFFFF;
+            } else if (_mm_movemask_ps(cmp2) & (1 << j)) {
+                output[i + j] = 0x7FFF;
+            } else if (_mm_movemask_ps(cmp3) & (1 << j)) {
+                output[i + j] = 0x0000;
+            } else {
+                output[i + j] = 0x8000;
+            }
+        }
+    }
+    
+    // Handle remaining elements
+    for (; i < n; i++) {
+        if (input[i] >= 3.0f) {
+            output[i] = 0xFFFF;
+        } else if (input[i] >= 1.0f) {
+            output[i] = 0x7FFF;
+        } else if (input[i] >= -1.0f) {
+            output[i] = 0x0000;
+        } else {
+            output[i] = 0x8000;
+        }
+    }
+}
+#endif
+

@@ -1,0 +1,11 @@
+/*! \mainpage libm17
+ *  \brief    Reference M17 C library
+
+This is Doxygen provided documentation for the M17 C library.
+
+ *  \details   The project (managed in git) uses C, CMake, and Doxygen.
+ *  \author    Wojciech Kaczmarski <w.kaczmarski@teletra.pl>
+ *  \date      2024
+ *  \pre       Usual cmake procedure: cmake -B build ; cmake --build build
+ */
+ 
