@@ -288,3 +288,4 @@ The enhanced PIN authentication features provide:
 - **Comprehensive Monitoring**: Detailed status reporting
 
 These features make Nitrokey integration more user-friendly while maintaining the highest security standards.
+
