@@ -83,6 +83,12 @@ int m17_ax25_bridge_convert_m17_to_ax25(m17_ax25_bridge_t* bridge, const uint8_t
 int m17_ax25_bridge_convert_ax25_to_m17(m17_ax25_bridge_t* bridge, const uint8_t* ax25_data, uint16_t ax25_length,
                                         uint8_t* m17_data, uint16_t* m17_length);
 
+// M17 to AX.25 Conversion Functions
+int m17_ax25_bridge_convert_m17_lsf_to_aprs(m17_ax25_bridge_t* bridge, const uint8_t* m17_data, uint16_t m17_length,
+                                           uint8_t* ax25_data, uint16_t* ax25_length);
+int m17_ax25_bridge_convert_m17_packet_to_ax25(m17_ax25_bridge_t* bridge, const uint8_t* m17_data, uint16_t m17_length,
+                                              uint8_t* ax25_data, uint16_t* ax25_length);
+
 // Callsign Mapping
 int m17_ax25_bridge_add_mapping(m17_ax25_bridge_t* bridge, const char* m17_callsign, 
                                 const char* ax25_callsign, uint8_t ax25_ssid);
@@ -94,6 +100,27 @@ int m17_ax25_bridge_find_mapping(const m17_ax25_bridge_t* bridge, const char* m1
 int m17_ax25_bridge_process_rx_data(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
 int m17_ax25_bridge_process_tx_data(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length, 
                                    protocol_type_t protocol);
+
+// Frame Processing
+int m17_ax25_bridge_process_m17_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_process_ax25_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+
+// M17 Frame Processing
+int m17_ax25_bridge_process_m17_lsf(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_process_m17_stream(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_process_m17_packet(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_process_m17_eos(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+
+// AX.25 Frame Processing
+int m17_ax25_bridge_parse_ax25_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length);
+int m17_ax25_bridge_process_ax25_iframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
+                                       const char* src_callsign, const char* dst_callsign);
+int m17_ax25_bridge_process_ax25_sframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
+                                       const char* src_callsign, const char* dst_callsign);
+int m17_ax25_bridge_process_ax25_uframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
+                                       const char* src_callsign, const char* dst_callsign);
+int m17_ax25_bridge_process_aprs_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
+                                      const char* src_callsign, const char* dst_callsign);
 
 // M17 Specific Functions
 int m17_ax25_bridge_m17_to_aprs(m17_ax25_bridge_t* bridge, const uint8_t* m17_data, uint16_t m17_length,

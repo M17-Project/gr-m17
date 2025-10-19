@@ -10,6 +10,10 @@
 #include "kiss_protocol.h"
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/select.h>
+#include <sys/socket.h>
+#include <sys/time.h>
 
 // Initialize KISS TNC
 int kiss_init(kiss_tnc_t* tnc) {
@@ -329,14 +333,22 @@ int kiss_serial_send(kiss_tnc_t* tnc, const uint8_t* data, uint16_t length) {
     }
     
     // Write to USB CDC (USB Serial) port
-    // This is a placeholder for actual USB CDC communication
-    // In a real implementation, this would use:
-    // - USB CDC driver for MCM-iMX93
-    // - USB CDC ACM (Abstract Control Model) for serial emulation
-    // - Direct USB bulk transfer for high-speed data
+    // Implementation for MCM-iMX93 USB CDC interface
+    int fd = tnc->serial_fd;
+    if (fd < 0) {
+        return -1; // USB CDC not initialized
+    }
     
-    // For now, simulate successful transmission
-    return length;
+    // Write data to USB CDC port
+    ssize_t bytes_written = write(fd, data, length);
+    if (bytes_written < 0) {
+        return -1; // Write error
+    }
+    
+    // Flush USB CDC buffer
+    fsync(fd);
+    
+    return bytes_written;
 }
 
 int kiss_serial_receive(kiss_tnc_t* tnc, uint8_t* data, uint16_t* length) {
@@ -345,15 +357,34 @@ int kiss_serial_receive(kiss_tnc_t* tnc, uint8_t* data, uint16_t* length) {
     }
     
     // Read from USB CDC (USB Serial) port
-    // This is a placeholder for actual USB CDC communication
-    // In a real implementation, this would use:
-    // - USB CDC driver for MCM-iMX93
-    // - USB CDC ACM (Abstract Control Model) for serial emulation
-    // - Direct USB bulk transfer for high-speed data
+    // Implementation for MCM-iMX93 USB CDC interface
+    int fd = tnc->serial_fd;
+    if (fd < 0) {
+        return -1; // USB CDC not initialized
+    }
     
-    // For now, simulate no data available
-    *length = 0;
-    return 0;
+    // Check if data is available (non-blocking)
+    fd_set readfds;
+    struct timeval timeout;
+    FD_ZERO(&readfds);
+    FD_SET(fd, &readfds);
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0; // Non-blocking
+    
+    int result = select(fd + 1, &readfds, NULL, NULL, &timeout);
+    if (result <= 0) {
+        *length = 0;
+        return 0; // No data available
+    }
+    
+    // Read data from USB CDC port
+    ssize_t bytes_read = read(fd, data, *length);
+    if (bytes_read < 0) {
+        return -1; // Read error
+    }
+    
+    *length = bytes_read;
+    return bytes_read;
 }
 
 // TCP/IP interface implementation
@@ -362,15 +393,20 @@ int kiss_tcp_send(kiss_tnc_t* tnc, const uint8_t* data, uint16_t length) {
         return -1;
     }
     
-    // Send data via TCP socket (implement based on your network stack)
-    // This is a placeholder for actual TCP communication
-    // In a real implementation, this would use:
-    // - BSD sockets API
-    // - Network stack on MCM-iMX93
-    // - KISS over TCP (typically port 8001)
+    // Send data via TCP socket
+    // Implementation for MCM-iMX93 network stack
+    int sockfd = tnc->tcp_socket;
+    if (sockfd < 0) {
+        return -1; // TCP socket not initialized
+    }
     
-    // For now, simulate successful transmission
-    return length;
+    // Send data via TCP socket
+    ssize_t bytes_sent = send(sockfd, data, length, 0);
+    if (bytes_sent < 0) {
+        return -1; // Send error
+    }
+    
+    return bytes_sent;
 }
 
 int kiss_tcp_receive(kiss_tnc_t* tnc, uint8_t* data, uint16_t* length) {
@@ -378,16 +414,35 @@ int kiss_tcp_receive(kiss_tnc_t* tnc, uint8_t* data, uint16_t* length) {
         return -1;
     }
     
-    // Receive data via TCP socket (implement based on your network stack)
-    // This is a placeholder for actual TCP communication
-    // In a real implementation, this would use:
-    // - BSD sockets API
-    // - Network stack on MCM-iMX93
-    // - KISS over TCP (typically port 8001)
+    // Receive data via TCP socket
+    // Implementation for MCM-iMX93 network stack
+    int sockfd = tnc->tcp_socket;
+    if (sockfd < 0) {
+        return -1; // TCP socket not initialized
+    }
     
-    // For now, simulate no data available
-    *length = 0;
-    return 0;
+    // Check if data is available (non-blocking)
+    fd_set readfds;
+    struct timeval timeout;
+    FD_ZERO(&readfds);
+    FD_SET(sockfd, &readfds);
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0; // Non-blocking
+    
+    int result = select(sockfd + 1, &readfds, NULL, NULL, &timeout);
+    if (result <= 0) {
+        *length = 0;
+        return 0; // No data available
+    }
+    
+    // Receive data from TCP socket
+    ssize_t bytes_received = recv(sockfd, data, *length, 0);
+    if (bytes_received < 0) {
+        return -1; // Receive error
+    }
+    
+    *length = bytes_received;
+    return bytes_received;
 }
 
 // Bluetooth interface implementation (FUTURE FEATURE)

@@ -200,40 +200,158 @@ int m17_ax25_bridge_convert_m17_to_ax25(m17_ax25_bridge_t* bridge, const uint8_t
         return -1; // Not a valid M17 frame
     }
     
-    // For now, create a simple AX.25 UI frame
-    // This is a placeholder implementation
-    if (*ax25_length < 32) {
-        return -1; // Buffer too small
+    // Extract M17 frame information
+    if (m17_length < 4) {
+        return -1; // Invalid M17 frame
     }
     
-    // Create basic AX.25 frame structure
-    ax25_data[0] = 0x7E; // Opening flag
-    ax25_data[1] = 0x7E; // Second flag for APRS
+    uint8_t frame_type = m17_data[2];
     
-    // Add basic address fields (placeholder)
-    // In real implementation, extract from M17 frame
-    for (int i = 2; i < 16; i++) {
-        ax25_data[i] = 0x40; // Placeholder address bytes
+    // Create AX.25 frame based on M17 frame type
+    if (frame_type == 0x00) { // LSF -> APRS beacon
+        return m17_ax25_bridge_convert_m17_lsf_to_aprs(bridge, m17_data, m17_length, ax25_data, ax25_length);
+    } else if (frame_type == 0x02) { // Packet -> AX.25 UI frame
+        return m17_ax25_bridge_convert_m17_packet_to_ax25(bridge, m17_data, m17_length, ax25_data, ax25_length);
+    } else {
+        return -1; // Unsupported M17 frame type for conversion
     }
-    
-    ax25_data[16] = 0x03; // Control field (UI frame)
-    ax25_data[17] = 0xF0; // PID (no layer 3)
-    
-    // Copy M17 data as information field (truncated)
-    uint16_t info_len = (m17_length > 10) ? 10 : m17_length;
-    for (uint16_t i = 0; i < info_len; i++) {
-        ax25_data[18 + i] = m17_data[i];
-    }
-    
-    // Add FCS (simplified)
-    ax25_data[18 + info_len] = 0x00;
-    ax25_data[18 + info_len + 1] = 0x00;
-    
-    // Add closing flag
-    ax25_data[18 + info_len + 2] = 0x7E;
     
     *ax25_length = 18 + info_len + 3;
     
+    return 0;
+}
+
+// Convert M17 LSF to APRS beacon
+int m17_ax25_bridge_convert_m17_lsf_to_aprs(m17_ax25_bridge_t* bridge, const uint8_t* m17_data, uint16_t m17_length,
+                                           uint8_t* ax25_data, uint16_t* ax25_length) {
+    if (!bridge || !m17_data || m17_length < 30 || !ax25_data || !ax25_length) {
+        return -1;
+    }
+    
+    if (*ax25_length < 50) {
+        return -1; // Buffer too small
+    }
+    
+    // Extract M17 callsigns
+    char src_callsign[10] = {0};
+    char dst_callsign[10] = {0};
+    
+    for (int i = 0; i < 9; i++) {
+        src_callsign[i] = m17_data[3 + i];
+        dst_callsign[i] = m17_data[13 + i];
+    }
+    
+    // Find AX.25 callsign mapping
+    char ax25_src[7] = {0};
+    char ax25_dst[7] = {0};
+    uint8_t src_ssid = 0;
+    uint8_t dst_ssid = 0;
+    
+    // Use mapping if available, otherwise use truncated callsigns
+    if (m17_ax25_bridge_find_mapping(bridge, src_callsign, ax25_src, &src_ssid) != 0) {
+        // Truncate M17 callsign to AX.25 format
+        strncpy(ax25_src, src_callsign, 6);
+    }
+    
+    if (m17_ax25_bridge_find_mapping(bridge, dst_callsign, ax25_dst, &dst_ssid) != 0) {
+        // Truncate M17 callsign to AX.25 format
+        strncpy(ax25_dst, dst_callsign, 6);
+    }
+    
+    // Create AX.25 APRS frame
+    int pos = 0;
+    
+    // Opening flag
+    ax25_data[pos++] = 0x7E;
+    
+    // Destination address
+    for (int i = 0; i < 6; i++) {
+        ax25_data[pos++] = (ax25_dst[i] << 1);
+    }
+    ax25_data[pos++] = (dst_ssid << 1);
+    
+    // Source address
+    for (int i = 0; i < 6; i++) {
+        ax25_data[pos++] = (ax25_src[i] << 1);
+    }
+    ax25_data[pos++] = (src_ssid << 1) | 0x60; // Command bit
+    
+    // Control field (UI frame)
+    ax25_data[pos++] = 0x03;
+    
+    // PID (no layer 3)
+    ax25_data[pos++] = 0xF0;
+    
+    // APRS data (position beacon)
+    const char* aprs_data = "!0000.00N/00000.00W-M17 Bridge";
+    for (int i = 0; aprs_data[i] && pos < *ax25_length - 3; i++) {
+        ax25_data[pos++] = aprs_data[i];
+    }
+    
+    // FCS (simplified - in real implementation, calculate proper FCS)
+    ax25_data[pos++] = 0x00;
+    ax25_data[pos++] = 0x00;
+    
+    // Closing flag
+    ax25_data[pos++] = 0x7E;
+    
+    *ax25_length = pos;
+    return 0;
+}
+
+// Convert M17 packet to AX.25 UI frame
+int m17_ax25_bridge_convert_m17_packet_to_ax25(m17_ax25_bridge_t* bridge, const uint8_t* m17_data, uint16_t m17_length,
+                                              uint8_t* ax25_data, uint16_t* ax25_length) {
+    if (!bridge || !m17_data || m17_length < 16 || !ax25_data || !ax25_length) {
+        return -1;
+    }
+    
+    if (*ax25_length < 50) {
+        return -1; // Buffer too small
+    }
+    
+    // Extract M17 packet data
+    uint16_t packet_start = 3; // Skip frame markers and type
+    uint16_t packet_length = m17_length - packet_start;
+    
+    // Create AX.25 UI frame
+    int pos = 0;
+    
+    // Opening flag
+    ax25_data[pos++] = 0x7E;
+    
+    // Destination address (broadcast)
+    for (int i = 0; i < 6; i++) {
+        ax25_data[pos++] = ('Q' << 1);
+    }
+    ax25_data[pos++] = 0x00;
+    
+    // Source address (use bridge callsign)
+    for (int i = 0; i < 6; i++) {
+        ax25_data[pos++] = (bridge->state.config.ax25_callsign[i] << 1);
+    }
+    ax25_data[pos++] = (bridge->state.config.ax25_ssid << 1) | 0x60;
+    
+    // Control field (UI frame)
+    ax25_data[pos++] = 0x03;
+    
+    // PID (no layer 3)
+    ax25_data[pos++] = 0xF0;
+    
+    // Copy M17 packet data as information field
+    uint16_t info_len = (packet_length > 20) ? 20 : packet_length;
+    for (uint16_t i = 0; i < info_len && pos < *ax25_length - 3; i++) {
+        ax25_data[pos++] = m17_data[packet_start + i];
+    }
+    
+    // FCS (simplified)
+    ax25_data[pos++] = 0x00;
+    ax25_data[pos++] = 0x00;
+    
+    // Closing flag
+    ax25_data[pos++] = 0x7E;
+    
+    *ax25_length = pos;
     return 0;
 }
 
@@ -384,17 +502,295 @@ int m17_ax25_bridge_process_rx_data(m17_ax25_bridge_t* bridge, const uint8_t* da
     // Process based on current protocol
     switch (bridge->state.current_protocol) {
         case PROTOCOL_M17:
-            // TODO: Process M17 frame
-            break;
+            return m17_ax25_bridge_process_m17_frame(bridge, data, length);
         case PROTOCOL_AX25:
         case PROTOCOL_APRS:
-            // TODO: Process AX.25 frame
-            break;
+            return m17_ax25_bridge_process_ax25_frame(bridge, data, length);
         default:
             return -1; // Unknown protocol
     }
     
     bridge->state.last_activity = 0; // Reset activity timer
+    return 0;
+}
+
+// Process M17 frame
+int m17_ax25_bridge_process_m17_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length) {
+    if (!bridge || !data || length < 2) {
+        return -1;
+    }
+    
+    // Validate M17 frame markers
+    if (data[0] != 0x5D || data[1] != 0x5F) {
+        return -1; // Invalid M17 frame
+    }
+    
+    // Parse M17 frame structure
+    if (length < 4) {
+        return -1; // Frame too short
+    }
+    
+    // Extract frame type from third byte
+    uint8_t frame_type = data[2];
+    
+    // Process based on frame type
+    switch (frame_type) {
+        case 0x00: // Link Setup Frame (LSF)
+            return m17_ax25_bridge_process_m17_lsf(bridge, data, length);
+        case 0x01: // Stream Frame
+            return m17_ax25_bridge_process_m17_stream(bridge, data, length);
+        case 0x02: // Packet Frame
+            return m17_ax25_bridge_process_m17_packet(bridge, data, length);
+        case 0x03: // End of Stream
+            return m17_ax25_bridge_process_m17_eos(bridge, data, length);
+        default:
+            return -1; // Unknown frame type
+    }
+}
+
+// Process M17 Link Setup Frame
+int m17_ax25_bridge_process_m17_lsf(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length) {
+    if (!bridge || !data || length < 30) {
+        return -1;
+    }
+    
+    // Extract callsigns from LSF
+    char src_callsign[10] = {0};
+    char dst_callsign[10] = {0};
+    
+    // Parse source callsign (bytes 3-12)
+    for (int i = 0; i < 9; i++) {
+        src_callsign[i] = data[3 + i];
+    }
+    
+    // Parse destination callsign (bytes 13-22)
+    for (int i = 0; i < 9; i++) {
+        dst_callsign[i] = data[13 + i];
+    }
+    
+    // Update bridge state with M17 callsigns
+    bridge->state.m17_active = true;
+    bridge->state.ax25_active = false;
+    
+    // Log M17 LSF reception
+    printf("M17 LSF: %s -> %s\n", src_callsign, dst_callsign);
+    
+    return 0;
+}
+
+// Process M17 Stream Frame
+int m17_ax25_bridge_process_m17_stream(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length) {
+    if (!bridge || !data || length < 16) {
+        return -1;
+    }
+    
+    // Extract audio data from stream frame
+    // M17 stream frames contain encoded audio data
+    printf("M17 Stream Frame: %d bytes\n", length);
+    
+    // TODO: Implement audio decoding
+    // This would involve:
+    // 1. M17 audio decoder
+    // 2. PCM audio output
+    // 3. Audio quality processing
+    
+    return 0;
+}
+
+// Process M17 Packet Frame
+int m17_ax25_bridge_process_m17_packet(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length) {
+    if (!bridge || !data || length < 16) {
+        return -1;
+    }
+    
+    // Extract packet data
+    printf("M17 Packet Frame: %d bytes\n", length);
+    
+    // TODO: Implement packet processing
+    // This would involve:
+    // 1. Packet data extraction
+    // 2. Data validation
+    // 3. Application layer processing
+    
+    return 0;
+}
+
+// Process M17 End of Stream
+int m17_ax25_bridge_process_m17_eos(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length) {
+    if (!bridge || !data || length < 4) {
+        return -1;
+    }
+    
+    printf("M17 End of Stream\n");
+    
+    // Reset M17 state
+    bridge->state.m17_active = false;
+    
+    return 0;
+}
+
+// Process AX.25 frame
+int m17_ax25_bridge_process_ax25_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length) {
+    if (!bridge || !data || length < 3) {
+        return -1;
+    }
+    
+    // Validate AX.25 frame markers
+    if (data[0] != 0x7E) {
+        return -1; // Invalid AX.25 frame
+    }
+    
+    // Find closing flag
+    uint16_t frame_end = 0;
+    for (uint16_t i = 1; i < length; i++) {
+        if (data[i] == 0x7E) {
+            frame_end = i;
+            break;
+        }
+    }
+    
+    if (frame_end == 0) {
+        return -1; // No closing flag found
+    }
+    
+    // Parse AX.25 frame
+    return m17_ax25_bridge_parse_ax25_frame(bridge, data, frame_end);
+}
+
+// Parse AX.25 frame
+int m17_ax25_bridge_parse_ax25_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length) {
+    if (!bridge || !data || length < 18) {
+        return -1;
+    }
+    
+    // Extract addresses (minimum 2 addresses + control)
+    char src_callsign[7] = {0};
+    char dst_callsign[7] = {0};
+    uint8_t src_ssid = 0;
+    uint8_t dst_ssid = 0;
+    
+    // Parse destination address (bytes 1-7)
+    for (int i = 0; i < 6; i++) {
+        dst_callsign[i] = data[1 + i] >> 1;
+    }
+    dst_ssid = (data[7] >> 1) & 0x0F;
+    
+    // Parse source address (bytes 8-14)
+    for (int i = 0; i < 6; i++) {
+        src_callsign[i] = data[8 + i] >> 1;
+    }
+    src_ssid = (data[14] >> 1) & 0x0F;
+    
+    // Extract control field
+    uint8_t control = data[15];
+    
+    // Process based on frame type
+    if (control & 0x01) {
+        // I-frame (Information frame)
+        return m17_ax25_bridge_process_ax25_iframe(bridge, data, length, src_callsign, dst_callsign);
+    } else if (control & 0x02) {
+        // S-frame (Supervisory frame)
+        return m17_ax25_bridge_process_ax25_sframe(bridge, data, length, src_callsign, dst_callsign);
+    } else {
+        // U-frame (Unnumbered frame)
+        return m17_ax25_bridge_process_ax25_uframe(bridge, data, length, src_callsign, dst_callsign);
+    }
+}
+
+// Process AX.25 I-frame
+int m17_ax25_bridge_process_ax25_iframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length, 
+                                       const char* src_callsign, const char* dst_callsign) {
+    if (!bridge || !data || length < 18) {
+        return -1;
+    }
+    
+    // Extract information field
+    uint16_t info_start = 16; // Skip addresses and control
+    uint16_t info_length = length - info_start - 2; // Subtract FCS
+    
+    printf("AX.25 I-frame: %s -> %s (%d bytes)\n", src_callsign, dst_callsign, info_length);
+    
+    // Update bridge state
+    bridge->state.ax25_active = true;
+    bridge->state.m17_active = false;
+    
+    return 0;
+}
+
+// Process AX.25 S-frame
+int m17_ax25_bridge_process_ax25_sframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
+                                       const char* src_callsign, const char* dst_callsign) {
+    if (!bridge || !data || length < 16) {
+        return -1;
+    }
+    
+    uint8_t control = data[15];
+    const char* frame_type = "Unknown";
+    
+    // Determine S-frame type
+    switch (control & 0x0C) {
+        case 0x00: frame_type = "RR"; break;
+        case 0x04: frame_type = "RNR"; break;
+        case 0x08: frame_type = "REJ"; break;
+        case 0x0C: frame_type = "SREJ"; break;
+    }
+    
+    printf("AX.25 S-frame (%s): %s -> %s\n", frame_type, src_callsign, dst_callsign);
+    
+    return 0;
+}
+
+// Process AX.25 U-frame
+int m17_ax25_bridge_process_ax25_uframe(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
+                                       const char* src_callsign, const char* dst_callsign) {
+    if (!bridge || !data || length < 16) {
+        return -1;
+    }
+    
+    uint8_t control = data[15];
+    const char* frame_type = "Unknown";
+    
+    // Determine U-frame type
+    switch (control) {
+        case 0x2F: frame_type = "SABM"; break;
+        case 0x43: frame_type = "DISC"; break;
+        case 0x63: frame_type = "UA"; break;
+        case 0x87: frame_type = "DM"; break;
+        case 0x03: frame_type = "UI"; break;
+        case 0xAF: frame_type = "FRMR"; break;
+    }
+    
+    printf("AX.25 U-frame (%s): %s -> %s\n", frame_type, src_callsign, dst_callsign);
+    
+    // Check for APRS (UI frame with PID 0xF0)
+    if (control == 0x03 && length > 18) {
+        uint8_t pid = data[16];
+        if (pid == 0xF0) {
+            return m17_ax25_bridge_process_aprs_frame(bridge, data, length, src_callsign, dst_callsign);
+        }
+    }
+    
+    return 0;
+}
+
+// Process APRS frame
+int m17_ax25_bridge_process_aprs_frame(m17_ax25_bridge_t* bridge, const uint8_t* data, uint16_t length,
+                                      const char* src_callsign, const char* dst_callsign) {
+    if (!bridge || !data || length < 20) {
+        return -1;
+    }
+    
+    // Extract APRS data (after PID)
+    uint16_t aprs_start = 17;
+    uint16_t aprs_length = length - aprs_start - 2; // Subtract FCS
+    
+    printf("APRS: %s -> %s (%d bytes)\n", src_callsign, dst_callsign, aprs_length);
+    
+    // Update bridge state
+    bridge->state.current_protocol = PROTOCOL_APRS;
+    bridge->state.ax25_active = true;
+    bridge->state.m17_active = false;
+    
     return 0;
 }
 
