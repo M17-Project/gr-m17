@@ -86,7 +86,7 @@ For detailed information about AX.25 TNC KISS integration, see: **[KISS TNC Inte
 **Ready for Future Hardware Expansion:**
 - **Bluetooth Module**: External Bluetooth module via USB or UART
 - **GPS Module**: External GPS module via USB or I2C
-- **Additional Interfaces**: USB expansion hub for multiple devices
+
 
 ### Hardware Security Module Support
 
@@ -126,7 +126,7 @@ They both provide:
 
 ##  Legal Disclaimer
 
-**IMPORTANT: Encryption of radio amateur signals is be illegal in many countries.**
+**IMPORTANT: Encryption of radio amateur signals is illegal in many countries.**
 
 **User Responsibility:**
 - **Users are entirely responsible** for compliance with local laws and regulations
