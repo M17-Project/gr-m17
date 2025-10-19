@@ -1,6 +1,6 @@
 # KISS/TNC Integration for M17
 
-This document describes the implementation of KISS protocol and TNC functionality for the M17 codebase, enabling dual-mode operation with both M17 and AX.25 packet radio protocols.
+This document describes the implementation of KISS protocol and TNC functionality for the M17 codebase, enabling mode switching between M17 and AX.25 packet radio protocols.
 
 ## Overview
 
@@ -9,8 +9,8 @@ The M17 codebase now includes comprehensive support for:
 - **KISS Protocol**: Keep It Simple Stupid protocol for TNC communication
 - **AX.25 Protocol**: Amateur X.25 packet radio protocol
 - **SX1255 RF Frontend**: IQ modulator/demodulator interface
-- **Protocol Bridge**: M17 ↔ AX.25 conversion and bridging
-- **Dual-Mode Controller**: Unified interface for both protocols
+- **Protocol Bridge**: M17 ↔ AX.25 data format conversion
+- **Dual-Mode Controller**: Mode switching interface for both protocols
 
 ## Architecture
 
@@ -27,6 +27,17 @@ The M17 codebase now includes comprehensive support for:
  Modulation Modulation Modulation 
 
 ```
+
+## Technical Limitations
+
+**Important Note:** A radio cannot simultaneously transmit both M17 and AX.25 protocols due to physical hardware constraints:
+
+- **Single RF Chain**: One antenna, one frequency, one modulation scheme at a time
+- **Different Modulation**: M17 uses 4FSK, AX.25 uses AFSK (1200/300 baud)
+- **Hardware Switching**: The SX1255 RF frontend switches between modulation modes
+- **Mode Switching**: The system detects received protocols and switches transmission modes accordingly
+
+The "dual-mode" operation refers to **mode switching**, not simultaneous operation.
 
 ## Components
 

@@ -38,9 +38,9 @@ A GNU Radio module implementing the M17 digital radio protocol with enhanced cry
 
 - **M17 Protocol Support**: Complete implementation of M17 digital radio protocol
 - **AX.25 TNC KISS Support**: Full AX.25 packet radio protocol with KISS TNC interface
-- **Dual-Mode Operation**: Simultaneous M17 and AX.25 protocol support
+- **Dual-Mode Operation**: Mode switching between M17 and AX.25 protocols
 - **APRS Integration**: Automatic Position Reporting System with position, status, and messaging
-- **Protocol Bridge**: Seamless conversion between M17 and AX.25 protocols
+- **Protocol Bridge**: Software conversion between M17 and AX.25 data formats
 - **Enhanced Security**: Ed25519/Curve25519 cryptographic support
 - **Modern Cryptography**: AES-GCM authenticated encryption
 - **Nitrokey Hardware Security**: Hardware security module integration for key storage and signing
@@ -65,7 +65,7 @@ The project includes comprehensive AX.25 TNC KISS support for traditional packet
 - **KISS Protocol**: Complete KISS (Keep It Simple Stupid) TNC interface implementation
 - **AX.25 Protocol**: Full AX.25 packet radio protocol with I, S, and U frame support
 - **APRS Support**: Position reporting, status messages, and direct messaging
-- **Protocol Bridge**: Automatic conversion between M17 and AX.25 protocols
+- **Protocol Bridge**: Software conversion between M17 and AX.25 data formats
 - **USB Interface**: Primary communication via USB CDC (USB Serial)
 - **Dire Wolf Compatible**: Works with popular APRS software like Dire Wolf
 
@@ -204,7 +204,7 @@ For detailed information about the security fixes, see [SECURITY_FIXES.md](secur
 
 ## Dual-Mode Operation
 
-The gr-m17 module supports dual-mode operation, allowing simultaneous use of both M17 and AX.25 protocols:
+The gr-m17 module supports **mode switching** between M17 and AX.25 protocols (not simultaneous operation):
 
 **M17 Mode:**
 - Digital voice and data transmission
@@ -218,11 +218,13 @@ The gr-m17 module supports dual-mode operation, allowing simultaneous use of bot
 - KISS TNC interface
 - Dire Wolf compatibility
 
-**Bridge Mode:**
-- Automatic protocol detection
-- Seamless conversion between M17 and AX.25
+**Protocol Detection & Switching:**
+- Automatic protocol detection from received signals
+- Mode switching between M17 and AX.25 transmission
 - Callsign mapping between protocols
-- Unified interface for both protocols
+- Software conversion between protocol data formats
+
+**Note:** A radio cannot simultaneously transmit both M17 and AX.25 protocols due to physical hardware limitations (single RF chain, different modulation schemes). The system switches between modes as needed.
 
 ## Compiling for GNU Radio
 
