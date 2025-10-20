@@ -106,6 +106,11 @@ See <a href="examples/README.md">examples/README.md</a> for the expected output 
 **Recommendation:**
 Always consult with your local amateur radio regulatory authority before using encryption features on amateur radio frequencies.
 
+**Legal Clarification:**
+Signing emails and authenticating those are perfectly legal, that also includes text messages etc as long that they are not encrypted.
+
+Keys can also be used to authenticate against systems - say you want to remotely change settings in a local repeater with secure authentication. One only needs support for it in the code base and existing protocols.
+
 ### Advanced Security
 - **Rate Limiting**: Brute force protection
 - **Replay Protection**: Anti-replay mechanisms
