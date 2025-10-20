@@ -2,13 +2,13 @@
 # M17 Pre-commit Security Hook
 # Prevents commits with security issues
 
-echo "🔒 M17 Pre-commit Security Check"
-echo "================================"
+echo "M17 Pre-commit Security Check"
+echo "=============================="
 
 # Check for sensitive data in commits (excluding LaTeX documentation)
 echo "Checking for sensitive data..."
 if git diff --cached | grep -v -E "\.(tex|latex|sty|cls)$" | grep -E "(secret|token)" -i | grep -v -E "(nitropy|secrets|add-password|get-public-key|delete|list|detokenize|tokenize)" -i; then
-    echo "❌ ERROR: Potential sensitive data in commit"
+    echo "ERROR: Potential sensitive data in commit"
     echo "   Remove or mask sensitive information before committing"
     exit 1
 fi
@@ -16,7 +16,7 @@ fi
 # Check for key logging (excluding LaTeX documentation and security hooks)
 echo "Checking for key logging..."
 if git diff --cached | grep -v -E "\.(tex|latex|sty|cls)$" | grep -v "security/hooks/" | grep -E "printf.*key|fprintf.*key|cout.*key" -i; then
-    echo "❌ ERROR: Potential key logging detected"
+    echo "ERROR: Potential key logging detected"
     echo "   Remove key logging statements before committing"
     exit 1
 fi
@@ -24,7 +24,7 @@ fi
 # Check for weak randomness (excluding LaTeX documentation)
 echo "Checking for weak randomness..."
 if git diff --cached | grep -v -E "\.(tex|latex|sty|cls)$" | grep -E "rand\(\)|srand\(|time\(NULL\)" -i; then
-    echo "❌ ERROR: Weak randomness detected"
+    echo "ERROR: Weak randomness detected"
     echo "   Use cryptographically secure RNG (RAND_bytes, /dev/urandom)"
     exit 1
 fi
@@ -32,7 +32,7 @@ fi
 # Check for insecure memory operations (excluding LaTeX documentation)
 echo "Checking for insecure memory operations..."
 if git diff --cached | grep -v -E "\.(tex|latex|sty|cls)$" | grep -E "memset.*0" -i; then
-    echo "⚠️  WARNING: memset(ptr, 0, size) detected"
+    echo "WARNING: memset(ptr, 0, size) detected"
     echo "   Consider using explicit_bzero for sensitive data"
     # Don't fail, just warn
 fi
@@ -40,7 +40,7 @@ fi
 # Check for magic numbers (excluding LaTeX documentation)
 echo "Checking for magic numbers..."
 if git diff --cached | grep -v -E "\.(tex|latex|sty|cls)$" | grep -E "0x8000|0x7FFC|0x7FFF" -i; then
-    echo "⚠️  WARNING: Magic numbers detected"
+    echo "WARNING: Magic numbers detected"
     echo "   Consider using named constants"
     # Don't fail, just warn
 fi
@@ -48,7 +48,7 @@ fi
 # Check for missing error handling (excluding LaTeX documentation)
 echo "Checking for missing error handling..."
 if git diff --cached | grep -v -E "\.(tex|latex|sty|cls)$" | grep -E "EVP_.*\(.*\);$" -i; then
-    echo "⚠️  WARNING: OpenSSL function without error checking"
+    echo "WARNING: OpenSSL function without error checking"
     echo "   Check return values for all OpenSSL functions"
     # Don't fail, just warn
 fi
@@ -65,12 +65,12 @@ if [ ! -z "$CHANGED_FILES" ]; then
         cppcheck --quiet --enable=warning,style,performance \
                  --suppress=missingIncludeSystem \
                  $CHANGED_FILES 2>/dev/null || {
-            echo "⚠️  WARNING: Static analysis found issues"
+            echo "WARNING: Static analysis found issues"
             echo "   Review cppcheck output above"
         }
     fi
 fi
 
-echo "✅ Pre-commit security check passed!"
-echo "🚀 Safe to commit"
+echo "Pre-commit security check passed!"
+echo "Safe to commit"
 exit 0
