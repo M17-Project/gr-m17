@@ -2,101 +2,234 @@
 <results version="2">
     <cppcheck version="2.13.0"/>
     <errors>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../lib/m17_coder_impl.h" line="15" column="0"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_encr_type&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 95. Dynamic binding is not used." verbose="Virtual function &apos;set_encr_type&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 95. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="282" column="12" info="set_encr_type is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="95" column="7" info="Calling set_encr_type"/>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;aes.h&quot; not found." verbose="Include file: &quot;aes.h&quot; not found.">
-            <location file="../../../lib/m17_coder_impl.h" line="18" column="0"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_type&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 96. Dynamic binding is not used." verbose="Virtual function &apos;set_type&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 96. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="278" column="12" info="set_type is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="96" column="7" info="Calling set_type"/>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;uECC.h&quot; not found." verbose="Include file: &quot;uECC.h&quot; not found.">
-            <location file="../../../lib/m17_coder_impl.h" line="22" column="0"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_aes_subtype&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 97. Dynamic binding is not used." verbose="Virtual function &apos;set_aes_subtype&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 97. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="284" column="12" info="set_aes_subtype is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="97" column="7" info="Calling set_aes_subtype"/>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../lib/m17_coder_impl.cc" line="52" column="0"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_meta&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 98. Dynamic binding is not used." verbose="Virtual function &apos;set_meta&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 98. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="276" column="12" info="set_meta is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="98" column="7" info="Calling set_meta"/>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;aes.h&quot; not found." verbose="Include file: &quot;aes.h&quot; not found.">
-            <location file="../../../lib/m17_coder_impl.cc" line="55" column="0"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_seed&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 99. Dynamic binding is not used." verbose="Virtual function &apos;set_seed&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 99. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="277" column="12" info="set_seed is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="99" column="7" info="Calling set_seed"/>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;uECC.h&quot; not found." verbose="Include file: &quot;uECC.h&quot; not found.">
-            <location file="../../../lib/m17_coder_impl.cc" line="59" column="0"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_src_id&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 100. Dynamic binding is not used." verbose="Virtual function &apos;set_src_id&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 100. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="272" column="12" info="set_src_id is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="100" column="7" info="Calling set_src_id"/>
         </error>
-        <error id="syntaxError" severity="error" msg="Unmatched &apos;}&apos;. Configuration: &apos;&apos;." verbose="Unmatched &apos;}&apos;. Configuration: &apos;&apos;." file0="../../../lib/m17_coder_impl.cc">
-            <location file="../../../lib/m17_coder_impl.h" line="143" column="1"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_dst_id&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 101. Dynamic binding is not used." verbose="Virtual function &apos;set_dst_id&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 101. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="273" column="12" info="set_dst_id is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="101" column="7" info="Calling set_dst_id"/>
         </error>
-        <error id="syntaxError" severity="error" msg="Unmatched &apos;}&apos;. Configuration: &apos;AES&apos;." verbose="Unmatched &apos;}&apos;. Configuration: &apos;AES&apos;." file0="../../../lib/m17_coder_impl.cc">
-            <location file="../../../lib/m17_coder_impl.h" line="143" column="1"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_signed&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 102. Dynamic binding is not used." verbose="Virtual function &apos;set_signed&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 102. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="287" column="12" info="set_signed is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="102" column="7" info="Calling set_signed"/>
         </error>
-        <error id="syntaxError" severity="error" msg="Unmatched &apos;}&apos;. Configuration: &apos;ECC&apos;." verbose="Unmatched &apos;}&apos;. Configuration: &apos;ECC&apos;." file0="../../../lib/m17_coder_impl.cc">
-            <location file="../../../lib/m17_coder_impl.h" line="143" column="1"/>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_debug&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 103. Dynamic binding is not used." verbose="Virtual function &apos;set_debug&apos; is called from constructor &apos;m17_coder_impl(std::string src_id,std::string dst_id,int mode,int data,int encr_type,int encr_subtype,int aes_subtype,int can,std::string meta,std::string key,std::string priv_key,bool debug,bool signed_str,std::string seed)&apos; at line 103. Dynamic binding is not used." file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.h" line="286" column="12" info="set_debug is a virtual function"/>
+            <location file="../../../lib/m17_coder_impl.cc" line="103" column="7" info="Calling set_debug"/>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;config.h&quot; not found." verbose="Include file: &quot;config.h&quot; not found.">
-            <location file="../../../lib/m17_coder_impl.cc" line="36" column="0"/>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="155" column="42"/>
         </error>
-        <error id="syntaxError" severity="error" msg="Unmatched &apos;}&apos;. Configuration: &apos;HAVE_CONFIG_H&apos;." verbose="Unmatched &apos;}&apos;. Configuration: &apos;HAVE_CONFIG_H&apos;." file0="../../../lib/m17_coder_impl.cc">
-            <location file="../../../lib/m17_coder_impl.h" line="143" column="1"/>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="158" column="42"/>
         </error>
-        <error id="syntaxError" severity="error" msg="Unmatched &apos;}&apos;. Configuration: &apos;__linux__&apos;." verbose="Unmatched &apos;}&apos;. Configuration: &apos;__linux__&apos;." file0="../../../lib/m17_coder_impl.cc">
-            <location file="../../../lib/m17_coder_impl.h" line="143" column="1"/>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="762" column="25"/>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../lib/m17_decoder_impl.h" line="12" column="0"/>
+        <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="763" column="20"/>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;aes.h&quot; not found." verbose="Include file: &quot;aes.h&quot; not found.">
-            <location file="../../../lib/m17_decoder_impl.h" line="142" column="0"/>
+        <error id="funcArgNamesDifferent" severity="style" msg="Function &apos;set_priv_key&apos; argument 1 names different: declaration &apos;key&apos; definition &apos;arg&apos;." verbose="Function &apos;set_priv_key&apos; argument 1 names different: declaration &apos;key&apos; definition &apos;arg&apos;." cwe="628" inconclusive="true" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="356" column="51"/>
+            <location file="../../../lib/m17_coder_impl.h" line="275" column="38"/>
+            <symbol>set_priv_key</symbol>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;uECC.h&quot; not found." verbose="Include file: &quot;uECC.h&quot; not found.">
-            <location file="../../../lib/m17_decoder_impl.h" line="146" column="0"/>
+        <error id="funcArgNamesDifferent" severity="style" msg="Function &apos;set_key&apos; argument 1 names different: declaration &apos;key&apos; definition &apos;arg&apos;." verbose="Function &apos;set_key&apos; argument 1 names different: declaration &apos;key&apos; definition &apos;arg&apos;." cwe="628" inconclusive="true" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="395" column="46"/>
+            <location file="../../../lib/m17_coder_impl.h" line="274" column="33"/>
+            <symbol>set_key</symbol>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../lib/m17_decoder_impl.cc" line="34" column="0"/>
+        <error id="funcArgNamesDifferent" severity="style" msg="Function &apos;set_seed&apos; argument 1 names different: declaration &apos;meta&apos; definition &apos;arg&apos;." verbose="Function &apos;set_seed&apos; argument 1 names different: declaration &apos;meta&apos; definition &apos;arg&apos;." cwe="628" inconclusive="true" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="431" column="47"/>
+            <location file="../../../lib/m17_coder_impl.h" line="277" column="34"/>
+            <symbol>set_seed</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;src_id&apos; should be passed by const reference." verbose="Parameter &apos;src_id&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="74" column="33" info="Function parameter &apos;src_id&apos; should be passed by const reference."/>
+            <symbol>src_id</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;dst_id&apos; should be passed by const reference." verbose="Parameter &apos;dst_id&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="74" column="53" info="Function parameter &apos;dst_id&apos; should be passed by const reference."/>
+            <symbol>dst_id</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;meta&apos; should be passed by const reference." verbose="Parameter &apos;meta&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="76" column="33" info="Function parameter &apos;meta&apos; should be passed by const reference."/>
+            <symbol>meta</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;key&apos; should be passed by const reference." verbose="Parameter &apos;key&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="76" column="51" info="Function parameter &apos;key&apos; should be passed by const reference."/>
+            <symbol>key</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;priv_key&apos; should be passed by const reference." verbose="Parameter &apos;priv_key&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="77" column="33" info="Function parameter &apos;priv_key&apos; should be passed by const reference."/>
+            <symbol>priv_key</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;seed&apos; should be passed by const reference." verbose="Parameter &apos;seed&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="77" column="84" info="Function parameter &apos;seed&apos; should be passed by const reference."/>
+            <symbol>seed</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;src_id&apos; should be passed by const reference." verbose="Parameter &apos;src_id&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="86" column="48" info="Function parameter &apos;src_id&apos; should be passed by const reference."/>
+            <symbol>src_id</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;dst_id&apos; should be passed by const reference." verbose="Parameter &apos;dst_id&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="86" column="68" info="Function parameter &apos;dst_id&apos; should be passed by const reference."/>
+            <symbol>dst_id</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;key&apos; should be passed by const reference." verbose="Parameter &apos;key&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="89" column="66" info="Function parameter &apos;key&apos; should be passed by const reference."/>
+            <symbol>key</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;priv_key&apos; should be passed by const reference." verbose="Parameter &apos;priv_key&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="90" column="48" info="Function parameter &apos;priv_key&apos; should be passed by const reference."/>
+            <symbol>priv_key</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;seed&apos; should be passed by const reference." verbose="Parameter &apos;seed&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="91" column="65" info="Function parameter &apos;seed&apos; should be passed by const reference."/>
+            <symbol>seed</symbol>
+        </error>
+        <error id="constParameterReference" severity="style" msg="Parameter &apos;ninput_items&apos; can be declared as reference to const" verbose="Parameter &apos;ninput_items&apos; can be declared as reference to const" cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="758" column="49" info="Parameter &apos;ninput_items&apos; can be declared as reference to const"/>
+            <symbol>ninput_items</symbol>
+        </error>
+        <error id="constParameterReference" severity="style" msg="Parameter &apos;input_items&apos; can be declared as reference to const" verbose="Parameter &apos;input_items&apos; can be declared as reference to const" cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="759" column="61" info="Parameter &apos;input_items&apos; can be declared as reference to const"/>
+            <symbol>input_items</symbol>
+        </error>
+        <error id="constParameterReference" severity="style" msg="Parameter &apos;output_items&apos; can be declared as reference to const" verbose="Parameter &apos;output_items&apos; can be declared as reference to const" cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="760" column="55" info="Parameter &apos;output_items&apos; can be declared as reference to const"/>
+            <symbol>output_items</symbol>
+        </error>
+        <error id="constVariable" severity="style" msg="Variable &apos;hex_byte&apos; can be declared as const array" verbose="Variable &apos;hex_byte&apos; can be declared as const array" cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="373" column="14" info="Variable &apos;hex_byte&apos; can be declared as const array"/>
+            <symbol>hex_byte</symbol>
+        </error>
+        <error id="constVariable" severity="style" msg="Variable &apos;hex_byte&apos; can be declared as const array" verbose="Variable &apos;hex_byte&apos; can be declared as const array" cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="412" column="14" info="Variable &apos;hex_byte&apos; can be declared as const array"/>
+            <symbol>hex_byte</symbol>
+        </error>
+        <error id="constVariable" severity="style" msg="Variable &apos;hex_byte&apos; can be declared as const array" verbose="Variable &apos;hex_byte&apos; can be declared as const array" cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="443" column="14" info="Variable &apos;hex_byte&apos; can be declared as const array"/>
+            <symbol>hex_byte</symbol>
+        </error>
+        <error id="uselessCallsSubstr" severity="performance" msg="Ineffective call of function &apos;substr&apos; because a prefix of the string is assigned to itself. Use resize() or pop_back() instead." verbose="Ineffective call of function &apos;substr&apos; because a prefix of the string is assigned to itself. Use resize() or pop_back() instead." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="478" column="18"/>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::find_if algorithm instead of a raw loop." verbose="Consider using std::find_if algorithm instead of a raw loop." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="295" column="38"/>
+        </error>
+        <error id="useStlAlgorithm" severity="style" msg="Consider using std::find_if algorithm instead of a raw loop." verbose="Consider using std::find_if algorithm instead of a raw loop." cwe="398" file0="../../../lib/m17_coder_impl.cc">
+            <location file="../../../lib/m17_coder_impl.cc" line="331" column="38"/>
+        </error>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_debug_data&apos; is called from constructor &apos;m17_decoder_impl()&apos; at line 253. Dynamic binding is not used." verbose="Virtual function &apos;set_debug_data&apos; is called from constructor &apos;m17_decoder_impl()&apos; at line 253. Dynamic binding is not used." file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.h" line="292" column="12" info="set_debug_data is a virtual function"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="62" column="4" info="Calling set_debug_data"/>
+            <location file="../../../lib/m17_decoder_impl.h" line="253" column="29" info="Calling m17_decoder_impl"/>
+        </error>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_debug_data&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 62. Dynamic binding is not used." verbose="Virtual function &apos;set_debug_data&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 62. Dynamic binding is not used." file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.h" line="292" column="12" info="set_debug_data is a virtual function"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="62" column="4" info="Calling set_debug_data"/>
+        </error>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_debug_ctrl&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 63. Dynamic binding is not used." verbose="Virtual function &apos;set_debug_ctrl&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 63. Dynamic binding is not used." file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.h" line="295" column="12" info="set_debug_ctrl is a virtual function"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="63" column="4" info="Calling set_debug_ctrl"/>
+        </error>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_threshold&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 64. Dynamic binding is not used." verbose="Virtual function &apos;set_threshold&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 64. Dynamic binding is not used." file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.h" line="297" column="12" info="set_threshold is a virtual function"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="64" column="4" info="Calling set_threshold"/>
+        </error>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_callsign&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 65. Dynamic binding is not used." verbose="Virtual function &apos;set_callsign&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 65. Dynamic binding is not used." file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.h" line="296" column="12" info="set_callsign is a virtual function"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="65" column="4" info="Calling set_callsign"/>
+        </error>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_signed&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 66. Dynamic binding is not used." verbose="Virtual function &apos;set_signed&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 66. Dynamic binding is not used." file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.h" line="298" column="12" info="set_signed is a virtual function"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="66" column="4" info="Calling set_signed"/>
+        </error>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_key&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 67. Dynamic binding is not used." verbose="Virtual function &apos;set_key&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 67. Dynamic binding is not used." file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.h" line="293" column="12" info="set_key is a virtual function"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="67" column="4" info="Calling set_key"/>
+        </error>
+        <error id="virtualCallInConstructor" severity="style" msg="Virtual function &apos;set_encr_type&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 68. Dynamic binding is not used." verbose="Virtual function &apos;set_encr_type&apos; is called from constructor &apos;m17_decoder_impl(bool debug_data,bool debug_ctrl,float threshold,bool callsign,bool signed_str,int encr_type,std::string key,std::string seed)&apos; at line 68. Dynamic binding is not used." file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.h" line="299" column="12" info="set_encr_type is a virtual function"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="68" column="4" info="Calling set_encr_type"/>
         </error>
         <error id="duplicateCondition" severity="style" msg="The if condition is the same as the previous if condition" verbose="The if condition is the same as the previous if condition" cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="631" column="25" info="Second condition"/>
-            <location file="../../../lib/m17_decoder_impl.cc" line="594" column="25" info="First condition"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="639" column="25" info="Second condition"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="602" column="25" info="First condition"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="393" column="23"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="401" column="23"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="394" column="16"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="402" column="16"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="551" column="15"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="559" column="15"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="562" column="64"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="570" column="64"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="563" column="64"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="571" column="64"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="585" column="27"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="593" column="27"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="589" column="27"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="597" column="27"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="635" column="27"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="643" column="27"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="637" column="22"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="645" column="22"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="709" column="27"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="717" column="27"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="715" column="27"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="723" column="27"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="774" column="26"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="782" column="26"/>
         </error>
         <error id="cstyleCast" severity="style" msg="C-style pointer casting" verbose="C-style pointer casting detected. C++ offers four different kinds of casts as replacements: static_cast, const_cast, dynamic_cast and reinterpret_cast. A C-style cast could evaluate to any of those automatically, thus it is considered safer if the programmer explicitly states which kind of cast is expected." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="780" column="21"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="788" column="21"/>
         </error>
         <error id="funcArgNamesDifferent" severity="style" msg="Function &apos;set_seed&apos; argument 1 names different: declaration &apos;seed&apos; definition &apos;arg&apos;." verbose="Function &apos;set_seed&apos; argument 1 names different: declaration &apos;seed&apos; definition &apos;arg&apos;." cwe="628" inconclusive="true" file0="../../../lib/m17_decoder_impl.cc">
             <location file="../../../lib/m17_decoder_impl.cc" line="173" column="47"/>
-            <location file="../../../lib/m17_decoder_impl.h" line="293" column="34"/>
+            <location file="../../../lib/m17_decoder_impl.h" line="294" column="34"/>
             <symbol>set_seed</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;key&apos; should be passed by const reference." verbose="Parameter &apos;key&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.cc" line="44" column="21" info="Function parameter &apos;key&apos; should be passed by const reference."/>
+            <symbol>key</symbol>
+        </error>
+        <error id="passedByValue" severity="performance" msg="Function parameter &apos;seed&apos; should be passed by const reference." verbose="Parameter &apos;seed&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
+            <location file="../../../lib/m17_decoder_impl.cc" line="44" column="38" info="Function parameter &apos;seed&apos; should be passed by const reference."/>
+            <symbol>seed</symbol>
         </error>
         <error id="passedByValue" severity="performance" msg="Function parameter &apos;key&apos; should be passed by const reference." verbose="Parameter &apos;key&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
             <location file="../../../lib/m17_decoder_impl.cc" line="56" column="26" info="Function parameter &apos;key&apos; should be passed by const reference."/>
@@ -106,20 +239,12 @@
             <location file="../../../lib/m17_decoder_impl.cc" line="56" column="43" info="Function parameter &apos;seed&apos; should be passed by const reference."/>
             <symbol>seed</symbol>
         </error>
-        <error id="passedByValue" severity="performance" msg="Function parameter &apos;arg&apos; should be passed by const reference." verbose="Parameter &apos;arg&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="147" column="46" info="Function parameter &apos;arg&apos; should be passed by const reference."/>
-            <symbol>arg</symbol>
-        </error>
-        <error id="passedByValue" severity="performance" msg="Function parameter &apos;arg&apos; should be passed by const reference." verbose="Parameter &apos;arg&apos; is passed by value. It could be passed as a const reference which is usually faster and recommended in C++." cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="173" column="47" info="Function parameter &apos;arg&apos; should be passed by const reference."/>
-            <symbol>arg</symbol>
-        </error>
         <error id="constParameterReference" severity="style" msg="Parameter &apos;input_items&apos; can be declared as reference to const" verbose="Parameter &apos;input_items&apos; can be declared as reference to const" cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="390" column="40" info="Parameter &apos;input_items&apos; can be declared as reference to const"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="398" column="40" info="Parameter &apos;input_items&apos; can be declared as reference to const"/>
             <symbol>input_items</symbol>
         </error>
         <error id="constParameterReference" severity="style" msg="Parameter &apos;output_items&apos; can be declared as reference to const" verbose="Parameter &apos;output_items&apos; can be declared as reference to const" cwe="398" file0="../../../lib/m17_decoder_impl.cc">
-            <location file="../../../lib/m17_decoder_impl.cc" line="391" column="34" info="Parameter &apos;output_items&apos; can be declared as reference to const"/>
+            <location file="../../../lib/m17_decoder_impl.cc" line="399" column="34" info="Parameter &apos;output_items&apos; can be declared as reference to const"/>
             <symbol>output_items</symbol>
         </error>
         <error id="constVariable" severity="style" msg="Variable &apos;hex_byte&apos; can be declared as const array" verbose="Variable &apos;hex_byte&apos; can be declared as const array" cwe="398" file0="../../../lib/m17_decoder_impl.cc">
@@ -134,466 +259,3 @@
             <location file="../../../lib/m17_decoder_impl.cc" line="225" column="8"/>
             <symbol>bit</symbol>
         </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;config.h&quot; not found." verbose="Include file: &quot;config.h&quot; not found.">
-            <location file="../../../lib/m17_decoder_impl.cc" line="22" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;kiss_protocol.h&quot; not found." verbose="Include file: &quot;kiss_protocol.h&quot; not found.">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.h" line="15" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;ax25_protocol.h&quot; not found." verbose="Include file: &quot;ax25_protocol.h&quot; not found.">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.h" line="16" column="0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;data[0]==0x7E&apos; is always false" verbose="Condition &apos;data[0]==0x7E&apos; is always false" cwe="570" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="117" column="32" info="Condition &apos;data[0]==0x7E&apos; is always false"/>
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="109" column="17" info="Assuming condition &apos;data[0]==0x7E&apos; is false"/>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="171" column="60" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="193" column="60" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="339" column="59" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="361" column="57" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="374" column="58" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="446" column="57" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="456" column="63" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="468" column="65" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="478" column="52" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="502" column="53" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;bridge&apos; can be declared as pointer to const" verbose="Parameter &apos;bridge&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/bridge/m17_ax25_bridge.c">
-            <location file="../../../libm17/bridge/m17_ax25_bridge.c" line="514" column="56" info="Parameter &apos;bridge&apos; can be declared as pointer to const"/>
-            <symbol>bridge</symbol>
-        </error>
-        <error id="toomanyconfigs" severity="information" msg="Too many #ifdef configurations - cppcheck only checks 12 of 151 configurations. Use --force to check all configurations." verbose="The checking of the file will be interrupted because there are too many #ifdef configurations. Checking of all #ifdef configurations can be forced by --force command line option or from GUI preferences. However that may increase the checking time." cwe="398">
-            <location file="../../../libm17/build/CMakeFiles/3.28.3/CompilerIdC/CMakeCCompilerId.c" line="0" column="0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;dual_mode_controller_hw_init()!=0&apos; is always false" verbose="Condition &apos;dual_mode_controller_hw_init()!=0&apos; is always false" cwe="570" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="23" column="40" info="Condition &apos;dual_mode_controller_hw_init()!=0&apos; is always false"/>
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="23" column="37" info="Calling function &apos;dual_mode_controller_hw_init&apos; returns 0"/>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;data&apos; can be declared as pointer to const" verbose="Parameter &apos;data&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="405" column="83" info="Parameter &apos;data&apos; can be declared as pointer to const"/>
-            <symbol>data</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;length&apos; can be declared as pointer to const" verbose="Parameter &apos;length&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="405" column="99" info="Parameter &apos;length&apos; can be declared as pointer to const"/>
-            <symbol>length</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;data&apos; can be declared as pointer to const" verbose="Parameter &apos;data&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="422" column="84" info="Parameter &apos;data&apos; can be declared as pointer to const"/>
-            <symbol>data</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;length&apos; can be declared as pointer to const" verbose="Parameter &apos;length&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="422" column="100" info="Parameter &apos;length&apos; can be declared as pointer to const"/>
-            <symbol>length</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;data&apos; can be declared as pointer to const" verbose="Parameter &apos;data&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="439" column="84" info="Parameter &apos;data&apos; can be declared as pointer to const"/>
-            <symbol>data</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;length&apos; can be declared as pointer to const" verbose="Parameter &apos;length&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="439" column="100" info="Parameter &apos;length&apos; can be declared as pointer to const"/>
-            <symbol>length</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;controller&apos; can be declared as pointer to const" verbose="Parameter &apos;controller&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="561" column="73" info="Parameter &apos;controller&apos; can be declared as pointer to const"/>
-            <symbol>controller</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;controller&apos; can be declared as pointer to const" verbose="Parameter &apos;controller&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="572" column="75" info="Parameter &apos;controller&apos; can be declared as pointer to const"/>
-            <symbol>controller</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;controller&apos; can be declared as pointer to const" verbose="Parameter &apos;controller&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="582" column="62" info="Parameter &apos;controller&apos; can be declared as pointer to const"/>
-            <symbol>controller</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;controller&apos; can be declared as pointer to const" verbose="Parameter &apos;controller&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="631" column="63" info="Parameter &apos;controller&apos; can be declared as pointer to const"/>
-            <symbol>controller</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;controller&apos; can be declared as pointer to const" verbose="Parameter &apos;controller&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="642" column="66" info="Parameter &apos;controller&apos; can be declared as pointer to const"/>
-            <symbol>controller</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;controller&apos; can be declared as pointer to const" verbose="Parameter &apos;controller&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="707" column="65" info="Parameter &apos;controller&apos; can be declared as pointer to const"/>
-            <symbol>controller</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;controller&apos; can be declared as pointer to const" verbose="Parameter &apos;controller&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/controller/dual_mode_controller.c">
-            <location file="../../../libm17/controller/dual_mode_controller.c" line="727" column="65" info="Parameter &apos;controller&apos; can be declared as pointer to const"/>
-            <symbol>controller</symbol>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/aes_gcm.c" line="12" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/bounds_checking.c" line="11" column="0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;j&gt;=output_size&apos; is always false" verbose="Condition &apos;j&gt;=output_size&apos; is always false" cwe="570" file0="../../../libm17/crypto/bounds_checking.c">
-            <location file="../../../libm17/crypto/bounds_checking.c" line="106" column="19" info="Condition &apos;j&gt;=output_size&apos; is always false"/>
-            <location file="../../../libm17/crypto/bounds_checking.c" line="102" column="23" info="Assuming condition is false"/>
-            <location file="../../../libm17/crypto/bounds_checking.c" line="94" column="31" info="Assuming that condition &apos;j&lt;output_size&apos; is not redundant"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/chacha20_poly1305.c" line="12" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/constant_time.c" line="12" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/curve25519.c" line="12" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/ed25519.c" line="12" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/hkdf.c" line="12" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/key_derivation.c" line="11" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/optee.c" line="12" column="0"/>
-        </error>
-        <error id="shadowVariable" severity="style" msg="Local variable &apos;ts&apos; shadows outer variable" verbose="Local variable &apos;ts&apos; shadows outer variable" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="227" column="37" info="Shadow variable"/>
-            <location file="../../../libm17/crypto/optee.c" line="207" column="29" info="Shadowed declaration"/>
-            <symbol>ts</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;context&apos; can be declared as pointer to const" verbose="Parameter &apos;context&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="162" column="59" info="Parameter &apos;context&apos; can be declared as pointer to const"/>
-            <symbol>context</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;context&apos; can be declared as pointer to const" verbose="Parameter &apos;context&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="188" column="58" info="Parameter &apos;context&apos; can be declared as pointer to const"/>
-            <symbol>context</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="244" column="59" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="293" column="62" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="423" column="54" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="451" column="55" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;private_handle&apos; can be declared as pointer to const" verbose="Parameter &apos;private_handle&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="452" column="58" info="Parameter &apos;private_handle&apos; can be declared as pointer to const"/>
-            <symbol>private_handle</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="490" column="62" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;public_handle&apos; can be declared as pointer to const" verbose="Parameter &apos;public_handle&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="491" column="65" info="Parameter &apos;public_handle&apos; can be declared as pointer to const"/>
-            <symbol>public_handle</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/optee.c">
-            <location file="../../../libm17/crypto/optee.c" line="600" column="62" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/replay_protection.c" line="11" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/secure_boot.c" line="12" column="0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="74" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="74" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="134" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="134" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="145" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="145" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="197" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="197" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="223" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="223" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="252" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="252" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="286" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="286" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="304" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="304" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="329" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="329" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="368" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="368" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="395" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="395" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="416" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="416" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="433" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="433" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="446" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="446" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" verbose="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false" cwe="570" file0="../../../libm17/crypto/secure_boot.c">
-            <location file="../../../libm17/crypto/secure_boot.c" line="463" column="28" info="Condition &apos;secure_boot_init()!=M17_SB_SUCCESS&apos; is always false"/>
-            <location file="../../../libm17/crypto/secure_boot.c" line="463" column="25" info="Calling function &apos;secure_boot_init&apos; returns 0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/secure_memory.c" line="11" column="0"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/security_monitoring.c" line="11" column="0"/>
-        </error>
-        <error id="constVariablePointer" severity="style" msg="Variable &apos;entry&apos; can be declared as pointer to const" verbose="Variable &apos;entry&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/security_monitoring.c">
-            <location file="../../../libm17/crypto/security_monitoring.c" line="199" column="33" info="Variable &apos;entry&apos; can be declared as pointer to const"/>
-            <symbol>entry</symbol>
-        </error>
-        <error id="constVariablePointer" severity="style" msg="Variable &apos;entry&apos; can be declared as pointer to const" verbose="Variable &apos;entry&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/security_monitoring.c">
-            <location file="../../../libm17/crypto/security_monitoring.c" line="214" column="33" info="Variable &apos;entry&apos; can be declared as pointer to const"/>
-            <symbol>entry</symbol>
-        </error>
-        <error id="constVariablePointer" severity="style" msg="Variable &apos;entry&apos; can be declared as pointer to const" verbose="Variable &apos;entry&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/security_monitoring.c">
-            <location file="../../../libm17/crypto/security_monitoring.c" line="256" column="33" info="Variable &apos;entry&apos; can be declared as pointer to const"/>
-            <symbol>entry</symbol>
-        </error>
-        <error id="constVariablePointer" severity="style" msg="Variable &apos;entry&apos; can be declared as pointer to const" verbose="Variable &apos;entry&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/security_monitoring.c">
-            <location file="../../../libm17/crypto/security_monitoring.c" line="301" column="33" info="Variable &apos;entry&apos; can be declared as pointer to const"/>
-            <symbol>entry</symbol>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/trustzone.c" line="12" column="0"/>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="146" column="56" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="178" column="59" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="285" column="51" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="314" column="52" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;private_handle&apos; can be declared as pointer to const" verbose="Parameter &apos;private_handle&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="315" column="55" info="Parameter &apos;private_handle&apos; can be declared as pointer to const"/>
-            <symbol>private_handle</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="376" column="59" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;public_handle&apos; can be declared as pointer to const" verbose="Parameter &apos;public_handle&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="377" column="62" info="Parameter &apos;public_handle&apos; can be declared as pointer to const"/>
-            <symbol>public_handle</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="511" column="56" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;session&apos; can be declared as pointer to const" verbose="Parameter &apos;session&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/crypto/trustzone.c">
-            <location file="../../../libm17/crypto/trustzone.c" line="531" column="62" info="Parameter &apos;session&apos; can be declared as pointer to const"/>
-            <symbol>session</symbol>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/validation.c" line="11" column="0"/>
-        </error>
-        <error id="duplicateCondition" severity="style" msg="The if condition is the same as the previous if condition" verbose="The if condition is the same as the previous if condition" cwe="398" file0="../../../libm17/crypto/validation.c">
-            <location file="../../../libm17/crypto/validation.c" line="116" column="20" info="Second condition"/>
-            <location file="../../../libm17/crypto/validation.c" line="102" column="20" info="First condition"/>
-        </error>
-        <error id="missingInclude" severity="information" msg="Include file: &quot;m17.h&quot; not found." verbose="Include file: &quot;m17.h&quot; not found.">
-            <location file="../../../libm17/crypto/constant_time.h" line="15" column="0"/>
-        </error>
-        <error id="constParameter" severity="style" msg="Parameter &apos;meta&apos; can be declared as const array" verbose="Parameter &apos;meta&apos; can be declared as const array" cwe="398" file0="../../../libm17/payload/lsf.c">
-            <location file="../../../libm17/payload/lsf.c" line="34" column="71" info="Parameter &apos;meta&apos; can be declared as const array"/>
-            <symbol>meta</symbol>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;sx1255_hw_init()!=0&apos; is always false" verbose="Condition &apos;sx1255_hw_init()!=0&apos; is always false" cwe="570" file0="../../../libm17/rf/sx1255_interface.c">
-            <location file="../../../libm17/rf/sx1255_interface.c" line="22" column="26" info="Condition &apos;sx1255_hw_init()!=0&apos; is always false"/>
-            <location file="../../../libm17/rf/sx1255_interface.c" line="22" column="23" info="Calling function &apos;sx1255_hw_init&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;sx1255_dma_tx_complete()&apos; is always false" verbose="Condition &apos;sx1255_dma_tx_complete()&apos; is always false" cwe="570" file0="../../../libm17/rf/sx1255_interface.c">
-            <location file="../../../libm17/rf/sx1255_interface.c" line="229" column="34" info="Condition &apos;sx1255_dma_tx_complete()&apos; is always false"/>
-            <location file="../../../libm17/rf/sx1255_interface.c" line="229" column="34" info="Calling function &apos;sx1255_dma_tx_complete&apos; returns 0"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;sx1255_dma_rx_complete()&apos; is always false" verbose="Condition &apos;sx1255_dma_rx_complete()&apos; is always false" cwe="570" file0="../../../libm17/rf/sx1255_interface.c">
-            <location file="../../../libm17/rf/sx1255_interface.c" line="238" column="34" info="Condition &apos;sx1255_dma_rx_complete()&apos; is always false"/>
-            <location file="../../../libm17/rf/sx1255_interface.c" line="238" column="34" info="Calling function &apos;sx1255_dma_rx_complete&apos; returns 0"/>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;rf&apos; can be declared as pointer to const" verbose="Parameter &apos;rf&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/rf/sx1255_interface.c">
-            <location file="../../../libm17/rf/sx1255_interface.c" line="207" column="46" info="Parameter &apos;rf&apos; can be declared as pointer to const"/>
-            <symbol>rf</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;rf&apos; can be declared as pointer to const" verbose="Parameter &apos;rf&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/rf/sx1255_interface.c">
-            <location file="../../../libm17/rf/sx1255_interface.c" line="301" column="48" info="Parameter &apos;rf&apos; can be declared as pointer to const"/>
-            <symbol>rf</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;rf&apos; can be declared as pointer to const" verbose="Parameter &apos;rf&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/rf/sx1255_interface.c">
-            <location file="../../../libm17/rf/sx1255_interface.c" line="368" column="45" info="Parameter &apos;rf&apos; can be declared as pointer to const"/>
-            <symbol>rf</symbol>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;rf&apos; can be declared as pointer to const" verbose="Parameter &apos;rf&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/rf/sx1255_interface.c">
-            <location file="../../../libm17/rf/sx1255_interface.c" line="389" column="47" info="Parameter &apos;rf&apos; can be declared as pointer to const"/>
-            <symbol>rf</symbol>
-        </error>
-        <error id="constVariable" severity="style" msg="Variable &apos;aad&apos; can be declared as const array" verbose="Variable &apos;aad&apos; can be declared as const array" cwe="398" file0="../../../libm17/test_chacha20_poly1305.c">
-            <location file="../../../libm17/test_chacha20_poly1305.c" line="25" column="13" info="Variable &apos;aad&apos; can be declared as const array"/>
-            <symbol>aad</symbol>
-        </error>
-        <error id="constVariable" severity="style" msg="Variable &apos;aad&apos; can be declared as const array" verbose="Variable &apos;aad&apos; can be declared as const array" cwe="398" file0="../../../libm17/test_chacha20_poly1305.c">
-            <location file="../../../libm17/test_chacha20_poly1305.c" line="93" column="13" info="Variable &apos;aad&apos; can be declared as const array"/>
-            <symbol>aad</symbol>
-        </error>
-        <error id="constVariable" severity="style" msg="Variable &apos;aad&apos; can be declared as const array" verbose="Variable &apos;aad&apos; can be declared as const array" cwe="398" file0="../../../libm17/test_chacha20_poly1305.c">
-            <location file="../../../libm17/test_chacha20_poly1305.c" line="201" column="13" info="Variable &apos;aad&apos; can be declared as const array"/>
-            <symbol>aad</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;suspicious&apos; is assigned a value that is never used." verbose="Variable &apos;suspicious&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/test_critical_security.c">
-            <location file="../../../libm17/test_critical_security.c" line="152" column="21"/>
-            <symbol>suspicious</symbol>
-        </error>
-        <error id="constVariable" severity="style" msg="Variable &apos;data2&apos; can be declared as const array" verbose="Variable &apos;data2&apos; can be declared as const array" cwe="398" file0="../../../libm17/test_crypto.c">
-            <location file="../../../libm17/test_crypto.c" line="319" column="13" info="Variable &apos;data2&apos; can be declared as const array"/>
-            <symbol>data2</symbol>
-        </error>
-        <error id="constVariable" severity="style" msg="Variable &apos;data3&apos; can be declared as const array" verbose="Variable &apos;data3&apos; can be declared as const array" cwe="398" file0="../../../libm17/test_crypto.c">
-            <location file="../../../libm17/test_crypto.c" line="320" column="13" info="Variable &apos;data3&apos; can be declared as const array"/>
-            <symbol>data3</symbol>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;fn!=0&apos; is always false" verbose="Condition &apos;fn!=0&apos; is always false" cwe="570" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="198" column="12" info="Condition &apos;fn!=0&apos; is always false"/>
-            <location file="../../../libm17/test_security.c" line="196" column="19" info="Assignment &apos;fn=(fn+1)%0x8000&apos;, assigned value is 0"/>
-            <location file="../../../libm17/test_security.c" line="195" column="19" info="Assignment &apos;fn=0x7FFF&apos;, assigned value is 32767"/>
-        </error>
-        <error id="constVariable" severity="style" msg="Variable &apos;hex_byte&apos; can be declared as const array" verbose="Variable &apos;hex_byte&apos; can be declared as const array" cwe="398" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="143" column="14" info="Variable &apos;hex_byte&apos; can be declared as const array"/>
-            <symbol>hex_byte</symbol>
-        </error>
-        <error id="constVariable" severity="style" msg="Variable &apos;hex_byte&apos; can be declared as const array" verbose="Variable &apos;hex_byte&apos; can be declared as const array" cwe="398" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="156" column="14" info="Variable &apos;hex_byte&apos; can be declared as const array"/>
-            <symbol>hex_byte</symbol>
-        </error>
-        <error id="constVariable" severity="style" msg="Variable &apos;invalid_key&apos; can be declared as const array" verbose="Variable &apos;invalid_key&apos; can be declared as const array" cwe="398" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="177" column="13" info="Variable &apos;invalid_key&apos; can be declared as const array"/>
-            <symbol>invalid_key</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;collision_found&apos; is assigned a value that is never used." verbose="Variable &apos;collision_found&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="48" column="29"/>
-            <symbol>collision_found</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;parsed_key[i]&apos; is assigned a value that is never used." verbose="Variable &apos;parsed_key[i]&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="150" column="23"/>
-            <symbol>parsed_key[i]</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;val&apos; is assigned a value that is never used." verbose="Variable &apos;val&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="158" column="27"/>
-            <symbol>val</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;invalid_data&apos; is assigned a value that is never used." verbose="Variable &apos;invalid_data&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="178" column="30"/>
-            <symbol>invalid_data</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;invalid_iv&apos; is assigned a value that is never used." verbose="Variable &apos;invalid_iv&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/test_security.c">
-            <location file="../../../libm17/test_security.c" line="179" column="28"/>
-            <symbol>invalid_iv</symbol>
-        </error>
-        <error id="redundantInitialization" severity="style" msg="Redundant initialization for &apos;status&apos;. The initialized value is overwritten before it is read." verbose="Redundant initialization for &apos;status&apos;. The initialized value is overwritten before it is read." cwe="563" file0="../../../libm17/test_trustzone_tee.c">
-            <location file="../../../libm17/test_trustzone_tee.c" line="214" column="12" info="status is overwritten"/>
-            <location file="../../../libm17/test_trustzone_tee.c" line="209" column="28" info="status is initialized"/>
-            <symbol>status</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;status&apos; is assigned a value that is never used." verbose="Variable &apos;status&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/test_trustzone_tee.c">
-            <location file="../../../libm17/test_trustzone_tee.c" line="134" column="12"/>
-            <symbol>status</symbol>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;max_digipeaters&gt;*num_digipeaters&apos; is always true" verbose="Condition &apos;max_digipeaters&gt;*num_digipeaters&apos; is always true" cwe="571" file0="../../../libm17/tnc/ax25_protocol.c">
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="554" column="29" info="Condition &apos;max_digipeaters&gt;*num_digipeaters&apos; is always true"/>
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="551" column="24" info="Assignment &apos;*num_digipeaters=0&apos;, assigned value is 0"/>
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="553" column="63" info="Assignment &apos;max_digipeaters=tnc-&gt;rx_frame.num_addresses-2&apos;, assigned value is greater than 0"/>
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="552" column="37" info="Assuming that condition &apos;tnc-&gt;rx_frame.num_addresses&gt;2&apos; is not redundant"/>
-        </error>
-        <error id="knownConditionTrueFalse" severity="style" msg="Condition &apos;i&lt;max_digipeaters&apos; is always false" verbose="Condition &apos;i&lt;max_digipeaters&apos; is always false" cwe="570" file0="../../../libm17/tnc/ax25_protocol.c">
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="558" column="27" info="Condition &apos;i&lt;max_digipeaters&apos; is always false"/>
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="555" column="31" info="Assignment &apos;max_digipeaters=*num_digipeaters&apos;, assigned value is 0"/>
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="551" column="24" info="Assignment &apos;*num_digipeaters=0&apos;, assigned value is 0"/>
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="558" column="22" info="Assignment &apos;i=0&apos;, assigned value is 0"/>
-        </error>
-        <error id="constParameterPointer" severity="style" msg="Parameter &apos;tnc&apos; can be declared as pointer to const" verbose="Parameter &apos;tnc&apos; can be declared as pointer to const" cwe="398" file0="../../../libm17/tnc/ax25_protocol.c">
-            <location file="../../../libm17/tnc/ax25_protocol.c" line="475" column="36" info="Parameter &apos;tnc&apos; can be declared as pointer to const"/>
-            <symbol>tnc</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;vector[23-i]&apos; is assigned a value that is never used." verbose="Variable &apos;vector[23-i]&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/unit_tests/unit_tests.c">
-            <location file="../../../libm17/unit_tests/unit_tests.c" line="343" column="21"/>
-            <symbol>vector[23-i]</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;vector[23-i]&apos; is assigned a value that is never used." verbose="Variable &apos;vector[23-i]&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/unit_tests/unit_tests.c">
-            <location file="../../../libm17/unit_tests/unit_tests.c" line="523" column="21"/>
-            <symbol>vector[23-i]</symbol>
-        </error>
-        <error id="unreadVariable" severity="style" msg="Variable &apos;vector[23-i]&apos; is assigned a value that is never used." verbose="Variable &apos;vector[23-i]&apos; is assigned a value that is never used." cwe="563" file0="../../../libm17/unit_tests/unit_tests.c">
-            <location file="../../../libm17/unit_tests/unit_tests.c" line="538" column="21"/>
-            <symbol>vector[23-i]</symbol>
-        </error>
-        <error id="checkersReport" severity="information" msg="Active checkers: There was critical errors (use --checkers-report=&lt;filename&gt; to see details)" verbose="Active checkers: There was critical errors (use --checkers-report=&lt;filename&gt; to see details)"/>
-    </errors>
-</results>

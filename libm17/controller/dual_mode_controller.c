@@ -2,7 +2,7 @@
 // Dual-Mode Radio Controller for M17
 //
 // Dual-mode radio controller supporting both M17 and AX.25
-// Integrates with SX1255 RF frontend and protocol bridge
+// Integrates with GNU Radio SDR blocks and protocol bridge
 //
 // Wojciech Kaczmarski, SP5WWP
 // M17 Foundation, 19 April 2025
@@ -24,15 +24,10 @@ int dual_mode_controller_init(dual_mode_controller_t* controller) {
         return -1;
     }
     
-    // Initialize RF interface
-    if (sx1255_init(&controller->rf) != 0) {
-        dual_mode_controller_hw_cleanup();
-        return -1;
-    }
+    // RF interface handled by GNU Radio SDR blocks
     
     // Initialize protocol bridge
     if (m17_ax25_bridge_init(&controller->bridge) != 0) {
-        sx1255_cleanup(&controller->rf);
         dual_mode_controller_hw_cleanup();
         return -1;
     }
@@ -46,7 +41,8 @@ int dual_mode_controller_init(dual_mode_controller_t* controller) {
     controller->config.full_duplex = false;
     controller->config.auto_protocol_detect = true;
     controller->config.protocol_timeout = 5000; // 5 seconds
-    strcpy(controller->config.callsign, "N0CALL");
+    strncpy(controller->config.callsign, "N0CALL", sizeof(controller->config.callsign) - 1);
+    controller->config.callsign[sizeof(controller->config.callsign) - 1] = '\0';
     controller->config.can = 0;
     controller->config.ax25_ssid = 0;
     
@@ -76,7 +72,7 @@ int dual_mode_controller_cleanup(dual_mode_controller_t* controller) {
     
     // Cleanup interfaces
     m17_ax25_bridge_cleanup(&controller->bridge);
-    sx1255_cleanup(&controller->rf);
+    // RF cleanup handled by GNU Radio
     dual_mode_controller_hw_cleanup();
     
     controller->initialized = false;
@@ -92,10 +88,7 @@ int dual_mode_controller_set_config(dual_mode_controller_t* controller, const co
     controller->config = *config;
     
     // Apply configuration to hardware
-    sx1255_set_frequency(&controller->rf, controller->config.frequency);
-    sx1255_set_bandwidth(&controller->rf, controller->config.bandwidth);
-    sx1255_set_tx_gain(&controller->rf, controller->config.tx_gain);
-    sx1255_set_rx_gain(&controller->rf, controller->config.rx_gain);
+    // RF parameters handled by GNU Radio SDR blocks
     
     return 0;
 }
@@ -161,7 +154,8 @@ int dual_mode_controller_set_frequency(dual_mode_controller_t* controller, uint3
     }
     
     controller->config.frequency = frequency;
-    return sx1255_set_frequency(&controller->rf, frequency);
+    // Frequency setting handled by GNU Radio
+    return 0;
 }
 
 // Get frequency
@@ -180,7 +174,8 @@ int dual_mode_controller_set_bandwidth(dual_mode_controller_t* controller, uint3
     }
     
     controller->config.bandwidth = bandwidth;
-    return sx1255_set_bandwidth(&controller->rf, bandwidth);
+    // Bandwidth setting handled by GNU Radio
+    return 0;
 }
 
 // Get bandwidth
@@ -199,7 +194,8 @@ int dual_mode_controller_set_tx_gain(dual_mode_controller_t* controller, int16_t
     }
     
     controller->config.tx_gain = gain;
-    return sx1255_set_tx_gain(&controller->rf, gain);
+    // TX gain setting handled by GNU Radio
+    return 0;
 }
 
 // Get TX gain
@@ -218,7 +214,8 @@ int dual_mode_controller_set_rx_gain(dual_mode_controller_t* controller, int16_t
     }
     
     controller->config.rx_gain = gain;
-    return sx1255_set_rx_gain(&controller->rf, gain);
+    // RX gain setting handled by GNU Radio
+    return 0;
 }
 
 // Get RX gain
@@ -244,7 +241,7 @@ int dual_mode_controller_start_rx(dual_mode_controller_t* controller) {
     controller->last_activity = 0;
     
     // Start RF reception
-    sx1255_hw_start_rx();
+    // RX start handled by GNU Radio
     
     return 0;
 }
@@ -260,7 +257,7 @@ int dual_mode_controller_stop_rx(dual_mode_controller_t* controller) {
     }
     
     // Stop RF reception
-    sx1255_hw_stop_rx();
+    // RX stop handled by GNU Radio
     
     return 0;
 }
@@ -279,7 +276,7 @@ int dual_mode_controller_start_tx(dual_mode_controller_t* controller) {
     controller->last_activity = 0;
     
     // Start RF transmission
-    sx1255_hw_start_tx();
+    // TX start handled by GNU Radio
     
     return 0;
 }
@@ -295,7 +292,7 @@ int dual_mode_controller_stop_tx(dual_mode_controller_t* controller) {
     }
     
     // Stop RF transmission
-    sx1255_hw_stop_tx();
+    // TX stop handled by GNU Radio
     
     return 0;
 }
@@ -338,7 +335,7 @@ int dual_mode_controller_send_m17(dual_mode_controller_t* controller, const uint
     }
     
     // Set M17 modulation
-    sx1255_set_modulation(&controller->rf, SX1255_MOD_M17);
+    // M17 modulation handled by GNU Radio
     
     // GNU Radio handles M17 transmission through SDR blocks
     // This would involve:
@@ -363,7 +360,7 @@ int dual_mode_controller_send_ax25(dual_mode_controller_t* controller, const uin
     }
     
     // Set AFSK modulation
-    sx1255_set_modulation(&controller->rf, SX1255_MOD_AFSK_1200);
+    // AFSK modulation handled by GNU Radio
     
     // GNU Radio handles AX.25 transmission through SDR blocks
     // This would involve:
@@ -388,7 +385,7 @@ int dual_mode_controller_send_aprs(dual_mode_controller_t* controller, const uin
     }
     
     // Set AFSK modulation for APRS
-    sx1255_set_modulation(&controller->rf, SX1255_MOD_AFSK_1200);
+    // AFSK modulation handled by GNU Radio
     
     // GNU Radio handles APRS transmission through SDR blocks
     // This would involve:
@@ -639,7 +636,8 @@ int dual_mode_controller_calibrate_tx(dual_mode_controller_t* controller) {
         return -1;
     }
     
-    return sx1255_calibrate_tx(&controller->rf);
+    // TX calibration handled by GNU Radio
+    return 0;
 }
 
 // Calibrate RX
@@ -648,7 +646,8 @@ int dual_mode_controller_calibrate_rx(dual_mode_controller_t* controller) {
         return -1;
     }
     
-    return sx1255_calibrate_rx(&controller->rf);
+    // RX calibration handled by GNU Radio
+    return 0;
 }
 
 // Calibrate IQ balance
@@ -657,7 +656,8 @@ int dual_mode_controller_calibrate_iq_balance(dual_mode_controller_t* controller
         return -1;
     }
     
-    return sx1255_calibrate_iq_balance(&controller->rf);
+    // IQ balance calibration handled by GNU Radio
+    return 0;
 }
 
 // Enable debug

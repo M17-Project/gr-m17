@@ -153,6 +153,83 @@ gnuradio-companion examples/m17_loopback_noisychannel.grc
 
 
 
+## Testing
+
+### Overview
+This project uses a mix of unit/integration tests, fuzzing, and static analysis:
+- CTest/Unit tests: Build- and runtime checks for core modules
+- Fuzzing (AFL++): Long-running randomized input testing for decoder and crypto surfaces
+- Static analysis: `cppcheck`, `flawfinder`, and `semgrep` for code quality and security
+
+### Run unit and integration tests
+From the build directory after configuring with CMake:
+```bash
+cd build
+ctest --output-on-failure
+```
+
+Some low-level tests also exist in `libm17/` (e.g., `test_crypto.c`, `test_security.c`). These are built as part of the normal build and executed by `ctest` when enabled in the configuration.
+
+### Run fuzzing (AFL++)
+Fuzzing targets exercise the decoder and crypto components with randomized inputs. Reports are written under `security/fuzzing/reports/`.
+```bash
+# Start an overnight fuzzing session (runs two afl-fuzz instances via timeout wrappers)
+bash security/fuzzing/fuzz-testing-improved.sh overnight
+
+# Check status while running
+ps -eo pid,ppid,pcpu,pmem,etime,cmd | grep afl-fuzz
+
+# Latest session artifacts (findings, queues, and fuzzer_stats)
+ls -1dt security/fuzzing/reports/* | head -n1
+```
+
+Outputs include per-target `fuzzer_stats`, corpus queues, and any saved crashes/hangs. Stop conditions are time-based (e.g., 8-hour timeouts) or manual termination.
+
+### Static analysis
+
+#### cppcheck
+Configuration and suppressions are provided under `security/audit/`.
+```bash
+cppcheck \
+  --project=build/compile_commands.json \
+  --enable=all \
+  --suppressions-list=security/audit/cppcheck-suppressions.txt \
+  --cppcheck-build-dir=.cppcheck \
+  --library=std \
+  --inline-suppr \
+  --quiet \
+  2> temp_cppcheck.xml
+```
+Artifacts: XML report (`temp_cppcheck.xml`) and cached analysis in `.cppcheck/`.
+
+#### flawfinder
+Runs a security-focused scan for risky C/C++ constructs.
+```bash
+flawfinder --minlevel=1 --quiet --html . > security/audit/reports/flawfinder-report.html
+```
+Artifact: `security/audit/reports/flawfinder-report.html` (view in a browser).
+
+#### semgrep (crypto/security rules)
+Custom crypto-focused rules are provided.
+```bash
+semgrep \
+  --config reports/crypto-security-rules.yml \
+  --json \
+  -o reports/semgrep-crypto-report.json
+```
+Artifact: `reports/semgrep-crypto-report.json`.
+
+### One-shot audit script
+For convenience, a combined audit helper exists:
+```bash
+bash security/audit/security-audit.sh
+```
+It orchestrates static analyzers and writes outputs to `security/audit/reports/` and `reports/`.
+
+## Test Results
+
+Comprehensive module testing results are available in [test-results/module-test-results.md](test-results/module-test-results.md).
+
 ## Developer Information
 
 ### GNU Radio Module Bindings

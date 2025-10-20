@@ -1,0 +1,6 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./fx25_decode_fuzz
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@
+AFL_CUSTOM_INFO_OUT=findings_fx25/default
+# command line:
+'afl-fuzz' '-i' 'testcases' '-o' 'findings_fx25' '-m' 'none' './fx25_decode_fuzz' '@@'

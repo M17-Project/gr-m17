@@ -1,0 +1,1733 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf8">
+<title>Flawfinder Results</title>
+<meta name="author" content="David A. Wheeler">
+<meta name="keywords" lang="en" content="flawfinder results, security scan">
+</head>
+<body>
+<h1>Flawfinder Results</h1>
+Here are the security scan results from
+<a href="https://dwheeler.com/flawfinder">Flawfinder version 2.0.19</a>,
+(C) 2001-2019 <a href="https://dwheeler.com">David A. Wheeler</a>.
+Number of rules (primarily dangerous function names) in C/C++ ruleset: 222
+<p>
+Examining ../../../lib/m17_coder_impl.cc <br>
+Examining ../../../lib/m17_coder_impl.h <br>
+Examining ../../../lib/m17_decoder_impl.cc <br>
+Examining ../../../lib/m17_decoder_impl.h <br>
+Examining ../../../libm17/test_trustzone_tee.c <br>
+Examining ../../../libm17/encode/convol.c <br>
+Examining ../../../libm17/encode/symbols.c <br>
+Examining ../../../libm17/crypto/constant_time.h <br>
+Examining ../../../libm17/crypto/chacha20_poly1305.h <br>
+Examining ../../../libm17/crypto/replay_protection.h <br>
+Examining ../../../libm17/crypto/hkdf.c <br>
+Examining ../../../libm17/crypto/validation.c <br>
+Examining ../../../libm17/crypto/secure_memory.c <br>
+Examining ../../../libm17/crypto/constant_time.c <br>
+Examining ../../../libm17/crypto/security_monitoring.h <br>
+Examining ../../../libm17/crypto/replay_protection.c <br>
+Examining ../../../libm17/crypto/optee.h <br>
+Examining ../../../libm17/crypto/curve25519.c <br>
+Examining ../../../libm17/crypto/security_monitoring.c <br>
+Examining ../../../libm17/crypto/secure_boot.c <br>
+Examining ../../../libm17/crypto/secure_boot.h <br>
+Examining ../../../libm17/crypto/bounds_checking.c <br>
+Examining ../../../libm17/crypto/key_derivation.c <br>
+Examining ../../../libm17/crypto/optee.c <br>
+Examining ../../../libm17/crypto/ed25519.c <br>
+Examining ../../../libm17/crypto/secure_memory.h <br>
+Examining ../../../libm17/crypto/aes_gcm.c <br>
+Examining ../../../libm17/crypto/bounds_checking.h <br>
+Examining ../../../libm17/crypto/chacha20_poly1305.c <br>
+Examining ../../../libm17/crypto/key_derivation.h <br>
+Examining ../../../libm17/crypto/trustzone.h <br>
+Examining ../../../libm17/crypto/trustzone.c <br>
+Examining ../../../libm17/crypto/validation.h <br>
+Examining ../../../libm17/m17_safe.c <br>
+Examining ../../../libm17/payload/call.c <br>
+Examining ../../../libm17/payload/lich.c <br>
+Examining ../../../libm17/payload/crc.c <br>
+Examining ../../../libm17/payload/lsf.c <br>
+Examining ../../../libm17/m17.c <br>
+Examining ../../../libm17/phy/interleave.c <br>
+Examining ../../../libm17/phy/sync.c <br>
+Examining ../../../libm17/phy/randomize.c <br>
+Examining ../../../libm17/phy/slice.c <br>
+Examining ../../../libm17/m17_safe.h <br>
+Examining ../../../libm17/m17.h <br>
+Examining ../../../libm17/decode/viterbi.c <br>
+Examining ../../../libm17/decode/symbols.c <br>
+Examining ../../../libm17/unit_tests/unit_tests.c <br>
+Examining ../../../libm17/test_security.c <br>
+Examining ../../../libm17/test_improvements.c <br>
+Examining ../../../libm17/test_crypto.c <br>
+Examining ../../../libm17/controller/dual_mode_controller.h <br>
+Examining ../../../libm17/controller/dual_mode_controller.c <br>
+Examining ../../../libm17/bridge/m17_ax25_bridge.h <br>
+Examining ../../../libm17/bridge/m17_ax25_bridge.c <br>
+Examining ../../../libm17/test_critical_security.c <br>
+Examining ../../../libm17/m17_simd.c <br>
+Examining ../../../libm17/build/CMakeFiles/3.28.3/CompilerIdC/CMakeCCompilerId.c <br>
+Examining ../../../libm17/math/math.c <br>
+Examining ../../../libm17/math/rrc.c <br>
+Examining ../../../libm17/math/golay.c <br>
+Examining ../../../libm17/tnc/fx25_protocol.c <br>
+Examining ../../../libm17/tnc/ax25_protocol.c <br>
+Examining ../../../libm17/tnc/il2p_protocol.h <br>
+Examining ../../../libm17/tnc/ax25_protocol.h <br>
+Examining ../../../libm17/tnc/fx25_protocol.h <br>
+Examining ../../../libm17/tnc/il2p_protocol.c <br>
+Examining ../../../libm17/tnc/kiss_protocol.c <br>
+Examining ../../../libm17/tnc/kiss_protocol.h <br>
+Examining ../../../libm17/test_chacha20_poly1305.c <br>
+Examining ../../../libm17/m17_simd.h <br>
+Examining ../../../python/m17/bindings/m17_coder_python.cc <br>
+Examining ../../../python/m17/bindings/python_bindings.cc <br>
+Examining ../../../python/m17/bindings/docstrings/m17_decoder_pydoc_template.h <br>
+Examining ../../../python/m17/bindings/docstrings/m17_coder_pydoc_template.h <br>
+Examining ../../../python/m17/bindings/m17_coder_pydoc.h <br>
+Examining ../../../python/m17/bindings/m17_decoder_python.cc <br>
+Examining ../../../python/m17/bindings/m17_decoder_pydoc.h <br>
+
+<h2>Final Results</h2>
+<ul>
+<li>../../../lib/m17_coder_impl.cc:116:22: <b>  [2] </b> (misc) <i> open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+        int rng_fd = open("/dev/hwrng", O_RDONLY);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:119:22: <b>  [2] </b> (misc) <i> open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+            rng_fd = open("/dev/urandom", O_RDONLY);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:208:11: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+          memcpy(&amp;(_lsf.meta), _iv, m17_constants::META_FIELD_SIZE);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:373:9: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+        char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+</pre>
+<li>../../../lib/m17_coder_impl.cc:412:9: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+        char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+</pre>
+<li>../../../lib/m17_coder_impl.cc:443:9: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+        char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+</pre>
+<li>../../../lib/m17_coder_impl.cc:762:31: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+      const char *in = (const char *)input_items[0];
+</pre>
+<li>../../../lib/m17_coder_impl.cc:798:11: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+          memcpy(next_data, in + countin, 16);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:807:11: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+          memcpy(data, next_data, 16);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:833:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(_next_lsf.meta, _iv, 14);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:891:17: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+                memcpy(_lsf.src, _next_lsf.src, 6);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:894:17: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+                memcpy(_lsf.dst, _next_lsf.dst, 6);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:905:19: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+                  memcpy(_lsf.meta, _next_lsf.meta, 14);
+</pre>
+<li>../../../lib/m17_coder_impl.h:125:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char callsign[10];                  // Null-terminated callsign
+</pre>
+<li>../../../lib/m17_coder_impl.h:207:16: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+      unsigned char _src_id[10], _dst_id[10];	// 9 character callsign
+</pre>
+<li>../../../lib/m17_decoder_impl.cc:162:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+				char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+</pre>
+<li>../../../lib/m17_decoder_impl.cc:188:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+				char hex_byte[3] = {arg[i*2], arg[i*2+1], '\0'};
+</pre>
+<li>../../../lib/m17_decoder_impl.cc:402:17: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+			char *out = (char *)output_items[0];
+</pre>
+<li>../../../lib/m17_decoder_impl.cc:500:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+								memcpy(_iv, _lsf.meta, 14);
+</pre>
+<li>../../../lib/m17_decoder_impl.cc:559:8: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+							memcpy((uint8_t *)&amp;_lsf + _lich_cnt * 5, _lich_b, 5);
+</pre>
+<li>../../../lib/m17_decoder_impl.cc:656:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+								memcpy(&amp;_sig[((_fn &amp; (m17_constants::FRAME_NUMBER_MAX - 1)) - m17_constants::SIGNATURE_START_FN) * 16], _frame_data, 16);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:282:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char src_callsign[10] = {0};
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:283:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char dst_callsign[10] = {0};
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:291:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char ax25_src[7] = {0};
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:292:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char ax25_dst[7] = {0};
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:626:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char src_callsign[10] = {0};
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:627:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char dst_callsign[10] = {0};
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:698:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(packet_data, data + 16, packet_length);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:776:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char src_callsign[7] = {0};
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:777:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char dst_callsign[7] = {0};
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:920:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;data, data, 16);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:945:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;data, data, length);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:970:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;data, data, length);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:980:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(data, frame-&gt;data, frame-&gt;length);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1088:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char aprs_packet[256];
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1139:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char aprs_packet[256];
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1184:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char aprs_packet[256];
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1332:18: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    FILE* file = fopen(config_file, "r");
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1337:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char line[256];
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1345:50: <b>  [2] </b> (integer) <i> atoi:
+  Unless checked, the resulting number can exceed the expected range (<a
+  href="https://cwe.mitre.org/data/definitions/190.html">CWE-190</a>). If
+  source untrusted, check both minimum and maximum, even if the input had no
+  minus sign (large numbers can roll over into negative number; consider
+  saving to an unsigned value if that is intended). </i>
+<pre>
+            bridge-&gt;state.config.m17_frequency = atoi(line + 14);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1347:51: <b>  [2] </b> (integer) <i> atoi:
+  Unless checked, the resulting number can exceed the expected range (<a
+  href="https://cwe.mitre.org/data/definitions/190.html">CWE-190</a>). If
+  source untrusted, check both minimum and maximum, even if the input had no
+  minus sign (large numbers can roll over into negative number; consider
+  saving to an unsigned value if that is intended). </i>
+<pre>
+            bridge-&gt;state.config.ax25_frequency = atoi(line + 15);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1363:18: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    FILE* file = fopen(config_file, "w");
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1478:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(fx25_data + offset, fx25_frame.preamble, FX25_PREAMBLE_LEN);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1482:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(fx25_data + offset, fx25_frame.sync_word, FX25_SYNC_WORD_LEN);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1486:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(fx25_data + offset, fx25_frame.header, FX25_HEADER_LEN);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1490:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(fx25_data + offset, fx25_frame.data, fx25_frame.data_length);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1494:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(fx25_data + offset, fx25_frame.parity, fx25_frame.parity_length);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1498:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(fx25_data + offset, fx25_frame.crc, FX25_CRC_LEN);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1572:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(il2p_data + offset, il2p_frame.sync_word, IL2P_SYNC_WORD_SIZE);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1576:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(il2p_data + offset, il2p_frame.header, IL2P_HEADER_SIZE);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1580:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(il2p_data + offset, il2p_frame.header_parity, IL2P_HEADER_PARITY);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1584:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(il2p_data + offset, il2p_frame.payload, il2p_frame.payload_length);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1588:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(il2p_data + offset, il2p_frame.payload_parity, il2p_frame.parity_length);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.h:56:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char ax25_callsign[7];   // AX.25 callsign
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.h:88:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char m17_callsign[10];   // M17 callsign
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.h:89:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char ax25_callsign[7];   // AX.25 callsign
+</pre>
+<li>../../../libm17/controller/dual_mode_controller.c:589:18: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    FILE* file = fopen(config_file, "r");
+</pre>
+<li>../../../libm17/controller/dual_mode_controller.c:594:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char line[256];
+</pre>
+<li>../../../libm17/controller/dual_mode_controller.c:617:18: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    FILE* file = fopen(config_file, "w");
+</pre>
+<li>../../../libm17/controller/dual_mode_controller.h:49:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char callsign[10];
+</pre>
+<li>../../../libm17/crypto/bounds_checking.c:140:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(element, &amp;byte_array[index * element_size], element_size);
+</pre>
+<li>../../../libm17/crypto/hkdf.c:76:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(input + input_len, okm + offset - M17_HKDF_HASH_SIZE, M17_HKDF_HASH_SIZE);
+</pre>
+<li>../../../libm17/crypto/hkdf.c:82:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(input + input_len, info, info_len);
+</pre>
+<li>../../../libm17/crypto/hkdf.c:102:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+        memcpy(okm + offset, hash, copy_len);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:27:21: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    FILE *urandom = fopen("/dev/urandom", "rb");
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:96:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(context_data + context_len, context-&gt;session_id, 16);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:100:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(context_data + context_len, &amp;context-&gt;timestamp, 8);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:105:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(context_data + context_len, context-&gt;sender_callsign, sender_len);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:110:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(context_data + context_len, context-&gt;receiver_callsign, receiver_len);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:114:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(context_data + context_len, &amp;context-&gt;frame_number, 2);
+</pre>
+<li>../../../libm17/crypto/optee.c:54:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char ta_uuid[64];
+</pre>
+<li>../../../libm17/crypto/optee.c:85:26: <b>  [2] </b> (misc) <i> open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    g_tee_state.tee_fd = open(TEE_DEVICE_PATH, O_RDWR);
+</pre>
+<li>../../../libm17/crypto/optee.c:325:21: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    FILE *urandom = fopen("/dev/urandom", "rb");
+</pre>
+<li>../../../libm17/crypto/optee.c:356:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    if (memcpy(g_tee_keys[private_slot].key_data, private_key, 32) == NULL) {
+</pre>
+<li>../../../libm17/crypto/optee.c:386:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    if (memcpy(g_tee_keys[public_slot].key_data, public_key, 32) == NULL) {
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:173:29: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+            FILE *urandom = fopen("/dev/urandom", "rb");
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:205:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(attestation-&gt;component_hash, g_sb_components[i].hash, 32);
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:206:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(attestation-&gt;signature, g_sb_components[i].signature, 64);
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:261:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+        memcpy(report + offset, "M17_SB_REPORT", 13);
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:271:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(report + offset, &amp;g_sb_components[i].component, 4);
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:273:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(report + offset, g_sb_components[i].hash, 32);
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:275:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(report + offset, g_sb_components[i].signature, 64);
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:313:21: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    FILE *urandom = fopen("/dev/urandom", "rb");
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:377:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(measurements + offset, &amp;g_sb_components[i].component, 4);
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:379:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(measurements + offset, g_sb_components[i].hash, 32);
+</pre>
+<li>../../../libm17/crypto/secure_boot.c:381:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(measurements + offset, g_sb_components[i].signature, 64);
+</pre>
+<li>../../../libm17/crypto/security_monitoring.c:27:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char identifier[32];           // IP, callsign, etc.
+</pre>
+<li>../../../libm17/crypto/trustzone.c:215:21: <b>  [2] </b> (misc) <i> fopen:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+    FILE *urandom = fopen("/dev/urandom", "rb");
+</pre>
+<li>../../../libm17/crypto/trustzone.c:234:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(g_secure_keys[private_slot].key_data, private_key, 32);
+</pre>
+<li>../../../libm17/crypto/trustzone.c:249:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(g_secure_keys[public_slot].key_data, public_key, 32);
+</pre>
+<li>../../../libm17/crypto/trustzone.c:344:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(ed25519_private_key, g_secure_keys[i].key_data, 32);
+</pre>
+<li>../../../libm17/crypto/trustzone.c:370:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(signature, ed25519_signature, 64);
+</pre>
+<li>../../../libm17/crypto/trustzone.c:419:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(ed25519_public_key, g_secure_keys[i].key_data, 32);
+</pre>
+<li>../../../libm17/m17.c:288:2: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+	memcpy(lsf-&gt;dst, &amp;lsf_b[1+0], 6);		//DST field
+</pre>
+<li>../../../libm17/m17.c:289:2: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+	memcpy(lsf-&gt;src, &amp;lsf_b[1+6], 6);		//SRC field
+</pre>
+<li>../../../libm17/m17.c:292:2: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+	memcpy(lsf-&gt;meta, &amp;lsf_b[1+14], 14);	//META field
+</pre>
+<li>../../../libm17/m17.c:323:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(lich, tmp, 5);
+</pre>
+<li>../../../libm17/m17.c:330:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame_data, &amp;tmp_frame_data[1+2], 16);
+</pre>
+<li>../../../libm17/m17.c:360:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame_data, &amp;tmp_frame_data[1], 25);
+</pre>
+<li>../../../libm17/m17.h:170:26: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+void set_LSF(lsf_t *lsf, char *src, char *dst, uint16_t type, uint8_t meta[14]);
+</pre>
+<li>../../../libm17/m17.h:170:37: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+void set_LSF(lsf_t *lsf, char *src, char *dst, uint16_t type, uint8_t meta[14]);
+</pre>
+<li>../../../libm17/m17_safe.c:32:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(dest, src, src_size);
+</pre>
+<li>../../../libm17/math/golay.c:98:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy((uint8_t*)out, (uint8_t*)checksum, 12*2);
+</pre>
+<li>../../../libm17/math/golay.c:115:2: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+	memcpy((uint8_t*)data, (uint8_t*)&amp;codeword[12], 2*12);
+</pre>
+<li>../../../libm17/math/golay.c:116:2: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+	memcpy((uint8_t*)parity, (uint8_t*)&amp;codeword[0], 2*12);
+</pre>
+<li>../../../libm17/payload/call.c:30:13: <b>  [2] </b> (buffer) <i> sprintf:
+  Does not check for buffer overflows (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Use
+  sprintf_s, snprintf, or vsnprintf. Risk is low because the source has a
+  constant maximum length. </i>
+<pre>
+            sprintf((char*)outp, "@ALL");
+</pre>
+<li>../../../libm17/payload/crc.c:51:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(&amp;d[0], in-&gt;dst, 6);
+</pre>
+<li>../../../libm17/payload/crc.c:52:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(&amp;d[6], in-&gt;src, 6);
+</pre>
+<li>../../../libm17/payload/crc.c:53:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(&amp;d[12], in-&gt;type, 2);
+</pre>
+<li>../../../libm17/payload/crc.c:54:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(&amp;d[14], in-&gt;meta, 14);
+</pre>
+<li>../../../libm17/payload/lsf.c:34:26: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+void set_LSF(lsf_t *lsf, char *src, char *dst, uint16_t type, uint8_t meta[14])
+</pre>
+<li>../../../libm17/payload/lsf.c:34:37: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+void set_LSF(lsf_t *lsf, char *src, char *dst, uint16_t type, uint8_t meta[14])
+</pre>
+<li>../../../libm17/payload/lsf.c:43:3: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+		memcpy(lsf-&gt;meta, meta, 14);
+</pre>
+<li>../../../libm17/payload/lsf.c:60:3: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+		memcpy(lsf-&gt;meta, meta, 14);
+</pre>
+<li>../../../libm17/payload/lsf.c:167:2: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+	memcpy(&amp;tmp[4], rand, 10);
+</pre>
+<li>../../../libm17/payload/lsf.c:194:2: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+	memcpy(tmp, lsf-&gt;meta, 14);
+</pre>
+<li>../../../libm17/test_critical_security.c:97:5: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+    char test_str[32];
+</pre>
+<li>../../../libm17/test_crypto.c:251:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(encrypted_data, ciphertext, 64);
+</pre>
+<li>../../../libm17/test_crypto.c:252:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(encrypted_data + 64, tag, M17_AES_GCM_TAG_SIZE);
+</pre>
+<li>../../../libm17/test_security.c:34:22: <b>  [2] </b> (misc) <i> open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (<a
+  href="https://cwe.mitre.org/data/definitions/362.html">CWE-362</a>). </i>
+<pre>
+        int rng_fd = open("/dev/urandom", O_RDONLY);
+</pre>
+<li>../../../libm17/test_security.c:58:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(seen_ivs[seen_count], iv, 16);
+</pre>
+<li>../../../libm17/test_security.c:143:9: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+        char hex_byte[3] = {valid_hex[i*2], valid_hex[i*2+1], '\0'};
+</pre>
+<li>../../../libm17/test_security.c:156:9: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+        char hex_byte[3] = {invalid_hex[i*2], invalid_hex[i*2+1], '\0'};
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:184:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+        memcpy(frame-&gt;info, info, info_len);
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:214:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+        memcpy(frame-&gt;addresses[frame-&gt;num_addresses].callsign, &amp;data[pos], 6);
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:255:13: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+            memcpy(frame-&gt;info, &amp;data[pos], frame-&gt;info_length);
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:289:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+        memcpy(&amp;data[pos], frame-&gt;addresses[i].callsign, 6);
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:319:9: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+        memcpy(&amp;data[pos], frame-&gt;info, frame-&gt;info_length);
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:477:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(data, tnc-&gt;rx_frame.info, tnc-&gt;rx_frame.info_length);
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:524:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame.info, info, info_len);
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:589:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(info, tnc-&gt;rx_frame.info, tnc-&gt;rx_frame.info_length);
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:18:17: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+static unsigned char alpha_to[256];
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:19:17: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+static unsigned char index_of[256];
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:20:17: <b>  [2] </b> (buffer) <i> char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (<a
+  href="https://cwe.mitre.org/data/definitions/119.html">CWE-119</a>!/<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Perform bounds checking, use functions that limit length, or ensure that
+  the size is larger than the maximum possible length. </i>
+<pre>
+static unsigned char genpoly[32];
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:253:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(fx25_frame-&gt;data, ax25_data, ax25_length);
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:283:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(ax25_data, fx25_frame-&gt;data, frame_length);
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:327:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;preamble, data + offset, FX25_PREAMBLE_LEN);
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:331:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;sync_word, data + offset, FX25_SYNC_WORD_LEN);
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:335:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;header, data + offset, FX25_HEADER_LEN);
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:344:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;data, data + offset, data_length);
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:350:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;parity, data + offset, 16);
+</pre>
+<li>../../../libm17/tnc/fx25_protocol.c:356:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;crc, data + offset, FX25_CRC_LEN);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:122:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(encoded + offset, header-&gt;source, 6);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:126:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(encoded + offset, header-&gt;destination, 6);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:155:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(header-&gt;source, encoded + offset, 6);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:159:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(header-&gt;destination, encoded + offset, 6);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:186:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(encoded, data, length);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:204:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(data, encoded, encoded_length);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:311:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;sync_word, data + offset, IL2P_SYNC_WORD_SIZE);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:315:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;header, data + offset, IL2P_HEADER_SIZE);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:319:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;header_parity, data + offset, IL2P_HEADER_PARITY);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:328:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;payload, data + offset, payload_length);
+</pre>
+<li>../../../libm17/tnc/il2p_protocol.c:334:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(frame-&gt;payload_parity, data + offset, 16);
+</pre>
+<li>../../../libm17/tnc/kiss_protocol.c:140:5: <b>  [2] </b> (buffer) <i> memcpy:
+  Does not check for buffer overflows when copying to destination (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Make
+  sure destination can always hold the source data. </i>
+<pre>
+    memcpy(data, tnc-&gt;current_frame.data, tnc-&gt;current_frame.length);
+</pre>
+<li>../../../lib/m17_coder_impl.cc:122:17: <b>  [1] </b> (buffer) <i> read:
+  Check buffer boundaries if used in a loop including recursive loops (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>, <a
+  href="https://cwe.mitre.org/data/definitions/20.html">CWE-20</a>). </i>
+<pre>
+            if (read(rng_fd, _iv, m17_constants::AES_IV_SIZE) != m17_constants::AES_IV_SIZE) {
+</pre>
+<li>../../../lib/m17_coder_impl.cc:702:22: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+      uint16_t len = strlen(inp);
+</pre>
+<li>../../../lib/m17_decoder_impl.cc:341:19: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+			uint16_t len = strlen(inp);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:40:5: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Risk
+  is low because the source is a constant string. </i>
+<pre>
+    strncpy(bridge-&gt;state.config.ax25_callsign, "N0CALL", sizeof(bridge-&gt;state.config.ax25_callsign) - 1);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:299:9: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+        strncpy(ax25_src, src_callsign, 6);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:304:9: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+        strncpy(ax25_dst, dst_callsign, 6);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:502:5: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+    strncpy(bridge-&gt;mappings[bridge-&gt;num_mappings].m17_callsign, m17_callsign, 9);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:505:5: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+    strncpy(bridge-&gt;mappings[bridge-&gt;num_mappings].ax25_callsign, ax25_callsign, 6);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:545:13: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+            strncpy(ax25_callsign, bridge-&gt;mappings[i].ax25_callsign, sizeof(ax25_callsign) - 1);
+</pre>
+<li>../../../libm17/bridge/m17_ax25_bridge.c:1221:15: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    int len = strlen(callsign);
+</pre>
+<li>../../../libm17/controller/dual_mode_controller.c:44:5: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). Risk
+  is low because the source is a constant string. </i>
+<pre>
+    strncpy(controller-&gt;config.callsign, "N0CALL", sizeof(controller-&gt;config.callsign) - 1);
+</pre>
+<li>../../../libm17/crypto/bounds_checking.c:49:22: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t src_len = strlen(src);
+</pre>
+<li>../../../libm17/crypto/bounds_checking.c:54:5: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+    strncpy(dest, src, dest_size - 1);
+</pre>
+<li>../../../libm17/crypto/bounds_checking.c:69:23: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t dest_len = strlen(dest);
+</pre>
+<li>../../../libm17/crypto/bounds_checking.c:70:22: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t src_len = strlen(src);
+</pre>
+<li>../../../libm17/crypto/bounds_checking.c:76:5: <b>  [1] </b> (buffer) <i> strncat:
+  Easily used incorrectly (e.g., incorrectly computing the correct maximum
+  size to add) [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>).
+  Consider strcat_s, strlcat, snprintf, or automatically resizing strings. </i>
+<pre>
+    strncat(dest, src, dest_size - dest_len - 1);
+</pre>
+<li>../../../libm17/crypto/bounds_checking.c:239:18: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t len = strlen(str);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:67:5: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+    strncpy((char*)ctx-&gt;sender_callsign, sender_callsign, 8);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:70:5: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+    strncpy((char*)ctx-&gt;receiver_callsign, receiver_callsign, 8);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:104:25: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t sender_len = strlen((char*)context-&gt;sender_callsign);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:109:27: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t receiver_len = strlen((char*)context-&gt;receiver_callsign);
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:200:9: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    if (strlen((char*)context-&gt;sender_callsign) == 0 ||
+</pre>
+<li>../../../libm17/crypto/key_derivation.c:201:9: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+        strlen((char*)context-&gt;receiver_callsign) == 0) {
+</pre>
+<li>../../../libm17/crypto/optee.c:213:13: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+            strncpy(g_tee_sessions[i].ta_uuid, ta_uuid, sizeof(g_tee_sessions[i].ta_uuid) - 1);
+</pre>
+<li>../../../libm17/crypto/optee.c:280:17: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+            if (strlen(credentials) &gt; 0) {
+</pre>
+<li>../../../libm17/crypto/security_monitoring.c:98:9: <b>  [1] </b> (buffer) <i> strncpy:
+  Easily used incorrectly; doesn't always \0-terminate or check for invalid
+  pointers [MS-banned] (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>). </i>
+<pre>
+        strncpy(entry-&gt;identifier, identifier, 31);
+</pre>
+<li>../../../libm17/crypto/trustzone.c:134:17: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+            if (strlen(credentials) &gt; 0) {
+</pre>
+<li>../../../libm17/crypto/validation.c:170:21: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t length = strlen(callsign);
+</pre>
+<li>../../../libm17/m17_safe.c:56:18: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t len = strlen(callsign);
+</pre>
+<li>../../../libm17/payload/call.c:83:8: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    if(strlen((const char*)inp)&gt;9)
+</pre>
+<li>../../../libm17/payload/call.c:102:18: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    for(int8_t i=strlen((const char*)inp)-1; i&gt;=start; i--)
+</pre>
+<li>../../../libm17/test_chacha20_poly1305.c:21:28: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t plaintext_len = strlen(plaintext);
+</pre>
+<li>../../../libm17/test_chacha20_poly1305.c:26:22: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t aad_len = strlen((char*)aad);
+</pre>
+<li>../../../libm17/test_chacha20_poly1305.c:94:22: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t aad_len = strlen((char*)aad);
+</pre>
+<li>../../../libm17/test_chacha20_poly1305.c:197:28: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t plaintext_len = strlen(plaintext);
+</pre>
+<li>../../../libm17/test_chacha20_poly1305.c:202:22: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    size_t aad_len = strlen((char*)aad);
+</pre>
+<li>../../../libm17/test_crypto.c:41:54: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    assert(m17_ed25519_sign((const uint8_t*)message, strlen(message), private_key, signature) == 0);
+</pre>
+<li>../../../libm17/test_crypto.c:46:56: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    assert(m17_ed25519_verify((const uint8_t*)message, strlen(message), signature, public_key) == 0);
+</pre>
+<li>../../../libm17/test_crypto.c:52:62: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    assert(m17_ed25519_verify((const uint8_t*)wrong_message, strlen(wrong_message), signature, public_key) != 0);
+</pre>
+<li>../../../libm17/test_crypto.c:129:68: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    assert(m17_hkdf_derive(input_key_material, 32, salt, 32, info, strlen((char*)info), output, 32) == 0);
+</pre>
+<li>../../../libm17/test_crypto.c:232:63: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+                          NULL, 0, (const uint8_t*)hkdf_info, strlen(hkdf_info), 
+</pre>
+<li>../../../libm17/test_crypto.c:243:57: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    assert(m17_aes_gcm_encrypt((const uint8_t*)message, strlen(message), 
+</pre>
+<li>../../../libm17/test_crypto.c:268:39: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    assert(memcmp(message, decrypted, strlen(message)) == 0);
+</pre>
+<li>../../../libm17/test_security.c:40:13: <b>  [1] </b> (buffer) <i> read:
+  Check buffer boundaries if used in a loop including recursive loops (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>, <a
+  href="https://cwe.mitre.org/data/definitions/20.html">CWE-20</a>). </i>
+<pre>
+        if (read(rng_fd, iv, 16) != 16) {
+</pre>
+<li>../../../libm17/test_security.c:113:19: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    SHA256(data1, strlen((char*)data1), hash1);
+</pre>
+<li>../../../libm17/test_security.c:114:19: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    SHA256(data2, strlen((char*)data2), hash2);
+</pre>
+<li>../../../libm17/test_security.c:115:19: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    SHA256(data3, strlen((char*)data3), hash3);
+</pre>
+<li>../../../libm17/test_trustzone_tee.c:89:72: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+                                             (const uint8_t *)message, strlen(message),
+</pre>
+<li>../../../libm17/test_trustzone_tee.c:97:63: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+                                    (const uint8_t *)message, strlen(message),
+</pre>
+<li>../../../libm17/test_trustzone_tee.c:186:57: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+                              (const uint8_t *)message, strlen(message),
+</pre>
+<li>../../../libm17/test_trustzone_tee.c:194:64: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+                                     (const uint8_t *)message, strlen(message),
+</pre>
+<li>../../../libm17/test_trustzone_tee.c:291:63: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+                             (const uint8_t *)secure_message, strlen(secure_message),
+</pre>
+<li>../../../libm17/test_trustzone_tee.c:299:69: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+                                   (const uint8_t *)secure_message, strlen(secure_message),
+</pre>
+<li>../../../libm17/tnc/ax25_protocol.c:100:15: <b>  [1] </b> (buffer) <i> strlen:
+  Does not handle strings that are not \0-terminated; if given one it may
+  perform an over-read (it could cause a crash if unprotected) (<a
+  href="https://cwe.mitre.org/data/definitions/126.html">CWE-126</a>). </i>
+<pre>
+    int len = strlen(callsign);
+</pre>
+<li>../../../libm17/tnc/kiss_protocol.c:381:26: <b>  [1] </b> (buffer) <i> read:
+  Check buffer boundaries if used in a loop including recursive loops (<a
+  href="https://cwe.mitre.org/data/definitions/120.html">CWE-120</a>, <a
+  href="https://cwe.mitre.org/data/definitions/20.html">CWE-20</a>). </i>
+<pre>
+    ssize_t bytes_read = read(fd, data, *length);
+</pre>
+</ul>
+<h2>Analysis Summary</h2>
+<p>
+Hits = 209
+<br>
+Lines analyzed = 20368 in approximately 0.11 seconds (185902 lines/second)
+<br>
+Physical Source Lines of Code (SLOC) = 13484
+<br>
+Hits@level = [0] 469 [1]  55 [2] 154 [3]   0 [4]   0 [5]   0 <br>
+Hits@level+ = [0+] 678 [1+] 209 [2+] 154 [3+]   0 [4+]   0 [5+]   0 <br>
+Hits/KSLOC@level+ = [0+] 50.2818 [1+] 15.4999 [2+] 11.4209 [3+]   0 [4+]   0 [5+]   0 <br>
+Minimum risk level = 1
+<br>
+Not every hit is necessarily a security vulnerability.
+You can inhibit a report by adding a comment in this form:
+// flawfinder: ignore
+Make *sure* it's a false positive!
+You can use the option --neverignore to show these.
+<br>
+There may be other security vulnerabilities; review your code!
+<br>
+See '<a href="https://dwheeler.com/secure-programs">Secure Programming HOWTO</a>'
+(<a href="https://dwheeler.com/secure-programs">https://dwheeler.com/secure-programs</a>) for more information.
+</body>
+</html>

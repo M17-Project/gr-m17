@@ -1,0 +1,6 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./m17_decoder_fuzz
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@
+AFL_CUSTOM_INFO_OUT=findings_decoder/default
+# command line:
+'afl-fuzz' '-i' 'testcases' '-o' 'findings_decoder' '-m' 'none' './m17_decoder_fuzz' '@@'

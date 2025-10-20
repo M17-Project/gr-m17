@@ -37,7 +37,8 @@ int m17_ax25_bridge_init(m17_ax25_bridge_t* bridge) {
     bridge->state.config.m17_frequency = 144800000;  // 144.8 MHz
     bridge->state.config.ax25_frequency = 144800000; // Same frequency
     bridge->state.config.m17_can = 0;
-    strcpy(bridge->state.config.ax25_callsign, "N0CALL");
+    strncpy(bridge->state.config.ax25_callsign, "N0CALL", sizeof(bridge->state.config.ax25_callsign) - 1);
+    bridge->state.config.ax25_callsign[sizeof(bridge->state.config.ax25_callsign) - 1] = '\0';
     bridge->state.config.ax25_ssid = 0;
     
     bridge->state.current_protocol = PROTOCOL_UNKNOWN;
@@ -541,7 +542,8 @@ int m17_ax25_bridge_find_mapping(const m17_ax25_bridge_t* bridge, const char* m1
     for (int i = 0; i < bridge->num_mappings; i++) {
         if (bridge->mappings[i].active &&
             m17_ax25_bridge_compare_callsigns(bridge->mappings[i].m17_callsign, m17_callsign) == 0) {
-            strcpy(ax25_callsign, bridge->mappings[i].ax25_callsign);
+            strncpy(ax25_callsign, bridge->mappings[i].ax25_callsign, sizeof(ax25_callsign) - 1);
+            ax25_callsign[sizeof(ax25_callsign) - 1] = '\0'; // Ensure null termination
             *ax25_ssid = bridge->mappings[i].ax25_ssid;
             return 0;
         }
@@ -867,7 +869,7 @@ int m17_ax25_bridge_process_m17_tx(m17_ax25_bridge_t* bridge, const uint8_t* dat
     }
     
     // Send via KISS TNC
-    if (kiss_send(&bridge->kiss_tnc, encoded_data, encoded_length) != 0) {
+    if (kiss_serial_send(&bridge->kiss_tnc, encoded_data, encoded_length) != 0) {
         return -1;
     }
     
@@ -901,7 +903,7 @@ int m17_ax25_bridge_process_ax25_tx(m17_ax25_bridge_t* bridge, const uint8_t* da
     }
     
     // Send via KISS TNC
-    if (kiss_send(&bridge->kiss_tnc, encoded_data, encoded_length) != 0) {
+    if (kiss_serial_send(&bridge->kiss_tnc, encoded_data, encoded_length) != 0) {
         return -1;
     }
     

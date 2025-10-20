@@ -1,0 +1,24 @@
+# Cppcheck configuration for M17 project
+# This file provides include paths and suppressions for cppcheck analysis
+
+# Include directories
+-I=libm17/
+-I=micro-ecc/
+-I=tinier-aes/
+-I=include/
+-I=lib/
+
+# Suppress common false positives
+--suppress=missingInclude
+--suppress=missingIncludeSystem
+--suppress=unusedFunction
+--suppress=unmatchedSuppression
+
+# Enable all checks
+--enable=all
+
+# Use C++14 standard
+--std=c++14
+
+# Be inconclusive (report potential issues)
+--inconclusive

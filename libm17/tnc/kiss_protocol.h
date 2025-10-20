@@ -68,6 +68,8 @@ typedef struct {
     uint16_t buffer_pos;
     kiss_frame_t current_frame;
     bool frame_ready;
+    int serial_fd;          // File descriptor for USB CDC serial
+    int tcp_socket;         // Socket descriptor for TCP interface
 } kiss_tnc_t;
 
 // KISS Protocol Functions

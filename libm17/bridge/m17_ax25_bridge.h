@@ -12,10 +12,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include "kiss_protocol.h"
-#include "ax25_protocol.h"
-#include "fx25_protocol.h"
-#include "il2p_protocol.h"
+#include "../tnc/kiss_protocol.h"
+#include "../tnc/ax25_protocol.h"
+#include "../tnc/fx25_protocol.h"
+#include "../tnc/il2p_protocol.h"
 
 // M17 Type Definitions
 typedef struct {
@@ -92,7 +92,7 @@ typedef struct {
 } m17_ax25_mapping_t;
 
 // Event handler function type
-typedef void (*bridge_event_handler_t)(const char* event, const char* data);
+typedef void (*bridge_event_handler_t)(protocol_type_t protocol, const uint8_t* data, uint16_t length);
 
 // Bridge Interface
 typedef struct {
@@ -231,8 +231,6 @@ int m17_ax25_bridge_get_statistics(const m17_ax25_bridge_t* bridge, bridge_stati
 int m17_ax25_bridge_reset_statistics(m17_ax25_bridge_t* bridge);
 
 // Event Handlers
-typedef void (*bridge_event_handler_t)(protocol_type_t protocol, const uint8_t* data, uint16_t length);
-
 int m17_ax25_bridge_register_event_handler(m17_ax25_bridge_t* bridge, bridge_event_handler_t handler);
 int m17_ax25_bridge_unregister_event_handler(m17_ax25_bridge_t* bridge);
 

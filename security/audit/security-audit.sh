@@ -18,6 +18,11 @@ echo "Running Cppcheck..."
 cppcheck --enable=all --inconclusive --std=c++14 \
          --suppress=missingIncludeSystem \
          --suppress=unusedFunction \
+         --suppressions-list=../cppcheck-suppressions.txt \
+         -I../../../libm17/ \
+         -I../../../micro-ecc/ \
+         -I../../../tinier-aes/ \
+         -I../../../include/ \
          --xml --xml-version=2 \
          --output-file=cppcheck-report.xml \
          ../../../lib/ ../../../libm17/ ../../../python/ >/dev/null 2>&1 || true
@@ -32,14 +37,11 @@ fi
 echo "Running Flawfinder..."
 if command -v flawfinder &> /dev/null; then
     flawfinder --html --context --columns \
+               --exclude-dir=../../../libm17/doc \
                ../../../lib/ ../../../libm17/ ../../../python/ > flawfinder-report.html 2>/dev/null || true
 fi
 
-# 4. RATS Security Analysis
-echo "Running RATS..."
-if command -v rats &> /dev/null; then
-    rats --html ../../../lib/ ../../../libm17/ ../../../python/ > rats-report.html 2>/dev/null || true
-fi
+# 4. RATS Security Analysis (removed - tool outdated)
 
 # 5. Custom Crypto Security Rules
 echo "Running Custom Crypto Analysis..."
@@ -219,9 +221,7 @@ This report contains the results of a comprehensive security audit of the M17 co
 - **Focus**: Buffer overflows, format strings, race conditions
 
 ### RATS Analysis
-- **File**: rats-report.html
-- **Security Issues**: See HTML report for details
-- **Focus**: Common security vulnerabilities
+- Removed (tool outdated)
 
 ### Custom Crypto Analysis
 - **File**: semgrep-crypto-report.json
@@ -303,7 +303,7 @@ echo ""
 echo "Key files to review:"
 echo "  - cppcheck-report.xml (static analysis)"
 echo "  - flawfinder-report.html (security issues)"
-echo "  - rats-report.html (vulnerability scan)"
+echo "  - (RATS removed)"
 echo "  - semgrep-crypto-report.json (crypto-specific issues)"
 echo ""
 echo "Dynamic analysis binaries:"

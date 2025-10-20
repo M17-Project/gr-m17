@@ -2,7 +2,7 @@
 // Dual-Mode Radio Controller for M17
 //
 // Dual-mode radio controller supporting both M17 and AX.25
-// Integrates with SX1255 RF frontend and protocol bridge
+// Integrates with GNU Radio SDR blocks and protocol bridge
 //
 // Wojciech Kaczmarski, SP5WWP
 // M17 Foundation, 19 April 2025
@@ -12,7 +12,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include "../rf/sx1255_interface.h"
+// RF interface handled by GNU Radio SDR blocks
 #include "../bridge/m17_ax25_bridge.h"
 
 #ifdef __cplusplus
@@ -49,6 +49,11 @@ typedef struct {
     char callsign[10];
     uint8_t can;                    // M17 Channel Access Number
     uint8_t ax25_ssid;              // AX.25 SSID
+    bool m17_enabled;
+    bool ax25_enabled;
+    bool auto_detect;
+    bool debug_enabled;
+    int debug_level;
 } controller_config_t;
 
 // Controller Statistics
@@ -69,13 +74,17 @@ typedef struct {
     controller_statistics_t stats;
     
     // Hardware interfaces
-    sx1255_interface_t rf;
+    // RF interface handled by GNU Radio SDR blocks
     m17_ax25_bridge_t bridge;
     
     // State management
     uint32_t last_activity;
     uint32_t state_timeout;
     bool initialized;
+    
+    // Event handling
+    void* event_handler;
+    bool event_handler_registered;
 } dual_mode_controller_t;
 
 // Controller Core Functions

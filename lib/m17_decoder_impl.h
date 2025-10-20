@@ -240,6 +240,7 @@ namespace gr
       uint8_t _scrambler_pn[128];
       uint32_t _scrambler_seed = 0;
       int8_t _scrambler_subtype = -1;
+      uint8_t _frame_type = 0; // Frame type for debug output
 #endif
       const struct uECC_Curve_t *_curve = uECC_secp256r1 ();
 
@@ -288,18 +289,18 @@ namespace gr
             cleanup_hardware_security();
         }
       }
-      void set_debug_data (bool debug);
-      void set_key (std::string arg);
-      void set_seed (std::string seed);
-      void set_debug_ctrl (bool debug);
-      void set_callsign (bool callsign);
-      void set_threshold (float threshold);
-      void set_signed (bool signed_str);
-      void set_encr_type (int encr_type);
-      void parse_raw_key_string (uint8_t * dest, const char *inp);
-      void scrambler_sequence_generator ();
+      void set_debug_data (bool debug) override;
+      void set_key (std::string arg) override;
+      void set_seed (std::string seed) override;
+      void set_debug_ctrl (bool debug) override;
+      void set_callsign (bool callsign) override;
+      void set_threshold (float threshold) override;
+      void set_signed (bool signed_str) override;
+      void set_encr_type (int encr_type) override;
+      void parse_raw_key_string (uint8_t * dest, const char *inp) override;
+      void scrambler_sequence_generator () override;
       uint32_t scrambler_seed_calculation (int8_t subtype, uint32_t key,
-					   int fn);
+					   int fn) override;
       
       // SECURITY FIX: Bidirectional crypto methods for M17 with Nitrokey
       void set_ed25519_keys (const uint8_t* public_key, size_t pub_key_size,

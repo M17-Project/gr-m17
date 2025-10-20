@@ -9,13 +9,11 @@ add_library(m17_controller
 target_include_directories(m17_controller
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/../rf
         ${CMAKE_CURRENT_SOURCE_DIR}/../bridge
 )
 
 # Link required libraries
 target_link_libraries(m17_controller
-    m17_sx1255
     m17_bridge
     m17_tnc
 )

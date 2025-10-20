@@ -1,0 +1,6 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./crypto_aead_fuzz
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@
+AFL_CUSTOM_INFO_OUT=findings_aead/default
+# command line:
+'afl-fuzz' '-i' 'testcases' '-o' 'findings_aead' '-m' 'none' './crypto_aead_fuzz' '@@'

@@ -26,7 +26,7 @@ void slice_symbols(uint16_t out[2*SYM_PER_PLD], const float inp[SYM_PER_PLD])
     m17_simd_capabilities_t caps = m17_get_simd_capabilities();
     if (caps != M17_SIMD_NONE) {
         // Implement SIMD version of slice_symbols
-        if (caps == M17_SIMD_SSE2 || caps == M17_SIMD_SSE4) {
+        if (caps == M17_SIMD_SSE2 || caps == M17_SIMD_SSE4_1 || caps == M17_SIMD_SSE4_2) {
             slice_symbols_simd_sse(out, inp);
             return;
         } else if (caps == M17_SIMD_AVX || caps == M17_SIMD_AVX2) {

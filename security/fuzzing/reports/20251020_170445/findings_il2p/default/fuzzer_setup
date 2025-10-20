@@ -1,0 +1,6 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./il2p_decode_fuzz
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@
+AFL_CUSTOM_INFO_OUT=findings_il2p/default
+# command line:
+'afl-fuzz' '-i' 'testcases' '-o' 'findings_il2p' '-m' 'none' './il2p_decode_fuzz' '@@'

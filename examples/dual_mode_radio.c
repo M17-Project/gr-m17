@@ -2,7 +2,7 @@
 // Dual-Mode Radio Example Application
 //
 // Example application demonstrating M17 and AX.25 dual-mode operation
-// with SX1255 RF frontend and protocol bridge
+// with GNU Radio SDR blocks and protocol bridge
 //
 // Wojciech Kaczmarski, SP5WWP
 // M17 Foundation, 19 April 2025
@@ -54,7 +54,9 @@ int parse_arguments(int argc, char* argv[], controller_config_t* config) {
     config->full_duplex = false;
     config->auto_protocol_detect = true;
     config->protocol_timeout = 5000;
-    strcpy(config->callsign, "N0CALL");
+    /* Safe copy with bounds checking */
+    strncpy(config->callsign, "N0CALL", sizeof(config->callsign) - 1);
+    config->callsign[sizeof(config->callsign) - 1] = '\0';
     config->can = 0;
     config->ax25_ssid = 0;
     

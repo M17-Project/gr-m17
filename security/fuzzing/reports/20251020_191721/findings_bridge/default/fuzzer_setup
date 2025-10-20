@@ -1,0 +1,6 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./bridge_autodetect_fuzz
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@
+AFL_CUSTOM_INFO_OUT=findings_bridge/default
+# command line:
+'afl-fuzz' '-i' 'testcases' '-o' 'findings_bridge' '-m' 'none' './bridge_autodetect_fuzz' '@@'

@@ -71,6 +71,7 @@ crypto/bounds_checking.c
     crypto/trustzone.c
     crypto/optee.c
     crypto/secure_boot.c
+    crypto/constant_time.c
 m17.c
 m17_safe.c
 m17_simd.c
@@ -83,7 +84,7 @@ if ( BUILD_STATIC_LIB )
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
  )
  set_target_properties(m17-static PROPERTIES OUTPUT_NAME m17)
- target_link_libraries(m17-static PUBLIC -lm)
+ target_link_libraries(m17-static PUBLIC -lm -lssl -lcrypto)
  install(TARGETS m17-static)
 endif()
 
@@ -98,38 +99,38 @@ if (BUILD_SHARED_LIB )
     OUTPUT_NAME m17
     VERSION "${PROJECT_VERSION}"
     SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
- target_link_libraries(libm17 PUBLIC -lm)
+ target_link_libraries(libm17 PUBLIC -lm -lssl -lcrypto)
  install(TARGETS libm17 EXPORT libm17)
 endif()
 
 # Add test executable for improvements
 add_executable(test_improvements test_improvements.c)
-target_link_libraries(test_improvements m17-static)
+target_link_libraries(test_improvements m17-static -lssl -lcrypto)
 target_include_directories(test_improvements PRIVATE ${PROJECT_SOURCE_DIR})
 
 # Add test executable for crypto functions
 add_executable(test_crypto test_crypto.c)
-target_link_libraries(test_crypto m17-static)
+target_link_libraries(test_crypto m17-static -lssl -lcrypto)
 target_include_directories(test_crypto PRIVATE ${PROJECT_SOURCE_DIR})
 
 # Add test executable for security functions
 add_executable(test_security test_security.c)
-target_link_libraries(test_security m17-static)
+target_link_libraries(test_security m17-static -lssl -lcrypto)
 target_include_directories(test_security PRIVATE ${PROJECT_SOURCE_DIR})
 
 # Add test executable for critical security functions
 add_executable(test_critical_security test_critical_security.c)
-target_link_libraries(test_critical_security m17-static)
+target_link_libraries(test_critical_security m17-static -lssl -lcrypto)
 target_include_directories(test_critical_security PRIVATE ${PROJECT_SOURCE_DIR})
 
 # Add test executable for TrustZone/TEE functions
 add_executable(test_trustzone_tee test_trustzone_tee.c)
-target_link_libraries(test_trustzone_tee m17-static)
+target_link_libraries(test_trustzone_tee m17-static -lssl -lcrypto)
 target_include_directories(test_trustzone_tee PRIVATE ${PROJECT_SOURCE_DIR})
 
 # Add test executable for ChaCha20-Poly1305 functions
 add_executable(test_chacha20_poly1305 test_chacha20_poly1305.c)
-target_link_libraries(test_chacha20_poly1305 m17-static)
+target_link_libraries(test_chacha20_poly1305 m17-static -lssl -lcrypto)
 target_include_directories(test_chacha20_poly1305 PRIVATE ${PROJECT_SOURCE_DIR})
 
 # CMake interface files
@@ -166,7 +167,6 @@ add_subdirectory(unit_tests)
 
 # Add new TNC, RF, Bridge, and Controller modules
 add_subdirectory(tnc)
-add_subdirectory(rf)
 add_subdirectory(bridge)
 add_subdirectory(controller)
 

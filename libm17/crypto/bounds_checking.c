@@ -51,7 +51,8 @@ int m17_safe_strcpy(char *dest, size_t dest_size, const char *src) {
         return -1; // Would overflow
     }
     
-    strcpy(dest, src);
+    strncpy(dest, src, dest_size - 1);
+    dest[dest_size - 1] = '\0'; // Ensure null termination
     return 0;
 }
 
@@ -72,7 +73,7 @@ int m17_safe_strcat(char *dest, size_t dest_size, const char *src) {
         return -1; // Would overflow
     }
     
-    strcat(dest, src);
+    strncat(dest, src, dest_size - dest_len - 1);
     return 0;
 }
 

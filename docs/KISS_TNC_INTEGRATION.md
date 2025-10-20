@@ -8,7 +8,7 @@ The M17 codebase now includes comprehensive support for:
 
 - **KISS Protocol**: Keep It Simple Stupid protocol for TNC communication
 - **AX.25 Protocol**: Amateur X.25 packet radio protocol
-- **SX1255 RF Frontend**: IQ modulator/demodulator interface
+- **GNU Radio SDR Blocks**: IQ modulator/demodulator interface
 - **Protocol Bridge**: M17 ↔ AX.25 data format conversion
 - **Dual-Mode Controller**: Mode switching interface for both protocols
 
@@ -21,7 +21,7 @@ The M17 codebase now includes comprehensive support for:
  M17 Module AX.25 TNC Protocol 
  Bridge 
 
- SX1255 RF Frontend 
+ GNU Radio SDR Blocks 
  
  M17 4FSK AFSK 1200 AFSK 300 
  Modulation Modulation Modulation 
@@ -34,7 +34,7 @@ The M17 codebase now includes comprehensive support for:
 
 - **Single RF Chain**: One antenna, one frequency, one modulation scheme at a time
 - **Different Modulation**: M17 uses 4FSK, AX.25 uses AFSK (1200/300 baud)
-- **Hardware Switching**: The SX1255 RF frontend switches between modulation modes
+- **Hardware Switching**: GNU Radio SDR blocks switch between modulation modes
 - **Mode Switching**: The system detects received protocols and switches transmission modes accordingly
 
 The "dual-mode" operation refers to **mode switching**, not simultaneous operation.
@@ -74,23 +74,20 @@ int ax25_send_ui_frame(ax25_tnc_t* tnc, const ax25_address_t* src, const ax25_ad
  uint8_t pid, const uint8_t* info, uint16_t info_len);
 ```
 
-### 3. SX1255 RF Frontend (`libm17/rf/sx1255_interface.h/c`)
+### 3. GNU Radio SDR Blocks (GNU Radio flowgraphs)
 
 Provides IQ modulator/demodulator interface:
 
 - **Modulation Types**: M17 4FSK, AFSK 1200/300, PSK, GMSK
 - **IQ Processing**: Complex IQ sample handling
-- **Hardware Interface**: DMA, interrupts, calibration
+- **GNU Radio Interface**: SDR blocks, flowgraphs, signal processing
 - **Filter Support**: TX/RX filtering and equalization
 
-**Key Functions:**
-```c
-int sx1255_init(sx1255_interface_t* rf);
-int sx1255_afsk_modulate(sx1255_interface_t* rf, const uint8_t* data, uint16_t length, 
- sx1255_iq_sample_t* iq_out, uint16_t* iq_count);
-int sx1255_m17_modulate(sx1255_interface_t* rf, const uint8_t* symbols, uint16_t symbol_count,
- sx1255_iq_sample_t* iq_out, uint16_t* iq_count);
-```
+**GNU Radio Flowgraphs:**
+- M17 TX/RX flowgraphs for 4FSK modulation
+- AX.25 TX/RX flowgraphs for AFSK modulation  
+- Protocol detection and switching
+- IQ sample processing and filtering
 
 ### 4. Protocol Bridge (`libm17/bridge/m17_ax25_bridge.h/c`)
 
@@ -132,10 +129,10 @@ int dual_mode_controller_send_ax25(dual_mode_controller_t* controller, const uin
 ### MCM-iMX93 System on Module
 - **CPU**: Dual-core ARM Cortex-A55 @ 1.7GHz
 - **Memory**: 2GB LPDDR4, 32GB eMMC
-- **RF**: SX1255 IQ modulator/demodulator
+- **RF**: GNU Radio SDR blocks for IQ processing
 - **Bandwidth**: 500kHz complete IQ transceiver
 
-### SX1255 RF Frontend
+### GNU Radio SDR Blocks
 - **Modulation**: 4FSK (M17), AFSK (AX.25), PSK, GMSK
 - **Sample Rate**: 48 kHz
 - **Bandwidth**: Up to 500 kHz
@@ -240,7 +237,7 @@ m17_ax25_bridge_set_config(&bridge, &bridge_config);
 ### Memory Usage
 - **KISS Protocol**: ~50-100 KB
 - **AX.25 Protocol**: ~200-300 KB
-- **SX1255 Interface**: ~100-150 KB
+- **GNU Radio Interface**: ~100-150 KB
 - **Protocol Bridge**: ~150-200 KB
 - **Dual-Mode Controller**: ~100-150 KB
 - **Total**: ~600-900 KB

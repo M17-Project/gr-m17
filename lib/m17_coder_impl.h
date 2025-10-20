@@ -112,6 +112,11 @@ namespace m17_constants {
     constexpr size_t P256_SIGNATURE_SIZE = 64;
     constexpr size_t AES_CTR_KEY_SIZE = 32;
     constexpr size_t AES_CTR_IV_SIZE = 16;
+    
+    // Security constants
+    constexpr int BYTE_MASK = 0xFF;
+    constexpr int UTF8_START_BYTE = 0xc2;
+    constexpr int UTF8_MULTIPLIER = 0x40;
 } // namespace m17_constants
 
 // SECURITY FIX: PublicKey data structure for key management
@@ -123,8 +128,8 @@ struct PublicKey {
     time_t expiry_date;                 // Expiry timestamp (0 = no expiry)
     
     PublicKey() : valid(false), imported_date(0), expiry_date(0) {
-        memset(key, 0, sizeof(key));
-        memset(callsign, 0, sizeof(callsign));
+        explicit_bzero(key, sizeof(key));
+        explicit_bzero(callsign, sizeof(callsign));
     }
     
     ~PublicKey() {
@@ -264,22 +269,22 @@ namespace gr
     public:
       void parse_raw_key_string (uint8_t *, const char *);
       void scrambler_sequence_generator ();
-      void set_src_id (std::string src_id);
-      void set_dst_id (std::string dst_id);
-      void set_key (std::string key);
-      void set_priv_key (std::string key);
-      void set_meta (std::string meta);
-      void set_seed (std::string meta);
+      void set_src_id (std::string src_id) override;
+      void set_dst_id (std::string dst_id) override;
+      void set_key (std::string key) override;
+      void set_priv_key (std::string key) override;
+      void set_meta (std::string meta) override;
+      void set_seed (std::string meta) override;
       void set_type (int mode, int data, encr_t encr_type, int encr_subtype,
-		     int can);
-      void set_mode (int mode);
-      void set_data (int data);
-      void set_encr_type (int encr_type);
-      void set_encr_subtype (int encr_subtype);
-      void set_aes_subtype (int aes_subtype, int encr_type);
-      void set_can (int can);
-      void set_debug (bool debug);
-      void set_signed (bool signed_str);
+		     int can) override;
+      void set_mode (int mode) override;
+      void set_data (int data) override;
+      void set_encr_type (int encr_type) override;
+      void set_encr_subtype (int encr_subtype) override;
+      void set_aes_subtype (int aes_subtype, int encr_type) override;
+      void set_can (int can) override;
+      void set_debug (bool debug) override;
+      void set_signed (bool signed_str) override;
       void end_of_transmission(const pmt::pmt_t& msg);
 
       m17_coder_impl (std::string src_id, std::string dst_id, int mode,
@@ -427,13 +432,14 @@ namespace gr
       // SECURITY FIX: Memory encryption functions
       bool encrypt_key_in_memory(uint8_t* key, size_t key_size, const uint8_t* encryption_key);
       bool decrypt_key_in_memory(uint8_t* key, size_t key_size, const uint8_t* encryption_key);
-      bool generate_encryption_key(uint8_t* encryption_key, size_t key_size);
-      void secure_wipe_memory(void* ptr, size_t size);
+      static bool generate_encryption_key(uint8_t* encryption_key, size_t key_size);
+      static void secure_wipe_memory(void* ptr, size_t size);
       
       // SECURITY FIX: Enhanced key management
       SecureKeyStorage _secure_private_key;
       SecureKeyStorage _secure_encryption_key;
       KeyIsolationManager _key_isolation;
+      
 
       // Where all the action really happens
       void forecast (int noutput_items,
@@ -443,6 +449,7 @@ namespace gr
 			gr_vector_int & ninput_items,
 			gr_vector_const_void_star & input_items,
 			gr_vector_void_star & output_items);
+
     };
 
   }				// namespace m17

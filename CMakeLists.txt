@@ -134,6 +134,9 @@ else(ENABLE_PYTHON)
   message(STATUS "PYTHON and GRC components are disabled")
 endif(ENABLE_PYTHON)
 
+# Tests
+add_subdirectory(tests)
+
 ########################################################################
 # Install cmake search helper for this library
 ########################################################################

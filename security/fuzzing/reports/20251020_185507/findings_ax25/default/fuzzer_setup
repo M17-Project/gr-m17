@@ -1,0 +1,6 @@
+# environment variables:
+AFL_CUSTOM_INFO_PROGRAM=./ax25_frame_fuzz
+AFL_CUSTOM_INFO_PROGRAM_ARGV=@@
+AFL_CUSTOM_INFO_OUT=findings_ax25/default
+# command line:
+'afl-fuzz' '-i' 'testcases' '-o' 'findings_ax25' '-m' 'none' './ax25_frame_fuzz' '@@'

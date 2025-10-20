@@ -49,6 +49,7 @@ namespace gr
       virtual void set_callsign (bool callsign) = 0;
       virtual void set_threshold (float threshold) = 0;
       virtual void set_signed (bool signed_str) = 0;
+      virtual void set_encr_type (int encr_type) = 0;
       virtual void set_key (std::string key) = 0;
       virtual void set_seed (std::string seed) = 0;
       virtual void parse_raw_key_string (uint8_t * dest, const char *inp) = 0;

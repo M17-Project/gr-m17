@@ -442,8 +442,7 @@ m17_tz_status_t m17_tz_verify_signature(m17_tz_session_t *session,
             
             EVP_PKEY_free(pkey);
             EVP_MD_CTX_free(md_ctx);
-            }
-            
+
             // Update session operation count
             for (int k = 0; k < MAX_SECURE_SESSIONS; k++) {
                 if (g_secure_sessions[k].session_id == session->session_id) {
@@ -451,7 +450,7 @@ m17_tz_status_t m17_tz_verify_signature(m17_tz_session_t *session,
                     break;
                 }
             }
-            
+
             return M17_TZ_SUCCESS;
         }
     }

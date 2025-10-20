@@ -1,38 +1,97 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-type" content="text/html; charset=utf8">
-<title>Flawfinder Results</title>
-<meta name="author" content="David A. Wheeler">
-<meta name="keywords" lang="en" content="flawfinder results, security scan">
-</head>
-<body>
-<h1>Flawfinder Results</h1>
-Here are the security scan results from
-<a href="https://dwheeler.com/flawfinder">Flawfinder version 2.0.19</a>,
-(C) 2001-2019 <a href="https://dwheeler.com">David A. Wheeler</a>.
-Number of rules (primarily dangerous function names) in C/C++ ruleset: 222
-<p>
+*** getopt error: option --exclude-dir not recognized
 
-<h2>Final Results</h2>
-<ul>
-</ul>
-<h2>Analysis Summary</h2>
-<p>
-No hits found.
-<br>
-Lines analyzed = 0 in approximately 0.00 seconds (0 lines/second)
-<br>
-Physical Source Lines of Code (SLOC) = 0
-<br>
-Hits@level = [0]   0 [1]   0 [2]   0 [3]   0 [4]   0 [5]   0 <br>
-Hits@level+ = [0+]   0 [1+]   0 [2+]   0 [3+]   0 [4+]   0 [5+]   0 <br>
- <br>
-Minimum risk level = 1
-<br>
-There may be other security vulnerabilities; review your code!
-<br>
-See '<a href="https://dwheeler.com/secure-programs">Secure Programming HOWTO</a>'
-(<a href="https://dwheeler.com/secure-programs">https://dwheeler.com/secure-programs</a>) for more information.
-</body>
-</html>
+flawfinder [--help | -h] [--version] [--listrules]
+  [--allowlink] [--followdotdir] [--nolink]
+           [--patch filename | -P filename]
+  [--inputs | -I] [--minlevel X | -m X]
+           [--falsepositive | -F] [--neverignore | -n]
+  [--context | -c] [--columns | -C] [--dataonly | -D]
+           [--html | -H] [--immediate | -i] [--singleline | -S]
+           [--omittime] [--quiet | -Q]
+  [--loadhitlist F] [--savehitlist F] [--diffhitlist F]
+  [--] [source code file or source root directory]+
+
+  The options cover various aspects of flawfinder as follows.
+
+  Documentation:
+  --help | -h Show this usage help.
+  --version   Show version number.
+  --listrules List the rules in the ruleset (rule database).
+
+  Selecting Input Data:
+  --allowlink Allow symbolic links.
+  --followdotdir
+              Follow directories whose names begin with ".".
+              Normally they are ignored.
+  --nolink    Skip symbolic links (ignored).
+  --patch F | -P F
+              Display information related to the patch F
+              (patch must be already applied).
+
+  Selecting Hits to Display:
+  --inputs | -I
+              Show only functions that obtain data from outside the program;
+              this also sets minlevel to 0.
+  -m X | --minlevel=X
+              Set minimum risk level to X for inclusion in hitlist.  This
+              can be from 0 (``no risk'')  to  5  (``maximum  risk'');  the
+              default is 1.
+  --falsepositive | -F
+              Do not include hits that are likely to be false  positives.
+              Currently,  this  means  that function names are ignored if
+              they're not followed by "(", and that declarations of char-
+              acter  arrays  aren't noted.  Thus, if you have use a vari-
+              able named "access" everywhere, this will eliminate  refer-
+              ences  to  this ordinary variable.  This isn't the default,
+              because this  also  increases  the  likelihood  of  missing
+              important  hits;  in  particular, function names in #define
+              clauses and calls through function pointers will be missed.
+  --neverignore | -n
+              Never ignore security issues, even if they have an ``ignore''
+              directive in a comment.
+  --regex PATTERN | -e PATTERN
+              Only report hits that match the regular expression PATTERN.
+
+  Selecting Output Format:
+  --columns | -C
+              Show  the  column  number  (as well as the file name and
+              line number) of each hit; this is shown after the line number
+              by adding a colon and the column number in the line (the first
+              character in a line is column number 1).
+  --context | -c
+              Show context (the line having the "hit"/potential flaw)
+  --dataonly | -D
+              Don't display the headers and footers of the analysis;
+              use this along with --quiet to get just the results.
+  --html | -H
+              Display as HTML output.
+  --immediate | -i
+              Immediately display hits (don't just wait until the end).
+  --sarif     Generate output in SARIF format.
+  --singleline | -S
+              Single-line output.
+  --omittime  Omit time to run.
+  --quiet | -Q
+              Don't display status information (i.e., which files are being
+              examined) while the analysis is going on.
+  --error-level=LEVEL
+              Return a nonzero (false) error code if there is at least one
+              hit of LEVEL or higher.  If a diffhitlist is provided,
+              hits noted in it are ignored.
+              This option can be useful within a continuous integration script,
+              especially if you mark known-okay lines as "flawfinder: ignore".
+              Usually you want level to be fairly high, such as 4 or 5.
+              By default, flawfinder returns 0 (true) on a successful run.
+
+  Hitlist Management:
+  --savehitlist=F
+              Save all hits (the "hitlist") to F.
+  --loadhitlist=F
+              Load hits from F instead of analyzing source programs.
+  --diffhitlist=F
+              Show only hits (loaded or analyzed) not in F.
+
+
+  For more information, please consult the manpage or available
+  documentation.
+

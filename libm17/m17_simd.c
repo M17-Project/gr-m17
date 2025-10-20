@@ -7,8 +7,20 @@
 // M17 Foundation, 12 March 2025
 //--------------------------------------------------------------------
 #include <m17_simd.h>
+#include "m17.h"
 #include <string.h>
 #include <math.h>
+
+// Bring in SIMD intrinsic headers before any use
+#if defined(__SSE__) || defined(__SSE2__) || defined(__SSE3__) || defined(__SSSE3__) || defined(__SSE4_1__) || defined(__SSE4_2__) || defined(__AVX__) || defined(__AVX2__)
+  #include <xmmintrin.h>   // SSE
+  #include <emmintrin.h>   // SSE2
+  #include <immintrin.h>   // AVX/AVX2 and others
+#endif
+
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
+  #include <arm_neon.h>
+#endif
 
 // SIMD capability detection
 m17_simd_capabilities_t m17_get_simd_capabilities(void)
@@ -65,10 +77,12 @@ void slice_symbols_simd_sse(uint16_t* out, const float* inp) {
         __m128i bit0 = _mm_castps_si128(_mm_cmpge_ps(input, thresh2));
         __m128i bit1 = _mm_castps_si128(_mm_cmpge_ps(input, thresh1));
         
-        // Store results
+        // Store results using movemask to avoid non-const lane indices
+        int mask1 = _mm_movemask_ps(_mm_castsi128_ps(bit1));
+        int mask0 = _mm_movemask_ps(_mm_castsi128_ps(bit0));
         for (int j = 0; j < 4 && (i + j) < SYM_PER_PLD; j++) {
-            out[(i + j) * 2] = _mm_extract_epi16(bit1, j) ? 0xFFFF : 0x0000;
-            out[(i + j) * 2 + 1] = _mm_extract_epi16(bit0, j) ? 0xFFFF : 0x0000;
+            out[(i + j) * 2]     = (mask1 & (1 << j)) ? 0xFFFF : 0x0000;
+            out[(i + j) * 2 + 1] = (mask0 & (1 << j)) ? 0xFFFF : 0x0000;
         }
     }
 #else
@@ -114,10 +128,12 @@ void slice_symbols_simd_avx(uint16_t* out, const float* inp) {
         __m256i bit0 = _mm256_castps_si256(_mm256_cmp_ps(input, thresh2, _CMP_GE_OQ));
         __m256i bit1 = _mm256_castps_si256(_mm256_cmp_ps(input, thresh1, _CMP_GE_OQ));
         
-        // Store results
+        // Store results using movemask to avoid lane extract
+        int mask1 = _mm256_movemask_ps(_mm256_castsi256_ps(bit1));
+        int mask0 = _mm256_movemask_ps(_mm256_castsi256_ps(bit0));
         for (int j = 0; j < 8 && (i + j) < SYM_PER_PLD; j++) {
-            out[(i + j) * 2] = _mm256_extract_epi16(bit1, j) ? 0xFFFF : 0x0000;
-            out[(i + j) * 2 + 1] = _mm256_extract_epi16(bit0, j) ? 0xFFFF : 0x0000;
+            out[(i + j) * 2]     = (mask1 & (1 << j)) ? 0xFFFF : 0x0000;
+            out[(i + j) * 2 + 1] = (mask0 & (1 << j)) ? 0xFFFF : 0x0000;
         }
     }
 #else

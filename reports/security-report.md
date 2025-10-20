@@ -16,9 +16,7 @@ This report contains the results of a comprehensive security audit of the M17 co
 - **Focus**: Buffer overflows, format strings, race conditions
 
 ### RATS Analysis
-- **File**: rats-report.html
-- **Security Issues**: See HTML report for details
-- **Focus**: Common security vulnerabilities
+- Removed (tool outdated)
 
 ### Custom Crypto Analysis
 - **File**: semgrep-crypto-report.json

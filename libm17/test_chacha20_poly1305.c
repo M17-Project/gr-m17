@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <stdlib.h>
 
 // Test ChaCha20-Poly1305 encryption and decryption
 int test_chacha20_poly1305_basic() {
