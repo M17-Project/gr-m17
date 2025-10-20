@@ -304,11 +304,8 @@ make test_controller
 
 
 - **APRS-IS Gateway**: Internet gateway for APRS
-- **Additional SDRs**: Support for other SDR platforms
 - **Multiple Channels**: Simultaneous M17 and AX.25
 - **USB Expansion**: External devices via USB port
-- **Display Interface**: LCD/OLED status display
-
 
 - **Bluetooth Module**: External Bluetooth module via USB or UART
 - **GPS Module**: External GPS module via USB or I2C

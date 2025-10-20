@@ -109,7 +109,7 @@ Always consult with your local amateur radio regulatory authority before using e
 **Legal Clarification:**
 Signing emails and authenticating those are perfectly legal, that also includes text messages etc as long that they are not encrypted.
 
-Keys can also be used to authenticate against systems - say you want to remotely change settings in a local repeater with secure authentication. One only needs support for it in the code base and existing protocols.
+Nitrokey and OpenPGP keys can also be used to authenticate against systems - say you want to remotely change settings in a local repeater with secure authentication. One only needs support for it in the code base and existing protocols.
 
 ### Advanced Security
 - **Rate Limiting**: Brute force protection
@@ -234,6 +234,8 @@ It orchestrates static analyzers and writes outputs to `security/audit/reports/`
 ## Test Results
 
 Comprehensive module testing results are available in [test-results/module-test-results.md](test-results/module-test-results.md).
+
+Security fuzzing results from the latest 6-hour campaign are documented in [test-results/fuzzing-results.md](test-results/fuzzing-results.md).
 
 ## Developer Information
 

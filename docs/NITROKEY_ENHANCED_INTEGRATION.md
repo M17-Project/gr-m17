@@ -157,7 +157,6 @@ encoder.delete_nitrokey_key("M17-Key-Old");
 
 ### Hardware Security
 - **Private Key Isolation**: Private keys never leave the Nitrokey device
-- **Tamper Resistance**: Hardware-based protection against key extraction
 - **Secure Element**: Uses Nitrokey's secure element for cryptographic operations
 - **PIN Protection**: Device protected by user PIN
 
@@ -363,18 +362,8 @@ encoder.import_public_key_from_file("N0CALL", "backup_public.pem");
 - **Revocation**: Implement key revocation procedures
 - **Monitoring**: Monitor for unauthorized key usage
 
-## Future Enhancements
 
-### Planned Features
-- **X25519 Support**: Add X25519 key exchange support
-- **Certificate Management**: X.509 certificate integration
-- **Multi-Device**: Support for multiple Nitrokey devices
-- **Cloud Integration**: Secure cloud key backup
 
-### Research Areas
-- **Post-Quantum**: Integration with post-quantum cryptography
-- **Zero-Knowledge**: Zero-knowledge proof integration
-- **Homomorphic**: Homomorphic encryption for secure processing
 
 ## References
 

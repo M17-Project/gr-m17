@@ -221,19 +221,7 @@ libm17/
 - **Dependencies**: Automatic dependency management
 - **Testing**: Integrated test framework
 
-## Future Documentation
 
-### Planned Features
-1. **Post-Quantum Cryptography**: Quantum-resistant algorithms
-2. **Advanced Hardware**: Next-generation security hardware
-3. **Confidential Computing**: Privacy-preserving computation
-4. **Zero-Knowledge Proofs**: Privacy-preserving authentication
-
-### Research Areas
-1. **Lattice-Based Crypto**: Post-quantum signature schemes
-2. **Isogeny-Based Crypto**: Alternative post-quantum approaches
-3. **Homomorphic Encryption**: Computation on encrypted data
-4. **Advanced Attestation**: Remote attestation capabilities
 
 ## Getting Help
 
@@ -270,7 +258,7 @@ libm17/
 - Provide usage examples
 
 ### Technical Documentation
-- Include API documentation
+- Include documentation
 - Provide usage examples
 - Document performance characteristics
 - Include testing information

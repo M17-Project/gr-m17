@@ -30,11 +30,6 @@ The M17 GNU Radio module includes comprehensive Nitrokey hardware security modul
 - No private key material ever transmitted to host system
 - Protection against software-based key extraction attacks
 
-### Tamper Resistance
-- Physical protection against hardware tampering
-- Automatic key destruction on tamper detection
-- Secure element design prevents key extraction
-- Open source firmware allows security auditing
 
 ### Open Source Advantages
 - **Transparent Security**: All firmware code is publicly auditable
