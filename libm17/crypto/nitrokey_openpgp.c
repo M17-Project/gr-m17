@@ -78,7 +78,12 @@ static m17_nitrokey_openpgp_status_t execute_nitropy_command(const char* args,
         
         // Write input if provided
         if (input && input_size > 0) {
-            write(pipe_in[1], input, input_size);
+            ssize_t bytes_written = write(pipe_in[1], input, input_size);
+            if (bytes_written != (ssize_t)input_size) {
+                close(pipe_in[1]);
+                close(pipe_out[0]);
+                return M17_NITROKEY_OPENPGP_ERROR_OPERATION_FAILED;
+            }
         }
         close(pipe_in[1]);
         
@@ -322,8 +327,13 @@ m17_nitrokey_openpgp_status_t m17_nitrokey_openpgp_import_public_key(const char*
         return M17_NITROKEY_OPENPGP_ERROR_OPERATION_FAILED;
     }
     
-    write(temp_fd, armored_key, armored_key_size);
+    ssize_t bytes_written = write(temp_fd, armored_key, armored_key_size);
     close(temp_fd);
+    
+    if (bytes_written != (ssize_t)armored_key_size) {
+        unlink(temp_file);
+        return M17_NITROKEY_OPENPGP_ERROR_OPERATION_FAILED;
+    }
     
     char args[512];
     snprintf(args, sizeof(args), "nk3 secrets import-public-key --name \"%s\" --file %s", 
@@ -355,8 +365,13 @@ m17_nitrokey_openpgp_status_t m17_nitrokey_openpgp_sign_message(const char* mess
         return M17_NITROKEY_OPENPGP_ERROR_OPERATION_FAILED;
     }
     
-    write(msg_fd, message, message_len);
+    ssize_t msg_bytes = write(msg_fd, message, message_len);
     close(msg_fd);
+    
+    if (msg_bytes != (ssize_t)message_len) {
+        unlink(temp_msg);
+        return M17_NITROKEY_OPENPGP_ERROR_OPERATION_FAILED;
+    }
     
     // Create temporary file for signature
     char temp_sig[] = "/tmp/m17_nitrokey_sig_XXXXXX";
@@ -452,10 +467,16 @@ m17_nitrokey_openpgp_status_t m17_nitrokey_openpgp_verify_signature(const char* 
         return M17_NITROKEY_OPENPGP_ERROR_OPERATION_FAILED;
     }
     
-    write(msg_fd, message, message_len);
-    write(sig_fd, signature, signature_len);
+    ssize_t msg_bytes = write(msg_fd, message, message_len);
+    ssize_t sig_bytes = write(sig_fd, signature, signature_len);
     close(msg_fd);
     close(sig_fd);
+    
+    if (msg_bytes != (ssize_t)message_len || sig_bytes != (ssize_t)signature_len) {
+        unlink(temp_msg);
+        unlink(temp_sig);
+        return M17_NITROKEY_OPENPGP_ERROR_OPERATION_FAILED;
+    }
     
     // Verify signature
     char args[512];

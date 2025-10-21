@@ -172,9 +172,17 @@ m17_sb_status_t m17_sb_validate_component(m17_sb_component_t component) {
             // Generate component hash (simplified)
             FILE *urandom = fopen("/dev/urandom", "rb");
             if (urandom != NULL) {
-                fread(g_sb_components[i].hash, 1, 32, urandom);
-                fread(g_sb_components[i].signature, 1, 64, urandom);
+                size_t hash_read = fread(g_sb_components[i].hash, 1, 32, urandom);
+                size_t sig_read = fread(g_sb_components[i].signature, 1, 64, urandom);
                 fclose(urandom);
+                
+                if (hash_read != 32 || sig_read != 64) {
+                    // Handle read failure
+                    memset(g_sb_components[i].hash, 0, 32);
+                    memset(g_sb_components[i].signature, 0, 64);
+                    g_sb_components[i].is_verified = false;
+                    continue;
+                }
                 
                 g_sb_components[i].is_verified = true;
                 return M17_SB_SUCCESS;

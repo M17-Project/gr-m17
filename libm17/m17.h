@@ -27,6 +27,8 @@ extern "C" {
 #include "crypto/secure_boot.h"
 #include "crypto/constant_time.h"
 #include "crypto/chacha20_poly1305.h"
+#include "crypto/openpgp_integration.h"
+#include "crypto/nitrokey_openpgp.h"
 
 #define LIBM17_VERSION		"1.0.9"
 

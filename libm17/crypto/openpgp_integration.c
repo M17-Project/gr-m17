@@ -289,7 +289,12 @@ static m17_openpgp_status_t execute_gpg_command(const char* args,
         
         // Write input if provided
         if (input && input_size > 0) {
-            write(pipe_in[1], input, input_size);
+            ssize_t bytes_written = write(pipe_in[1], input, input_size);
+            if (bytes_written != (ssize_t)input_size) {
+                close(pipe_in[1]);
+                close(pipe_out[0]);
+                return M17_OPENPGP_ERROR_OPERATION_FAILED;
+            }
         }
         close(pipe_in[1]);
         
@@ -483,10 +488,14 @@ m17_openpgp_status_t m17_openpgp_verify_signature(const char* message,
     }
     
     // Write message and signature to temporary files
-    write(msg_fd, message, message_len);
-    write(sig_fd, signature, signature_len);
+    ssize_t msg_bytes = write(msg_fd, message, message_len);
+    ssize_t sig_bytes = write(sig_fd, signature, signature_len);
     close(msg_fd);
     close(sig_fd);
+    
+    if (msg_bytes != (ssize_t)message_len || sig_bytes != (ssize_t)signature_len) {
+        return M17_OPENPGP_ERROR_OPERATION_FAILED;
+    }
     
     // Verify signature
     char args[512];
@@ -608,8 +617,12 @@ m17_openpgp_status_t m17_openpgp_generate_keypair(const char* name,
         strcat(batch_content, "\n");
     }
     
-    write(batch_fd, batch_content, strlen(batch_content));
+    ssize_t batch_bytes = write(batch_fd, batch_content, strlen(batch_content));
     close(batch_fd);
+    
+    if (batch_bytes != (ssize_t)strlen(batch_content)) {
+        return M17_OPENPGP_ERROR_OPERATION_FAILED;
+    }
     
     // Generate key
     char args[512];

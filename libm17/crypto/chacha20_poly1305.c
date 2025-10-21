@@ -15,6 +15,7 @@
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/err.h>
+#include <openssl/kdf.h>
 
 // ChaCha20-Poly1305 implementation using OpenSSL
 // This provides real cryptographic security

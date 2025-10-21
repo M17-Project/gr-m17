@@ -72,6 +72,8 @@ crypto/bounds_checking.c
     crypto/optee.c
     crypto/secure_boot.c
     crypto/constant_time.c
+crypto/openpgp_integration.c
+crypto/nitrokey_openpgp.c
 m17.c
 m17_safe.c
 m17_simd.c
@@ -132,6 +134,11 @@ target_include_directories(test_trustzone_tee PRIVATE ${PROJECT_SOURCE_DIR})
 add_executable(test_chacha20_poly1305 test_chacha20_poly1305.c)
 target_link_libraries(test_chacha20_poly1305 m17-static -lssl -lcrypto)
 target_include_directories(test_chacha20_poly1305 PRIVATE ${PROJECT_SOURCE_DIR})
+
+# Add test executable for OpenPGP integration functions
+add_executable(test_openpgp_integration crypto/test_openpgp_integration.c)
+target_link_libraries(test_openpgp_integration m17-static -lssl -lcrypto)
+target_include_directories(test_openpgp_integration PRIVATE ${PROJECT_SOURCE_DIR})
 
 # CMake interface files
 include( CMakePackageConfigHelpers )

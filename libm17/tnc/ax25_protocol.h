@@ -96,7 +96,7 @@ typedef struct {
     uint16_t slot_time;              // Slot time (10ms units)
     uint8_t tx_tail;                 // TX tail (10ms units)
     bool full_duplex;                // Full duplex mode
-    uint8_t max_frame_length;        // Maximum frame length
+    uint16_t max_frame_length;       // Maximum frame length
     uint8_t window_size;             // Window size
     uint32_t t1_timeout;             // T1 timeout (ms)
     uint32_t t2_timeout;             // T2 timeout (ms)
