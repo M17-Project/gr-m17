@@ -686,7 +686,7 @@ namespace gr
         {
           if (!_finalizing)
           {
-            if (countin + 16 > ninput_items[0])
+            if (ninput_items[0] < countin + 16) // not enough input
             {
               if (_finished.load(std::memory_order_acquire) == false)
               {
