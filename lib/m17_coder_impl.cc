@@ -660,7 +660,19 @@ namespace gr
       int countin = 0;
       uint32_t countout = 0;
 
-      uint8_t data[16], next_data[16]; // raw payload, packed bits
+      uint8_t data[16]; // raw payload, packed bits
+
+      if (_finalizing)
+      {
+        consume_each(0);
+      }
+
+      // drop any stale input if we just transitioned to active
+      if (_active.load(std::memory_order_acquire) && !_got_lsf && ninput_items[0] > 0)
+      {
+        // first work call after SOT, flush old data
+        consume_each(ninput_items[0]);
+      }
 
       if (_active.load(std::memory_order_acquire))
       {
@@ -670,66 +682,68 @@ namespace gr
           _send_preamble = false;
         }
 
-        while ((countout < (uint32_t)noutput_items))
+        while (countout < (uint32_t)noutput_items)
         {
-          if (countin + 16 > ninput_items[0])
+          if (!_finalizing)
           {
-            if (_finished.load(std::memory_order_acquire) == false)
+            if (countin + 16 > ninput_items[0])
             {
-              break;
-            }
-          }
-
-          if (!_got_lsf) // stream frames
-          {
-            // send LSF
-            gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
-            countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
-
-            // check the SIGNED STREAM flag
-            _signed_str = (_lsf.type[0] >> 3) & 1;
-
-            // set the flag
-            _got_lsf = 1;
-          }
-
-          if (!(countin + 16 > ninput_items[0]))
-          {
-            // get new data
-            memcpy(next_data, in + countin, 16);
-            countin += 16;
-
-            // update the data before applying crypto
-            memcpy(data, next_data, 16);
-          }
-
-          // TODO if debug_mode==1 from lines 520 to 570
-          // TODO add aes_subtype as user argument
-
-#ifdef AES
-          if (_encr_type == ENCR_AES)
-          {
-            memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
-            _iv[14] = (_fn >> 8) & 0x7F;
-            _iv[15] = (_fn >> 0) & 0xFF;
-            aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
-          }
-          else
-#endif
-            // Scrambler
-            if (_encr_type == ENCR_SCRAM)
-            {
-              scrambler_sequence_generator();
-              for (uint8_t i = 0; i < 16; i++)
+              if (_finished.load(std::memory_order_acquire) == false)
               {
-                data[i] ^= _scr_bytes[i];
+                break;
               }
             }
 
-          /*fprintf(stderr, "Payload FN=%u: ", _fn);
-          for (int i = 0; i < 16; i++)
-            fprintf(stderr, "%02X ", data[i]);
-          fprintf(stderr, "\n");*/
+            if (!_got_lsf) // stream frames
+            {
+              // send LSF
+              gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
+              countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
+
+              // check the SIGNED STREAM flag
+              _signed_str = (_lsf.type[0] >> 3) & 1;
+
+              // set the flag
+              _got_lsf = 1;
+            }
+
+            if (ninput_items[0] >= countin + 16)
+            {
+              // get new data
+              memcpy(data, in + countin, 16);
+              countin += 16;
+
+              printf("[DBG] Consumed 16 bytes → FN=%u, total countin=%d\n", _fn, countin);
+            }
+
+            // TODO if debug_mode==1 from lines 520 to 570
+            // TODO add aes_subtype as user argument
+
+#ifdef AES
+            if (_encr_type == ENCR_AES)
+            {
+              memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
+              _iv[14] = (_fn >> 8) & 0x7F;
+              _iv[15] = (_fn >> 0) & 0xFF;
+              aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
+            }
+            else
+#endif
+              // Scrambler
+              if (_encr_type == ENCR_SCRAM)
+              {
+                scrambler_sequence_generator();
+                for (uint8_t i = 0; i < 16; i++)
+                {
+                  data[i] ^= _scr_bytes[i];
+                }
+              }
+
+            /*fprintf(stderr, "Payload FN=%u: ", _fn);
+            for (int i = 0; i < 16; i++)
+              fprintf(stderr, "%02X ", data[i]);
+            fprintf(stderr, "\n");*/
+          }
 
           if (_finished.load(std::memory_order_acquire) == false)
           {
@@ -756,11 +770,12 @@ namespace gr
               //_lsf = _next_lsf;
               // update_LSF_CRC(&_lsf);
             }
-
-            memcpy(data, next_data, 16);
           }
           else // send last frame(s)
           {
+            // prevent further input consumption
+            countin = 0;
+
             // enter finalization only once
             if (!_finalizing)
             {
@@ -786,7 +801,6 @@ namespace gr
 
             // prevent re-entry before generating EOT
             _active.store(false, std::memory_order_release);
-            _finalizing = false;
 
             if (!_signed_str)
               _fn |= 0x8000;
@@ -840,6 +854,7 @@ namespace gr
             fprintf(stderr, "Stopping symbol generation\n");
             consume_each(countin);
             init_state();
+            _finalizing = false;
             return countout;
           } // finished == true
         } // loop on input data
@@ -850,7 +865,8 @@ namespace gr
       }
       else
       {
-        usleep(10e3); // TODO: fix this
+        usleep(10e3);                  // TODO: fix this
+        consume_each(ninput_items[0]); // consume input at idle to prevent buffer from filling with a lot of data
         return 0;
       }
 
