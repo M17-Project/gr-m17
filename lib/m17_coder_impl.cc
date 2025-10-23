@@ -713,7 +713,10 @@ namespace gr
               memcpy(data, in + countin, 16);
               countin += 16;
 
-              printf("[DBG] Consumed 16 bytes → FN=%u, total countin=%d\n", _fn, countin);
+              if (countin > 16)
+                continue;
+              else
+                printf("[DBG] Consumed 16 bytes → FN=%u, total countin=%d\n", _fn, countin);
             }
 
             // TODO if debug_mode==1 from lines 520 to 570
