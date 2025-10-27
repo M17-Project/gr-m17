@@ -14,40 +14,11 @@
   and will be overwritten during the build process
  */
 
-static const char *__doc_gr_m17_m17_coder = R"doc()doc";
 
-static const char *__doc_gr_m17_m17_coder_m17_coder_0 = R"doc()doc";
 
-static const char *__doc_gr_m17_m17_coder_m17_coder_1 = R"doc()doc";
+ static const char *__doc_gr_m17_m17_coder = R"doc()doc";
 
-static const char *__doc_gr_m17_m17_coder_make = R"doc()doc";
 
-static const char *__doc_gr_m17_m17_coder_set_key = R"doc()doc";
+ static const char *__doc_gr_m17_m17_coder_make = R"doc()doc";
 
-static const char *__doc_gr_m17_m17_coder_set_priv_key = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_seed = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_meta = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_src_id = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_dst_id = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_debug = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_signed = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_type = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_mode = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_data = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_encr_type = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_encr_subtype = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_aes_subtype = R"doc()doc";
-
-static const char *__doc_gr_m17_m17_coder_set_can = R"doc()doc";
+  
