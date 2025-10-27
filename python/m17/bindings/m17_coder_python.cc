@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(m17_coder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(627c4ed4e42ae1cd1c5aab059278de85)                     */
+/* BINDTOOL_HEADER_FILE_HASH(07e3866d4b9648c010523323f95c7dda)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -30,7 +30,7 @@ namespace py = pybind11;
 void bind_m17_coder(py::module& m)
 {
 
-    using m17_coder    = gr::m17::m17_coder;
+    using m17_coder    = ::gr::m17::m17_coder;
 
 
     py::class_<m17_coder, gr::block, gr::basic_block,
@@ -56,6 +56,116 @@ void bind_m17_coder(py::module& m)
         
 
 
+
+
+        
+        .def("set_key",&m17_coder::set_key,       
+            py::arg("meta"),
+            D(m17_coder,set_key)
+        )
+
+
+        
+        .def("set_priv_key",&m17_coder::set_priv_key,       
+            py::arg("meta"),
+            D(m17_coder,set_priv_key)
+        )
+
+
+        
+        .def("set_seed",&m17_coder::set_seed,       
+            py::arg("dst_id"),
+            D(m17_coder,set_seed)
+        )
+
+
+        
+        .def("set_meta",&m17_coder::set_meta,       
+            py::arg("meta"),
+            D(m17_coder,set_meta)
+        )
+
+
+        
+        .def("set_src_id",&m17_coder::set_src_id,       
+            py::arg("src_id"),
+            D(m17_coder,set_src_id)
+        )
+
+
+        
+        .def("set_dst_id",&m17_coder::set_dst_id,       
+            py::arg("dst_id"),
+            D(m17_coder,set_dst_id)
+        )
+
+
+        
+        .def("set_debug",&m17_coder::set_debug,       
+            py::arg("debug"),
+            D(m17_coder,set_debug)
+        )
+
+
+        
+        .def("set_signed",&m17_coder::set_signed,       
+            py::arg("signed_str"),
+            D(m17_coder,set_signed)
+        )
+
+
+        
+        .def("set_type",&m17_coder::set_type,       
+            py::arg("mode"),
+            py::arg("data"),
+            py::arg("encr_type"),
+            py::arg("encr_subtype"),
+            py::arg("can"),
+            D(m17_coder,set_type)
+        )
+
+
+        
+        .def("set_mode",&m17_coder::set_mode,       
+            py::arg("mode"),
+            D(m17_coder,set_mode)
+        )
+
+
+        
+        .def("set_data",&m17_coder::set_data,       
+            py::arg("data"),
+            D(m17_coder,set_data)
+        )
+
+
+        
+        .def("set_encr_type",&m17_coder::set_encr_type,       
+            py::arg("encr_type"),
+            D(m17_coder,set_encr_type)
+        )
+
+
+        
+        .def("set_encr_subtype",&m17_coder::set_encr_subtype,       
+            py::arg("encr_subtype"),
+            D(m17_coder,set_encr_subtype)
+        )
+
+
+        
+        .def("set_aes_subtype",&m17_coder::set_aes_subtype,       
+            py::arg("aes_subtype"),
+            py::arg("encr_type"),
+            D(m17_coder,set_aes_subtype)
+        )
+
+
+        
+        .def("set_can",&m17_coder::set_can,       
+            py::arg("can"),
+            D(m17_coder,set_can)
+        )
 
         ;
 
