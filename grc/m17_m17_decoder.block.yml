@@ -41,6 +41,10 @@ parameters:
   label: Syncword threshold
   dtype: float
   default: 2.0
+- id: vt_threshold
+  label: Viterbi threshold
+  dtype: float
+  default: 30.0
 
 asserts:
     - ${ len(key) <= 32 }

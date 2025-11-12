@@ -33,6 +33,7 @@ namespace gr
       bool _debug_data = false;
       bool _debug_ctrl = false;
       float _sw_threshold = 2.0;
+      float _vt_threshold = 30.0;
       bool _callsign = false;
       bool _signed_str = false;
       // uint8_t _key[32];
@@ -88,7 +89,7 @@ namespace gr
 
     public:
       m17_decoder_impl (bool debug_data, bool debug_ctrl, float sw_threshold,
-			bool callsign, bool signed_str, int encr_type,
+			float vt_threshold, bool callsign, bool signed_str, int encr_type,
 			std::string key, std::string seed);
       ~m17_decoder_impl ();
       void set_debug_data (bool debug);
@@ -97,6 +98,7 @@ namespace gr
       void set_debug_ctrl (bool debug);
       void set_callsign (bool callsign);
       void set_sw_threshold (float sw_threshold);
+      void set_vt_threshold (float vt_threshold);
       void set_signed (bool signed_str);
       void set_encr_type (int encr_type);
       void parse_raw_key_string (uint8_t * dest, const char *inp);

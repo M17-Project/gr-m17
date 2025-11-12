@@ -40,10 +40,10 @@ namespace gr
 
 		m17_decoder::sptr
 		m17_decoder::make(bool debug_data, bool debug_ctrl, float sw_threshold,
-						  bool callsign, bool signed_str, int encr_type,
+						  float vt_threshold, bool callsign, bool signed_str, int encr_type,
 						  std::string key, std::string seed)
 		{
-			return gnuradio::get_initial_sptr(new m17_decoder_impl(debug_data, debug_ctrl, sw_threshold, callsign,
+			return gnuradio::get_initial_sptr(new m17_decoder_impl(debug_data, debug_ctrl, sw_threshold, vt_threshold, callsign,
 																   signed_str, encr_type, key, seed));
 		}
 
@@ -51,17 +51,20 @@ namespace gr
 		 * The private constructor
 		 */
 		m17_decoder_impl::m17_decoder_impl(bool debug_data, bool debug_ctrl,
-										   float sw_threshold, bool callsign,
-										   bool signed_str, int encr_type,
+										   float sw_threshold, float vt_threshold,
+										   bool callsign, bool signed_str,
+										   int encr_type,
 										   std::string key, std::string seed) : gr::block("m17_decoder",
 																						  gr::io_signature::make(1, 1, sizeof(float)),
 																						  gr::io_signature::make(1, 1, sizeof(char))),
 																				_debug_data(debug_data), _debug_ctrl(debug_ctrl),
-																				_sw_threshold(sw_threshold), _callsign(callsign), _signed_str(signed_str)
+																				_sw_threshold(sw_threshold), _vt_threshold(vt_threshold),
+																				_callsign(callsign), _signed_str(signed_str)
 		{
 			set_debug_data(debug_data);
 			set_debug_ctrl(debug_ctrl);
 			set_sw_threshold(sw_threshold);
+			set_vt_threshold(vt_threshold);
 			set_callsign(callsign);
 			set_signed(signed_str);
 			set_key(key);
@@ -82,6 +85,12 @@ namespace gr
 		{
 			_sw_threshold = sw_threshold;
 			printf("Syncword threshold: %.1f\n", _sw_threshold);
+		}
+
+		void m17_decoder_impl::set_vt_threshold(float vt_threshold)
+		{
+			_vt_threshold = vt_threshold;
+			printf("Viterbi threshold: %.1f\n", _vt_threshold);
 		}
 
 		void m17_decoder_impl::set_debug_data(bool debug)
@@ -526,7 +535,7 @@ namespace gr
 							}
 
 							// set a threshold on the Viterbi metric to prevent sound artifacts
-							if ((float)e / 0xFFFF <= 30.0f)
+							if ((float)e / 0xFFFF <= _vt_threshold)
 								memcpy(&out[countout], _frame_data, 16);
 							else
 								memset(&out[countout], 0, 16);

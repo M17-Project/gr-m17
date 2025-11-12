@@ -41,13 +41,14 @@ namespace gr
        * class. m17::m17_decoder::make is the public interface for
        * creating new instances.
        */
-      static sptr make (bool debug_data, bool debug_ctrl, float threshold,
-			bool callsign, bool signed_str, int encr_type,
+      static sptr make (bool debug_data, bool debug_ctrl, float sw_threshold,
+			float vt_threshold, bool callsign, bool signed_str, int encr_type,
 			std::string key, std::string seed);
       virtual void set_debug_data (bool debug) = 0;
       virtual void set_debug_ctrl (bool debug) = 0;
       virtual void set_callsign (bool callsign) = 0;
       virtual void set_sw_threshold (float sw_threshold) = 0;
+      virtual void set_vt_threshold (float vt_threshold) = 0;
       virtual void set_signed (bool signed_str) = 0;
       virtual void set_key (std::string key) = 0;
       virtual void set_seed (std::string seed) = 0;
