@@ -512,8 +512,9 @@ namespace gr
 								}
 							}
 
+							// dump data
 							if (_debug_data == true)
-							{ // dump data - first byte is empty
+							{
 								printf("RX FN: %04X PLD: ", _fn);
 							}
 
@@ -530,8 +531,9 @@ namespace gr
 							{
 								printf(" e=%1.1f\n", (float)e / 0xFFFF);
 							}
+
 							// send codec2 stream to stdout
-							// fwrite(&_frame_data[3], 16, 1, stdout);
+							// fwrite(_frame_data, 16, 1, stdout);
 
 							// If we're at the start of a superframe, or we missed a frame, reset the LICH state
 							if ((_lich_cnt == 0) || ((_fn % 0x8000) != _expected_next_fn && _fn < 0x7FFC))
