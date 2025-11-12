@@ -47,7 +47,7 @@ namespace gr
       virtual void set_debug_data (bool debug) = 0;
       virtual void set_debug_ctrl (bool debug) = 0;
       virtual void set_callsign (bool callsign) = 0;
-      virtual void set_threshold (float threshold) = 0;
+      virtual void set_sw_threshold (float sw_threshold) = 0;
       virtual void set_signed (bool signed_str) = 0;
       virtual void set_key (std::string key) = 0;
       virtual void set_seed (std::string seed) = 0;

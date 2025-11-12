@@ -32,7 +32,7 @@ namespace gr
     private:
       bool _debug_data = false;
       bool _debug_ctrl = false;
-      float _threshold = 0.9;
+      float _sw_threshold = 2.0;
       bool _callsign = false;
       bool _signed_str = false;
       // uint8_t _key[32];
@@ -87,7 +87,7 @@ namespace gr
       const struct uECC_Curve_t *_curve = uECC_secp256r1 ();
 
     public:
-      m17_decoder_impl (bool debug_data, bool debug_ctrl, float threshold,
+      m17_decoder_impl (bool debug_data, bool debug_ctrl, float sw_threshold,
 			bool callsign, bool signed_str, int encr_type,
 			std::string key, std::string seed);
       ~m17_decoder_impl ();
@@ -96,7 +96,7 @@ namespace gr
       void set_seed (std::string seed);
       void set_debug_ctrl (bool debug);
       void set_callsign (bool callsign);
-      void set_threshold (float threshold);
+      void set_sw_threshold (float sw_threshold);
       void set_signed (bool signed_str);
       void set_encr_type (int encr_type);
       void parse_raw_key_string (uint8_t * dest, const char *inp);

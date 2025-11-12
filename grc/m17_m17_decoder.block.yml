@@ -37,8 +37,8 @@ parameters:
   default: 0
   options: [0, 1, 2, 3]
   option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
-- id: threshold
-  label: Threshold
+- id: sw_threshold
+  label: Syncword threshold
   dtype: float
   default: 2.0
 
