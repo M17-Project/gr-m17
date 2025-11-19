@@ -68,6 +68,7 @@ namespace gr
       bool _priv_key_loaded = false;	//do we have a sig key loaded?
       uint8_t _priv_key[32] = { 0 };	//private key
       uint8_t _sig[64] = { 0 };	//ECDSA signature
+      int _eot_cnt = 1;
       bool _init_frame;
 
 #ifdef ECC
@@ -87,7 +88,8 @@ namespace gr
       void set_key (std::string key);
       void set_priv_key (std::string key);
       void set_meta (std::string meta);
-      void set_seed (std::string meta);
+      void set_seed (std::string seed);
+      void set_eot_cnt (int eot_cnt);
       void set_type (int mode, int data, encr_t encr_type, int encr_subtype,
 		     int can);
       void set_mode (int mode);
@@ -104,7 +106,7 @@ namespace gr
       m17_coder_impl (std::string src_id, std::string dst_id, int mode,
 		      int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 		      std::string meta, std::string key, std::string priv_key,
-		      bool debug, bool signed_str, std::string seed);
+		      bool debug, bool signed_str, std::string seed, int eot_cnt);
       ~m17_coder_impl ();
 
       // Where all the action really happens

@@ -66,6 +66,10 @@ parameters:
   dtype: bool
   default: 'False'
   options: ['True', 'False']
+- id: eot_cnt
+  label: EoT count
+  dtype: int
+  default: 1
 - id: debug
   label: Debug
   dtype: bool
@@ -80,7 +84,7 @@ asserts:
     - ${ len(src_id) < 10 }
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${aes_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed})
+  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${aes_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed},${eot_cnt})
   callbacks:
     - set_meta(${meta})
     - set_src_id(${src_id})
@@ -96,6 +100,7 @@ templates:
     - set_debug(${debug})
     - set_signed(${signed_str})
     - set_seed(${seed})
+    - set_eot_cnt(${eot_cnt})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
