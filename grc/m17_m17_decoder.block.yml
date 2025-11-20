@@ -51,17 +51,18 @@ asserts:
 
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${threshold},${callsign},${signed_str},${encr_type},${key},${seed})
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},${signed_str},${encr_type},${key},${seed})
 
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
-    - set_threshold(${threshold})
     - set_key(${key})
     - set_callsign(${callsign})
     - set_signed(${signed_str})
     - set_encr_type(${encr_type})
     - set_seed(${seed})
+    - set_sw_threshold(${sw_threshold})
+    - set_vt_threshold(${vt_threshold})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
