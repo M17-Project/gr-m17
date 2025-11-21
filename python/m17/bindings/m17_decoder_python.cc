@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Free Software Foundation, Inc.
+ * Copyright 2025 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_decoder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(81519a545ddc4652d42874fbdfee0e05) */
+/* BINDTOOL_HEADER_FILE_HASH(444e5eb27b1f4e418da7b3bfb83128e1) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -37,9 +37,10 @@ void bind_m17_decoder(py::module &m) {
              std::shared_ptr<m17_decoder>>(m, "m17_decoder", D(m17_decoder))
 
       .def(py::init(&m17_decoder::make), py::arg("debug_data"),
-           py::arg("debug_ctrl"), py::arg("threshold"), py::arg("callsign"),
-           py::arg("signed_str"), py::arg("encr_type"), py::arg("key"),
-           py::arg("seed"), D(m17_decoder, make))
+           py::arg("debug_ctrl"), py::arg("sw_threshold"),
+           py::arg("vt_threshold"), py::arg("callsign"), py::arg("signed_str"),
+           py::arg("encr_type"), py::arg("key"), py::arg("seed"),
+           D(m17_decoder, make))
 
       .def("set_debug_data", &m17_decoder::set_debug_data, py::arg("debug"),
            D(m17_decoder, set_debug_data))
@@ -50,8 +51,11 @@ void bind_m17_decoder(py::module &m) {
       .def("set_callsign", &m17_decoder::set_callsign, py::arg("callsign"),
            D(m17_decoder, set_callsign))
 
-      .def("set_threshold", &m17_decoder::set_threshold, py::arg("threshold"),
-           D(m17_decoder, set_threshold))
+      .def("set_sw_threshold", &m17_decoder::set_sw_threshold,
+           py::arg("sw_threshold"), D(m17_decoder, set_sw_threshold))
+
+      .def("set_vt_threshold", &m17_decoder::set_vt_threshold,
+           py::arg("vt_threshold"), D(m17_decoder, set_vt_threshold))
 
       .def("set_signed", &m17_decoder::set_signed, py::arg("signed_str"),
            D(m17_decoder, set_signed))

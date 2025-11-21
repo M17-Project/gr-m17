@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Free Software Foundation, Inc.
+ * Copyright 2025 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -28,7 +28,9 @@ static const char *__doc_gr_m17_m17_decoder_set_debug_ctrl = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_decoder_set_callsign = R"doc()doc";
 
-static const char *__doc_gr_m17_m17_decoder_set_threshold = R"doc()doc";
+static const char *__doc_gr_m17_m17_decoder_set_sw_threshold = R"doc()doc";
+
+static const char *__doc_gr_m17_m17_decoder_set_vt_threshold = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_decoder_set_signed = R"doc()doc";
 

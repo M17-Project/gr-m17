@@ -39,11 +39,11 @@ namespace gr
 	{
 
 		m17_decoder::sptr
-		m17_decoder::make(bool debug_data, bool debug_ctrl, float threshold,
-						  bool callsign, bool signed_str, int encr_type,
+		m17_decoder::make(bool debug_data, bool debug_ctrl, float sw_threshold,
+						  float vt_threshold, bool callsign, bool signed_str, int encr_type,
 						  std::string key, std::string seed)
 		{
-			return gnuradio::get_initial_sptr(new m17_decoder_impl(debug_data, debug_ctrl, threshold, callsign,
+			return gnuradio::get_initial_sptr(new m17_decoder_impl(debug_data, debug_ctrl, sw_threshold, vt_threshold, callsign,
 																   signed_str, encr_type, key, seed));
 		}
 
@@ -51,17 +51,20 @@ namespace gr
 		 * The private constructor
 		 */
 		m17_decoder_impl::m17_decoder_impl(bool debug_data, bool debug_ctrl,
-										   float threshold, bool callsign,
-										   bool signed_str, int encr_type,
+										   float sw_threshold, float vt_threshold,
+										   bool callsign, bool signed_str,
+										   int encr_type,
 										   std::string key, std::string seed) : gr::block("m17_decoder",
 																						  gr::io_signature::make(1, 1, sizeof(float)),
 																						  gr::io_signature::make(1, 1, sizeof(char))),
 																				_debug_data(debug_data), _debug_ctrl(debug_ctrl),
-																				_threshold(threshold), _callsign(callsign), _signed_str(signed_str)
+																				_sw_threshold(sw_threshold), _vt_threshold(vt_threshold),
+																				_callsign(callsign), _signed_str(signed_str)
 		{
 			set_debug_data(debug_data);
 			set_debug_ctrl(debug_ctrl);
-			set_threshold(threshold);
+			set_sw_threshold(sw_threshold);
+			set_vt_threshold(vt_threshold);
 			set_callsign(callsign);
 			set_signed(signed_str);
 			set_key(key);
@@ -78,10 +81,16 @@ namespace gr
 		{
 		}
 
-		void m17_decoder_impl::set_threshold(float threshold)
+		void m17_decoder_impl::set_sw_threshold(float sw_threshold)
 		{
-			_threshold = threshold;
-			printf("Threshold: %f\n", _threshold);
+			_sw_threshold = sw_threshold;
+			printf("Syncword threshold: %.1f\n", _sw_threshold);
+		}
+
+		void m17_decoder_impl::set_vt_threshold(float vt_threshold)
+		{
+			_vt_threshold = vt_threshold;
+			printf("Viterbi threshold: %.1f\n", _vt_threshold);
 		}
 
 		void m17_decoder_impl::set_debug_data(bool debug)
@@ -425,7 +434,7 @@ namespace gr
 					// calculate euclidean norm
 					dist = eucl_norm(last, str_sync_symbols, 8);
 
-					if (dist < _threshold) // frame syncword detected
+					if (dist < _sw_threshold) // frame syncword detected
 					{
 						// fprintf(stderr, "str_sync_symbols dist: %3.5f\n", dist);
 						syncd = 1;
@@ -437,7 +446,7 @@ namespace gr
 						// calculate euclidean norm again, this time against LSF syncword
 						dist = eucl_norm(last, lsf_sync_symbols, 8);
 
-						if (dist < _threshold) // LSF syncword
+						if (dist < _sw_threshold) // LSF syncword
 						{
 							// fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
 							syncd = 1;
@@ -512,26 +521,28 @@ namespace gr
 								}
 							}
 
+							// dump data
 							if (_debug_data == true)
-							{ // dump data - first byte is empty
-								printf("RX FN: %04X PLD: ", _fn);
-							}
-
-							for (uint8_t i = 0; i < 16; i++)
 							{
-								if (_debug_data == true)
+								printf("RX FN: %04X PLD: ", _fn);
+
+								for (uint8_t i = 0; i < 16; i++)
 								{
 									printf("%02X", _frame_data[i]);
 								}
-								out[countout] = _frame_data[i];
-								countout++;
-							}
-							if (_debug_data == true)
-							{
+
 								printf(" e=%1.1f\n", (float)e / 0xFFFF);
 							}
+
+							// set a threshold on the Viterbi metric to prevent sound artifacts
+							if ((float)e / 0xFFFF <= _vt_threshold)
+								memcpy(&out[countout], _frame_data, 16);
+							else
+								memset(&out[countout], 0, 16);
+							countout += 16;
+
 							// send codec2 stream to stdout
-							// fwrite(&_frame_data[3], 16, 1, stdout);
+							// fwrite(_frame_data, 16, 1, stdout);
 
 							// If we're at the start of a superframe, or we missed a frame, reset the LICH state
 							if ((_lich_cnt == 0) || ((_fn % 0x8000) != _expected_next_fn && _fn < 0x7FFC))
