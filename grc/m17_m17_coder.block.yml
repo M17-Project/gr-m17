@@ -61,15 +61,15 @@ parameters:
   label: Private Key for ECDSA (32 bytes)
   dtype: string
   default: ''
+- id: eot_cnt
+  label: EoT count
+  dtype: int
+  default: 1
 - id: signed_str
   label: SignedStr
   dtype: bool
   default: 'False'
   options: ['True', 'False']
-- id: eot_cnt
-  label: EoT count
-  dtype: int
-  default: 1
 - id: debug
   label: Debug
   dtype: bool
