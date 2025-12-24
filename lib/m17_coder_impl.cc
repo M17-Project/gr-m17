@@ -18,14 +18,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-// 240620: todo uncomment #idef AES for cryptography and #ifdef ECC for signature
-
-// in m17_coder_impl.h: #define AES #define ECC
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <gnuradio/io_signature.h>
 #include "m17_coder_impl.h"
 
@@ -35,14 +27,8 @@
 #include <unistd.h>
 
 #include "m17.h"
-
-#ifdef AES
 #include "aes.h"
-#endif
-
-#ifdef ECC
 #include "uECC.h"
-#endif
 
 namespace gr
 {
@@ -84,7 +70,7 @@ namespace gr
       set_signed(signed_str);
       set_debug(debug);
       set_output_multiple(192);
-#ifdef AES
+
       if (_encr_type == ENCR_AES)
       {
         for (uint8_t i = 0; i < 4; i++)
@@ -92,7 +78,7 @@ namespace gr
         for (uint8_t i = 3; i < 14; i++)
           _iv[i] = rand() & 0xFF; // 10 random bytes
       }
-#endif
+
       /*
             uint16_t ccrc = LSF_CRC (&_lsf);
               _lsf.crc[0] = ccrc >> 8;
@@ -114,7 +100,7 @@ namespace gr
         // no enc or subtype field, normal 3200 voice
         _type = M17_TYPE_STREAM | M17_TYPE_VOICE | M17_TYPE_CAN(0);
 
-#ifdef AES
+
         if (_encr_type == ENCR_AES) // AES ENC, 3200 voice
         {
           _type |= M17_TYPE_ENCR_AES;
@@ -126,7 +112,7 @@ namespace gr
             _type |= M17_TYPE_ENCR_AES256;
         }
         else
-#endif
+
             if (_encr_type == ENCR_SCRAM) // Scrambler ENC, 3200 Voice
         {
           _type |= M17_TYPE_ENCR_SCRAM;
@@ -152,7 +138,7 @@ namespace gr
         // needed here for debug, or if this is missing on every initial LSF)
         update_LSF_CRC(&_lsf);
       }
-#ifdef AES
+
       if (_encr_type == ENCR_AES)
       {
         memcpy(&(_lsf.meta), _iv, 14);
@@ -165,7 +151,7 @@ namespace gr
 //        srand (time (NULL));	//random number generator (for IV rand() seed value)
 //        memset (_key, 0, 32 * sizeof (uint8_t));
 //        memset (_iv, 0, 16 * sizeof (uint8_t));
-#endif
+
     }
 
     void m17_coder_impl::switch_state(const pmt::pmt_t &msg)
@@ -732,7 +718,7 @@ namespace gr
             // TODO if debug_mode==1 from lines 520 to 570
             // TODO add aes_subtype as user argument
 
-#ifdef AES
+
             if (_encr_type == ENCR_AES)
             {
               memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
@@ -741,7 +727,6 @@ namespace gr
               aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
             }
             else
-#endif
               // Scrambler
               if (_encr_type == ENCR_SCRAM)
               {

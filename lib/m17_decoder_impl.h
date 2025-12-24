@@ -9,18 +9,10 @@
 #define INCLUDED_M17_M17_DECODER_IMPL_H
 
 #include <gnuradio/m17/m17_decoder.h>
+
 #include "m17.h"
-
-#define AES
-#define ECC
-
-#ifdef AES
 #include "aes.h"
-#endif
-
-#ifdef ECC
 #include "uECC.h"
-#endif
 
 namespace gr
 {
@@ -40,20 +32,18 @@ namespace gr
       uint8_t _key[64] = { 0 };	//public key
       uint8_t _iv[16];
       encr_t _encr_type = ENCR_NONE;
-//used for signatures
+      //used for signatures
       uint8_t _digest[16] = { 0 };	//16-byte field for the stream digest
       uint8_t _sig[64] = { 0 };	//ECDSA signature
       uint32_t _scrambler_key = 0;	//keep set to initial value for seed calculation function
 
-#ifdef AES
       typedef enum
       {
-	AES128,
-	AES192,
-	AES256
+		AES128,
+		AES192,
+		AES256
       } aes_t;
       int8_t _aes_subtype = -1;
-#endif
 
       float last[8] = { 0 };	//look-back buffer for finding syncwords
       float _pld[SYM_PER_PLD];	//raw frame symbols
@@ -77,14 +67,14 @@ namespace gr
       uint8_t pushed;		//counter for pushed symbols
 
       uint8_t d_dst[12], d_src[12];	//decoded strings
-#ifdef ECC
-//Scrambler
+
+      //Scrambler
       uint8_t _seed[3]; //24-bit is the largest seed value
       uint8_t _scr_bytes[16];
       uint8_t _scrambler_pn[128];
       uint32_t _scrambler_seed = 0;
       int8_t _scrambler_subtype = -1;
-#endif
+
       const struct uECC_Curve_t *_curve = uECC_secp256r1 ();
 
     public:

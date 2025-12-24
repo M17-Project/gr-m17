@@ -8,20 +8,12 @@
 #ifndef INCLUDED_M17_M17_CODER_IMPL_H
 #define INCLUDED_M17_M17_CODER_IMPL_H
 
-#define AES
-#define ECC
-
 #include <atomic>
 #include <gnuradio/m17/m17_coder.h>
+
 #include "m17.h"		// lsf_t declaration
-
-#ifdef AES
 #include "aes.h"
-#endif
-
-#ifdef ECC
 #include "uECC.h"
-#endif
 
 namespace gr
 {
@@ -36,23 +28,22 @@ namespace gr
       uint16_t _type;
       uint16_t _send_preamble;
       int _encr_subtype;
-//encryption
-#ifdef AES
-//encryption
+
+      //encryption
       int8_t _aes_subtype = -1;
       const struct uECC_Curve_t *_curve = uECC_secp256r1 ();
       encr_t _encr_type= ENCR_NONE;
-//AES
+      //AES
       typedef enum
       {
-	AES128,
-	AES192,
-	AES256
+		AES128,
+		AES192,
+		AES256
       } aes_t;
       uint8_t _key[32];
       uint8_t _iv[16];
-      time_t epoch = 1577836800L;	//Jan 1, 2020, 00:00:00 UTC
-#endif
+      const time_t epoch = 1577836800L;	//Jan 1, 2020, 00:00:00 UTC
+
       int _can;
       lsf_t _lsf, _next_lsf;
         std::string _meta;
@@ -71,14 +62,12 @@ namespace gr
       int _eot_cnt = 1;
       bool _init_frame;
 
-#ifdef ECC
-//Scrambler
+      //Scrambler
       uint8_t _seed[3]; //24-bit is the largest seed value
       uint8_t _scr_bytes[16];
       uint8_t _scrambler_pn[128];
       uint32_t _scrambler_seed = 0;
       int8_t _scrambler_subtype = -1;
-#endif
 
     public:
       void parse_raw_key_string (uint8_t *, const char *);
