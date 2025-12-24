@@ -80,14 +80,16 @@ namespace gr
       }
 
       /*
-            uint16_t ccrc = LSF_CRC (&_lsf);
-              _lsf.crc[0] = ccrc >> 8;
-              _lsf.crc[1] = ccrc & 0xFF;
+      uint16_t ccrc = LSF_CRC (&_lsf);
+      _lsf.crc[0] = ccrc >> 8;
+      _lsf.crc[1] = ccrc & 0xFF;
       */
       init_state();
       message_port_register_in(pmt::mp("transmission_control"));
-      set_msg_handler(pmt::mp("transmission_control"), [this](const pmt::pmt_t &msg)
-                      { switch_state(msg); });
+      set_msg_handler(
+        pmt::mp("transmission_control"),
+        boost::bind(&m17_coder_impl::switch_state, this,
+        boost::placeholders::_1));
 
       if (_debug == true && _got_lsf != 0)
       {
@@ -156,31 +158,45 @@ namespace gr
 
     void m17_coder_impl::switch_state(const pmt::pmt_t &msg)
     {
+      std::string cmd, val;
+
       if (pmt::is_symbol(msg))
       {
-        std::string str = pmt::symbol_to_string(msg);
-        time_t now = time(NULL);
-        struct tm *t = localtime(&now);
-        if (str == "SOT")
-        {
-          _active.store(true, std::memory_order_release);
-          _finished.store(false, std::memory_order_relaxed);
-          fprintf(stderr, "[%02d:%02d:%02d] ***** Start of Transmission *****\n", t->tm_hour, t->tm_min, t->tm_sec);
-        }
-        else if (str == "EOT")
-        {
-          _finished.store(true, std::memory_order_release);
-          fprintf(stderr, "[%02d:%02d:%02d] ***** End of Transmission *****\n", t->tm_hour, t->tm_min, t->tm_sec);
-        }
-        else
-        {
-          pmt::print(msg);
-        }
+        cmd = pmt::symbol_to_string(msg);
       }
-      else
+      else if (pmt::is_pair(msg))
       {
-        fprintf(stderr, "Strange MSG received\n");
+          const pmt::pmt_t& car = pmt::car(msg);
+          if (pmt::is_symbol(car))
+            cmd = pmt::symbol_to_string(car);
+          const pmt::pmt_t& cdr = pmt::cdr(msg);
+          if (pmt::is_symbol(cdr))
+            val = pmt::symbol_to_string(cdr);
       }
+
+      time_t now = time(NULL);
+      struct tm *t = localtime(&now);
+
+      if (cmd == "SOT")
+      {
+        _active.store(true, std::memory_order_release);
+        _finished.store(false, std::memory_order_relaxed);
+        fprintf(stderr, "[%02d:%02d:%02d] Start of Stream transmission\n", t->tm_hour, t->tm_min, t->tm_sec);
+        return;
+      }
+      if (cmd == "EOT")
+      {
+        _finished.store(true, std::memory_order_release);
+        fprintf(stderr, "[%02d:%02d:%02d] End of Stream transmission\n", t->tm_hour, t->tm_min, t->tm_sec);
+        return;
+      }
+      else if (cmd == "PKT")
+      {
+        fprintf(stderr, "[%02d:%02d:%02d] Start of Packet data transmission\n", t->tm_hour, t->tm_min, t->tm_sec);
+        return;
+      }
+
+      fprintf(stderr, "[%02d:%02d:%02d] Strange message received\n", t->tm_hour, t->tm_min, t->tm_sec);
     }
 
     void m17_coder_impl::init_state(void)
@@ -265,7 +281,7 @@ namespace gr
         length = 9;
       else
         length = dst_id.length();
-        
+
       for (int i = 0; i < length; i++)
       {
         _dst_id[i] = toupper(dst_id.c_str()[i]);
@@ -403,35 +419,41 @@ namespace gr
         _eot_cnt = 1;
     }
 
-    void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array
+    void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array. TODO: rework this function
     {
       int length;
 
-      memset(_lsf.meta, 0, 14);
+      memset(_lsf.meta, 0, sizeof(_lsf.meta));
 
-      fprintf(stderr, "new meta: ");
-      if (_encr_subtype == 0) // meta is \0-terminated string
+      fprintf(stderr, "META: ");
+
+      if (_encr_subtype == ENCR_NONE) // meta is \0-terminated string
       {
         if (meta.length() < 14)
           length = meta.length();
         else
         {
           length = 14;
-          meta[length] = 0;
+          meta[13] = 0; //null-terminate
         }
-        fprintf(stderr, "%s\n", meta.c_str());
-        for (int i = 0; i < length; i++)
+
+        if (length)
         {
-          _lsf.meta[i] = meta[i];
+          fprintf(stderr, "\"%s\"\n", meta.c_str());
+          for (int i = 0; i < length; i++)
+          {
+            _lsf.meta[i] = meta[i];
+          }
         }
       }
       else
       {
         length = meta.size();
+
         int i = 0, j = 0;
         while ((j < 14) && (i < length))
         {
-          if ((unsigned int)meta.data()[i] < 0xc2) // https://www.utf8-chartable.de/
+          if ((unsigned int)meta.data()[i] < 0xC2) // https://www.utf8-chartable.de/
           {
             _lsf.meta[j] = meta.data()[i];
             i++;
@@ -440,67 +462,91 @@ namespace gr
           else
           {
             _lsf.meta[j] =
-                (meta.data()[i] - 0xc2) * 0x40 + meta.data()[i + 1];
+                (meta.data()[i] - 0xC2) * 0x40 + meta.data()[i + 1];
             i += 2;
             j++;
           }
         }
-        length = j; // index from 0 to length-1
-        fprintf(stderr, "%d bytes: ", length);
-        for (i = 0; i < length; i++)
-          fprintf(stderr, "%02X ", _lsf.meta[i]);
-        fprintf(stderr, "\n");
+
+        //length = j; // index from 0 to length-1
+        length = j;
+
+        ;// print it out?
       }
+
+      if (length != 0)
+      {
+        for (uint_fast8_t i = 0; i < length; i++)
+          fprintf(stderr, "%02X ", _lsf.meta[i]);
+      }
+      else
+      {
+        fprintf(stderr, "(empty)");
+      }
+      fprintf(stderr, "\n");
+
       fflush(stdout);
+
       uint16_t ccrc = LSF_CRC(&_lsf);
       _lsf.crc[0] = ccrc >> 8;
       _lsf.crc[1] = ccrc & 0xFF;
     }
 
-    void m17_coder_impl::set_mode(int mode)
+    void m17_coder_impl::set_mode(int mode) //TODO: unused?
     {
       _mode = mode;
-      fprintf(stderr, "new mode: %x -> ", _mode);
+      fprintf(stderr, "Mode: %d\n", _mode);
       set_type(_mode, _data, _encr_type, _encr_subtype, _can);
     }
 
     void m17_coder_impl::set_data(int data)
     {
       _data = data;
-      fprintf(stderr, "new data type: %x -> ", _data);
+      fprintf(stderr, "Payload type: %d\n", _data);
       set_type(_mode, _data, _encr_type, _encr_subtype, _can);
     }
 
     void m17_coder_impl::set_encr_subtype(int encr_subtype)
     {
       _encr_subtype = encr_subtype;
-      fprintf(stderr, "new encr subtype: %x -> ", _encr_subtype);
+      fprintf(stderr, "Encryption subtype: %d\n", _encr_subtype);
       set_type(_mode, _data, _encr_type, _encr_subtype, _can);
     }
 
     void m17_coder_impl::set_aes_subtype(int aes_subtype, int encr_type)
     {
+      if (encr_type == ENCR_NONE)
+        return;
+
       _aes_subtype = aes_subtype;
-      fprintf(stderr, "new AES subtype: %x -> ", _aes_subtype);
+
+      fprintf(stderr, "Using AES");
+
       if (encr_type == ENCR_AES) // AES ENC, 3200 voice
       {
         _type |= M17_TYPE_ENCR_AES;
         if (_aes_subtype == 0)
+        {
           _type |= M17_TYPE_ENCR_AES128;
+          fprintf(stderr, "128\n");
+        }
         else if (_aes_subtype == 1)
+        {
           _type |= M17_TYPE_ENCR_AES192;
+          fprintf(stderr, "192\n");
+        }
         else if (_aes_subtype == 2)
+        {
           _type |= M17_TYPE_ENCR_AES256;
+          fprintf(stderr, "256\n");
+        }
       }
-      else
-        fprintf(stderr, "ERROR: encryption type != AES");
-      fprintf(stderr, "\n");
     }
 
     void m17_coder_impl::set_can(int can)
     {
       _can = can;
-      fprintf(stderr, "new CAN: %x -> ", _can);
+      fprintf(stderr, "CAN: %d\n", _can);
       set_type(_mode, _data, _encr_type, _encr_subtype, _can);
     }
 
@@ -511,7 +557,7 @@ namespace gr
       tmptype =
           mode | (data << 1) | (encr_type << 3) | (encr_subtype << 5) | (can << 7);
       _lsf.type[0] = tmptype >> 8;   // MSB
-      _lsf.type[1] = tmptype & 0xff; // LSB
+      _lsf.type[1] = tmptype & 0xFF; // LSB
       uint16_t ccrc = LSF_CRC(&_lsf);
       _lsf.crc[0] = ccrc >> 8;
       _lsf.crc[1] = ccrc & 0xFF;
@@ -675,7 +721,7 @@ namespace gr
 
       if (_finalizing)
       {
-        return 0;
+        consume_each(0);
       }
 
       // drop any stale input if we just transitioned to active
@@ -726,7 +772,7 @@ namespace gr
               memcpy(data, in + countin, PAYLOAD_BYTES);
               countin += PAYLOAD_BYTES;
 
-              //if (countin > PAYLOAD_BYTES)
+              if (countin > PAYLOAD_BYTES)
                 continue;
               //else
                 //printf("[DBG] Consumed 16 bytes FN=%u, total countin=%d\n", _fn, countin);
@@ -794,7 +840,7 @@ namespace gr
             // enter finalization only once
             if (!_finalizing)
             {
-              fprintf(stderr, "Sending last frame(s) plus EoT\n");
+              fprintf(stderr, "Sending last frame(s) plus EoT(s)\n");
               _finalizing = true; // mark that we already printed and started finishing
             }
 
@@ -810,7 +856,7 @@ namespace gr
             {
               // Not enough room to emit the entire remaining sequence.
               // Wait for next general_work() with a larger buffer.
-              //consume_each(0); // wake scheduler to retry
+              consume_each(0); // wake scheduler to retry
               return countout;
             }
 

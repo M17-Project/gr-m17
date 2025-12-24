@@ -68,13 +68,13 @@ parameters:
 - id: signed_str
   label: SignedStr
   dtype: bool
-  default: 'False'
-  options: ['True', 'False']
+  default: False
+  options: [True, False]
 - id: debug
   label: Debug
   dtype: bool
-  default: 'False'
-  options: ['True', 'False']
+  default: False
+  options: [True, False]
 
 asserts:
     - ${ can <= 15 }
