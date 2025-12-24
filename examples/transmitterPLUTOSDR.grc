@@ -186,7 +186,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 208.0]
+    coordinate: [896, 264.0]
     rotation: 0
     state: true
 - name: analog_sig_source_x_0
@@ -209,7 +209,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [120, 368.0]
+    coordinate: [8, 112.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -227,7 +227,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [976, 208.0]
+    coordinate: [1064, 264.0]
     rotation: 0
     state: true
 - name: blocks_pack_k_bits_bb_0
@@ -243,8 +243,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 328.0]
-    rotation: 180
+    coordinate: [232, 248.0]
+    rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
   id: blocks_vector_source_x
@@ -264,7 +264,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 192.0]
+    coordinate: [8, 248.0]
     rotation: 0
     state: disabled
 - name: blocks_vector_to_stream_0
@@ -282,8 +282,26 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [488, 336.0]
+    coordinate: [232, 208.0]
     rotation: 180
+    state: enabled
+- name: end_of_transmission
+  id: variable_qtgui_msg_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: End of Transmission
+    msgName: end_of_transmission
+    relBackgroundColor: default
+    relFontColor: default
+    type: string
+    value: end_of_transmission
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 336.0]
+    rotation: 0
     state: enabled
 - name: iio_pluto_sink_0_0
   id: iio_pluto_sink
@@ -308,9 +326,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1296, 148.0]
+    coordinate: [1384, 204.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: import_0
   id: import
   parameters:
@@ -327,6 +345,7 @@ blocks:
 - name: m17_m17_coder_0_0
   id: m17_m17_coder
   parameters:
+    aes_subtype: '0'
     affinity: ''
     alias: ''
     can: '0'
@@ -335,17 +354,22 @@ blocks:
     dst_id: dst
     encr_subtype: '0'
     encr_type: '0'
+    eot_cnt: '1'
+    key: ''
     maxoutbuf: '0'
     meta: ''
     minoutbuf: '0'
     mode: '1'
+    priv_key: ''
+    seed: ''
+    signed_str: 'False'
     src_id: src
     type: '5'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 140.0]
+    coordinate: [456, 144.0]
     rotation: 0
     state: enabled
 - name: note_0_2
@@ -358,7 +382,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [160, 280.0]
+    coordinate: [352, 80.0]
     rotation: 0
     state: true
 - name: note_0_2_1
@@ -371,7 +395,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [0, 280.0]
+    coordinate: [176, 96.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0_0
@@ -452,7 +476,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1304, 328.0]
+    coordinate: [1392, 376.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -549,7 +573,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 320.0]
+    coordinate: [944, 144.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0_0
@@ -569,7 +593,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 184.0]
+    coordinate: [1216, 240.0]
     rotation: 0
     state: true
 - name: root_raised_cosine_filter_0
@@ -592,7 +616,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 168.0]
+    coordinate: [696, 224.0]
     rotation: 0
     state: true
 - name: uhd_usrp_sink_0
@@ -869,7 +893,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1344, 24.0]
+    coordinate: [1376, 88.0]
     rotation: 0
     state: enabled
 - name: vocoder_codec2_encode_sp_0
@@ -885,7 +909,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 408.0]
+    coordinate: [200, 152.0]
     rotation: 0
     state: enabled
 
@@ -896,6 +920,7 @@ connections:
 - [blocks_pack_k_bits_bb_0, '0', m17_m17_coder_0_0, '0']
 - [blocks_vector_source_x_0_2, '0', m17_m17_coder_0_0, '0']
 - [blocks_vector_to_stream_0, '0', blocks_pack_k_bits_bb_0, '0']
+- [end_of_transmission, pressed, m17_m17_coder_0_0, transmission_control]
 - [m17_m17_coder_0_0, '0', root_raised_cosine_filter_0, '0']
 - [rational_resampler_xxx_0_0, '0', iio_pluto_sink_0_0, '0']
 - [rational_resampler_xxx_0_0, '0', qtgui_freq_sink_x_0_0, '0']
@@ -906,4 +931,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.10.0
+  grc_version: 3.10.12.0

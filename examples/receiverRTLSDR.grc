@@ -42,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 148.0]
+    coordinate: [640, 8.0]
     rotation: 0
     state: true
 - name: ppm
@@ -63,7 +63,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 12.0]
+    coordinate: [264, 8.0]
     rotation: 0
     state: true
 - name: rf_gain
@@ -84,7 +84,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [416, 12.0]
+    coordinate: [376, 8.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -96,7 +96,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [192, 12.0]
+    coordinate: [176, 8.0]
     rotation: 0
     state: enabled
 - name: variable_qtgui_check_box_0
@@ -113,9 +113,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 12.0]
+    coordinate: [480, 8.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: analog_quadrature_demod_cf_0
   id: analog_quadrature_demod_cf
   parameters:
@@ -129,7 +129,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 324.0]
+    coordinate: [376, 168.0]
     rotation: 0
     state: enabled
 - name: audio_sink_0
@@ -146,9 +146,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2240, 292.0]
-    rotation: 0
-    state: disabled
+    coordinate: [1472, 8.0]
+    rotation: 180
+    state: enabled
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -164,7 +164,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 76.0]
+    coordinate: [1336, 8.0]
     rotation: 0
     state: enabled
 - name: blocks_moving_average_xx_0
@@ -184,7 +184,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [432, 420.0]
+    coordinate: [432, 264.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -202,7 +202,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 444.0]
+    coordinate: [600, 288.0]
     rotation: 0
     state: true
 - name: blocks_packed_to_unpacked_xx_0
@@ -221,9 +221,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1432, 284.0]
+    coordinate: [1528, 240.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_short_to_float_0
   id: blocks_short_to_float
   parameters:
@@ -238,9 +238,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1936, 292.0]
-    rotation: 0
-    state: disabled
+    coordinate: [1912, 104.0]
+    rotation: 180
+    state: enabled
 - name: blocks_stream_to_vector_0
   id: blocks_stream_to_vector
   parameters:
@@ -256,9 +256,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1592, 296.0]
+    coordinate: [1704, 256.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_sub_xx_0
   id: blocks_sub_xx
   parameters:
@@ -274,7 +274,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 328.0]
+    coordinate: [672, 176.0]
     rotation: 0
     state: true
 - name: digital_symbol_sync_xx_0
@@ -301,22 +301,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 284.0]
+    coordinate: [992, 124.0]
     rotation: 0
     state: enabled
-- name: import_0
-  id: import
-  parameters:
-    alias: ''
-    comment: ''
-    imports: import math
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [8, 100.0]
-    rotation: 0
-    state: true
 - name: m17_m17_decoder_0_0
   id: m17_m17_decoder
   parameters:
@@ -326,17 +313,21 @@ blocks:
     comment: ''
     debug_ctrl: 'False'
     debug_data: 'True'
+    encr_type: '0'
+    key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    seed: ''
     signed_str: 'False'
-    threshold: '7'
+    sw_threshold: '2.0'
+    vt_threshold: '30.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 276.0]
+    coordinate: [1336, 196.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_eye_sink_x_0
   id: qtgui_eye_sink_x
   parameters:
@@ -430,8 +421,8 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 172.0]
-    rotation: 0
+    coordinate: [800, 40.0]
+    rotation: 180
     state: disabled
 - name: qtgui_eye_sink_x_0_0
   id: qtgui_eye_sink_x
@@ -526,7 +517,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 164.0]
+    coordinate: [1336, 96.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -623,9 +614,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2232, 180.0]
-    rotation: 0
-    state: disabled
+    coordinate: [1472, 88.0]
+    rotation: 180
+    state: enabled
 - name: rational_resampler_xxx_0_0
   id: rational_resampler_xxx
   parameters:
@@ -643,7 +634,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 300.0]
+    coordinate: [208, 144.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_1
@@ -663,9 +654,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2072, 268.0]
-    rotation: 0
-    state: disabled
+    coordinate: [1744, 80.0]
+    rotation: 180
+    state: enabled
 - name: root_raised_cosine_filter_0
   id: root_raised_cosine_filter
   parameters:
@@ -686,7 +677,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 300.0]
+    coordinate: [792, 144.0]
     rotation: 0
     state: enabled
 - name: soapy_rtlsdr_source_0
@@ -696,6 +687,7 @@ blocks:
     agc: 'False'
     alias: ''
     bias: 'False'
+    bufflen: '16384'
     center_freq: int(freq*(1.0+ppm*1e-6))
     comment: ''
     dev_args: ''
@@ -709,7 +701,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [32, 316.0]
+    coordinate: [8, 160.0]
     rotation: 0
     state: true
 - name: vocoder_codec2_decode_ps_0
@@ -725,9 +717,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1744, 292.0]
+    coordinate: [1864, 248.0]
     rotation: 0
-    state: disabled
+    state: enabled
 
 connections:
 - [analog_quadrature_demod_cf_0, '0', blocks_moving_average_xx_0, '0']
@@ -752,4 +744,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0
+  grc_version: 3.10.12.0
