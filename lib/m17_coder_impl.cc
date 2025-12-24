@@ -69,7 +69,7 @@ namespace gr
       set_dst_id(dst_id);
       set_signed(signed_str);
       set_debug(debug);
-      set_output_multiple(192);
+      set_output_multiple(SYM_PER_FRA);
 
       if (_encr_type == ENCR_AES)
       {
@@ -89,7 +89,7 @@ namespace gr
       set_msg_handler(pmt::mp("transmission_control"), [this](const pmt::pmt_t &msg)
                       { switch_state(msg); });
 
-      if (_debug == true)
+      if (_debug == true && _got_lsf != 0)
       {
         // destination set to "@ALL"
         encode_callsign_bytes(_lsf.dst, (const unsigned char *)"@ALL");
@@ -148,10 +148,10 @@ namespace gr
         // re-calculate LSF CRC with IV insertion
         update_LSF_CRC(&_lsf);
       }
-//        srand (time (NULL));	//random number generator (for IV rand() seed value)
-//        memset (_key, 0, 32 * sizeof (uint8_t));
-//        memset (_iv, 0, 16 * sizeof (uint8_t));
 
+      //srand (time (NULL));	//random number generator (for IV rand() seed value)
+      //memset (_key, 0, 32 * sizeof (uint8_t));
+      // memset (_iv, 0, 16 * sizeof (uint8_t));
     }
 
     void m17_coder_impl::switch_state(const pmt::pmt_t &msg)
@@ -198,55 +198,56 @@ namespace gr
       {
       case 0:
         _encr_type = ENCR_NONE;
+        fprintf(stderr, "Encryption type: none\n");
         break;
       case 1:
         _encr_type = ENCR_SCRAM;
+        fprintf(stderr, "Encryption type: scrambler\n");
         break;
       case 2:
         _encr_type = ENCR_AES;
+        fprintf(stderr, "Encryption type: AES\n");
         break;
       case 3:
         _encr_type = ENCR_RES;
+        fprintf(stderr, "Encryption type: reserved\n");
         break;
       default:
         _encr_type = ENCR_NONE;
+        fprintf(stderr, "Encryption type: none\n");
       }
-      fprintf(stderr, "new encr type: %x -> ", _encr_type);
     }
 
     void m17_coder_impl::set_signed(bool signed_str)
     {
       _signed_str = signed_str;
       if (_signed_str == true)
-        fprintf(stderr, "Signed\n");
-      else
-        fprintf(stderr, "Unsigned\n");
+        fprintf(stderr, "Signed stream\n");
     }
 
     void m17_coder_impl::set_debug(bool debug)
     {
       _debug = debug;
       if (_debug == true)
-        fprintf(stderr, "Debug true\n");
-      else
-        fprintf(stderr, "Debug false\n");
+        fprintf(stderr, "Debug: true\n");
     }
 
     void m17_coder_impl::set_src_id(std::string src_id)
     {
       int length;
-      for (int i = 0; i < 10; i++)
-      {
-        _src_id[i] = 0;
-      }
+
+      memset(_src_id, 0, sizeof(_src_id));
+
       if (src_id.length() > 9)
         length = 9;
       else
         length = src_id.length();
+      
       for (int i = 0; i < length; i++)
       {
         _src_id[i] = toupper(src_id.c_str()[i]);
       }
+
       encode_callsign_bytes(_lsf.src, _src_id); // 6 byte ID <- 9 char callsign
 
       uint16_t ccrc = LSF_CRC(&_lsf);
@@ -257,19 +258,21 @@ namespace gr
     void m17_coder_impl::set_dst_id(std::string dst_id)
     {
       int length;
-      for (int i = 0; i < 10; i++)
-      {
-        _dst_id[i] = 0;
-      }
+
+      memset(_dst_id, 0, sizeof(_dst_id));
+
       if (dst_id.length() > 9)
         length = 9;
       else
         length = dst_id.length();
+        
       for (int i = 0; i < length; i++)
       {
         _dst_id[i] = toupper(dst_id.c_str()[i]);
       }
+
       encode_callsign_bytes(_lsf.dst, _dst_id); // 6 byte ID <- 9 char callsign
+
       uint16_t ccrc = LSF_CRC(&_lsf);
       _lsf.crc[0] = ccrc >> 8;
       _lsf.crc[1] = ccrc & 0xFF;
@@ -277,14 +280,16 @@ namespace gr
 
     void m17_coder_impl::set_priv_key(std::string arg) // *UTF-8* encoded byte array
     {
-      int length;
-      fprintf(stderr, "new private key: ");
-      length = arg.size();
+      int length = arg.size();
+
       _priv_key_loaded = true;
+
+      fprintf(stderr, "Private key ");
+
       int i = 0, j = 0;
       while ((j < 32) && (i < length))
       {
-        if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
+        if ((unsigned int)arg.data()[i] < 0xC2) // https://www.utf8-chartable.de/ TODO: why 0xC2?
         {
           _priv_key[j] = arg.data()[i];
           i++;
@@ -293,28 +298,32 @@ namespace gr
         else
         {
           _priv_key[j] =
-              (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
+              (arg.data()[i] - 0xC2) * 0x40 + arg.data()[i + 1];
           i += 2;
           j++;
         }
       }
+
       length = j; // index from 0 to length-1
-      fprintf(stderr, "%d bytes: ", length);
+
+      fprintf(stderr, "(%d bytes): ", length);
       for (i = 0; i < length; i++)
         fprintf(stderr, "%02X ", _priv_key[i]);
       fprintf(stderr, "\n");
+
       fflush(stdout);
     }
 
     void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
     {
-      int length;
-      fprintf(stderr, "new key: ");
-      length = arg.size();
+      int length= arg.size();
+
+      fprintf(stderr, "Encryption key ");
+      
       int i = 0, j = 0;
       while ((j < 32) && (i < length))
       {
-        if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
+        if ((unsigned int)arg.data()[i] < 0xC2) // https://www.utf8-chartable.de/
         {
           _key[j] = arg.data()[i];
           i++;
@@ -322,24 +331,28 @@ namespace gr
         }
         else
         {
-          _key[j] = (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
+          _key[j] = (arg.data()[i] - 0xC2) * 0x40 + arg.data()[i + 1];
           i += 2;
           j++;
         }
       }
+
       length = j; // index from 0 to length-1
-      fprintf(stderr, "%d bytes: ", length);
+
+      fprintf(stderr, "(%d bytes): ", length);
       for (i = 0; i < length; i++)
         fprintf(stderr, "%02X ", _key[i]);
       fprintf(stderr, "\n");
+
       fflush(stdout);
     }
 
     void m17_coder_impl::set_seed(std::string arg) // *UTF-8* encoded byte array
     {
-      int length;
-      fprintf(stderr, "new seed: ");
-      length = arg.size();
+      int length = arg.size();
+
+      fprintf(stderr, "Scrambler seed ");
+
       int i = 0, j = 0;
       while ((j < 3) && (i < length))
       {
@@ -356,12 +369,16 @@ namespace gr
           j++;
         }
       }
+
       length = j; // index from 0 to length-1
-      fprintf(stderr, "%d bytes: ", length);
+
+      fprintf(stderr, "(%d bytes): ", length);
       for (i = 0; i < length; i++)
         fprintf(stderr, "%02X ", _seed[i]);
       fprintf(stderr, "\n");
+
       fflush(stdout);
+
       if (length <= 2)
       {
         _scrambler_seed = _scrambler_seed >> 16;
@@ -656,11 +673,9 @@ namespace gr
       int countin = 0;
       uint32_t countout = 0;
 
-      uint8_t data[16]; // raw payload, packed bits
-
       if (_finalizing)
       {
-        consume_each(0);
+        return 0;
       }
 
       // drop any stale input if we just transitioned to active
@@ -680,9 +695,11 @@ namespace gr
 
         while (countout < (uint32_t)noutput_items)
         {
+          uint8_t data[PAYLOAD_BYTES]; // raw payload, packed bits
+
           if (!_finalizing)
           {
-            if (ninput_items[0] < countin + 16) // not enough input
+            if (ninput_items[0] < countin + PAYLOAD_BYTES) // not enough input
             {
               if (_finished.load(std::memory_order_acquire) == false)
               {
@@ -703,16 +720,16 @@ namespace gr
               _got_lsf = 1;
             }
 
-            if (ninput_items[0] >= countin + 16)
+            if (ninput_items[0] >= countin + PAYLOAD_BYTES)
             {
               // get new data
-              memcpy(data, in + countin, 16);
-              countin += 16;
+              memcpy(data, in + countin, PAYLOAD_BYTES);
+              countin += PAYLOAD_BYTES;
 
-              if (countin > 16)
+              //if (countin > PAYLOAD_BYTES)
                 continue;
-              else
-                printf("[DBG] Consumed 16 bytes FN=%u, total countin=%d\n", _fn, countin);
+              //else
+                //printf("[DBG] Consumed 16 bytes FN=%u, total countin=%d\n", _fn, countin);
             }
 
             // TODO if debug_mode==1 from lines 520 to 570
@@ -731,14 +748,14 @@ namespace gr
               if (_encr_type == ENCR_SCRAM)
               {
                 scrambler_sequence_generator();
-                for (uint8_t i = 0; i < 16; i++)
+                for (uint8_t i = 0; i < PAYLOAD_BYTES; i++)
                 {
                   data[i] ^= _scr_bytes[i];
                 }
               }
 
             /*fprintf(stderr, "Payload FN=%u: ", _fn);
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < PAYLOAD_BYTES; i++)
               fprintf(stderr, "%02X ", data[i]);
             fprintf(stderr, "\n");*/
           }
@@ -793,7 +810,7 @@ namespace gr
             {
               // Not enough room to emit the entire remaining sequence.
               // Wait for next general_work() with a larger buffer.
-              consume_each(0); // wake scheduler to retry
+              //consume_each(0); // wake scheduler to retry
               return countout;
             }
 
@@ -824,7 +841,7 @@ namespace gr
               _fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
               for (uint8_t i = 0; i < 4; i++)
               {
-                gen_frame(out + countout, &_sig[i * 16], FRAME_STR, &_lsf, _lich_cnt, _fn);
+                gen_frame(out + countout, &_sig[i * PAYLOAD_BYTES], FRAME_STR, &_lsf, _lich_cnt, _fn);
                 countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
                 _fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
                 _lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
