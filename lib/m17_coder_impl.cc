@@ -55,9 +55,9 @@ namespace gr
                                    std::string priv_key, bool debug,
                                    bool signed_str, std::string seed,
                                    int eot_cnt) : gr::block("m17_coder", gr::io_signature::make(1, 1, sizeof(char)),
-                                                                                  gr::io_signature::make(1, 1, sizeof(float))),
-                                                                        _mode(mode), _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _can(can), _meta(meta), _debug(debug),
-                                                                        _signed_str(signed_str), _eot_cnt(eot_cnt)
+                                                            gr::io_signature::make(1, 1, sizeof(float))),
+                                                  _mode(mode), _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _can(can), _meta(meta), _debug(debug),
+                                                  _signed_str(signed_str), _eot_cnt(eot_cnt)
     {
       set_encr_type(encr_type); // overwritten by set_seed()
       set_type(mode, data, _encr_type, encr_subtype, can);
@@ -87,9 +87,9 @@ namespace gr
       init_state();
       message_port_register_in(pmt::mp("transmission_control"));
       set_msg_handler(
-        pmt::mp("transmission_control"),
-        boost::bind(&m17_coder_impl::switch_state, this,
-        boost::placeholders::_1));
+          pmt::mp("transmission_control"),
+          boost::bind(&m17_coder_impl::switch_state, this,
+                      boost::placeholders::_1));
 
       if (_debug == true && _got_lsf != 0)
       {
@@ -101,7 +101,6 @@ namespace gr
 
         // no enc or subtype field, normal 3200 voice
         _type = M17_TYPE_STREAM | M17_TYPE_VOICE | M17_TYPE_CAN(0);
-
 
         if (_encr_type == ENCR_AES) // AES ENC, 3200 voice
         {
@@ -151,9 +150,9 @@ namespace gr
         update_LSF_CRC(&_lsf);
       }
 
-      //srand(time(NULL));	//random number generator (for IV rand() seed value)
-      //memset(_key, 0, 32 * sizeof(uint8_t));
-      //memset(_iv, 0, 16 * sizeof(uint8_t));
+      // srand(time(NULL));	//random number generator (for IV rand() seed value)
+      // memset(_key, 0, 32 * sizeof(uint8_t));
+      // memset(_iv, 0, 16 * sizeof(uint8_t));
     }
 
     void m17_coder_impl::switch_state(const pmt::pmt_t &msg)
@@ -166,12 +165,12 @@ namespace gr
       }
       else if (pmt::is_pair(msg))
       {
-          const pmt::pmt_t& car = pmt::car(msg);
-          if (pmt::is_symbol(car))
-            cmd = pmt::symbol_to_string(car);
-          const pmt::pmt_t& cdr = pmt::cdr(msg);
-          if (pmt::is_symbol(cdr))
-            val = pmt::symbol_to_string(cdr);
+        const pmt::pmt_t &car = pmt::car(msg);
+        if (pmt::is_symbol(car))
+          cmd = pmt::symbol_to_string(car);
+        const pmt::pmt_t &cdr = pmt::cdr(msg);
+        if (pmt::is_symbol(cdr))
+          val = pmt::symbol_to_string(cdr);
       }
 
       time_t now = time(NULL);
@@ -203,7 +202,7 @@ namespace gr
 
         if (val.size())
         {
-          fprintf(stderr, "[%02d:%02d:%02d] Start of text message transmission:\n%s\n",t.tm_hour, t.tm_min, t.tm_sec, val.c_str());
+          fprintf(stderr, "[%02d:%02d:%02d] Start of text message transmission:\n%s\n", t.tm_hour, t.tm_min, t.tm_sec, val.c_str());
           size_t n = std::min(val.size(), sizeof(_text_msg) - 1);
           memcpy(_text_msg, val.c_str(), n);
           _text_msg[n] = 0;
@@ -277,7 +276,7 @@ namespace gr
         length = 9;
       else
         length = src_id.length();
-      
+
       for (int i = 0; i < length; i++)
       {
         _src_id[i] = toupper(src_id.c_str()[i]);
@@ -351,10 +350,10 @@ namespace gr
 
     void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
     {
-      int length= arg.size();
+      int length = arg.size();
 
       fprintf(stderr, "Encryption key ");
-      
+
       int i = 0, j = 0;
       while ((j < 32) && (i < length))
       {
@@ -394,7 +393,7 @@ namespace gr
       int i = 0, j = 0;
       while ((j < 3) && (i < length))
       {
-        if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
+        if ((unsigned int)arg.data()[i] < 0xC2) // https://www.utf8-chartable.de/
         {
           _seed[j] = arg.data()[i];
           i++;
@@ -402,7 +401,7 @@ namespace gr
         }
         else
         {
-          _seed[j] = (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
+          _seed[j] = (arg.data()[i] - 0xC2) * 0x40 + arg.data()[i + 1];
           i += 2;
           j++;
         }
@@ -465,13 +464,13 @@ namespace gr
         else
         {
           length = 14;
-          meta[13] = 0; //null-terminate
+          meta[13] = 0; // null-terminate
         }
 
         if (length)
         {
           fprintf(stderr, "\"%s\"\n", meta.c_str());
-          memcpy(_lsf.meta, meta.c_str(), length); //I hope this is fine
+          memcpy(_lsf.meta, meta.c_str(), length); // I hope this is fine
         }
       }
       else
@@ -496,7 +495,7 @@ namespace gr
           }
         }
 
-        //length = j; // index from 0 to length-1
+        // length = j; // index from 0 to length-1
         length = j;
 
         for (uint_fast8_t i = 0; i < length; i++)
@@ -511,7 +510,7 @@ namespace gr
       _lsf.crc[1] = ccrc & 0xFF;
     }
 
-    void m17_coder_impl::set_mode(int mode) //TODO: unused?
+    void m17_coder_impl::set_mode(int mode) // TODO: unused?
     {
       _mode = mode;
       fprintf(stderr, "Mode: %d\n", _mode);
@@ -603,7 +602,7 @@ namespace gr
       else
       {
         // stream mode
-        ninput_items_required[0] = noutput_items / 12; //16 in -> 192 out
+        ninput_items_required[0] = noutput_items / 12; // 16 in -> 192 out
       }
     }
 
@@ -750,7 +749,7 @@ namespace gr
       ///-------packet mode------- TODO: this is only a test!! this needs a proper state machine
       if (_pkt_pend.load(std::memory_order_acquire))
       {
-        //fprintf(stderr, "[DBG] noutput_items=%d\n", noutput_items);
+        // fprintf(stderr, "[DBG] noutput_items=%d\n", noutput_items);
         int avbl = noutput_items;
 
         if (avbl >= SYM_PER_FRA)
@@ -771,19 +770,19 @@ namespace gr
           size_t len = _text_len.load(std::memory_order_acquire);
           if (len > 21)
             len = 21;
-          uint8_t pkt_pld[26] = {0}; //TODO: TEST ONLY!
-          pkt_pld[0] = 0x05; //text message
+          uint8_t pkt_pld[26] = {0}; // TODO: TEST ONLY!
+          pkt_pld[0] = 0x05;         // text message
           memcpy(&pkt_pld[1], _text_msg, len);
-          uint16_t crc = CRC_M17(pkt_pld, 1+len+1);
-          pkt_pld[1+len+1] = crc >> 8;
-          pkt_pld[1+len+2] = crc & 0xFF;
-          pkt_pld[25] = 0x80 | (1+len+1+2); //TODO: TEST ONLY fixed, 1-payload-frame packet
+          uint16_t crc = CRC_M17(pkt_pld, 1 + len + 1);
+          pkt_pld[1 + len + 1] = crc >> 8;
+          pkt_pld[1 + len + 2] = crc & 0xFF;
+          pkt_pld[25] = 0x80 | (1 + len + 1 + 2); // TODO: TEST ONLY fixed, 1-payload-frame packet
           gen_frame(out + countout, pkt_pld, FRAME_PKT, &_lsf, 0, 0);
           countout += SYM_PER_FRA;
           avbl -= SYM_PER_FRA;
         }
 
-        for (uint8_t i=0; i<_eot_cnt; i++)
+        for (uint8_t i = 0; i < _eot_cnt; i++)
         {
           if (avbl >= SYM_PER_FRA)
           {
@@ -798,7 +797,7 @@ namespace gr
 
         _pkt_pend.store(false, std::memory_order_relaxed);
 
-        consume_each(0); //packet mode transmission does not consume any input samples - all the data comes from the Message
+        consume_each(0); // packet mode transmission does not consume any input samples - all the data comes from the Message
         return countout;
       }
 
@@ -858,13 +857,12 @@ namespace gr
 
               if (countin > PAYLOAD_BYTES)
                 continue;
-              //else
-                //printf("[DBG] Consumed 16 bytes FN=%u, total countin=%d\n", _fn, countin);
+              // else
+              // printf("[DBG] Consumed 16 bytes FN=%u, total countin=%d\n", _fn, countin);
             }
 
             // TODO if debug_mode==1 from lines 520 to 570
             // TODO add aes_subtype as user argument
-
 
             if (_encr_type == ENCR_AES)
             {
@@ -992,7 +990,7 @@ namespace gr
             }
 
             // send EOT frame(s)
-            for (uint8_t i=0; i<_eot_cnt; i++)
+            for (uint8_t i = 0; i < _eot_cnt; i++)
             {
               uint32_t tmp = 0;
               gen_eot(out + countout, &tmp);
