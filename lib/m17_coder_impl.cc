@@ -151,14 +151,14 @@ namespace gr
         update_LSF_CRC(&_lsf);
       }
 
-      //srand (time (NULL));	//random number generator (for IV rand() seed value)
-      //memset (_key, 0, 32 * sizeof (uint8_t));
-      // memset (_iv, 0, 16 * sizeof (uint8_t));
+      //srand(time(NULL));	//random number generator (for IV rand() seed value)
+      //memset(_key, 0, 32 * sizeof(uint8_t));
+      //memset(_iv, 0, 16 * sizeof(uint8_t));
     }
 
     void m17_coder_impl::switch_state(const pmt::pmt_t &msg)
     {
-      std::string cmd, val;
+      std::string cmd = "", val = "";
 
       if (pmt::is_symbol(msg))
       {
@@ -175,28 +175,47 @@ namespace gr
       }
 
       time_t now = time(NULL);
-      struct tm *t = localtime(&now);
+      struct tm t;
+      localtime_r(&now, &t);
 
       if (cmd == "SOT")
       {
         _active.store(true, std::memory_order_release);
         _finished.store(false, std::memory_order_relaxed);
-        fprintf(stderr, "[%02d:%02d:%02d] Start of Stream transmission\n", t->tm_hour, t->tm_min, t->tm_sec);
-        return;
-      }
-      if (cmd == "EOT")
-      {
-        _finished.store(true, std::memory_order_release);
-        fprintf(stderr, "[%02d:%02d:%02d] End of Stream transmission\n", t->tm_hour, t->tm_min, t->tm_sec);
-        return;
-      }
-      else if (cmd == "PKT")
-      {
-        fprintf(stderr, "[%02d:%02d:%02d] Start of Packet data transmission\n", t->tm_hour, t->tm_min, t->tm_sec);
+        fprintf(stderr, "[%02d:%02d:%02d] Start of Stream transmission\n", t.tm_hour, t.tm_min, t.tm_sec);
         return;
       }
 
-      fprintf(stderr, "[%02d:%02d:%02d] Strange message received\n", t->tm_hour, t->tm_min, t->tm_sec);
+      if (cmd == "EOT")
+      {
+        _finished.store(true, std::memory_order_release);
+        fprintf(stderr, "[%02d:%02d:%02d] End of Stream transmission\n", t.tm_hour, t.tm_min, t.tm_sec);
+        return;
+      }
+
+      if (cmd == "SMS")
+      {
+        if (_pkt_pend.load(std::memory_order_acquire))
+        {
+          fprintf(stderr, "[%02d:%02d:%02d] SMS ignored (last transmission pending)\n", t.tm_hour, t.tm_min, t.tm_sec);
+          return;
+        }
+
+        if (val.size())
+        {
+          fprintf(stderr, "[%02d:%02d:%02d] Start of text message transmission:\n%s\n",t.tm_hour, t.tm_min, t.tm_sec, val.c_str());
+          size_t n = std::min(val.size(), sizeof(_text_msg) - 1);
+          memcpy(_text_msg, val.c_str(), n);
+          _text_msg[n] = 0;
+          _text_len.store(n, std::memory_order_relaxed);
+          _pkt_pend.store(true, std::memory_order_release);
+        }
+        else
+          fprintf(stderr, "[%02d:%02d:%02d] Empty packet data\n", t.tm_hour, t.tm_min, t.tm_sec);
+        return;
+      }
+
+      fprintf(stderr, "[%02d:%02d:%02d] Strange message received\n", t.tm_hour, t.tm_min, t.tm_sec);
     }
 
     void m17_coder_impl::init_state(void)
@@ -367,6 +386,9 @@ namespace gr
     {
       int length = arg.size();
 
+      if (!length)
+        return;
+
       fprintf(stderr, "Scrambler seed ");
 
       int i = 0, j = 0;
@@ -421,11 +443,20 @@ namespace gr
 
     void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array. TODO: rework this function
     {
-      int length;
+      int length = 0;
 
       memset(_lsf.meta, 0, sizeof(_lsf.meta));
 
       fprintf(stderr, "META: ");
+
+      if (!meta.length())
+      {
+        fprintf(stderr, "0000000000000000000000000000\n");
+        uint16_t ccrc = LSF_CRC(&_lsf);
+        _lsf.crc[0] = ccrc >> 8;
+        _lsf.crc[1] = ccrc & 0xFF;
+        return;
+      }
 
       if (_encr_subtype == ENCR_NONE) // meta is \0-terminated string
       {
@@ -440,10 +471,7 @@ namespace gr
         if (length)
         {
           fprintf(stderr, "\"%s\"\n", meta.c_str());
-          for (int i = 0; i < length; i++)
-          {
-            _lsf.meta[i] = meta[i];
-          }
+          memcpy(_lsf.meta, meta.c_str(), length); //I hope this is fine
         }
       }
       else
@@ -471,19 +499,10 @@ namespace gr
         //length = j; // index from 0 to length-1
         length = j;
 
-        ;// print it out?
-      }
-
-      if (length != 0)
-      {
         for (uint_fast8_t i = 0; i < length; i++)
           fprintf(stderr, "%02X ", _lsf.meta[i]);
+        fprintf(stderr, "\n");
       }
-      else
-      {
-        fprintf(stderr, "(empty)");
-      }
-      fprintf(stderr, "\n");
 
       fflush(stdout);
 
@@ -576,7 +595,16 @@ namespace gr
     m17_coder_impl::forecast(int noutput_items,
                              gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = noutput_items / 12; // 16 inputs -> 192 outputs
+      if (_pkt_pend.load(std::memory_order_acquire))
+      {
+        // packet emission does not require stream input
+        ninput_items_required[0] = 0;
+      }
+      else
+      {
+        // stream mode
+        ninput_items_required[0] = noutput_items / 12; //16 in -> 192 out
+      }
     }
 
     // scrambler PN sequence generation
@@ -719,6 +747,62 @@ namespace gr
       int countin = 0;
       uint32_t countout = 0;
 
+      ///-------packet mode------- TODO: this is only a test!! this needs a proper state machine
+      if (_pkt_pend.load(std::memory_order_acquire))
+      {
+        //fprintf(stderr, "[DBG] noutput_items=%d\n", noutput_items);
+        int avbl = noutput_items;
+
+        if (avbl >= SYM_PER_FRA)
+        {
+          gen_preamble(out, &countout, PREAM_LSF);
+          avbl -= SYM_PER_FRA;
+        }
+
+        if (avbl >= SYM_PER_FRA)
+        {
+          gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
+          countout += SYM_PER_FRA;
+          avbl -= SYM_PER_FRA;
+        }
+
+        if (avbl >= SYM_PER_FRA)
+        {
+          size_t len = _text_len.load(std::memory_order_acquire);
+          if (len > 21)
+            len = 21;
+          uint8_t pkt_pld[26] = {0}; //TODO: TEST ONLY!
+          pkt_pld[0] = 0x05; //text message
+          memcpy(&pkt_pld[1], _text_msg, len);
+          uint16_t crc = CRC_M17(pkt_pld, 1+len+1);
+          pkt_pld[1+len+1] = crc >> 8;
+          pkt_pld[1+len+2] = crc & 0xFF;
+          pkt_pld[25] = 0x80 | (1+len+1+2); //TODO: TEST ONLY fixed, 1-payload-frame packet
+          gen_frame(out + countout, pkt_pld, FRAME_PKT, &_lsf, 0, 0);
+          countout += SYM_PER_FRA;
+          avbl -= SYM_PER_FRA;
+        }
+
+        for (uint8_t i=0; i<_eot_cnt; i++)
+        {
+          if (avbl >= SYM_PER_FRA)
+          {
+            uint32_t tmp = 0;
+            gen_eot(out + countout, &tmp);
+            countout += SYM_PER_FRA;
+            avbl -= SYM_PER_FRA;
+          }
+          else
+            break;
+        }
+
+        _pkt_pend.store(false, std::memory_order_relaxed);
+
+        consume_each(0); //packet mode transmission does not consume any input samples - all the data comes from the Message
+        return countout;
+      }
+
+      //-------stream mode-------
       if (_finalizing)
       {
         consume_each(0);

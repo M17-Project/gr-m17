@@ -54,6 +54,11 @@ namespace gr
       int _got_lsf = 0;
       uint16_t _fn = 0;      // 16-bit Frame Number (for the stream mode)
       uint8_t _lich_cnt = 0; // 0..5 LICH counter, derived from the Frame Number
+
+      char _text_msg[32*23]; //TODO: large enough size?
+      std::atomic<size_t> _text_len;
+      std::atomic<bool> _pkt_pend = false; //pending packet transmission?
+
       bool _debug = 0;
       bool _signed_str = false;
       bool _finalizing = false;
