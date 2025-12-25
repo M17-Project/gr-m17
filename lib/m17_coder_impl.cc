@@ -318,6 +318,9 @@ namespace gr
 		{
 			int length = arg.size();
 
+			if (!length)
+				return;
+
 			_priv_key_loaded = true;
 
 			fprintf(stderr, "Private key ");
@@ -353,6 +356,9 @@ namespace gr
 		void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
 		{
 			int length = arg.size();
+
+			if (!length)
+				return;
 
 			fprintf(stderr, "Encryption key ");
 
@@ -515,7 +521,7 @@ namespace gr
 		void m17_coder_impl::set_mode(int mode) // TODO: the packet/stream selector is not needed
 		{
 			_mode = mode;
-			fprintf(stderr, "Mode: %d\n", _mode);
+			fprintf(stderr, "Mode: %s\n", _mode==M17_TYPE_STREAM ? "stream" : "packet");
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
 
