@@ -141,7 +141,7 @@ namespace gr
 		void m17_decoder_impl::set_signed(bool signed_str)
 		{
 			_signed_str = signed_str;
-			if (_callsign == true)
+			if (_signed_str == true)
 				printf("Signed\n");
 			else
 				printf("Unsigned\n");
@@ -410,7 +410,6 @@ namespace gr
 			int countout = 0;
 
 			float sample; // last raw sample from the stdin
-			float dist;	  // Euclidean distance for finding syncwords in the symbol stream
 
 			for (int counterin = 0; counterin < ninput_items[0]; counterin++)
 			{
@@ -419,6 +418,8 @@ namespace gr
 
 				if (!syncd)
 				{
+					float dist;	  // Euclidean distance for finding syncwords in the symbol stream
+
 					// push new symbol
 					for (uint8_t i = 0; i < 7; i++)
 					{
@@ -436,19 +437,19 @@ namespace gr
 						syncd = 1;
 						pushed = 0;
 						fl = 0;
+						continue;
 					}
-					else
-					{
-						// calculate euclidean norm again, this time against LSF syncword
-						dist = eucl_norm(last, lsf_sync_symbols, 8);
 
-						if (dist < _sw_threshold) // LSF syncword
-						{
-							// fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
-							syncd = 1;
-							pushed = 0;
-							fl = 1;
-						}
+					// calculate euclidean norm again, this time against LSF syncword
+					dist = eucl_norm(last, lsf_sync_symbols, 8);
+
+					if (dist < _sw_threshold) // LSF syncword
+					{
+						// fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
+						syncd = 1;
+						pushed = 0;
+						fl = 1;
+						continue;
 					}
 				}
 				else
@@ -591,10 +592,13 @@ namespace gr
 								if (_debug_ctrl == true)
 								{
 									printf("TYPE: %04X (", type);
-									if (type && 1)
+									if (type & 1)
 										printf("STREAM: ");
 									else
-										printf("PACKET: "); // shouldn't happen
+									{
+										printf("PACKET) ");
+										goto detour1;
+									}
 									if (((type >> 1) & 3) == 1)
 										printf("DATA, ");
 									else if (((type >> 1) & 3) == 2)
@@ -624,6 +628,7 @@ namespace gr
 									printf(") ");
 								}
 
+								detour1:
 								// META
 								if (_debug_ctrl == true)
 								{
@@ -718,10 +723,13 @@ namespace gr
 							if (_debug_ctrl == true)
 							{
 								printf("TYPE: %04X (", type);
-								if (type && 1)
+								if (type & 1)
 									printf("STREAM: ");
 								else
-									printf("PACKET: "); // shouldn't happen
+								{
+									printf("PACKET) ");
+									goto detour2;
+								}
 								if (((type >> 1) & 3) == 1)
 									printf("DATA, ");
 								else if (((type >> 1) & 3) == 2)
@@ -765,6 +773,7 @@ namespace gr
 									_signed_str = 0;
 								printf(") ");
 
+								detour2:
 								// META
 								printf("META: ");
 								for (uint8_t i = 0; i < 14; i++)

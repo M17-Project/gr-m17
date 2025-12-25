@@ -181,6 +181,7 @@ namespace gr
 			{
 				_active.store(true, std::memory_order_release);
 				_finished.store(false, std::memory_order_relaxed);
+				set_mode(M17_TYPE_STREAM);
 				fprintf(stderr, "[%02d:%02d:%02d] Start of Stream transmission\n", t.tm_hour, t.tm_min, t.tm_sec);
 				return;
 			}
@@ -203,6 +204,7 @@ namespace gr
 				if (val.size())
 				{
 					fprintf(stderr, "[%02d:%02d:%02d] Start of text message transmission:\n%s\n", t.tm_hour, t.tm_min, t.tm_sec, val.c_str());
+					set_mode(M17_TYPE_PACKET);
 					size_t n = std::min(val.size(), sizeof(_text_msg) - 1);
 					memcpy(_text_msg, val.c_str(), n);
 					_text_msg[n] = 0;
@@ -510,7 +512,7 @@ namespace gr
 			_lsf.crc[1] = ccrc & 0xFF;
 		}
 
-		void m17_coder_impl::set_mode(int mode) // TODO: unused?
+		void m17_coder_impl::set_mode(int mode) // TODO: the packet/stream selector is not needed
 		{
 			_mode = mode;
 			fprintf(stderr, "Mode: %d\n", _mode);
