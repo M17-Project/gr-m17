@@ -778,7 +778,7 @@ namespace gr
 					uint16_t crc = CRC_M17(pkt_pld, 1 + len + 1);
 					pkt_pld[1 + len + 1] = crc >> 8;
 					pkt_pld[1 + len + 2] = crc & 0xFF;
-					pkt_pld[25] = 0x80 | (1 + len + 1 + 2); // TODO: TEST ONLY fixed, 1-payload-frame packet
+					pkt_pld[25] = 0x80 | ((1 + len + 1 + 2)<<2); // TODO: TEST ONLY fixed, 1-payload-frame packet
 					gen_frame(out + countout, pkt_pld, FRAME_PKT, &_lsf, 0, 0);
 					countout += SYM_PER_FRA;
 					avbl -= SYM_PER_FRA;

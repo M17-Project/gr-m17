@@ -22,6 +22,9 @@ namespace gr
 		class m17_decoder_impl : public m17_decoder
 		{
 		private:
+			//M17
+			static constexpr int PAYLOAD_BYTES = 16;
+
 			bool _debug_data = false;
 			bool _debug_ctrl = false;
 			float _sw_threshold = 2.0;
@@ -59,11 +62,12 @@ namespace gr
 			uint8_t lich_chunks_rcvd = 0; // flags set for each LSF chunk received
 
 			uint16_t enc_data[272];	 // raw frame data soft bits
-			uint8_t _frame_data[19]; // decoded frame data, 144 bits (16+128), plus 4 flushing bits
+			uint8_t _stream_frame_data[16]; // decoded stream frame data, 128 bits
+			uint8_t _packet_frame_data[25]; // decoded stream frame data, 200 bits
 			uint8_t digest[16] = {0};
 
 			uint8_t syncd = 0; // syncword found?
-			uint8_t fl = 0;	   // Frame=0 of LSF=1
+			uint8_t flp = 0;	   // stream rame=0, LSF=1, packet frame=2
 			uint8_t pushed;	   // counter for pushed symbols
 
 			uint8_t d_dst[12], d_src[12]; // decoded strings

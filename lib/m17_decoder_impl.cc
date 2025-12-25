@@ -319,7 +319,7 @@ namespace gr
 			}
 
 			// pack bit array into byte array for easy data XOR
-			pack_bit_array_into_byte_array(_scrambler_pn, _scr_bytes, 16);
+			pack_bit_array_into_byte_array(_scrambler_pn, _scr_bytes, PAYLOAD_BYTES);
 
 			// save scrambler seed for next round
 			_scrambler_seed = lfsr;
@@ -335,7 +335,7 @@ namespace gr
 			if (_debug_ctrl == true)
 			{
 				// debug packed bytes
-				for (i = 0; i < 16; i++)
+				for (i = 0; i < PAYLOAD_BYTES; i++)
 					fprintf(stderr, " %02X", _scr_bytes[i]);
 				fprintf(stderr, "\n");
 			}
@@ -428,19 +428,19 @@ namespace gr
 
 					last[7] = sample;
 
-					// calculate euclidean norm
+					// calculate euclidean norm against the stream syncword
 					dist = eucl_norm(last, str_sync_symbols, 8);
 
-					if (dist < _sw_threshold) // frame syncword detected
+					if (dist < _sw_threshold) // stream frame syncword detected
 					{
 						// fprintf(stderr, "str_sync_symbols dist: %3.5f\n", dist);
 						syncd = 1;
 						pushed = 0;
-						fl = 0;
+						flp = 0;
 						continue;
 					}
 
-					// calculate euclidean norm again, this time against LSF syncword
+					// calculate euclidean against the LSF syncword
 					dist = eucl_norm(last, lsf_sync_symbols, 8);
 
 					if (dist < _sw_threshold) // LSF syncword
@@ -448,7 +448,19 @@ namespace gr
 						// fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
 						syncd = 1;
 						pushed = 0;
-						fl = 1;
+						flp = 1;
+						continue;
+					}
+
+					// calculate euclidean norm against the packet syncword
+					dist = eucl_norm(last, pkt_sync_symbols, 8);
+
+					if (dist < _sw_threshold) // packet frame syncword
+					{
+						// fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
+						syncd = 1;
+						pushed = 0;
+						flp = 2;
 						continue;
 					}
 				}
@@ -458,11 +470,11 @@ namespace gr
 
 					if (pushed == SYM_PER_PLD)
 					{
-						// if it is a frame
-						if (!fl)
+						// if it is a stream frame
+						if (flp == 0)
 						{
 							// decode
-							uint32_t e = decode_str_frame(_frame_data, _lich_b, &_fn, &_lich_cnt, _pld);
+							uint32_t e = decode_str_frame(_stream_frame_data, _lich_b, &_fn, &_lich_cnt, _pld);
 
 							uint16_t type = ((uint16_t)_lsf.type[0] << 8) + _lsf.type[1];
 							_signed_str = (type >> 11) & 1;
@@ -474,7 +486,7 @@ namespace gr
 									memset(_digest, 0, sizeof(_digest));
 
 								for (uint8_t i = 0; i < sizeof(_digest); i++)
-									_digest[i] ^= _frame_data[i];
+									_digest[i] ^= _stream_frame_data[i];
 								uint8_t tmp = _digest[0];
 								for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
 									_digest[i] = _digest[i + 1];
@@ -492,9 +504,9 @@ namespace gr
 								_iv[15] = (_fn & 0xFF) & 0xFF;
 
 								if (_signed_str && (_fn % 0x8000) < 0x7FFC) // signed stream
-									aes_ctr_bytewise_payload_crypt(_iv, _key, _frame_data, _aes_subtype);
+									aes_ctr_bytewise_payload_crypt(_iv, _key, _stream_frame_data, _aes_subtype);
 								else if (!_signed_str) // non-signed stream
-									aes_ctr_bytewise_payload_crypt(_iv, _key, _frame_data, _aes_subtype);
+									aes_ctr_bytewise_payload_crypt(_iv, _key, _stream_frame_data, _aes_subtype);
 							}
 
 							// Scrambler
@@ -512,9 +524,9 @@ namespace gr
 								else
 									memset(_scr_bytes, 0, sizeof(_scr_bytes)); // zero out stale scrambler bytes so they aren't applied to the sig frames
 
-								for (uint8_t i = 0; i < 16; i++)
+								for (uint8_t i = 0; i < PAYLOAD_BYTES; i++)
 								{
-									_frame_data[i] ^= _scr_bytes[i];
+									_stream_frame_data[i] ^= _scr_bytes[i];
 								}
 							}
 
@@ -523,9 +535,9 @@ namespace gr
 							{
 								printf("RX FN: %04X PLD: ", _fn);
 
-								for (uint8_t i = 0; i < 16; i++)
+								for (uint8_t i = 0; i < PAYLOAD_BYTES; i++)
 								{
-									printf("%02X", _frame_data[i]);
+									printf("%02X", _stream_frame_data[i]);
 								}
 
 								printf(" e=%1.1f\n", (float)e / 0xFFFF);
@@ -533,13 +545,13 @@ namespace gr
 
 							// set a threshold on the Viterbi metric to prevent sound artifacts
 							if ((float)e / 0xFFFF <= _vt_threshold)
-								memcpy(&out[countout], _frame_data, 16);
+								memcpy(&out[countout], _stream_frame_data, PAYLOAD_BYTES);
 							else
-								memset(&out[countout], 0, 16);
-							countout += 16;
+								memset(&out[countout], 0, PAYLOAD_BYTES);
+							countout += PAYLOAD_BYTES;
 
 							// send codec2 stream to stdout
-							// fwrite(_frame_data, 16, 1, stdout);
+							// fwrite(_stream_frame_data, PAYLOAD_BYTES, 1, stdout);
 
 							// If we're at the start of a superframe, or we missed a frame, reset the LICH state
 							if ((_lich_cnt == 0) || ((_fn % 0x8000) != _expected_next_fn && _fn < 0x7FFC))
@@ -647,7 +659,7 @@ namespace gr
 							// if the contents of the payload is now digital signature, not data/voice
 							if (_fn >= 0x7FFC && _signed_str == true)
 							{
-								memcpy(&_sig[((_fn & 0x7FFF) - 0x7FFC) * 16], _frame_data, 16);
+								memcpy(&_sig[((_fn & 0x7FFF) - 0x7FFC) * PAYLOAD_BYTES], _stream_frame_data, PAYLOAD_BYTES);
 
 								if (_fn == (0x7FFF | 0x8000))
 								{
@@ -682,7 +694,8 @@ namespace gr
 
 							_expected_next_fn = (_fn + 1) % 0x8000;
 						}
-						else // lsf
+
+						else if (flp == 1)// lsf
 						{
 							if (_debug_ctrl == true)
 							{
@@ -791,6 +804,26 @@ namespace gr
 								printf(" e=%1.1f\n", (float)e / 0xFFFF);
 							}
 						}
+						
+						else // packet frame
+						{
+							// decode
+							uint8_t eof = 0;
+							uint8_t pkt_fn = 0;
+							uint32_t e = decode_pkt_frame(_packet_frame_data, &eof, &pkt_fn, _pld);
+
+							if (!eof)
+							{
+								fprintf(stderr, "Packet frame: %d", pkt_fn);
+							}
+							else
+							{
+								fprintf(stderr, "Packet frame: last (%d bytes)", pkt_fn);
+							}
+
+							printf(" e=%1.1f\n", (float)e / 0xFFFF);
+						}
+
 						// job done
 						syncd = 0;
 						pushed = 0;
