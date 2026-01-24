@@ -32,6 +32,17 @@ list(APPEND m17_sources
     ../libm17/phy/slice.c
     ../micro-ecc/uECC.c
     ../tinier-aes/aes.c
+    ../codec2-mod/src/analysis.c
+    ../codec2-mod/src/codec2_mod.c
+    ../codec2-mod/src/delta_lsp_cb.c
+    ../codec2-mod/src/interp.c
+    ../codec2-mod/src/kiss_fft.c
+    ../codec2-mod/src/kiss_fftr.c
+    ../codec2-mod/src/lpc.c
+    ../codec2-mod/src/nlp.c
+    ../codec2-mod/src/quantise.c
+    ../codec2-mod/src/synthesis.c
+    ../codec2-mod/src/util.c
 )
 
 set(m17_sources "${m17_sources}" PARENT_SCOPE)
@@ -47,6 +58,7 @@ target_include_directories(gnuradio-m17
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../libm17/>
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../micro-ecc/>
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../tinier-aes/>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../codec2-mod/inc/>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
 set_target_properties(gnuradio-m17 PROPERTIES DEFINE_SYMBOL "gnuradio_m17_EXPORTS")

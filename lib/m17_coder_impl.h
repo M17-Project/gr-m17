@@ -26,7 +26,7 @@ namespace gr
 			// M17
 			static constexpr int PAYLOAD_BYTES = 16;
 
-			unsigned char _src_id[10], _dst_id[10]; // 9 character callsign
+			char _src_id[10], _dst_id[10]; // 9 character callsign
 			int _mode, _data;
 			uint16_t _type;
 			uint16_t _send_preamble;
@@ -101,7 +101,7 @@ namespace gr
 			void switch_state(const pmt::pmt_t &msg);
 			void init_state(void);
 
-			m17_coder_impl(std::string src_id, std::string dst_id, int mode,
+			m17_coder_impl(std::string src_id, std::string dst_id,
 						   int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 						   std::string meta, std::string key, std::string priv_key,
 						   bool debug, bool signed_str, std::string seed, int eot_cnt);

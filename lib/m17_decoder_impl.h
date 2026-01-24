@@ -70,7 +70,7 @@ namespace gr
 			uint8_t flp = 0;	   // stream rame=0, LSF=1, packet frame=2
 			uint8_t pushed;	   // counter for pushed symbols
 
-			uint8_t d_dst[12], d_src[12]; // decoded strings
+			char d_dst[12], d_src[12]; // decoded strings
 
 			// Scrambler
 			uint8_t _seed[3]; // 24-bit is the largest seed value

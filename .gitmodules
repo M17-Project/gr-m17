@@ -7,3 +7,6 @@
 [submodule "tinier-aes"]
 	path = tinier-aes
 	url = https://github.com/lwvmobile/tinier-aes
+[submodule "codec2-mod"]
+	path = codec2-mod
+	url = https://github.com/M17-Project/Codec2-mod

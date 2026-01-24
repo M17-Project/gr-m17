@@ -36,12 +36,12 @@ namespace gr
 	{
 
 		m17_coder::sptr
-		m17_coder::make(std::string src_id, std::string dst_id, int mode,
+		m17_coder::make(std::string src_id, std::string dst_id,
 						int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 						std::string meta, std::string key,
 						std::string priv_key, bool debug, bool signed_str, std::string seed, int eot_cnt)
 		{
-			return gnuradio::get_initial_sptr(new m17_coder_impl(src_id, dst_id, mode, data, encr_type, encr_subtype,
+			return gnuradio::get_initial_sptr(new m17_coder_impl(src_id, dst_id, data, encr_type, encr_subtype,
 																 aes_subtype, can, meta, key, priv_key, debug, signed_str, seed, eot_cnt));
 		}
 
@@ -49,18 +49,18 @@ namespace gr
 		 * The private constructor
 		 */
 		m17_coder_impl::m17_coder_impl(std::string src_id, std::string dst_id,
-									   int mode, int data, int encr_type,
+									   int data, int encr_type,
 									   int encr_subtype, int aes_subtype, int can,
 									   std::string meta, std::string key,
 									   std::string priv_key, bool debug,
 									   bool signed_str, std::string seed,
 									   int eot_cnt) : gr::block("m17_coder", gr::io_signature::make(1, 1, sizeof(char)),
 																gr::io_signature::make(1, 1, sizeof(float))),
-													  _mode(mode), _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _can(can), _meta(meta), _debug(debug),
+													  _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _can(can), _meta(meta), _debug(debug),
 													  _signed_str(signed_str), _eot_cnt(eot_cnt)
 		{
 			set_encr_type(encr_type); // overwritten by set_seed()
-			set_type(mode, data, _encr_type, encr_subtype, can);
+			set_type(M17_TYPE_STREAM, data, _encr_type, encr_subtype, can); // default mode: STREAM
 			set_aes_subtype(aes_subtype, encr_type);
 			set_meta(meta); // depends on   ^^^ encr_subtype
 			set_seed(seed); // depends on   ^^^ encr_subtype
@@ -94,10 +94,10 @@ namespace gr
 			if (_debug == true && _got_lsf != 0)
 			{
 				// destination set to "@ALL"
-				encode_callsign_bytes(_lsf.dst, (const unsigned char *)"@ALL");
+				encode_callsign_bytes(_lsf.dst, "@ALL");
 
 				// source set to "N0CALL"
-				encode_callsign_bytes(_lsf.src, (const unsigned char *)"N0CALL");
+				encode_callsign_bytes(_lsf.src, "N0CALL");
 
 				// no enc or subtype field, normal 3200 voice
 				_type = M17_TYPE_STREAM | M17_TYPE_VOICE | M17_TYPE_CAN(0);
@@ -518,7 +518,7 @@ namespace gr
 			_lsf.crc[1] = ccrc & 0xFF;
 		}
 
-		void m17_coder_impl::set_mode(int mode) // TODO: the packet/stream selector is not needed
+		void m17_coder_impl::set_mode(int mode)
 		{
 			_mode = mode;
 			fprintf(stderr, "Mode: %s\n", _mode==M17_TYPE_STREAM ? "stream" : "packet");

@@ -41,7 +41,7 @@ namespace gr
        * class. m17::m17_coder::make is the public interface for
        * creating new instances.
        */
-      static sptr make (std::string src_id, std::string dst_id, int mode,
+      static sptr make (std::string src_id, std::string dst_id,
 			int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 			std::string meta, std::string key,
 			std::string priv_key, bool debug, bool signed_str, std::string seed, int eot_cnt);
