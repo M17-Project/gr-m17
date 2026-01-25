@@ -18,7 +18,7 @@ parameters:
 
 templates:
   imports: from gnuradio import m17
-  make: m17.symbol_sync(${loin_spsop_bw},${loop_bw},${max_dev})
+  make: m17.symbol_sync(${in_sps},${loop_bw},${max_dev})
   callbacks:
     - set_in_sps(${in_sps})
     - set_loop_bw(${loop_bw})
@@ -51,7 +51,7 @@ asserts:
   - ${ max_dev > 0.0 }
 
 documentation: |-
-     The Symbol Sync block reads floats and outputs floats. The block outputs 1 sample per symbol.
+     This Symbol Sync block uses Gardner algorithm. The block reads floats and outputs floats. The block outputs 1 sample per symbol.
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.
