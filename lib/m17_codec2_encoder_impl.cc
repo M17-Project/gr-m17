@@ -39,13 +39,15 @@ namespace gr
         /*
          * The private constructor
          */
-        codec2_encoder_impl::codec2_encoder_impl() : gr::block("m17_coder", gr::io_signature::make(1, 1, sizeof(char)),
-                                                               gr::io_signature::make(1, 1, sizeof(float)))
+        codec2_encoder_impl::codec2_encoder_impl() : gr::block("codec2_encoder", gr::io_signature::make(1, 1, sizeof(int16_t)),
+                                                               gr::io_signature::make(1, 1, sizeof(uint8_t)))
         {
-            message_port_register_in(pmt::mp("transmission_control"));
+            init_state();
+
+            message_port_register_in(pmt::mp("state_reset"));
 
             set_msg_handler(
-                pmt::mp("transmission_control"),
+                pmt::mp("state_reset"),
                 boost::bind(&codec2_encoder_impl::reset, this,
                             boost::placeholders::_1));
 
@@ -55,21 +57,12 @@ namespace gr
         // TODO: fix this function!
         void codec2_encoder_impl::reset(const pmt::pmt_t &msg)
         {
-            std::string cmd = "", val = "";
+            std::string cmd = "";
 
             if (pmt::is_symbol(msg))
             {
                 cmd = pmt::symbol_to_string(msg);
             }
-            /*else if (pmt::is_pair(msg))
-            {
-                const pmt::pmt_t &car = pmt::car(msg);
-                if (pmt::is_symbol(car))
-                    cmd = pmt::symbol_to_string(car);
-                const pmt::pmt_t &cdr = pmt::cdr(msg);
-                if (pmt::is_symbol(cdr))
-                    val = pmt::symbol_to_string(cdr);
-            }*/
 
             time_t now = time(NULL);
             struct tm t;
@@ -77,7 +70,7 @@ namespace gr
 
             if (cmd == "SOT")
             {
-                ;
+                codec2_init(&c2); // i hope this is the right place to put it
                 return;
             }
 
@@ -106,22 +99,34 @@ namespace gr
         codec2_encoder_impl::forecast(int noutput_items,
                                       gr_vector_int &ninput_items_required)
         {
-            ninput_items_required[0] = CODEC2_SAMPLES_PER_FRAME; // full Codec2 3200 frame: 8 byes (64 bits)
+            ninput_items_required[0] = CODEC2_SAMPLES_PER_FRAME; // 160 samples
         }
 
         int
         codec2_encoder_impl::general_work(int noutput_items,
-                                     gr_vector_int &ninput_items,
-                                     gr_vector_const_void_star &input_items,
-                                     gr_vector_void_star &output_items)
+                                          gr_vector_int &ninput_items,
+                                          gr_vector_const_void_star &input_items,
+                                          gr_vector_void_star &output_items)
         {
-            //TODO: fix this
-            //uint8_t out[CODEC2_BYTES_PER_FRAME] = {0};
-            //int16_t speech[CODEC2_SAMPLES_PER_FRAME] = {0};
+            const int16_t *speech = static_cast<const int16_t *>(input_items[0]);
 
-            //codec2_encode(&c2, out, speech);
-            //memcpy(..., out, sizeof(out));
+            uint8_t *bits = static_cast<uint8_t *>(output_items[0]);
 
+            // we need one full speech frame
+            if (ninput_items[0] < CODEC2_SAMPLES_PER_FRAME)
+                return 0;
+
+            // we need space for 8 output bytes
+            if (noutput_items < CODEC2_BYTES_PER_FRAME)
+                return 0;
+
+            // encode exactly one frame
+            codec2_encode(&c2, bits, const_cast<int16_t *>(speech));
+
+            // consume 160 samples
+            consume_each(CODEC2_SAMPLES_PER_FRAME);
+
+            // produce 8 bytes
             return CODEC2_BYTES_PER_FRAME;
         }
     } /* namespace m17 */
