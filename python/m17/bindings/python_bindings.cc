@@ -23,6 +23,7 @@ namespace py = pybind11;
 // BINDING_FUNCTION_PROTOTYPES(
     void bind_m17_coder(py::module& m);
     void bind_m17_decoder(py::module& m);
+    void bind_codec2_encoder(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -53,5 +54,6 @@ PYBIND11_MODULE(m17_python, m)
     // BINDING_FUNCTION_CALLS(
     bind_m17_coder(m);
     bind_m17_decoder(m);
+    bind_codec2_encoder(m);
     // ) END BINDING_FUNCTION_CALLS
 }

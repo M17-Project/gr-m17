@@ -11,6 +11,7 @@
 ########################################################################
 install(FILES
     api.h
+    codec2_encoder.h
     m17_coder.h
     m17_decoder.h DESTINATION include/gnuradio/m17
 )

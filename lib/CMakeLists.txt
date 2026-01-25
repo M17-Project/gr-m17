@@ -14,6 +14,7 @@ include(GrPlatform) #define LIB_SUFFIX
 list(APPEND m17_sources
     m17_coder_impl.cc
     m17_decoder_impl.cc
+    m17_codec2_encoder_impl.cc
     ../libm17/m17.c
     ../libm17/decode/symbols.c
     ../libm17/decode/viterbi.c
