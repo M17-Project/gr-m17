@@ -84,7 +84,7 @@ namespace gr
                 return 0;
 
             // decode exactly one frame
-            codec2_decode(&c2, bits, const_cast<int16_t *>(speech));
+            codec2_decode(&c2, const_cast<int16_t *>(speech), bits );
 
             // consume 160 samples
             consume_each(CODEC2_SAMPLES_PER_FRAME);
