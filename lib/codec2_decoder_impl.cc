@@ -39,8 +39,8 @@ namespace gr
         /*
          * The private constructor
          */
-        codec2_decoder_impl::codec2_decoder_impl() : gr::block("codec2_decoder", gr::io_signature::make(1, 1, sizeof(int16_t)),
-                                                               gr::io_signature::make(1, 1, sizeof(uint8_t)))
+        codec2_decoder_impl::codec2_decoder_impl() : gr::block("codec2_decoder", gr::io_signature::make(1, 1, sizeof(uint8_t)),
+                                                               gr::io_signature::make(1, 1, sizeof(int16_t)))
         {
             init_state();
 
