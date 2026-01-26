@@ -14,7 +14,7 @@ parameters:
 - id: max_dev
   label: Maximum deviation
   dtype: float
-  default: 0.005
+  default: 0.05
 
 templates:
   imports: from gnuradio import m17

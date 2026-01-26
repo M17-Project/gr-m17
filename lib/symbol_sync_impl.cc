@@ -51,6 +51,8 @@ namespace gr
             ;
         }
 
+        static constexpr int INTERPS_PER_SYMBOL = 16;
+
         void symbol_sync_impl::set_in_sps(int in_sps)
         {
             _in_sps = in_sps;
@@ -72,15 +74,23 @@ namespace gr
             d_omega = d_omega_mid;
             d_omega_lim = _max_dev;
 
-            // very standard Gardner loop gains
-            d_gain_omega = 0.25f * _loop_bw * _loop_bw;
-            d_gain_mu = _loop_bw;
+            // ---- PLL coefficients (zeta = 1.0, TED gain = 1.0) ----
+            const float zeta = 1.0f;
+            // const float Kp = 1.0f;     // Gardner TED gain (normalized)
+            const float Bn = _loop_bw; // normalized loop bandwidth
+
+            const float denom = 1.0f + 2.0f * zeta * Bn + Bn * Bn;
+            d_gain_mu = (4.0f * zeta * Bn) / denom;
+            d_gain_omega = (4.0f * Bn * Bn) / denom;
 
             d_mu = 0.0f;
+            d_tau = 0.0f;
 
-            d_prev_sample = 0.0f;
-            d_mid_sample = 0.0f;
-            d_have_mid = false;
+            d_prev_mid = 0.0f;
+            d_prev_symbol = 0.0f;
+
+            d_interp_tick = 0;
+            d_phase = 0.0f;
         }
 
         inline float clampf(float x, float lo, float hi)
@@ -90,6 +100,22 @@ namespace gr
             if (x > hi)
                 return hi;
             return x;
+        }
+
+        static inline float interp_cubic(const float *x, float mu)
+        {
+            // x[-1], x[0], x[1], x[2] must be valid
+            const float xm1 = x[-1];
+            const float x0 = x[0];
+            const float x1 = x[1];
+            const float x2 = x[2];
+
+            // const float a0 = x1 - x0;
+            const float a1 = 0.5f * (x1 - xm1);
+            const float a2 = xm1 - 2.5f * x0 + 2.0f * x1 - 0.5f * x2;
+            const float a3 = 0.5f * (x2 - xm1) + 1.5f * (x0 - x1);
+
+            return ((a3 * mu + a2) * mu + a1) * mu + x0;
         }
 
         /*
@@ -116,53 +142,58 @@ namespace gr
             float *out = (float *)output_items[0];
 
             int ni = ninput_items[0];
-            int ii = 0;
+            int ii = 1; // input index
             int oo = 0;
 
-            while (ii < ni && oo < noutput_items)
+            while (ii + 2 < ni && oo < noutput_items)
             {
-                // fractional interpolation (linear is enough here)
-                int i0 = ii;
-                int i1 = ii + 1;
-                if (i1 >= ni)
-                    break;
+                // --------------------------------------------------
+                // Uniform interpolation clock (fixed rate)
+                // --------------------------------------------------
+                float interp_mu = d_phase;
+                float interp_out = interp_cubic(&in[ii], interp_mu);
 
-                float s = in[i0] + d_mu * (in[i1] - in[i0]);
-
-                // midpoint sample
-                if (!d_have_mid && d_mu >= 0.5f)
+                // --------------------------------------------------
+                // Gardner TED at half-symbol spacing
+                // --------------------------------------------------
+                if (d_interp_tick == INTERPS_PER_SYMBOL / 2)
                 {
-                    d_mid_sample = s;
-                    d_have_mid = true;
+                    d_prev_mid = interp_out;
                 }
 
-                d_mu += 1.0f / d_omega;
-
-                if (d_mu >= 1.0f)
+                // --------------------------------------------------
+                // Symbol clock
+                // --------------------------------------------------
+                if (d_interp_tick == 0)
                 {
-                    d_mu -= 1.0f;
+                    float curr = interp_out;
 
-                    // symbol boundary
-                    float error = 0.0f;
-                    if (d_have_mid)
-                    {
-                        error = (d_mid_sample - d_prev_sample) * s;
-                        d_have_mid = false;
-                    }
+                    float error = (d_prev_mid - interp_out) * curr;
 
-                    // loop filter
                     d_omega += d_gain_omega * error;
                     d_omega = clampf(d_omega,
                                      d_omega_mid - d_omega_lim,
                                      d_omega_mid + d_omega_lim);
 
-                    d_mu += d_gain_mu * error;
+                    d_phase += d_gain_mu * error;
 
-                    out[oo++] = s;
-                    d_prev_sample = s;
+                    out[oo++] = curr;
                 }
 
-                ii++;
+                // --------------------------------------------------
+                // Advance interpolator phase
+                // --------------------------------------------------
+                d_phase += d_omega / INTERPS_PER_SYMBOL;
+
+                while (d_phase >= 1.0f)
+                {
+                    d_phase -= 1.0f;
+                    ii++;
+                }
+
+                d_interp_tick++;
+                if (d_interp_tick == INTERPS_PER_SYMBOL)
+                    d_interp_tick = 0;
             }
 
             consume_each(ii);

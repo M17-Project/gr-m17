@@ -21,22 +21,27 @@ namespace gr
         private:
             int _in_sps = 10;
             float _loop_bw = 0.001f;
-            float _max_dev = 0.005f;
+            float _max_dev = 0.05f;
 
-            // timing
-            float d_mu;          // fractional timing [0, 1)
-            float d_omega;       // samples per symbol (≈ in_sps)
-            float d_omega_mid;   // nominal in_sps
-            float d_omega_lim;   // max deviation
+            float d_mu;        // fractional phase [0,1)
+            float d_tau;       // interp phase [0,1)
+            float d_omega;     // samples per symbol (adaptive)
+            float d_omega_mid; // nominal SPS
+            float d_omega_lim; // max deviation
 
-            // loop filter
-            float d_gain_omega;  // proportional
-            float d_gain_mu;     // integral
+            float d_mu_prev;
 
-            // TED history
-            float d_prev_sample;
-            float d_mid_sample;
-            bool  d_have_mid;
+            float d_gain_mu; // loop gain
+            float d_gain_omega;
+
+            float d_prev_symbol; // previous symbol sample
+            float d_mid_sample;  // mid-sample
+            float d_prev_mid;    // x(k - 1/2)
+
+            bool d_have_mid;
+
+            int d_interp_tick; // [0 .. INTERPS_PER_SYMBOL-1]
+            float d_phase;     // interpolator phase in input samples
 
         public:
             symbol_sync_impl(int in_sps, float loop_bw, float max_dev);
