@@ -12,7 +12,7 @@
 install(FILES
     api.h
     codec2_encoder.h
-    #codec2_decoder.h
+    codec2_decoder.h
     symbol_sync.h
     m17_coder.h
     m17_decoder.h DESTINATION include/gnuradio/m17

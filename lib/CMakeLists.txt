@@ -15,7 +15,7 @@ list(APPEND m17_sources
     m17_coder_impl.cc
     m17_decoder_impl.cc
     codec2_encoder_impl.cc
-    #codec2_decoder_impl.cc
+    codec2_decoder_impl.cc
     #symbol_sync_impl.cc
     ../libm17/m17.c
     ../libm17/decode/symbols.c
