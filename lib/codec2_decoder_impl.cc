@@ -62,7 +62,7 @@ namespace gr
         codec2_decoder_impl::forecast(int noutput_items,
                                       gr_vector_int &ninput_items_required)
         {
-            ninput_items_required[0] = CODEC2_SAMPLES_PER_FRAME; // 160 samples
+            ninput_items_required[0] = CODEC2_BYTES_PER_FRAME;
         }
 
         int
@@ -71,26 +71,21 @@ namespace gr
                                           gr_vector_const_void_star &input_items,
                                           gr_vector_void_star &output_items)
         {
-            const int16_t *speech = static_cast<const int16_t *>(input_items[0]);
+            const uint8_t *bits = static_cast<const uint8_t *>(input_items[0]);
 
-            uint8_t *bits = static_cast<uint8_t *>(output_items[0]);
+            int16_t *speech = static_cast<int16_t *>(output_items[0]);
 
-            // we need one full speech frame
-            if (ninput_items[0] < CODEC2_SAMPLES_PER_FRAME)
+            if (ninput_items[0] < CODEC2_BYTES_PER_FRAME)
                 return 0;
 
-            // we need space for 8 output bytes
-            if (noutput_items < CODEC2_BYTES_PER_FRAME)
+            if (noutput_items < CODEC2_SAMPLES_PER_FRAME)
                 return 0;
 
-            // decode exactly one frame
-            codec2_decode(&c2, const_cast<int16_t *>(speech), bits );
+            codec2_decode(&c2, speech, bits);
 
-            // consume 160 samples
-            consume_each(CODEC2_SAMPLES_PER_FRAME);
+            consume_each(CODEC2_BYTES_PER_FRAME);
 
-            // produce 8 bytes
-            return CODEC2_BYTES_PER_FRAME;
+            return CODEC2_SAMPLES_PER_FRAME;
         }
     } /* namespace m17 */
 } /* namespace gr */
