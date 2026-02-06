@@ -19,7 +19,9 @@ inputs:
   dtype: byte
   vlen: 1
   optional: 0
-
+- label: state_reset
+  domain: message
+  optional: 1
 
 outputs:
 - label: out

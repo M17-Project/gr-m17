@@ -42,8 +42,45 @@ namespace gr
         codec2_decoder_impl::codec2_decoder_impl() : gr::block("codec2_decoder", gr::io_signature::make(1, 1, sizeof(uint8_t)),
                                                                gr::io_signature::make(1, 1, sizeof(int16_t)))
         {
+            set_output_multiple(CODEC2_SAMPLES_PER_FRAME);
+            
             init_state();
 
+            message_port_register_in(pmt::mp("state_reset"));
+
+            set_msg_handler(
+                pmt::mp("state_reset"),
+                boost::bind(&codec2_decoder_impl::reset, this,
+                            boost::placeholders::_1));
+        }
+
+        // TODO: fix this function!
+        void codec2_decoder_impl::reset(const pmt::pmt_t &msg)
+        {
+            std::string cmd = "";
+
+            if (pmt::is_symbol(msg))
+            {
+                cmd = pmt::symbol_to_string(msg);
+            }
+
+            time_t now = time(NULL);
+            struct tm t;
+            localtime_r(&now, &t);
+
+            if (cmd == "SOT")
+            {
+                ;
+                return;
+            }
+
+            if (cmd == "EOT")
+            {
+                codec2_init(&c2); // i hope this is the right place to put it
+                return;
+            }
+
+            fprintf(stderr, "[%02d:%02d:%02d] Strange message received\n", t.tm_hour, t.tm_min, t.tm_sec);
         }
 
         void codec2_decoder_impl::init_state(void)
@@ -62,7 +99,7 @@ namespace gr
         codec2_decoder_impl::forecast(int noutput_items,
                                       gr_vector_int &ninput_items_required)
         {
-            ninput_items_required[0] = CODEC2_BYTES_PER_FRAME;
+            ninput_items_required[0] = (noutput_items / CODEC2_SAMPLES_PER_FRAME) * CODEC2_BYTES_PER_FRAME;
         }
 
         int
@@ -72,7 +109,6 @@ namespace gr
                                           gr_vector_void_star &output_items)
         {
             const uint8_t *bits = static_cast<const uint8_t *>(input_items[0]);
-
             int16_t *speech = static_cast<int16_t *>(output_items[0]);
 
             if (ninput_items[0] < CODEC2_BYTES_PER_FRAME)
@@ -81,11 +117,20 @@ namespace gr
             if (noutput_items < CODEC2_SAMPLES_PER_FRAME)
                 return 0;
 
-            codec2_decode(&c2, speech, bits);
+            int frames = std::min(
+                ninput_items[0] / CODEC2_BYTES_PER_FRAME,
+                noutput_items / CODEC2_SAMPLES_PER_FRAME);
 
-            consume_each(CODEC2_BYTES_PER_FRAME);
+            for (int i = 0; i < frames; i++)
+            {
+                codec2_decode(&c2,
+                              speech + i * CODEC2_SAMPLES_PER_FRAME,
+                              bits + i * CODEC2_BYTES_PER_FRAME);
+            }
 
-            return CODEC2_SAMPLES_PER_FRAME;
+            consume_each(frames * CODEC2_BYTES_PER_FRAME);
+
+            return frames * CODEC2_SAMPLES_PER_FRAME;
         }
     } /* namespace m17 */
 } /* namespace gr */

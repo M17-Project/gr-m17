@@ -42,6 +42,8 @@ namespace gr
         codec2_encoder_impl::codec2_encoder_impl() : gr::block("codec2_encoder", gr::io_signature::make(1, 1, sizeof(int16_t)),
                                                                gr::io_signature::make(1, 1, sizeof(uint8_t)))
         {
+            set_output_multiple(CODEC2_BYTES_PER_FRAME);
+
             init_state();
 
             message_port_register_in(pmt::mp("state_reset"));
@@ -50,8 +52,6 @@ namespace gr
                 pmt::mp("state_reset"),
                 boost::bind(&codec2_encoder_impl::reset, this,
                             boost::placeholders::_1));
-
-            ;
         }
 
         // TODO: fix this function!
@@ -99,7 +99,7 @@ namespace gr
         codec2_encoder_impl::forecast(int noutput_items,
                                       gr_vector_int &ninput_items_required)
         {
-            ninput_items_required[0] = CODEC2_SAMPLES_PER_FRAME; // 160 samples
+            ninput_items_required[0] = (noutput_items / CODEC2_BYTES_PER_FRAME) * CODEC2_SAMPLES_PER_FRAME;
         }
 
         int
@@ -109,7 +109,6 @@ namespace gr
                                           gr_vector_void_star &output_items)
         {
             const int16_t *speech = static_cast<const int16_t *>(input_items[0]);
-
             uint8_t *bits = static_cast<uint8_t *>(output_items[0]);
 
             // we need one full speech frame
@@ -120,14 +119,19 @@ namespace gr
             if (noutput_items < CODEC2_BYTES_PER_FRAME)
                 return 0;
 
-            // encode exactly one frame
-            codec2_encode(&c2, bits, const_cast<int16_t *>(speech));
+            int frames = std::min(
+                ninput_items[0] / CODEC2_SAMPLES_PER_FRAME,
+                noutput_items / CODEC2_BYTES_PER_FRAME);
 
-            // consume 160 samples
-            consume_each(CODEC2_SAMPLES_PER_FRAME);
+            for (int i = 0; i < frames; i++)
+            {
+                codec2_encode(&c2,
+                              bits + i * CODEC2_BYTES_PER_FRAME,
+                              speech + i * CODEC2_SAMPLES_PER_FRAME);
+            }
 
-            // produce 8 bytes
-            return CODEC2_BYTES_PER_FRAME;
+            consume_each(frames * CODEC2_SAMPLES_PER_FRAME);
+            return frames * CODEC2_BYTES_PER_FRAME;
         }
     } /* namespace m17 */
 } /* namespace gr */

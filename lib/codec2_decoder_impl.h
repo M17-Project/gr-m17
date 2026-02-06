@@ -31,6 +31,7 @@ namespace gr
         private:
             codec2_t c2;
 
+            void reset(const pmt::pmt_t &msg);
             void init_state(void);
 
         public:
