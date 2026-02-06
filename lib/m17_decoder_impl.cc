@@ -861,9 +861,10 @@ namespace gr
 									dict = pmt::dict_add(dict, pmt::mp("sms"), pmt::intern((char *)&rcvd_msg[1]));
 
 									message_port_pub(pmt::mp("fields"), dict);
-
-									wr_offs = 0;
 								}
+
+								//TODO: this requires a timeout
+								wr_offs = 0;
 							}
 
 							if (!eof)
