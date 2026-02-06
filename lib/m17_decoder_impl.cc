@@ -432,7 +432,7 @@ namespace gr
 
 				if (!syncd)
 				{
-					float dist;	  // Euclidean distance for finding syncwords in the symbol stream
+					float dist; // Euclidean distance for finding syncwords in the symbol stream
 
 					// push new symbol
 					for (uint8_t i = 0; i < 7; i++)
@@ -654,7 +654,7 @@ namespace gr
 									fprintf(stderr, ") ");
 								}
 
-								detour1:
+							detour1:
 								// META
 								if (_debug_ctrl == true)
 								{
@@ -709,7 +709,7 @@ namespace gr
 							_expected_next_fn = (_fn + 1) % 0x8000;
 						}
 
-						else if (flp == 1)// lsf
+						else if (flp == 1) // lsf
 						{
 							if (_debug_ctrl == true)
 							{
@@ -800,7 +800,7 @@ namespace gr
 									_signed_str = 0;
 								fprintf(stderr, ") ");
 
-								detour2:
+							detour2:
 								// META
 								fprintf(stderr, "META: ");
 								for (uint8_t i = 0; i < 14; i++)
@@ -818,35 +818,52 @@ namespace gr
 								fprintf(stderr, " e=%1.1f\n", (float)e / 0xFFFF);
 							}
 						}
-						
+
 						else // packet frame
 						{
 							// decode
+							uint8_t frame_data[25] = {0};
 							uint8_t eof = 0;
 							uint8_t pkt_fn = 0;
-							uint32_t e = decode_pkt_frame(_packet_frame_data, &eof, &pkt_fn, _pld);
+							static uint16_t wr_offs = 0;
+							static uint16_t len = 0;
 
-							// TODO: do this only if the whole packet has been reconstructed
-							// TODO: test code! valid for single-farme packets ONLY 
-							if (eof && _packet_frame_data[0]==0x05 && !CRC_M17(_packet_frame_data, pkt_fn))
+							uint32_t e = decode_pkt_frame(frame_data, &eof, &pkt_fn, _pld);
+
+							if (!eof)
 							{
-								// handle message output (for a text message)
-								pmt::pmt_t msg;
-								decode_callsign_bytes(d_dst, _lsf.dst);
-								decode_callsign_bytes(d_src, _lsf.src);
+								memcpy(&rcvd_msg[wr_offs], frame_data, 25);
+								wr_offs += 25;
+							}
 
-								pmt::pmt_t dict = pmt::make_dict();
-								dict = pmt::dict_add(dict, pmt::mp("src"), pmt::intern((char *)d_src));
-								dict = pmt::dict_add(dict, pmt::mp("dst"), pmt::intern((char *)d_dst));
+							else
+							{
+								memcpy(&rcvd_msg[wr_offs], frame_data, pkt_fn);
+								len = wr_offs + pkt_fn;
 
-								msg = pmt::init_u8vector(2, _lsf.type);
-								dict = pmt::dict_add(dict, pmt::mp("type"), msg);
-								msg = pmt::init_u8vector(14, _lsf.meta);
-								dict = pmt::dict_add(dict, pmt::mp("meta"), msg);
+								// TODO: we use last LSF data that might be outdated
+								if (rcvd_msg[0] == 0x05 && CRC_M17((uint8_t *)rcvd_msg, len) == 0)
+								{
+									// handle message output (for a text message)
+									pmt::pmt_t msg;
+									decode_callsign_bytes(d_dst, _lsf.dst);
+									decode_callsign_bytes(d_src, _lsf.src);
 
-								dict = pmt::dict_add(dict, pmt::mp("sms"), pmt::intern((char*)&_packet_frame_data[1]));
+									pmt::pmt_t dict = pmt::make_dict();
+									dict = pmt::dict_add(dict, pmt::mp("src"), pmt::intern((char *)d_src));
+									dict = pmt::dict_add(dict, pmt::mp("dst"), pmt::intern((char *)d_dst));
 
-								message_port_pub(pmt::mp("fields"), dict);
+									msg = pmt::init_u8vector(2, _lsf.type);
+									dict = pmt::dict_add(dict, pmt::mp("type"), msg);
+									msg = pmt::init_u8vector(14, _lsf.meta);
+									dict = pmt::dict_add(dict, pmt::mp("meta"), msg);
+
+									dict = pmt::dict_add(dict, pmt::mp("sms"), pmt::intern((char *)&rcvd_msg[1]));
+
+									message_port_pub(pmt::mp("fields"), dict);
+
+									wr_offs = 0;
+								}
 							}
 
 							if (!eof)
