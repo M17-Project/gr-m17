@@ -8,5 +8,8 @@
 
 install(FILES
     m17_m17_coder.block.yml
-    m17_m17_decoder.block.yml DESTINATION share/gnuradio/grc/blocks
+    m17_m17_decoder.block.yml
+    m17_codec2_encoder.block.yml
+    m17_codec2_decoder.block.yml DESTINATION share/gnuradio/grc/blocks
+    #m17_symbol_sync.block.yml
 )

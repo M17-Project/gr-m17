@@ -30,7 +30,12 @@ include(GrPybind)
 
 list(APPEND m17_python_files
     m17_coder_python.cc
-    m17_decoder_python.cc python_bindings.cc)
+    m17_decoder_python.cc
+    codec2_encoder_python.cc
+    codec2_decoder_python.cc
+    #symbol_sync_python.cc
+    python_bindings.cc
+)
 
 GR_PYBIND_MAKE_OOT(m17
    ../../..

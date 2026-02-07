@@ -10,13 +10,7 @@ parameters:
 - id: dst_id
   label: Destination callsign
   dtype: string
-  default: 'ALL'
-- id: mode
-  label: Mode
-  dtype: int
-  default: 1
-  options: [1, 0]
-  option_labels: ['Stream', 'Packet']
+  default: '@ALL'
 - id: type
   label: Type
   dtype: int
@@ -68,13 +62,13 @@ parameters:
 - id: signed_str
   label: SignedStr
   dtype: bool
-  default: 'False'
-  options: ['True', 'False']
+  default: False
+  options: [True, False]
 - id: debug
   label: Debug
   dtype: bool
-  default: 'False'
-  options: ['True', 'False']
+  default: False
+  options: [True, False]
 
 asserts:
     - ${ can <= 15 }
@@ -84,12 +78,11 @@ asserts:
     - ${ len(src_id) < 10 }
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_coder(${src_id},${dst_id},${mode},${type},${encr_type},${encr_subtype},${aes_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed},${eot_cnt})
+  make: m17.m17_coder(${src_id},${dst_id},${type},${encr_type},${encr_subtype},${aes_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed},${eot_cnt})
   callbacks:
     - set_meta(${meta})
     - set_src_id(${src_id})
     - set_dst_id(${dst_id})
-    - set_mode(${mode})
     - set_type(${type})
     - set_encr_type(${encr_type})
     - set_encr_subtype(${encr_subtype})
