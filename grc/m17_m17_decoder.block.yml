@@ -84,10 +84,8 @@ outputs:
   dtype: byte
   vlen: 1
   optional: 0
-- label: fields
+- id: fields
   domain: message
-  id: fields
-  type: message
   optional: true
 
 documentation: |-
