@@ -7,12 +7,12 @@ parameters:
   label: Debug Data
   dtype: bool
   default: False
-  options: [True, False]
+  options: ['True', 'False']
 - id: debug_ctrl
   label: Debug Control
   dtype: bool
   default: False
-  options: [True, False]
+  options: ['True', 'False']
 - id: sw_threshold
   label: Syncword threshold
   dtype: float
@@ -25,17 +25,17 @@ parameters:
   label: Display Callsign
   dtype: bool
   default: False
-  options: [True, False]
+  options: ['True', 'False']
 - id: signed_str
   label: SignedStr
   dtype: bool
   default: False
-  options: [True, False]
+  options: ['True', 'False']
 - id: encr_type
   label: Encr. type
   dtype: int
   default: 0
-  options: [0, 1, 2, 3]
+  options: ['0', '1', '2', '3']
   option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
 - id: key
   label: AES Key

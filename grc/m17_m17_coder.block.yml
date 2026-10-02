@@ -3,72 +3,95 @@ label: M17 Encoder
 category: '[M17]/Baseband'
 
 parameters:
+# --- General ---
 - id: src_id
   label: Source callsign
+  category: General
   dtype: string
   default: 'N0CALL'
 - id: dst_id
   label: Destination callsign
+  category: General
   dtype: string
   default: '@ALL'
 - id: type
-  label: Type
+  label: Payload type
+  category: General
   dtype: int
   default: 2
-  options: [0, 1, 2, 3]
+  options: ['0', '1', '2', '3']
   option_labels: ['Reserved', 'Data', 'Voice', 'Voice+Data']
-- id: encr_type
-  label: Encr. type
-  dtype: int
-  default: 0
-  options: [0, 1, 2, 3]
-  option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
-- id: encr_subtype
-  label: Encr. subtype
-  dtype: int
-  default: 0
-  options: [0, 1, 2, 3]
-  option_labels: ['Text', 'Geolocation', 'Extended callsign data', 'Reserved']
-- id: aes_subtype
-  label: AES subtype
-  dtype: int
-  default: 0
-  options: [0, 1, 2]
-  option_labels: ['AES128', 'AES192', 'AES256']
 - id: can
   label: CAN
+  category: General
   dtype: int
   default: 0
 - id: meta
   label: Meta
+  category: General
   dtype: string
   default: ''
-- id: seed
-  label: Scrambler seed
-  dtype: string
-  default: ''
-- id: key
-  label: AES Key
-  dtype: string
-  default: ''
-- id: priv_key
-  label: Private Key for ECDSA (32 bytes)
-  dtype: string
-  default: ''
+  hide: ${ 'all' if encr_type == 2 else 'none' }
 - id: eot_cnt
   label: EoT count
+  category: General
   dtype: int
   default: 1
+# --- Encryption ---
+- id: encr_type
+  label: Encryption
+  category: Encryption
+  dtype: int
+  default: 0
+  options: ['0', '1', '2', '3']
+  option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
+- id: encr_subtype
+  label: Subtype
+  category: Encryption
+  dtype: int
+  default: 0
+  options: ['0', '1', '2', '3']
+  option_labels: ['Text', 'Geolocation', 'Extended callsign data', 'Reserved']
+- id: seed
+  label: Scrambler seed
+  category: Encryption
+  dtype: string
+  default: ''
+  hide: ${ 'none' if encr_type == 1 else 'all' }
+- id: aes_subtype
+  label: AES key size
+  category: Encryption
+  dtype: int
+  default: 0
+  options: ['0', '1', '2']
+  option_labels: ['AES128', 'AES192', 'AES256']
+  hide: ${ 'none' if encr_type == 2 else 'all' }
+- id: key
+  label: AES key
+  category: Encryption
+  dtype: string
+  default: ''
+  hide: ${ 'none' if encr_type == 2 else 'all' }
+# --- Signing ---
 - id: signed_str
-  label: SignedStr
+  label: Signed stream
+  category: Signing
   dtype: bool
   default: False
-  options: [True, False]
+  options: ['True', 'False']
+- id: priv_key
+  label: Private key (ECDSA, 32 bytes)
+  category: Signing
+  dtype: string
+  default: ''
+  hide: ${ 'none' if signed_str else 'all' }
+# --- Debug ---
 - id: debug
   label: Debug
+  category: Debug
   dtype: bool
   default: False
-  options: [True, False]
+  options: ['True', 'False']
 
 asserts:
     - ${ can <= 15 }
@@ -76,9 +99,11 @@ asserts:
     - ${ len(priv_key) <= 32 }
     - ${ len(dst_id) < 10 }
     - ${ len(src_id) < 10 }
+
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_coder(${src_id},${dst_id},${type},${encr_type},${encr_subtype},${aes_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed},${eot_cnt})
+  # a hidden scrambler seed must not switch scrambling on, so pass '' unless Scrambler is selected
+  make: m17.m17_coder(${src_id},${dst_id},${type},${encr_type},${encr_subtype},${aes_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed if encr_type() == 1 else "''"},${eot_cnt})
   callbacks:
     - set_meta(${meta})
     - set_src_id(${src_id})
@@ -92,7 +117,7 @@ templates:
     - set_priv_key(${priv_key})
     - set_debug(${debug})
     - set_signed(${signed_str})
-    - set_seed(${seed})
+    - set_seed(${seed if encr_type() == 1 else "''"})
     - set_eot_cnt(${eot_cnt})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
@@ -125,4 +150,3 @@ documentation: |-
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.
 file_format: 1
-
