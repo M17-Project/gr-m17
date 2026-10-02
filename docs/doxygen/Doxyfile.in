@@ -685,7 +685,11 @@ EXCLUDE                = @abs_top_builddir@/docs/doxygen/html \
                          @abs_top_builddir@/docs/doxygen/xml \
                          @abs_top_builddir@/docs/doxygen/other/doxypy.py \
                          @abs_top_builddir@/_CPack_Packages \
-                         @abs_top_srcdir@/cmake
+                         @abs_top_srcdir@/cmake \
+                         @abs_top_srcdir@/libm17 \
+                         @abs_top_srcdir@/codec2-mod \
+                         @abs_top_srcdir@/micro-ecc \
+                         @abs_top_srcdir@/tinier-aes
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -974,7 +978,6 @@ HTML_COLORSTYLE_GAMMA  = 80
 # page will contain the date and time when the page was generated. Setting
 # this to NO can help when comparing the output of multiple runs.
 
-HTML_TIMESTAMP         = NO
 
 # If the HTML_DYNAMIC_SECTIONS tag is set to YES then the generated HTML
 # documentation will contain sections that can be hidden and shown after the
@@ -1196,7 +1199,6 @@ FORMULA_FONTSIZE       = 10
 # Note that when changing this option you need to delete any form_*.png files
 # in the HTML output before the changes have effect.
 
-FORMULA_TRANSPARENT    = YES
 
 # Enable the USE_MATHJAX option to render LaTeX formulas using MathJax
 # (see http://www.mathjax.org) which uses client side Javascript for the
@@ -1394,7 +1396,6 @@ LATEX_HIDE_INDICES     = NO
 # Note that which sources are shown also depends on other settings
 # such as SOURCE_BROWSER.
 
-LATEX_SOURCE_CODE      = NO
 
 # The LATEX_BIB_STYLE tag can be used to specify the style to use for the
 # bibliography, e.g. plainnat, or ieeetr. The default style is "plain". See
@@ -1675,7 +1676,6 @@ EXTERNAL_PAGES         = YES
 # this option also works with HAVE_DOT disabled, but it is recommended to
 # install and use dot, since it yields more powerful graphs.
 
-CLASS_DIAGRAMS         = YES
 
 # If set to YES, the inheritance and collaboration graphs will hide
 # inheritance and usage relations if the target is undocumented
@@ -1705,12 +1705,10 @@ DOT_NUM_THREADS        = 0
 # the DOTFONTPATH environment variable or by setting DOT_FONTPATH to the
 # directory containing the font.
 
-DOT_FONTNAME           = Helvetica
 
 # The DOT_FONTSIZE tag can be used to set the size of the font of dot graphs.
 # The default size is 10pt.
 
-DOT_FONTSIZE           = 10
 
 # By default doxygen will tell dot to use the Helvetica font.
 # If you specify a different font using DOT_FONTNAME you can use DOT_FONTPATH to
@@ -1859,7 +1857,6 @@ MAX_DOT_GRAPH_DEPTH    = 0
 # enabling this option may lead to badly anti-aliased labels on the edges of
 # a graph (i.e. they become hard to read).
 
-DOT_TRANSPARENT        = NO
 
 # Set the DOT_MULTI_TARGETS tag to YES allow dot to generate multiple output
 # files in one run (i.e. multiple -o and -T options on the command line). This

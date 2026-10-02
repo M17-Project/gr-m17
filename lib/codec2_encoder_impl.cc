@@ -70,7 +70,7 @@ namespace gr
 
             if (cmd == "SOT")
             {
-                codec2_init(&c2); // i hope this is the right place to put it
+                codec2_encoder_init(&c2); // i hope this is the right place to put it
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace gr
 
         void codec2_encoder_impl::init_state(void)
         {
-            codec2_init(&c2);
+            codec2_encoder_init(&c2);
         }
 
         /*

@@ -14,7 +14,14 @@ set(CMAKE_BUILD_TYPE "Release" CACHE STRING "")
 ########################################################################
 # Project setup
 ########################################################################
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.16...3.26)
+# GNU Radio's own CMake modules still use FindPythonInterp/FindBoost
+if(POLICY CMP0148)
+    cmake_policy(SET CMP0148 OLD)
+endif()
+if(POLICY CMP0167)
+    cmake_policy(SET CMP0167 OLD)
+endif()
 project(gr-m17 CXX C)
 enable_testing()
 
@@ -59,7 +66,8 @@ include(GrCompilerSettings)
 ########################################################################
 include(GrVersion)
 
-include(GrPlatform) #define LIB_SUFFIX
+include(GNUInstallDirs) #define LIB_SUFFIX
+set(CMAKE_MODULES_DIR ${CMAKE_INSTALL_LIBDIR}/cmake)
 
 if(NOT CMAKE_MODULES_DIR)
   set(CMAKE_MODULES_DIR lib${LIB_SUFFIX}/cmake)

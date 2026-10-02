@@ -4,3 +4,8 @@
  *        module are listed here or in the subcategories below.
  *
  */
+
+/*!
+ * \defgroup m17 M17 blocks
+ * \ingroup block
+ */

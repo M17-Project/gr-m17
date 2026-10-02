@@ -29,7 +29,7 @@ namespace gr
         class codec2_decoder_impl : public codec2_decoder
         {
         private:
-            codec2_t c2;
+            codec2_decoder_t c2;
 
             void reset(const pmt::pmt_t &msg);
             void init_state(void);
