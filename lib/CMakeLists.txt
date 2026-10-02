@@ -9,7 +9,6 @@
 ########################################################################
 # Setup library
 ########################################################################
-include(GrPlatform) #define LIB_SUFFIX
 
 list(APPEND m17_sources
     m17_coder_impl.cc
