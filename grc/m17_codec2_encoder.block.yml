@@ -1,6 +1,6 @@
 id: m17_codec2_encoder
 label: Codec2 Encoder
-category: '[M17]'
+category: '[M17]/Voice Codec'
 
 templates:
   imports: from gnuradio import m17

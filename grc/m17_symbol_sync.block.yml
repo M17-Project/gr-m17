@@ -1,6 +1,6 @@
 id: m17_symbol_sync
 label: Symbol Sync
-category: '[M17]'
+category: '[M17]/Baseband'
 
 parameters:
 - id: in_sps
