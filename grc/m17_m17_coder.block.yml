@@ -26,12 +26,6 @@ parameters:
   category: General
   dtype: int
   default: 0
-- id: meta
-  label: Meta
-  category: General
-  dtype: string
-  default: ''
-  hide: ${ 'all' if encr_type == 2 else 'none' }
 - id: eot_cnt
   label: EoT count
   category: General
@@ -45,15 +39,8 @@ parameters:
   default: 0
   options: ['0', '1', '2', '3']
   option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
-- id: encr_subtype
-  label: Subtype
-  category: Encryption
-  dtype: int
-  default: 0
-  options: ['0', '1', '2', '3']
-  option_labels: ['Text', 'Geolocation', 'Extended callsign data', 'Reserved']
 - id: seed
-  label: Scrambler seed
+  label: Scrambler seed (hex, 2/4/6 digits = 8/16/24-bit)
   category: Encryption
   dtype: string
   default: ''
@@ -67,11 +54,90 @@ parameters:
   option_labels: ['AES128', 'AES192', 'AES256']
   hide: ${ 'none' if encr_type == 2 else 'all' }
 - id: key
-  label: AES key
+  label: AES key (hex)
   category: Encryption
   dtype: string
   default: ''
   hide: ${ 'none' if encr_type == 2 else 'all' }
+# --- Meta (no encryption only; Meta type selects the contents) ---
+- id: encr_subtype
+  label: Meta type
+  category: Meta
+  dtype: int
+  default: 0
+  options: ['0', '1', '2', '3']
+  option_labels: ['Text', 'Geolocation', 'Extended callsign data', 'Reserved']
+  hide: ${ 'none' if encr_type == 0 else 'all' }
+- id: meta
+  label: Text (max 13 bytes)
+  category: Meta
+  dtype: string
+  default: ''
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 0) else 'all' }
+- id: meta_lat
+  label: Latitude (deg)
+  category: Meta
+  dtype: float
+  default: 0.0
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 1) else 'all' }
+- id: meta_lon
+  label: Longitude (deg)
+  category: Meta
+  dtype: float
+  default: 0.0
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 1) else 'all' }
+- id: meta_alt
+  label: Altitude (m)
+  category: Meta
+  dtype: float
+  default: 0.0
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 1) else 'all' }
+- id: meta_speed
+  label: Speed (km/h)
+  category: Meta
+  dtype: float
+  default: 0.0
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 1) else 'all' }
+- id: meta_bearing
+  label: Bearing (deg)
+  category: Meta
+  dtype: int
+  default: 0
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 1) else 'all' }
+- id: meta_station
+  label: Station type
+  category: Meta
+  dtype: int
+  default: 0
+  options: ['0', '1', '2', '15']
+  option_labels: ['Fixed', 'Mobile', 'Handheld', 'Other']
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 1) else 'all' }
+- id: meta_source
+  label: Data source
+  category: Meta
+  dtype: int
+  default: 0
+  options: ['0', '1', '15']
+  option_labels: ['M17 client', 'OpenRTX', 'Other']
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 1) else 'all' }
+- id: meta_cf1
+  label: Callsign field 1
+  category: Meta
+  dtype: string
+  default: ''
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 2) else 'all' }
+- id: meta_cf2
+  label: Callsign field 2
+  category: Meta
+  dtype: string
+  default: ''
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 2) else 'all' }
+- id: meta_hex
+  label: Raw META (hex, max 14 bytes)
+  category: Meta
+  dtype: string
+  default: ''
+  hide: ${ 'none' if (encr_type == 0 and encr_subtype == 3) else 'all' }
 # --- Signing ---
 - id: signed_str
   label: Signed stream
@@ -80,7 +146,7 @@ parameters:
   default: False
   options: ['True', 'False']
 - id: priv_key
-  label: Private key (ECDSA, 32 bytes)
+  label: Private key (hex, 32 bytes)
   category: Signing
   dtype: string
   default: ''
@@ -95,29 +161,40 @@ parameters:
 
 asserts:
     - ${ can <= 15 }
-    - ${ len(key) <= 32 }
-    - ${ len(priv_key) <= 32 }
     - ${ len(dst_id) < 10 }
     - ${ len(src_id) < 10 }
+    # hex fields are only checked when they are in use (hidden values are ignored)
+    - ${ encr_type != 1 or (all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (2, 4, 6)) }
+    - ${ encr_type != 2 or (all(c in '0123456789abcdefABCDEF' for c in key.replace(' ', '')) and len(key.replace(' ', '')) == 32 + 16 * aes_subtype) }
+    - ${ not signed_str or (all(c in '0123456789abcdefABCDEF' for c in priv_key.replace(' ', '')) and len(priv_key.replace(' ', '')) == 64) }
+    # Meta fields are only checked when they are in use
+    - ${ encr_type != 0 or encr_subtype != 0 or len(meta.encode('utf-8')) <= 13 }
+    - ${ encr_type != 0 or encr_subtype != 1 or (-90 <= meta_lat <= 90 and -180 <= meta_lon <= 180) }
+    - ${ encr_type != 0 or encr_subtype != 1 or (-500 <= meta_alt <= 32267.5 and 0 <= meta_speed <= 2047.5 and 0 <= meta_bearing <= 359) }
+    - ${ encr_type != 0 or encr_subtype != 2 or (0 < len(meta_cf1) <= 9 and len(meta_cf2) <= 9) }
+    - ${ encr_type != 0 or encr_subtype != 3 or (all(c in '0123456789abcdefABCDEF' for c in meta_hex.replace(' ', '')) and len(meta_hex.replace(' ', '')) % 2 == 0 and len(meta_hex.replace(' ', '')) <= 28) }
 
 templates:
   imports: from gnuradio import m17
-  # a hidden scrambler seed must not switch scrambling on, so pass '' unless Scrambler is selected
-  make: m17.m17_coder(${src_id},${dst_id},${type},${encr_type},${encr_subtype},${aes_subtype},${can},${meta},${key},${priv_key},${debug},${signed_str},${seed if encr_type() == 1 else "''"},${eot_cnt})
+  # TYPE subtype bits: Meta type (no encryption), seed length (scrambler) or AES key size (AES);
+  # META is assembled by m17.build_meta() from the Meta tab fields;
+  # key/seed/priv_key are entered as hex text and converted to byte strings here;
+  # fields that are not in use are passed as '' so hidden values have no effect
+  make: m17.m17_coder(${src_id},${dst_id},${type},${encr_type},(${encr_subtype} if ${encr_type} == 0 else len(${seed}.replace(' ', '')) // 2 - 1 if ${encr_type} == 1 else ${aes_subtype} if ${encr_type} == 2 else 0),${aes_subtype},${can},m17.build_meta(${encr_type}, ${encr_subtype}, ${meta}, ${meta_lat}, ${meta_lon}, ${meta_alt}, ${meta_speed}, ${meta_bearing}, ${meta_station}, ${meta_source}, ${meta_cf1}, ${meta_cf2}, ${meta_hex}),bytes.fromhex(${key} if ${encr_type} == 2 else '').decode('latin-1'),bytes.fromhex(${priv_key} if ${signed_str} else '').decode('latin-1'),${debug},${signed_str},bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'),${eot_cnt})
   callbacks:
-    - set_meta(${meta})
     - set_src_id(${src_id})
     - set_dst_id(${dst_id})
-    - set_type(${type})
+    - set_data(${type})
     - set_encr_type(${encr_type})
-    - set_encr_subtype(${encr_subtype})
-    - set_aes_subtype(${aes_subtype})
+    - set_encr_subtype((${encr_subtype} if ${encr_type} == 0 else len(${seed}.replace(' ', '')) // 2 - 1 if ${encr_type} == 1 else ${aes_subtype} if ${encr_type} == 2 else 0))
+    - set_meta(m17.build_meta(${encr_type}, ${encr_subtype}, ${meta}, ${meta_lat}, ${meta_lon}, ${meta_alt}, ${meta_speed}, ${meta_bearing}, ${meta_station}, ${meta_source}, ${meta_cf1}, ${meta_cf2}, ${meta_hex}))
+    - set_aes_subtype(${aes_subtype}, ${encr_type})
     - set_can(${can})
-    - set_key(${key})
-    - set_priv_key(${priv_key})
+    - set_key(bytes.fromhex(${key} if ${encr_type} == 2 else '').decode('latin-1'))
+    - set_priv_key(bytes.fromhex(${priv_key} if ${signed_str} else '').decode('latin-1'))
     - set_debug(${debug})
     - set_signed(${signed_str})
-    - set_seed(${seed if encr_type() == 1 else "''"})
+    - set_seed(bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'))
     - set_eot_cnt(${eot_cnt})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.

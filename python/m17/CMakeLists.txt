@@ -22,6 +22,7 @@ add_subdirectory(bindings)
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
+    meta.py
     DESTINATION ${GR_PYTHON_DIR}/gnuradio/m17
 )
 

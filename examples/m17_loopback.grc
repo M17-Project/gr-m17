@@ -329,9 +329,10 @@ blocks:
     dst_id: dst_str
     encr_subtype: enc_subtype
     encr_type: enc_type
-    key: '''\x00\x00\x65\x41\xb0\x93\xff\x00'''
+    key: 00006541B093FF000000000000000000
     maxoutbuf: '0'
-    meta: '''\x00\x00\x65\x41\xb0\x93\xff\x00'''
+    meta: ''
+    meta_hex: 00006541B093FF00
     minoutbuf: '0'
     mode: mode
     priv_key: ''

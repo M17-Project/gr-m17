@@ -448,7 +448,7 @@ namespace gr
 				_eot_cnt = 1;
 		}
 
-		void m17_coder_impl::set_meta(std::string meta) // either an ASCII string if encr_subtype==0 or *UTF-8* encoded byte array. TODO: rework this function
+		void m17_coder_impl::set_meta(std::string meta) // Text Data (as-is) if encr_subtype==0, otherwise a *UTF-8* encoded byte array
 		{
 			int length = 0;
 
@@ -465,21 +465,14 @@ namespace gr
 				return;
 			}
 
-			if (_encr_subtype == ENCR_NONE) // meta is \0-terminated string
+			if (_encr_subtype == ENCR_NONE) // Text Data: Control Byte + UTF-8 text, copied as-is
 			{
-				if (meta.length() < 14)
-					length = meta.length();
-				else
-				{
-					length = 14;
-					meta[13] = 0; // null-terminate
-				}
+				length = meta.size() < sizeof(_lsf.meta) ? meta.size() : sizeof(_lsf.meta);
+				memcpy(_lsf.meta, meta.data(), length);
 
-				if (length)
-				{
-					fprintf(stderr, "\"%s\"\n", meta.c_str());
-					memcpy(_lsf.meta, meta.c_str(), length); // I hope this is fine
-				}
+				for (int i = 0; i < length; i++)
+					fprintf(stderr, "%02X ", _lsf.meta[i]);
+				fprintf(stderr, "\n");
 			}
 			else
 			{

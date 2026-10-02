@@ -202,7 +202,7 @@ blocks:
     encr_subtype: '0'
     encr_type: '0'
     eot_cnt: '1'
-    key: '''\x00\x00\x65\x41\xb0\x93\xff\x00'''
+    key: 00006541B093FF000000000000000000
     maxoutbuf: '0'
     meta: meta_str
     minoutbuf: '0'

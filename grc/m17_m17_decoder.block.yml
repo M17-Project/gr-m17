@@ -38,29 +38,30 @@ parameters:
   options: ['0', '1', '2', '3']
   option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
 - id: key
-  label: AES Key
+  label: Key (hex)
   dtype: string
   default: ''
 - id: seed
-  label: Scrambler seed
+  label: Scrambler seed (hex)
   dtype: string
   default: ''
 
 asserts:
-    - ${ len(key) <= 32 }
+    - ${ all(c in '0123456789abcdefABCDEF' for c in key.replace(' ', '')) and len(key.replace(' ', '')) in (0, 32, 48, 64) }
+    - ${ all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (0, 2, 4, 6) }
 
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},${signed_str},${encr_type},${key},${seed})
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},${signed_str},${encr_type},bytes.fromhex(${key}).decode('latin-1'),bytes.fromhex(${seed}).decode('latin-1'))
 
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
-    - set_key(${key})
+    - set_key(bytes.fromhex(${key}).decode('latin-1'))
     - set_callsign(${callsign})
     - set_signed(${signed_str})
     - set_encr_type(${encr_type})
-    - set_seed(${seed})
+    - set_seed(bytes.fromhex(${seed}).decode('latin-1'))
     - set_sw_threshold(${sw_threshold})
     - set_vt_threshold(${vt_threshold})
 

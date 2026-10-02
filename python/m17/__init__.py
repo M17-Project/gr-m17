@@ -21,3 +21,5 @@ except ModuleNotFoundError:
 
 # import any pure python here
 #
+
+from .meta import build_meta, meta_text, meta_position, meta_ecd, meta_hex, encode_callsign
