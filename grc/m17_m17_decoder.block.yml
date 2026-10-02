@@ -3,65 +3,82 @@ label: M17 Decoder
 category: '[M17]/Baseband'
 
 parameters:
-- id: debug_data
-  label: Debug Data
-  dtype: bool
-  default: False
-  options: ['True', 'False']
-- id: debug_ctrl
-  label: Debug Control
-  dtype: bool
-  default: False
-  options: ['True', 'False']
+# --- General ---
 - id: sw_threshold
   label: Syncword threshold
+  category: General
   dtype: float
   default: 2.0
 - id: vt_threshold
   label: Viterbi threshold
+  category: General
   dtype: float
   default: 30.0
 - id: callsign
-  label: Display Callsign
+  label: Display callsign
+  category: General
   dtype: bool
   default: False
   options: ['True', 'False']
-- id: signed_str
-  label: SignedStr
-  dtype: bool
-  default: False
-  options: ['True', 'False']
+# --- Encryption ---
 - id: encr_type
-  label: Encr. type
+  label: Encryption
+  category: Encryption
   dtype: int
   default: 0
   options: ['0', '1', '2', '3']
   option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
-- id: key
-  label: Key (hex)
-  dtype: string
-  default: ''
 - id: seed
-  label: Scrambler seed (hex)
+  label: Scrambler seed (hex, 2/4/6 digits = 8/16/24-bit)
+  category: Encryption
   dtype: string
   default: ''
+  hide: ${ 'none' if encr_type == 1 else 'all' }
+- id: key
+  label: AES key (hex)
+  category: Encryption
+  dtype: string
+  default: ''
+  hide: ${ 'none' if encr_type == 2 else 'all' }
+# --- Signing ---
+- id: pub_key
+  label: Public key (hex, 64 bytes, optional)
+  category: Signing
+  dtype: string
+  default: ''
+# --- Debug ---
+- id: debug_data
+  label: Debug data
+  category: Debug
+  dtype: bool
+  default: False
+  options: ['True', 'False']
+- id: debug_ctrl
+  label: Debug control
+  category: Debug
+  dtype: bool
+  default: False
+  options: ['True', 'False']
 
 asserts:
-    - ${ all(c in '0123456789abcdefABCDEF' for c in key.replace(' ', '')) and len(key.replace(' ', '')) in (0, 32, 48, 64) }
-    - ${ all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (0, 2, 4, 6) }
+    # hex fields are only checked when they are in use
+    - ${ encr_type != 1 or (all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (2, 4, 6)) }
+    - ${ encr_type != 2 or (all(c in '0123456789abcdefABCDEF' for c in key.replace(' ', '')) and len(key.replace(' ', '')) in (32, 48, 64)) }
+    - ${ all(c in '0123456789abcdefABCDEF' for c in pub_key.replace(' ', '')) and len(pub_key.replace(' ', '')) in (0, 128) }
 
 templates:
   imports: from gnuradio import m17
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},${signed_str},${encr_type},bytes.fromhex(${key}).decode('latin-1'),bytes.fromhex(${seed}).decode('latin-1'))
+  # Signed/unsigned is read from each received LSF, so it is not a parameter (False = initial state).
+  # The block keeps one key buffer: the AES key when AES is selected, the public key otherwise.
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},False,${encr_type},bytes.fromhex(${key} if ${encr_type} == 2 else ${pub_key}).decode('latin-1'),bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'))
 
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
-    - set_key(bytes.fromhex(${key}).decode('latin-1'))
-    - set_callsign(${callsign})
-    - set_signed(${signed_str})
     - set_encr_type(${encr_type})
-    - set_seed(bytes.fromhex(${seed}).decode('latin-1'))
+    - set_key(bytes.fromhex(${key} if ${encr_type} == 2 else ${pub_key}).decode('latin-1'))
+    - set_callsign(${callsign})
+    - set_seed(bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'))
     - set_sw_threshold(${sw_threshold})
     - set_vt_threshold(${vt_threshold})
 
@@ -90,7 +107,11 @@ outputs:
   optional: true
 
 documentation: |-
-     The decoder block accepts two boolean debugging flags defining which messages are displayed in the console when messages are received, and a threshold parameter. The threshold defines a value below which the incoming message is detected. It is based on the Euclidean distance (L^2 norm) between the received symbol stream and protocol-defined syncronization patterns. Ideally, the distance would reach 0.0 for an ideal match. A default threshold value of 2.0 is selected.
+     The decoder reads a stream of symbols (as floats) at 4800 Hz and outputs the decoded payload (as bytes). Decoded LSF fields are also published on the 'fields' message port.
+     Syncword threshold: maximum Euclidean (L2) distance between the received symbols and a syncword for a frame to be detected (0 = perfect match).
+     Viterbi threshold: maximum accumulated Viterbi error for a decoded frame to be accepted.
+     Encryption: the AES key (32/48/64 hex digits) or scrambler seed (2/4/6 hex digits) used to decrypt the stream.
+     Public key: 64-byte secp256r1 public key used to verify signed streams. Whether a stream is signed is read from its LSF.
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.

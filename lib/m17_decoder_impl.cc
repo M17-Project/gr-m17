@@ -157,7 +157,7 @@ namespace gr
 			fprintf(stderr, "Encryption key ");
 
 			int i = 0, j = 0;
-			while ((j < 32) && (i < length))
+			while ((j < (int)sizeof(_key)) && (i < length))
 			{
 				if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
 				{
