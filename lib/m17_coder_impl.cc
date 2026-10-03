@@ -179,6 +179,12 @@ namespace gr
 
 			if (cmd == "SOT")
 			{
+				if (_active.load(std::memory_order_acquire))
+				{
+					fprintf(stderr, "[%02d:%02d:%02d] SOT ignored (stream already active)\n", t.tm_hour, t.tm_min, t.tm_sec);
+					return;
+				}
+
 				_active.store(true, std::memory_order_release);
 				_finished.store(false, std::memory_order_relaxed);
 				set_mode(M17_TYPE_STREAM);
@@ -188,6 +194,12 @@ namespace gr
 
 			if (cmd == "EOT")
 			{
+				if (!_active.load(std::memory_order_acquire))
+				{
+					fprintf(stderr, "[%02d:%02d:%02d] EOT ignored (no active stream)\n", t.tm_hour, t.tm_min, t.tm_sec);
+					return;
+				}
+
 				_finished.store(true, std::memory_order_release);
 				fprintf(stderr, "[%02d:%02d:%02d] End of Stream transmission\n", t.tm_hour, t.tm_min, t.tm_sec);
 				return;
@@ -195,6 +207,14 @@ namespace gr
 
 			if (cmd == "SMS")
 			{
+				// never interleave a packet transmission with an active stream - and never queue it:
+				// the TX path of the hardware may not be ready for another transmission
+				if (_active.load(std::memory_order_acquire))
+				{
+					fprintf(stderr, "[%02d:%02d:%02d] SMS ignored (stream active)\n", t.tm_hour, t.tm_min, t.tm_sec);
+					return;
+				}
+
 				if (_pkt_pend.load(std::memory_order_acquire))
 				{
 					fprintf(stderr, "[%02d:%02d:%02d] SMS ignored (last transmission pending)\n", t.tm_hour, t.tm_min, t.tm_sec);
@@ -204,7 +224,6 @@ namespace gr
 				if (val.size())
 				{
 					fprintf(stderr, "[%02d:%02d:%02d] Start of text message transmission:\n%s\n", t.tm_hour, t.tm_min, t.tm_sec, val.c_str());
-					set_mode(M17_TYPE_PACKET);
 					size_t n = std::min(val.size(), sizeof(_text_msg) - 1);
 					memcpy(_text_msg, val.c_str(), n);
 					_text_msg[n] = 0;
@@ -750,7 +769,22 @@ namespace gr
 			///-------packet mode------- TODO: this is only a test!! this needs a proper state machine
 			if (_pkt_pend.load(std::memory_order_acquire))
 			{
-				// fprintf(stderr, "[DBG] noutput_items=%d\n", noutput_items);
+				// emit the whole packet transmission (preamble, LSF, packet frame, EoT) in one go, or wait
+				if (noutput_items < (3 + _eot_cnt) * SYM_PER_FRA)
+				{
+					consume_each(0);
+					return 0;
+				}
+
+				// packet mode uses its own LSF: the stream LSF (_lsf) is left untouched;
+				// in packet mode only the Packet/Stream bit (0 = packet) and CAN are defined in TYPE
+				lsf_t pkt_lsf = _lsf;
+				uint16_t pkt_type = (uint16_t)(_can & 0xF) << 7;
+				pkt_lsf.type[0] = pkt_type >> 8;
+				pkt_lsf.type[1] = pkt_type & 0xFF;
+				update_LSF_CRC(&pkt_lsf);
+				fprintf(stderr, "Packet LSF TYPE: 0x%04X\n", pkt_type);
+
 				int avbl = noutput_items;
 
 				if (avbl >= SYM_PER_FRA)
@@ -761,7 +795,7 @@ namespace gr
 
 				if (avbl >= SYM_PER_FRA)
 				{
-					gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
+					gen_frame(out + countout, NULL, FRAME_LSF, &pkt_lsf, 0, 0);
 					countout += SYM_PER_FRA;
 					avbl -= SYM_PER_FRA;
 				}
@@ -778,7 +812,7 @@ namespace gr
 					pkt_pld[1 + len + 1] = crc >> 8;
 					pkt_pld[1 + len + 2] = crc & 0xFF;
 					pkt_pld[25] = 0x80 | ((1 + len + 1 + 2)<<2); // TODO: TEST ONLY fixed, 1-payload-frame packet
-					gen_frame(out + countout, pkt_pld, FRAME_PKT, &_lsf, 0, 0);
+					gen_frame(out + countout, pkt_pld, FRAME_PKT, &pkt_lsf, 0, 0);
 					countout += SYM_PER_FRA;
 					avbl -= SYM_PER_FRA;
 				}
