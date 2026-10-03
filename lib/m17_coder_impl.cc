@@ -188,6 +188,12 @@ namespace gr
 			_stale_flushed = false; // drop stale input on the first work call after SOT
 			memset(_digest, 0, sizeof(_digest)); // every stream starts with an all-zero digest
 			_scrambler_seed = _scrambler_key;	  // every stream restarts the scrambler keystream from the seed
+			if (_meta_blocks > 1)				  // multi-block Text Data starts with block 1
+			{
+				_meta_idx = 0;
+				memcpy(_lsf.meta, _meta_block[0], 14);
+				update_LSF_CRC(&_lsf);
+			}
 		}
 
 		void m17_coder_impl::set_encr_type(int encr_type)
@@ -394,7 +400,7 @@ namespace gr
 				_eot_cnt = 1;
 		}
 
-		void m17_coder_impl::set_meta(std::string meta) // Text Data (as-is) if encr_subtype==0, otherwise a *UTF-8* encoded byte array
+		void m17_coder_impl::set_meta(std::string meta) // plain UTF-8 text (up to 52 bytes) if encr_subtype==0, otherwise a *UTF-8* encoded byte array
 		{
 			int length = 0;
 
@@ -402,6 +408,8 @@ namespace gr
 				return;
 
 			memset(_lsf.meta, 0, sizeof(_lsf.meta));
+			_meta_blocks = 0;
+			_meta_text.clear();
 
 			if (!meta.length())
 			{
@@ -411,10 +419,28 @@ namespace gr
 				return;
 			}
 
-			if (_encr_subtype == ENCR_NONE) // Text Data: Control Byte + UTF-8 text, copied as-is
+			if (_encr_subtype == ENCR_NONE) // Text Data (spec 2.0.x): up to 4 blocks of 13 bytes, each with a Control Byte
 			{
-				length = meta.size() < sizeof(_lsf.meta) ? meta.size() : sizeof(_lsf.meta);
-				memcpy(_lsf.meta, meta.data(), length);
+				if (meta.size() > 4 * 13)
+				{
+					m17_log(tag(), "WARNING: META text is %zu bytes, the maximum is 52 - not sent", meta.size());
+				}
+				else
+				{
+					// blocks are filled to 13 bytes; a multi-byte UTF-8 character may span two blocks
+					_meta_text = meta;
+					_meta_blocks = (meta.size() + 12) / 13;
+					uint8_t used = (1 << _meta_blocks) - 1; // bit map of the used blocks
+					for (int b = 0; b < _meta_blocks; b++)
+					{
+						_meta_block[b][0] = (used << 4) | (1 << b);
+						memset(&_meta_block[b][1], ' ', 13); // padded with spaces
+						size_t n = std::min<size_t>(13, meta.size() - 13 * b);
+						memcpy(&_meta_block[b][1], meta.data() + 13 * b, n);
+					}
+					_meta_idx = 0;
+					memcpy(_lsf.meta, _meta_block[0], 14);
+				}
 			}
 			else
 			{
@@ -447,7 +473,7 @@ namespace gr
 			_lsf.crc[1] = ccrc & 0xFF;
 
 			if (_started)
-				m17_log(tag(), "META changed: %s", m17_meta_str(_lsf.meta, ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]).c_str());
+				m17_log(tag(), "META changed: %s", meta_desc(((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]).c_str());
 		}
 
 		void m17_coder_impl::set_mode(int mode)
@@ -517,6 +543,16 @@ namespace gr
 			return alias_set() ? alias() : std::string("M17_ENC");
 		}
 
+		// readable META description; multi-block Text Data is shown as the complete text
+		std::string m17_coder_impl::meta_desc(uint16_t type)
+		{
+			if (_encr_type == ENCR_AES)
+				return "AES nonce per transmission";
+			if (_encr_type == ENCR_NONE && _encr_subtype == 0 && _meta_blocks > 1)
+				return "META text \"" + _meta_text + "\" (" + std::to_string(_meta_blocks) + " blocks)";
+			return m17_meta_str(_lsf.meta, type);
+		}
+
 		bool m17_coder_impl::start()
 		{
 			uint16_t type = ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1];
@@ -539,7 +575,7 @@ namespace gr
 				extra += ", debug on";
 
 			m17_log(tag(), "Ready: %s -> %s, TYPE %04X (%s), %s%s", src, dst, type, m17_type_str(type).c_str(),
-					_encr_type == ENCR_AES ? "AES nonce per transmission" : m17_meta_str(_lsf.meta, type).c_str(), extra.c_str());
+					meta_desc(type).c_str(), extra.c_str());
 
 			if (_debug && _signed_str && _priv_key_loaded)
 			{
@@ -869,6 +905,14 @@ namespace gr
 				gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
 				countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
 
+				// multi-block Text Data: the LSF frame carried block 1, so the first superframe continues with block 2
+				if (_meta_blocks > 1 && _encr_type != ENCR_AES)
+				{
+					_meta_idx = 1;
+					memcpy(_lsf.meta, _meta_block[1], 14);
+					update_LSF_CRC(&_lsf);
+				}
+
 				// check the SIGNED STREAM flag
 				_signed_str = (_lsf.type[0] >> 3) & 1;
 				if (_signed_str && !_priv_key_loaded)
@@ -895,12 +939,12 @@ namespace gr
 				if (_signed_str)
 					update_digest(data);
 
-				// update LSF every 6 frames (superframe boundary)
-				if (_fn > 0 && _lich_cnt == 0)
+				// superframe boundary: multi-block Text Data moves on to the next block (one block per superframe)
+				if (_lich_cnt == 0 && _meta_blocks > 1 && _encr_type != ENCR_AES)
 				{
-					// TODO: fix the _next_lsf contents before uncommenting lines below
-					//_lsf = _next_lsf;
-					// update_LSF_CRC(&_lsf);
+					_meta_idx = (_meta_idx + 1) % _meta_blocks;
+					memcpy(_lsf.meta, _meta_block[_meta_idx], 14);
+					update_LSF_CRC(&_lsf);
 				}
 			}
 

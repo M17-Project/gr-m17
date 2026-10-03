@@ -136,10 +136,13 @@ namespace gr
 			_rx_max_e = 0.0f;
 			_rx_sig.clear();
 			_rx_lsf_seen = false;
+			_txt_used = 0;
+			_txt_have = 0;
+			_txt_done = false;
 		}
 
 		// publish the LSF fields on the 'fields' message port
-		void m17_decoder_impl::publish_fields(void)
+		void m17_decoder_impl::publish_fields(const std::string &text)
 		{
 			char dst[10] = {0}, src[10] = {0};
 			decode_callsign_bytes(dst, _lsf.dst);
@@ -150,7 +153,55 @@ namespace gr
 			dict = pmt::dict_add(dict, pmt::mp("dst"), pmt::intern(dst));
 			dict = pmt::dict_add(dict, pmt::mp("type"), pmt::init_u8vector(2, _lsf.type));
 			dict = pmt::dict_add(dict, pmt::mp("meta"), pmt::init_u8vector(14, _lsf.meta));
+			if (!text.empty())
+				dict = pmt::dict_add(dict, pmt::mp("text"), pmt::intern(text));
 			message_port_pub(pmt::mp("fields"), dict);
+		}
+
+		// is this LSF carrying one block of a multi-block Text Data message (no encryption, stream mode)?
+		static bool multi_block_text(const lsf_t &l)
+		{
+			uint16_t type = ((uint16_t)l.type[0] << 8) | l.type[1];
+			uint8_t used = l.meta[0] >> 4;
+			return (type & 1) && ((type >> 3) & 3) == 0 && ((type >> 5) & 3) == 0 && (used == 0x3 || used == 0x7 || used == 0xF);
+		}
+
+		// same LSF, apart from the rotating block of the same multi-block text?
+		static bool same_lsf(const lsf_t &a, const lsf_t &b)
+		{
+			if (memcmp(a.dst, b.dst, 6) || memcmp(a.src, b.src, 6) || memcmp(a.type, b.type, 2))
+				return false;
+			if (multi_block_text(a) && multi_block_text(b) && (a.meta[0] >> 4) == (b.meta[0] >> 4))
+				return true;
+			return !memcmp(a.meta, b.meta, 14);
+		}
+
+		// collect Text Data blocks (spec 2.0.x: the Control Bytes are OR-ed until both halves match)
+		void m17_decoder_impl::text_block(const lsf_t &l)
+		{
+			if (!multi_block_text(l) || _txt_done)
+				return;
+			uint8_t used = l.meta[0] >> 4, which = l.meta[0] & 0xF;
+			if (!which || (which & (which - 1)) || !(which & used))
+				return; // invalid Control Byte
+			if (used != _txt_used) // a different message: start over
+			{
+				_txt_used = used;
+				_txt_have = 0;
+			}
+			memcpy(_txt_block[__builtin_ctz(which)], &l.meta[1], 13);
+			_txt_have |= which;
+
+			if (_txt_have == _txt_used) // complete
+			{
+				int n = __builtin_popcount(_txt_used);
+				std::string t((const char *)_txt_block, 13 * n);
+				size_t end = t.find_last_not_of(std::string(" \0", 2)); // the last block is padded with spaces
+				t = (end == std::string::npos) ? "" : t.substr(0, end + 1);
+				m17_log(tag(), "META text (%d blocks): \"%s\"", n, t.c_str());
+				publish_fields(t);
+				_txt_done = true;
+			}
 		}
 
 		/*
@@ -663,7 +714,7 @@ namespace gr
 									if (_debug_ctrl == true)
 										m17_log(tag(), "LSF (LICH): CRC error");
 								}
-								else if (!_rx_lsf_seen || memcmp(&_lsf, &_rx_lsf, sizeof(_lsf)))
+								else if (!_rx_lsf_seen || !same_lsf(_lsf, _rx_lsf))
 								{
 									// late entry (no LSF frame received) or the LSF has changed
 									m17_log(tag(), "%s %s", _rx_lsf_seen ? "LSF changed:" : "RX start (late entry):", m17_lsf_str(_lsf, _callsign).c_str());
@@ -671,9 +722,16 @@ namespace gr
 									_rx_lsf = _lsf;
 									_rx_lsf_seen = true;
 									publish_fields();
+									text_block(_lsf);
 								}
-								else if (_debug_ctrl == true)
-									m17_log(tag(), "LSF (LICH) unchanged");
+								else
+								{
+									if (_debug_ctrl == true)
+										m17_log(tag(), multi_block_text(_lsf) ? "LSF (LICH) unchanged, %s" : "LSF (LICH) unchanged%s",
+												multi_block_text(_lsf) ? m17_meta_str(_lsf.meta, ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]).c_str() : "");
+									_rx_lsf = _lsf;
+									text_block(_lsf);
+								}
 							}
 
 							// if the contents of the payload is now digital signature, not data/voice
@@ -728,6 +786,7 @@ namespace gr
 								_rx_lsf_seen = true;
 								publish_fields();
 								check_keys(type);
+								text_block(_lsf);
 							}
 						}
 

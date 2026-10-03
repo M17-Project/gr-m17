@@ -1,6 +1,6 @@
 ## Compiling for GNU Radio
 
-The default targetted version is GNU Radio 3.10 (``main`` branch). Tested on Debian/GNU Linux sid with GNU Radio 
+The default targeted version is GNU Radio 3.10 (``main`` branch). Tested on Debian/GNU Linux sid with GNU Radio 
 3.10.10.0 (Python 3.11.9), Ubuntu 24.04 LTS with GNU Radio 3.10.9.2, and Xubuntu 26.04 with GNU Radio 3.10.12.0 (Python 3.14.4), assuming the following
 dependencies are installed:
 
@@ -20,16 +20,17 @@ sudo make install
 sudo ldconfig
 ```
 
-If the repository was cloned without ``--recursive``, fetch the submodules with ``git submodule update --init --recursive``
-before running ``cmake``.
-
-will finish with a statement such as
+The ``sudo make install`` step will finish with a statement such as
 ```
 -- Set runtime path of "/usr/local/lib/python3.11/dist-packages/gnuradio/m17/m17_python.cpython-311-x86_64-linux-gnu.so" to ""
 ```
+
+If the repository was cloned without ``--recursive``, fetch the submodules with ``git submodule update --init --recursive``
+before running ``cmake``.
+
 If GNU Radio Companion then reports ``ImportError: libgnuradio-m17.so.1.0.0: cannot open shared object file``, make sure
-``sudo ldconfig`` was run after ``sudo make install``. Depending on Linux distribution, variables might also have to be set
-(tested with Debian/sid, but not needed with Ubuntu 24.04 LTS) to help GNU Radio Companion find the Python libraries:
+``sudo ldconfig`` was run after ``sudo make install``. Depending on Linux distribution (needed with Debian/sid, but not with
+Ubuntu 24.04 LTS), the library and Python paths might also have to be set for GNU Radio Companion:
 
 ```
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/x86_64-linux-gnu/
@@ -42,10 +43,8 @@ where the ``LD_LIBRARY_PATH`` setting results from
 find /usr/local/ -name libgnuradio-m17.so.1.0.0 -print
 ```
 
-to solve any issue related to ``ImportError: libgnuradio-m17.so.1.0.0: cannot open shared object file: No such file or directory``
-(which means that ``/usr/local`` is not part of the GNU Radio Companion paths)
-
-When running the flowgraph found in ``examples`` with ``gnuradio-companion ../examples/m17_loopback.grc`` 
+Running the loopback example from the ``build`` directory with ``gnuradio-companion ../examples/m17_loopback.grc``
+and executing it displays:
 
 <img src="examples/m17_loopback.png">
 
@@ -56,7 +55,7 @@ See <a href="examples/README.md">examples/README.md</a> for the expected output 
 * **Transmission control** (M17 Encoder): in *Messages* mode, a stream is started and ended with ``SOT`` and ``EOT`` messages
 on the ``transmission_control`` port, and ``SMS`` messages (e.g. from a QT GUI Msg Push Button, property name ``SMS``, value = text,
 up to 821 bytes) send a text message. In *Continuous* mode, the stream starts with the flowgraph and ends when the input ends.
-* **META** (M17 Encoder, *Meta* tab, no encryption only): text (up to 13 bytes, UTF-8), GNSS position, extended callsign data,
+* **META** (M17 Encoder, *Meta* tab, no encryption only): text (up to 52 bytes, UTF-8, sent as up to 4 blocks, one per superframe), GNSS position, extended callsign data,
 or raw bytes (hex), selected with *Meta type*. With AES, META carries the nonce.
 * **Keys and seeds** are entered as hex strings (spaces allowed): AES key 32/48/64 hex digits, scrambler seed 2/4/6 hex digits
 (= 8/16/24-bit), ECDSA private key (encoder) 64 hex digits, public key (decoder) 128 hex digits. With *Debug* enabled, the
@@ -69,12 +68,12 @@ frames are output as Codec2 silence, zeros or nothing (selectable).
 
 ## Developer notes
 
-In case of error related to ``Python bindings for m17_coder.h are out of sync`` after changing
+In case of error related to ``Python bindings for m17_decoder.h are out of sync`` after changing
 header files in ``include/gnuradio/m17``, make sure that 
 ```
 md5sum include/gnuradio/m17/m17_decoder.h
 ```
-match the information in ``python/m17/bindings/*cc``.
+matches the information in ``python/m17/bindings/*cc``. Same goes for the encoder.
 
 Rather than manually changing the md5sum, the proper way of handling bindings in the Python directory is to execute
 ```
@@ -85,6 +84,6 @@ from the ``gr-m17`` directory, assuming ``gr_modtool bind`` works, otherwise che
 
 ### A note on output generation
 
-The coder block is an interpolating block outputing 12 times more symbols than input bytes (16 bytes per frame become 192 symbols). The (well named) ``noutput_items``
+The coder block is an interpolating block outputting 12 times more symbols than input bytes (16 bytes per frame become 192 symbols). The (well named) ``noutput_items``
 is the **output** buffer size which fills much faster than the input stream so we fill ``out`` until ``noutput_items`` are reached, then
 send this to the GNU Radio scheduler, and consume the few input samples needed to fill the output buffer. The ring buffer mechanism of GNU Radio makes sure the dataflow is consistent.

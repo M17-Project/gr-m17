@@ -92,7 +92,12 @@ namespace gr
 			bool start() override;
 			std::string tag() const;
 			void rx_reset(void);
-			void publish_fields(void);
+			void publish_fields(const std::string &text = "");
+			void text_block(const lsf_t &l);
+			uint8_t _txt_block[4][13]; // multi-block Text Data being collected
+			uint8_t _txt_used = 0;	   // block bit map of the message
+			uint8_t _txt_have = 0;	   // blocks received so far (OR-ed Control Bytes)
+			bool _txt_done = false;	   // complete text reported for this transmission
 			void check_keys(uint16_t type);
 			int _key_len = 0;  // AES key length in bytes (0 = none)
 			int _seed_len = 0; // scrambler seed length in bytes (0 = none)

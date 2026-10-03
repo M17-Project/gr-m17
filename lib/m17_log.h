@@ -61,6 +61,26 @@ namespace gr
 			return s;
 		}
 
+		// one block of a split UTF-8 text: drop partial characters at either end (marked with '~'),
+		// so the console never receives invalid UTF-8
+		inline std::string m17_utf8_chunk(const std::string &in)
+		{
+			size_t a = 0, b = in.size();
+			while (a < b && ((uint8_t)in[a] & 0xC0) == 0x80) // continuation bytes of a character started in the previous block
+				a++;
+			size_t i = b;
+			while (i > a && ((uint8_t)in[i - 1] & 0xC0) == 0x80)
+				i--;
+			if (i > a) // is the last character complete?
+			{
+				uint8_t lead = (uint8_t)in[i - 1];
+				size_t need = (lead >= 0xF0) ? 4 : (lead >= 0xE0) ? 3 : (lead >= 0xC0) ? 2 : 1;
+				if (b - (i - 1) < need)
+					b = i - 1;
+			}
+			return std::string(a ? "~" : "") + in.substr(a, b - a) + std::string(b < in.size() ? "~" : "");
+		}
+
 		// "voice stream, AES-128, CAN 0, signed" / "packet, CAN 0"
 		inline std::string m17_type_str(uint16_t type)
 		{
@@ -108,15 +128,24 @@ namespace gr
 
 			if (sub == 0) // Text Data
 			{
-				if (meta[0] == 0x11) // single text block
+				uint8_t used = meta[0] >> 4, which = meta[0] & 0xF;
+				int total = __builtin_popcount(used), idx = __builtin_ctz(which ? which : 1) + 1;
+				bool valid = (used == 0x1 || used == 0x3 || used == 0x7 || used == 0xF) && which && !(which & (which - 1)) && (which & used);
+				if (!valid)
 				{
-					std::string t((const char *)&meta[1], 13);
+					snprintf(b, sizeof(b), "META text block (invalid control byte 0x%02X): ", meta[0]);
+					return b + m17_hex(&meta[1], 13);
+				}
+				std::string t((const char *)&meta[1], 13);
+				if (idx == total) // the last block is padded with spaces
+				{
 					size_t end = t.find_last_not_of(std::string(" \0", 2));
 					t = (end == std::string::npos) ? "" : t.substr(0, end + 1);
-					return "META text \"" + t + "\"";
 				}
-				snprintf(b, sizeof(b), "META text block (control byte 0x%02X): ", meta[0]);
-				return b + m17_hex(&meta[1], 13);
+				if (total == 1)
+					return "META text \"" + t + "\"";
+				snprintf(b, sizeof(b), "META text block %d/%d \"", idx, total);
+				return b + m17_utf8_chunk(t) + "\"";
 			}
 			if (sub == 1) // GNSS position
 			{

@@ -9,7 +9,7 @@ Builders for the 14-byte LSF META field used by the M17 Encoder block.
 The position, ECD and raw builders return a Python str holding raw bytes (one
 character per byte, latin-1), which is the form the C++ block expects for
 byte-array META contents; meta_text() returns plain text, which the block
-copies as UTF-8. Layouts follow the M17 specification 2.0.x. The encoders mirror libm17's set_LSF_meta_position() and
+splits into Text Data blocks itself. Layouts follow the M17 specification 2.0.x. The encoders mirror libm17's set_LSF_meta_position() and
 set_LSF_meta_ecd() byte for byte.
 '''
 
@@ -126,21 +126,17 @@ def meta_ecd(cf1, cf2=''):
     return _as_meta(data)
 
 
-TEXT_BLOCK_LEN = 13
+TEXT_MAX_LEN = 52   # 4 Text Data blocks of 13 bytes
 
 
 def meta_text(text):
-    '''Single-block Text Data META (spec 2.0.x): Control Byte 0x11 followed by
-    up to 13 bytes of UTF-8 text, padded with spaces. Empty text -> no Text
-    Data (all zeros). Returned as a normal str: the block copies the UTF-8
-    bytes of a Text Data META as they are.'''
-    if not text:
-        return ''
+    '''Text Data META (spec 2.0.x): plain UTF-8 text of up to 52 bytes. The encoder block
+    splits it into up to four 13-byte blocks, adds the Control Bytes and sends one block
+    per superframe. Returned as a normal str: the block copies its UTF-8 bytes.'''
     n = len(text.encode('utf-8'))
-    if n > TEXT_BLOCK_LEN:
-        raise ValueError('META text is %d bytes long, the maximum is %d'
-                         % (n, TEXT_BLOCK_LEN))
-    return '\x11' + text + ' ' * (TEXT_BLOCK_LEN - n)
+    if n > TEXT_MAX_LEN:
+        raise ValueError('META text is %d bytes long, the maximum is %d' % (n, TEXT_MAX_LEN))
+    return text
 
 
 def meta_hex(hex_str):

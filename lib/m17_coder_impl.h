@@ -48,7 +48,11 @@ namespace gr
 			const time_t epoch = 1577836800L; // Jan 1, 2020, 00:00:00 UTC
 
 			int _can;
-			lsf_t _lsf, _next_lsf;
+			lsf_t _lsf;
+			uint8_t _meta_block[4][14]; // Text Data blocks (Control Byte + 13 bytes)
+			int _meta_blocks = 0;		  // number of Text Data blocks (0: no text)
+			int _meta_idx = 0;			  // block currently in META
+			std::string _meta_text;		  // the complete text
 			std::string _meta;
 			int _got_lsf = 0;
 			uint16_t _fn = 0;	   // 16-bit Frame Number (for the stream mode)
@@ -113,6 +117,7 @@ namespace gr
 			void switch_state(const pmt::pmt_t &msg);
 			void init_state(void);
 			std::string tag() const;
+			std::string meta_desc(uint16_t type);
 			bool _started = false; // flowgraph started: setters report runtime changes
 			bool _continuous = false; // continuous mode: one stream from flowgraph start to end of input
 			bool input_done();
