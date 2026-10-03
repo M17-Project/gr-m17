@@ -40,7 +40,7 @@ mkfifo /tmp/fifo2
 ../M17_Implementations/SP5WWP/m17-decoder/m17-decoder-sym -c -m -l -v < /tmp/fifo2
 ```
 
-and with ``python3 ./m17_tx.py`` running, the output of ``m17-decoder-sym`` should be
+and with ``python3 ./m17_tx.py`` running and its *Start of Transmission* button pressed, the output of ``m17-decoder-sym`` should be
 ```
 {LSF} DST: AB2CDE    SRC: AB1CDE    TYPE: 0005 (STREAM: VOICE, ENCR: PLAIN, CAN: 0) META: 1148656C6C6F2120202020202020 LSF_CRC_OK e=0.0
 FN: 0000 PLD: 01020304050600000000000000000000 e=0.0
@@ -57,18 +57,17 @@ Loopback demo with TX and RX both in GNU Radio.
 
 <img src="m17_loopback.png">
 
-The output should be similar to
+After pressing *Start of Transmission*, the output should be similar to (the payload position within the
+16-byte vector depends on when the button is pressed; *End of Transmission* ends the stream)
 
 ```
-15:10:25.898 [M17_ENC] Ready: AB1CDE -> AB2CDE, TYPE 0005 (voice stream, no encryption, CAN 0), no META, debug on
-15:10:25.898 [M17_ENC] TX start: stream (continuous mode)
-15:10:25.898 [M17_DEC] Ready: syncword threshold 2.0, Viterbi threshold 30.0, no AES key, no scrambler seed, no public key, debug data on, debug control on
-15:10:26.018 [M17_DEC] RX start: AB1CDE -> AB2CDE, TYPE 0005 (voice stream, no encryption, CAN 0), no META, e=0.0
-15:10:26.046 [M17_DEC] FN 0000  01020304 05060000 00000000 00000000  e=0.0
-15:10:26.098 [M17_DEC] FN 0001  01020304 05060000 00000000 00000000  e=0.0
-15:10:26.098 [M17_DEC] FN 0002  01020304 05060000 00000000 00000000  e=0.0
-...
-15:10:26.218 [M17_DEC] LSF (LICH) unchanged
+18:46:53.637 [M17_ENC] Ready: AB1CDE -> AB2CDE, TYPE 0003 (data stream, no encryption, CAN 0), no META, debug on
+18:46:53.638 [M17_DEC] Ready: syncword threshold 2.0, Viterbi threshold 30.0, no AES key, no scrambler seed, no public key, debug data on, debug control on
+18:46:54.146 [M17_ENC] TX start: stream
+18:46:55.318 [M17_DEC] RX start: AB1CDE -> AB2CDE, TYPE 0003 (data stream, no encryption, CAN 0), no META, e=0.0
+18:46:55.330 [M17_DEC] FN 0000  00000000 00000000 00000102 03040506  e=0.0
+18:46:55.331 [M17_DEC] FN 0001  00000000 00000000 00000102 03040506  e=0.0
+18:46:55.331 [M17_DEC] FN 0002  00000000 00000000 00000102 03040506  e=0.0
 ...
 ```
 
