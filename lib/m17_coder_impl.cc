@@ -57,7 +57,7 @@ namespace gr
 									   bool signed_str, std::string seed,
 									   int eot_cnt) : gr::block("m17_coder", gr::io_signature::make(1, 1, sizeof(char)),
 																gr::io_signature::make(1, 1, sizeof(float))),
-													  _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _can(can), _meta(meta), _debug(debug),
+													  _mode(M17_TYPE_STREAM), _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _can(can), _meta(meta), _debug(debug),
 													  _signed_str(signed_str), _eot_cnt(eot_cnt)
 		{
 			set_encr_type(encr_type); // overwritten by set_seed()
@@ -68,6 +68,8 @@ namespace gr
 			set_eot_cnt(eot_cnt);
 			set_src_id(src_id);
 			set_dst_id(dst_id);
+			set_key(key);		   // AES key
+			set_priv_key(priv_key); // signing key
 			set_signed(signed_str);
 			set_debug(debug);
 			set_output_multiple(SYM_PER_FRA);
@@ -247,6 +249,7 @@ namespace gr
 			_finished.store(false, std::memory_order_relaxed);
 			_send_preamble = true; // send preamble once in the work function
 			_stale_flushed = false; // drop stale input on the first work call after SOT
+			memset(_digest, 0, sizeof(_digest)); // every stream starts with an all-zero digest
 		}
 
 		void m17_coder_impl::set_encr_type(int encr_type)
@@ -280,6 +283,7 @@ namespace gr
 			_signed_str = signed_str;
 			if (_signed_str == true)
 				fprintf(stderr, "Signed stream\n");
+			set_type(_mode, _data, _encr_type, _encr_subtype, _can); // update the SIGNED bit in TYPE
 		}
 
 		void m17_coder_impl::set_debug(bool debug)
@@ -344,8 +348,6 @@ namespace gr
 
 			_priv_key_loaded = true;
 
-			fprintf(stderr, "Private key ");
-
 			int i = 0, j = 0;
 			while ((j < 32) && (i < length))
 			{
@@ -366,10 +368,21 @@ namespace gr
 
 			length = j; // index from 0 to length-1
 
-			fprintf(stderr, "(%d bytes): ", length);
-			for (i = 0; i < length; i++)
-				fprintf(stderr, "%02X ", _priv_key[i]);
-			fprintf(stderr, "\n");
+			// the private key is never printed; with Debug on, show the derived public key
+			// (the encoder itself does not need it - it is meant for the receiving side)
+			uint8_t pub_key[64];
+			if (length == 32 && uECC_compute_public_key(_priv_key, pub_key, _curve))
+			{
+				if (_debug)
+				{
+					fprintf(stderr, "Public key (derived from the private key): ");
+					for (i = 0; i < (int)sizeof(pub_key); i++)
+						fprintf(stderr, "%02X", pub_key[i]);
+					fprintf(stderr, "\n");
+				}
+			}
+			else
+				fprintf(stderr, "WARNING: invalid private key - signatures will not verify\n");
 
 			fflush(stdout);
 		}
@@ -595,7 +608,7 @@ namespace gr
 		{
 			short tmptype;
 			tmptype =
-				mode | (data << 1) | (encr_type << 3) | (encr_subtype << 5) | (can << 7);
+				mode | (data << 1) | (encr_type << 3) | (encr_subtype << 5) | (can << 7) | (_signed_str ? M17_TYPE_SIGNED : 0);
 			_lsf.type[0] = tmptype >> 8;   // MSB
 			_lsf.type[1] = tmptype & 0xFF; // LSB
 			uint16_t ccrc = LSF_CRC(&_lsf);
@@ -911,6 +924,8 @@ namespace gr
 
 				// check the SIGNED STREAM flag
 				_signed_str = (_lsf.type[0] >> 3) & 1;
+				if (_signed_str && !_priv_key_loaded)
+					fprintf(stderr, "WARNING: signed stream without a private key - the signature will not verify\n");
 
 				_got_lsf = 1;
 			}

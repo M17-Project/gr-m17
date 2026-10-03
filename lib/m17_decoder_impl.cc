@@ -693,16 +693,16 @@ namespace gr
 									   fprintf(stderr, "%02X", sig[i]);
 									   fprintf(stderr, "\n"); */
 
-									if (uECC_verify(_key, _digest, sizeof(_digest), _sig, _curve))
-									{
-										if (_debug_ctrl == true)
-											fprintf(stderr, "Signature OK\n");
-									}
+									bool have_key = false;
+									for (uint8_t i = 0; i < 64; i++)
+										have_key |= (_key[i] != 0);
+
+									if (!have_key)
+										fprintf(stderr, "Signature received - no public key set, not verified\n");
+									else if (uECC_verify(_key, _digest, sizeof(_digest), _sig, _curve))
+										fprintf(stderr, "Signature OK\n");
 									else
-									{
-										if (_debug_ctrl == true)
-											fprintf(stderr, "Signature invalid\n");
-									}
+										fprintf(stderr, "Signature invalid\n");
 								}
 							}
 
