@@ -218,10 +218,16 @@ namespace gr
 					return;
 				}
 
+				if (val.size() > SMS_MAX_LEN)
+				{
+					fprintf(stderr, "[%02d:%02d:%02d] SMS ignored (%zu bytes, the maximum is %d)\n", t.tm_hour, t.tm_min, t.tm_sec, val.size(), SMS_MAX_LEN);
+					return;
+				}
+
 				if (val.size())
 				{
 					fprintf(stderr, "[%02d:%02d:%02d] Start of text message transmission:\n%s\n", t.tm_hour, t.tm_min, t.tm_sec, val.c_str());
-					size_t n = std::min(val.size(), sizeof(_text_msg) - 1);
+					size_t n = val.size();
 					memcpy(_text_msg, val.c_str(), n);
 					_text_msg[n] = 0;
 					_text_len.store(n, std::memory_order_relaxed);
@@ -808,71 +814,74 @@ namespace gr
 			int countin = 0;
 			uint32_t countout = 0;
 
-			///-------packet mode------- TODO: this is only a test!! this needs a proper state machine
+			//-------packet mode-------
+			// preamble, LSF, 1..33 Packet Frames, EoT(s); continued across work calls if the output buffer is short
 			if (_pkt_pend.load(std::memory_order_acquire))
 			{
-				// emit the whole packet transmission (preamble, LSF, packet frame, EoT) in one go, or wait
-				if (noutput_items < (3 + _eot_cnt) * SYM_PER_FRA)
+				if (_pkt_stage < 0) // start of a packet transmission: assemble the Packet Data
 				{
-					consume_each(0);
-					return 0;
+					size_t n = _text_len.load(std::memory_order_acquire);
+					_pkt_data[0] = 0x05; // protocol: SMS (null-terminated, UTF-8 encoded string)
+					memcpy(&_pkt_data[1], _text_msg, n);
+					_pkt_data[1 + n] = 0; // terminating null byte
+					uint16_t crc = CRC_M17(_pkt_data, 1 + n + 1);
+					_pkt_data[1 + n + 1] = crc >> 8;
+					_pkt_data[1 + n + 2] = crc & 0xFF;
+					_pkt_len = (int)n + 4;
+					_pkt_frames = (_pkt_len + PKT_CHUNK - 1) / PKT_CHUNK;
+
+					// packet mode uses its own LSF: the stream LSF (_lsf) is left untouched;
+					// in packet mode only the Packet/Stream bit (0 = packet) and CAN are defined in TYPE
+					_pkt_lsf = _lsf;
+					uint16_t pkt_type = (uint16_t)(_can & 0xF) << 7;
+					_pkt_lsf.type[0] = pkt_type >> 8;
+					_pkt_lsf.type[1] = pkt_type & 0xFF;
+					update_LSF_CRC(&_pkt_lsf);
+					fprintf(stderr, "Packet LSF TYPE: 0x%04X, %d bytes in %d frame(s)\n", pkt_type, _pkt_len, _pkt_frames);
+
+					_pkt_stage = 0;
 				}
 
-				// packet mode uses its own LSF: the stream LSF (_lsf) is left untouched;
-				// in packet mode only the Packet/Stream bit (0 = packet) and CAN are defined in TYPE
-				lsf_t pkt_lsf = _lsf;
-				uint16_t pkt_type = (uint16_t)(_can & 0xF) << 7;
-				pkt_lsf.type[0] = pkt_type >> 8;
-				pkt_lsf.type[1] = pkt_type & 0xFF;
-				update_LSF_CRC(&pkt_lsf);
-				fprintf(stderr, "Packet LSF TYPE: 0x%04X\n", pkt_type);
-
-				int avbl = noutput_items;
-
-				if (avbl >= SYM_PER_FRA)
+				while (countout + SYM_PER_FRA <= (uint32_t)noutput_items)
 				{
-					gen_preamble(out, &countout, PREAM_LSF);
-					avbl -= SYM_PER_FRA;
-				}
-
-				if (avbl >= SYM_PER_FRA)
-				{
-					gen_frame(out + countout, NULL, FRAME_LSF, &pkt_lsf, 0, 0);
-					countout += SYM_PER_FRA;
-					avbl -= SYM_PER_FRA;
-				}
-
-				if (avbl >= SYM_PER_FRA)
-				{
-					size_t len = _text_len.load(std::memory_order_acquire);
-					if (len > 21)
-						len = 21;
-					uint8_t pkt_pld[26] = {0}; // TODO: TEST ONLY!
-					pkt_pld[0] = 0x05;		   // text message
-					memcpy(&pkt_pld[1], _text_msg, len);
-					uint16_t crc = CRC_M17(pkt_pld, 1 + len + 1);
-					pkt_pld[1 + len + 1] = crc >> 8;
-					pkt_pld[1 + len + 2] = crc & 0xFF;
-					pkt_pld[25] = 0x80 | ((1 + len + 1 + 2)<<2); // TODO: TEST ONLY fixed, 1-payload-frame packet
-					gen_frame(out + countout, pkt_pld, FRAME_PKT, &pkt_lsf, 0, 0);
-					countout += SYM_PER_FRA;
-					avbl -= SYM_PER_FRA;
-				}
-
-				for (uint8_t i = 0; i < _eot_cnt; i++)
-				{
-					if (avbl >= SYM_PER_FRA)
+					if (_pkt_stage == 0) // preamble
+					{
+						gen_preamble(out, &countout, PREAM_LSF); // writes at out[countout], advances countout
+					}
+					else if (_pkt_stage == 1) // LSF
+					{
+						gen_frame(out + countout, NULL, FRAME_LSF, &_pkt_lsf, 0, 0);
+						countout += SYM_PER_FRA;
+					}
+					else if (_pkt_stage < 2 + _pkt_frames) // Packet Frames
+					{
+						int k = _pkt_stage - 2;					 // frame index
+						int rem = _pkt_len - k * PKT_CHUNK;		 // bytes left, including this chunk
+						int take = rem < PKT_CHUNK ? rem : PKT_CHUNK; // valid bytes in this frame
+						uint8_t pkt_pld[PKT_CHUNK + 1] = {0};	 // 25-byte chunk (null-padded) + metadata byte
+						memcpy(pkt_pld, &_pkt_data[k * PKT_CHUNK], take);
+						if (rem > PKT_CHUNK)
+							pkt_pld[PKT_CHUNK] = (k & 0x1F) << 2;			  // EOF = 0, frame counter
+						else
+							pkt_pld[PKT_CHUNK] = 0x80 | ((take & 0x1F) << 2); // EOF = 1, bytes in this frame
+						gen_frame(out + countout, pkt_pld, FRAME_PKT, &_pkt_lsf, 0, 0);
+						countout += SYM_PER_FRA;
+					}
+					else if (_pkt_stage < 2 + _pkt_frames + _eot_cnt) // EoT frame(s)
 					{
 						uint32_t tmp = 0;
 						gen_eot(out + countout, &tmp);
-						countout += SYM_PER_FRA;
-						avbl -= SYM_PER_FRA;
+						countout += tmp;
 					}
-					else
-						break;
-				}
 
-				_pkt_pend.store(false, std::memory_order_relaxed);
+					_pkt_stage++;
+					if (_pkt_stage >= 2 + _pkt_frames + _eot_cnt) // done
+					{
+						_pkt_stage = -1;
+						_pkt_pend.store(false, std::memory_order_release);
+						break;
+					}
+				}
 
 				consume_each(0); // packet mode transmission does not consume any input samples - all the data comes from the Message
 				return countout;

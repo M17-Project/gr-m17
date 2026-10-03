@@ -63,7 +63,8 @@ namespace gr
 
 			uint16_t enc_data[272];			// raw frame data soft bits
 			uint8_t _stream_frame_data[16]; // decoded stream frame data, 128 bits
-			char rcvd_msg[33 * 25 - 4];		// packet frame data
+			char rcvd_msg[33 * 25 + 1];		// reassembled Packet Data (up to 33 frames) + guard null byte
+			uint16_t _pkt_wr_offs = 0;		// reassembly write position
 			uint8_t digest[16] = {0};
 
 			uint8_t syncd = 0; // syncword found?

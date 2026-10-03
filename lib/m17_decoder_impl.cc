@@ -734,6 +734,7 @@ namespace gr
 								fprintf(stderr, "{LSF} ");
 							}
 							// decode
+							_pkt_wr_offs = 0; // a new transmission starts - discard any partial packet
 							uint32_t e = decode_LSF(&_lsf, _pld);
 
 							// dump data
@@ -843,21 +844,39 @@ namespace gr
 							uint8_t frame_data[25] = {0};
 							uint8_t eof = 0;
 							uint8_t pkt_fn = 0;
-							static uint16_t wr_offs = 0;
-							static uint16_t len = 0;
+							uint16_t len = 0;
 
 							uint32_t e = decode_pkt_frame(frame_data, &eof, &pkt_fn, _pld);
 
+							bool frame_ok = true;
 							if (!eof)
 							{
-								memcpy(&rcvd_msg[wr_offs], frame_data, 25);
-								wr_offs += 25;
+								// frames must arrive in order (counter = index) and fit into 33 frames
+								if (pkt_fn != _pkt_wr_offs / 25 || _pkt_wr_offs + 25 > 33 * 25)
+								{
+									fprintf(stderr, "Packet frame out of sequence - packet dropped\n");
+									_pkt_wr_offs = 0;
+									frame_ok = false;
+								}
+								else
+								{
+									memcpy(&rcvd_msg[_pkt_wr_offs], frame_data, 25);
+									_pkt_wr_offs += 25;
+								}
+							}
+
+							else if (pkt_fn < 1 || pkt_fn > 25 || _pkt_wr_offs + pkt_fn > 33 * 25)
+							{
+								fprintf(stderr, "Invalid last packet frame - packet dropped\n");
+								_pkt_wr_offs = 0;
+								frame_ok = false;
 							}
 
 							else
 							{
-								memcpy(&rcvd_msg[wr_offs], frame_data, pkt_fn);
-								len = wr_offs + pkt_fn;
+								memcpy(&rcvd_msg[_pkt_wr_offs], frame_data, pkt_fn);
+								len = _pkt_wr_offs + pkt_fn;
+								rcvd_msg[len] = 0; // guard: the SMS text is always null-terminated
 
 								// TODO: we use last LSF data that might be outdated
 								if (rcvd_msg[0] == 0x05 && CRC_M17((uint8_t *)rcvd_msg, len) == 0)
@@ -881,11 +900,15 @@ namespace gr
 									message_port_pub(pmt::mp("fields"), dict);
 								}
 
-								//TODO: this requires a timeout
-								wr_offs = 0;
+								else
+									fprintf(stderr, "Packet CRC error or unsupported protocol - packet dropped\n");
+
+								_pkt_wr_offs = 0;
 							}
 
-							if (!eof)
+							if (!frame_ok)
+								;
+							else if (!eof)
 							{
 								fprintf(stderr, "Packet frame: %d", pkt_fn);
 							}

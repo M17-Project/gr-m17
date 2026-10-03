@@ -55,7 +55,17 @@ namespace gr
 			uint16_t _fn = 0;	   // 16-bit Frame Number (for the stream mode)
 			uint8_t _lich_cnt = 0; // 0..5 LICH counter, derived from the Frame Number
 
-			char _text_msg[32 * 23]; // TODO: large enough size?
+			// packet mode (spec 2.0.x): Packet Data = protocol byte + data (+ null for text) + 2-byte CRC,
+			// split into up to 33 frames of 25 bytes -> at most 821 bytes of SMS text
+			static const int PKT_MAX_FRAMES = 33;
+			static const int PKT_CHUNK = 25;
+			static const int SMS_MAX_LEN = PKT_MAX_FRAMES * PKT_CHUNK - 4;
+			char _text_msg[SMS_MAX_LEN + 1];
+			uint8_t _pkt_data[PKT_MAX_FRAMES * PKT_CHUNK]; // assembled Packet Data incl. CRC
+			int _pkt_len = 0;							  // bytes in _pkt_data
+			int _pkt_frames = 0;						  // number of Packet Frames
+			int _pkt_stage = -1;						  // -1: idle, 0: preamble, 1: LSF, 2..: frames, then EoT
+			lsf_t _pkt_lsf;								  // LSF used for the packet transmission
 			std::atomic<size_t> _text_len;
 			std::atomic<bool> _pkt_pend = false; // pending packet transmission?
 
