@@ -441,11 +441,11 @@ blocks:
     aes_subtype: '0'
     affinity: ''
     alias: ''
-    can: '0'
+    can: CAN
     comment: ''
     continuous: 'True'
     debug: 'False'
-    dst_id: ALL
+    dst_id: '@ALL'
     encr_subtype: '0'
     encr_type: '0'
     eot_cnt: '1'
@@ -467,7 +467,7 @@ blocks:
     seed: ''
     signed_str: 'False'
     src_id: AB1CDE
-    type: (CAN<<7)|(2<<1)|1
+    type: '2'
   states:
     bus_sink: false
     bus_source: false

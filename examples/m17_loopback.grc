@@ -126,7 +126,7 @@ blocks:
     options: '[0, 1, 2]'
     orient: Qt.QVBoxLayout
     type: int
-    value: '1'
+    value: '2'
     widget: combo_box
   states:
     bus_sink: false
@@ -356,7 +356,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    callsign: 'False'
+    callsign: 'True'
     comment: ''
     debug_ctrl: 'True'
     debug_data: 'True'
