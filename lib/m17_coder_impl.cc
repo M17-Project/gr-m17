@@ -29,6 +29,7 @@
 #include <unistd.h>
 
 #include "m17.h"
+#include "m17_log.h"
 #include "aes.h"
 #include "uECC.h"
 
@@ -170,22 +171,18 @@ namespace gr
 					val = pmt::symbol_to_string(cdr);
 			}
 
-			time_t now = time(NULL);
-			struct tm t;
-			localtime_r(&now, &t);
-
 			if (cmd == "SOT")
 			{
 				if (_active.load(std::memory_order_acquire))
 				{
-					fprintf(stderr, "[%02d:%02d:%02d] SOT ignored (stream already active)\n", t.tm_hour, t.tm_min, t.tm_sec);
+					m17_log(tag(), "SOT ignored (stream already active)");
 					return;
 				}
 
 				_active.store(true, std::memory_order_release);
 				_finished.store(false, std::memory_order_relaxed);
 				set_mode(M17_TYPE_STREAM);
-				fprintf(stderr, "[%02d:%02d:%02d] Start of Stream transmission\n", t.tm_hour, t.tm_min, t.tm_sec);
+				m17_log(tag(), "TX start: stream");
 				return;
 			}
 
@@ -193,12 +190,11 @@ namespace gr
 			{
 				if (!_active.load(std::memory_order_acquire))
 				{
-					fprintf(stderr, "[%02d:%02d:%02d] EOT ignored (no active stream)\n", t.tm_hour, t.tm_min, t.tm_sec);
+					m17_log(tag(), "EOT ignored (no active stream)");
 					return;
 				}
 
 				_finished.store(true, std::memory_order_release);
-				fprintf(stderr, "[%02d:%02d:%02d] End of Stream transmission\n", t.tm_hour, t.tm_min, t.tm_sec);
 				return;
 			}
 
@@ -208,25 +204,25 @@ namespace gr
 				// the TX path of the hardware may not be ready for another transmission
 				if (_active.load(std::memory_order_acquire))
 				{
-					fprintf(stderr, "[%02d:%02d:%02d] SMS ignored (stream active)\n", t.tm_hour, t.tm_min, t.tm_sec);
+					m17_log(tag(), "SMS ignored (stream active)");
 					return;
 				}
 
 				if (_pkt_pend.load(std::memory_order_acquire))
 				{
-					fprintf(stderr, "[%02d:%02d:%02d] SMS ignored (last transmission pending)\n", t.tm_hour, t.tm_min, t.tm_sec);
+					m17_log(tag(), "SMS ignored (previous SMS still being sent)");
 					return;
 				}
 
 				if (val.size() > SMS_MAX_LEN)
 				{
-					fprintf(stderr, "[%02d:%02d:%02d] SMS ignored (%zu bytes, the maximum is %d)\n", t.tm_hour, t.tm_min, t.tm_sec, val.size(), SMS_MAX_LEN);
+					m17_log(tag(), "SMS ignored (%zu bytes, the maximum is %d)", val.size(), SMS_MAX_LEN);
 					return;
 				}
 
 				if (val.size())
 				{
-					fprintf(stderr, "[%02d:%02d:%02d] Start of text message transmission:\n%s\n", t.tm_hour, t.tm_min, t.tm_sec, val.c_str());
+					m17_log(tag(), "TX start: SMS, %zu bytes: %s", val.size(), val.c_str());
 					size_t n = val.size();
 					memcpy(_text_msg, val.c_str(), n);
 					_text_msg[n] = 0;
@@ -234,11 +230,11 @@ namespace gr
 					_pkt_pend.store(true, std::memory_order_release);
 				}
 				else
-					fprintf(stderr, "[%02d:%02d:%02d] Empty packet data\n", t.tm_hour, t.tm_min, t.tm_sec);
+					m17_log(tag(), "SMS ignored (empty)");
 				return;
 			}
 
-			fprintf(stderr, "[%02d:%02d:%02d] Strange message received\n", t.tm_hour, t.tm_min, t.tm_sec);
+			m17_log(tag(), "Unknown control message ignored");
 		}
 
 		void m17_coder_impl::init_state(void)
@@ -259,39 +255,30 @@ namespace gr
 			{
 			case 0:
 				_encr_type = ENCR_NONE;
-				fprintf(stderr, "Encryption type: none\n");
 				break;
 			case 1:
 				_encr_type = ENCR_SCRAM;
-				fprintf(stderr, "Encryption type: scrambler\n");
 				break;
 			case 2:
 				_encr_type = ENCR_AES;
-				fprintf(stderr, "Encryption type: AES\n");
 				break;
 			case 3:
 				_encr_type = ENCR_RES;
-				fprintf(stderr, "Encryption type: reserved\n");
 				break;
 			default:
 				_encr_type = ENCR_NONE;
-				fprintf(stderr, "Encryption type: none\n");
 			}
 		}
 
 		void m17_coder_impl::set_signed(bool signed_str)
 		{
 			_signed_str = signed_str;
-			if (_signed_str == true)
-				fprintf(stderr, "Signed stream\n");
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can); // update the SIGNED bit in TYPE
 		}
 
 		void m17_coder_impl::set_debug(bool debug)
 		{
 			_debug = debug;
-			if (_debug == true)
-				fprintf(stderr, "Debug: true\n");
 		}
 
 		void m17_coder_impl::set_src_id(std::string src_id)
@@ -374,16 +361,11 @@ namespace gr
 			uint8_t pub_key[64];
 			if (length == 32 && uECC_compute_public_key(_priv_key, pub_key, _curve))
 			{
-				if (_debug)
-				{
-					fprintf(stderr, "Public key (derived from the private key): ");
-					for (i = 0; i < (int)sizeof(pub_key); i++)
-						fprintf(stderr, "%02X", pub_key[i]);
-					fprintf(stderr, "\n");
-				}
+				if (_debug && _started)
+					m17_log(tag(), "Public key (derived from the private key): %s", m17_hex(pub_key, sizeof(pub_key)).c_str());
 			}
 			else
-				fprintf(stderr, "WARNING: invalid private key - signatures will not verify\n");
+				m17_log(tag(), "WARNING: invalid private key - signatures will not verify");
 
 			fflush(stdout);
 		}
@@ -415,7 +397,8 @@ namespace gr
 			length = j; // index from 0 to length-1
 
 			// the key itself is never printed
-			fprintf(stderr, "AES key loaded (%d bytes)\n", length);
+			if (_started)
+				m17_log(tag(), "AES key changed (%d bytes)", length);
 
 			fflush(stdout);
 		}
@@ -454,9 +437,10 @@ namespace gr
 			_scrambler_subtype = length - 1;
 			_scrambler_seed = _scrambler_key;
 
-			fprintf(stderr, "Scrambler seed: 0x%0*X (%d-bit)\n", 2 * length, _scrambler_key, 8 * length);
+			if (_started)
+				m17_log(tag(), "Scrambler seed changed (%d-bit)", 8 * length);
 			if (_scrambler_key == 0)
-				fprintf(stderr, "WARNING: an all-zero scrambler seed produces no scrambling\n");
+				m17_log(tag(), "WARNING: an all-zero scrambler seed produces no scrambling");
 
 			_encr_type = ENCR_SCRAM; // Scrambler key was passed
 		}
@@ -478,11 +462,8 @@ namespace gr
 
 			memset(_lsf.meta, 0, sizeof(_lsf.meta));
 
-			fprintf(stderr, "META: ");
-
 			if (!meta.length())
 			{
-				fprintf(stderr, "0000000000000000000000000000\n");
 				uint16_t ccrc = LSF_CRC(&_lsf);
 				_lsf.crc[0] = ccrc >> 8;
 				_lsf.crc[1] = ccrc & 0xFF;
@@ -493,10 +474,6 @@ namespace gr
 			{
 				length = meta.size() < sizeof(_lsf.meta) ? meta.size() : sizeof(_lsf.meta);
 				memcpy(_lsf.meta, meta.data(), length);
-
-				for (int i = 0; i < length; i++)
-					fprintf(stderr, "%02X ", _lsf.meta[i]);
-				fprintf(stderr, "\n");
 			}
 			else
 			{
@@ -522,37 +499,31 @@ namespace gr
 
 				// length = j; // index from 0 to length-1
 				length = j;
-
-				for (uint_fast8_t i = 0; i < length; i++)
-					fprintf(stderr, "%02X ", _lsf.meta[i]);
-				fprintf(stderr, "\n");
 			}
-
-			fflush(stdout);
 
 			uint16_t ccrc = LSF_CRC(&_lsf);
 			_lsf.crc[0] = ccrc >> 8;
 			_lsf.crc[1] = ccrc & 0xFF;
+
+			if (_started)
+				m17_log(tag(), "META changed: %s", m17_meta_str(_lsf.meta, ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]).c_str());
 		}
 
 		void m17_coder_impl::set_mode(int mode)
 		{
 			_mode = mode;
-			fprintf(stderr, "Mode: %s\n", _mode==M17_TYPE_STREAM ? "stream" : "packet");
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
 
 		void m17_coder_impl::set_data(int data)
 		{
 			_data = data;
-			fprintf(stderr, "Payload type: %d\n", _data);
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
 
 		void m17_coder_impl::set_encr_subtype(int encr_subtype)
 		{
 			_encr_subtype = encr_subtype;
-			fprintf(stderr, "Encryption subtype: %d\n", _encr_subtype);
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
 
@@ -563,40 +534,29 @@ namespace gr
 
 			_aes_subtype = aes_subtype;
 
-			fprintf(stderr, "Using AES");
-
 			if (encr_type == ENCR_AES) // AES ENC, 3200 voice
 			{
 				_type |= M17_TYPE_ENCR_AES;
 				if (_aes_subtype == 0)
-				{
 					_type |= M17_TYPE_ENCR_AES128;
-					fprintf(stderr, "128\n");
-				}
 				else if (_aes_subtype == 1)
-				{
 					_type |= M17_TYPE_ENCR_AES192;
-					fprintf(stderr, "192\n");
-				}
 				else if (_aes_subtype == 2)
-				{
 					_type |= M17_TYPE_ENCR_AES256;
-					fprintf(stderr, "256\n");
-				}
 			}
 		}
 
 		void m17_coder_impl::set_can(int can)
 		{
 			_can = can;
-			fprintf(stderr, "CAN: %d\n", _can);
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
 
 		void m17_coder_impl::set_type(int mode, int data, encr_t encr_type,
 									  int encr_subtype, int can)
 		{
-			short tmptype;
+			uint16_t prev = ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1];
+			uint16_t tmptype;
 			tmptype =
 				mode | (data << 1) | (encr_type << 3) | (encr_subtype << 5) | (can << 7) | (_signed_str ? M17_TYPE_SIGNED : 0);
 			_lsf.type[0] = tmptype >> 8;   // MSB
@@ -604,8 +564,49 @@ namespace gr
 			uint16_t ccrc = LSF_CRC(&_lsf);
 			_lsf.crc[0] = ccrc >> 8;
 			_lsf.crc[1] = ccrc & 0xFF;
-			fprintf(stderr, "Transmission type: 0x%02X%02X\n", _lsf.type[0], _lsf.type[1]);
-			fflush(stdout);
+			if (_started && tmptype != prev)
+				m17_log(tag(), "TYPE changed: %04X (%s)", tmptype, m17_type_str(tmptype).c_str());
+		}
+
+		// tag for console output: the block alias if set in GRC, otherwise M17_ENC
+		std::string m17_coder_impl::tag() const
+		{
+			return alias_set() ? alias() : std::string("M17_ENC");
+		}
+
+		bool m17_coder_impl::start()
+		{
+			uint16_t type = ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1];
+			char src[10] = {0}, dst[10] = {0};
+			decode_callsign_bytes(src, _lsf.src);
+			decode_callsign_bytes(dst, _lsf.dst);
+
+			std::string extra;
+			if (_encr_type == ENCR_SCRAM && _scrambler_key == 0)
+				extra += ", NO SCRAMBLER SEED";
+			if (_encr_type == ENCR_AES)
+			{
+				uint8_t zero[32] = {0};
+				if (!memcmp(_key, zero, sizeof(_key)))
+					extra += ", NO AES KEY";
+			}
+			if (_signed_str && !_priv_key_loaded)
+				extra += ", NO PRIVATE KEY";
+			if (_debug)
+				extra += ", debug on";
+
+			m17_log(tag(), "Ready: %s -> %s, TYPE %04X (%s), %s%s", src, dst, type, m17_type_str(type).c_str(),
+					_encr_type == ENCR_AES ? "AES nonce per transmission" : m17_meta_str(_lsf.meta, type).c_str(), extra.c_str());
+
+			if (_debug && _signed_str && _priv_key_loaded)
+			{
+				uint8_t pub_key[64];
+				if (uECC_compute_public_key(_priv_key, pub_key, _curve))
+					m17_log(tag(), "Public key (derived from the private key): %s", m17_hex(pub_key, sizeof(pub_key)).c_str());
+			}
+
+			_started = true;
+			return gr::block::start();
 		}
 
 		/*
@@ -643,14 +644,6 @@ namespace gr
 
 			// the LFSR size (_scrambler_subtype) comes from the seed length or the received TYPE, never from the value
 			// TODO: Set Frame Type based on scrambler_subtype value
-			if (_debug == true)
-			{
-				fprintf(stderr,
-						"\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;",
-						_scrambler_seed, lfsr, _scrambler_subtype);
-				fprintf(stderr, "\n PN: ");
-			}
-
 			// run PN sequence with taps specified
 			for (i = 0; i < 128; i++)
 			{
@@ -682,14 +675,6 @@ namespace gr
 				_scrambler_seed &= 0xFFFF;
 			else if (_scrambler_subtype == 2)
 				_scrambler_seed &= 0xFFFFFF;
-
-			if (_debug == true)
-			{
-				// debug packed bytes
-				for (i = 0; i < 16; i++)
-					fprintf(stderr, " %02X", _scr_bytes[i]);
-				fprintf(stderr, "\n");
-			}
 		}
 
 		// convert a user string (as hex octets) into a uint8_t array for key
@@ -765,12 +750,7 @@ namespace gr
 			update_LSF_CRC(&_lsf);
 
 			if (_debug)
-			{
-				fprintf(stderr, "AES nonce: ");
-				for (uint8_t i = 0; i < 14; i++)
-					fprintf(stderr, "%02X", _lsf.meta[i]);
-				fprintf(stderr, "\n");
-			}
+				m17_log(tag(), "AES nonce: %s", m17_hex(_lsf.meta, 14).c_str());
 		}
 
 		// encrypt one payload block in place, according to the selected encryption type
@@ -837,7 +817,8 @@ namespace gr
 					_pkt_lsf.type[0] = pkt_type >> 8;
 					_pkt_lsf.type[1] = pkt_type & 0xFF;
 					update_LSF_CRC(&_pkt_lsf);
-					fprintf(stderr, "Packet LSF TYPE: 0x%04X, %d bytes in %d frame(s)\n", pkt_type, _pkt_len, _pkt_frames);
+					if (_debug)
+						m17_log(tag(), "Packet: TYPE %04X, %d bytes in %d frame(s)", pkt_type, _pkt_len, _pkt_frames);
 
 					_pkt_stage = 0;
 				}
@@ -879,6 +860,7 @@ namespace gr
 					{
 						_pkt_stage = -1;
 						_pkt_pend.store(false, std::memory_order_release);
+						m17_log(tag(), "TX end: SMS, %d frame(s)", _pkt_frames);
 						break;
 					}
 				}
@@ -933,7 +915,7 @@ namespace gr
 				// check the SIGNED STREAM flag
 				_signed_str = (_lsf.type[0] >> 3) & 1;
 				if (_signed_str && !_priv_key_loaded)
-					fprintf(stderr, "WARNING: signed stream without a private key - the signature will not verify\n");
+					m17_log(tag(), "WARNING: signed stream without a private key - the signature will not verify");
 
 				_got_lsf = 1;
 			}
@@ -968,11 +950,7 @@ namespace gr
 			// end of stream: last frame, signature (if signed), EoT(s) - all in one go
 			if (finished)
 			{
-				if (!_finalizing)
-				{
-					fprintf(stderr, "Sending last frame(s) plus EoT(s)\n");
-					_finalizing = true; // print only once
-				}
+				_finalizing = true;
 
 				// one final data frame, 4 signature frames if signed, then the EoT frame(s)
 				int frames_needed = 1 + (_signed_str ? 4 : 0) + _eot_cnt;
@@ -997,6 +975,7 @@ namespace gr
 				// prevent re-entry before generating EOT
 				_active.store(false, std::memory_order_release);
 
+				_tx_frames = (_fn & 0x7FFF) + 1; // data frames in this transmission, the last one included
 				if (!_signed_str)
 					_fn |= 0x8000;
 				gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
@@ -1022,17 +1001,7 @@ namespace gr
 					}
 
 					if (_debug == true)
-					{
-						fprintf(stderr, "Signature: ");
-						for (uint8_t i = 0; i < sizeof(_sig); i++)
-						{
-							if (i == 16 || i == 32 || i == 48)
-								fprintf(stderr, "\n           ");
-							fprintf(stderr, "%02X", _sig[i]);
-						}
-
-						fprintf(stderr, "\n");
-					}
+						m17_log(tag(), "Signature: %s", m17_hex(_sig, sizeof(_sig)).c_str());
 				}
 
 				// send EOT frame(s)
@@ -1043,7 +1012,8 @@ namespace gr
 					countout += tmp; // tmp should equal SYM_PER_FRA (192)
 				}
 
-				fprintf(stderr, "Stopping symbol generation\n");
+				m17_log(tag(), "TX end: %d frames, %.2f s%s", _tx_frames, 0.04 * (2 + _tx_frames + (_signed_str ? 4 : 0) + _eot_cnt),
+						_signed_str ? ", signed" : "");
 				init_state();
 				_finalizing = false;
 			}

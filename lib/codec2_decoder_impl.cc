@@ -20,6 +20,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "codec2_decoder_impl.h"
+#include "m17_log.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -64,10 +65,6 @@ namespace gr
                 cmd = pmt::symbol_to_string(msg);
             }
 
-            time_t now = time(NULL);
-            struct tm t;
-            localtime_r(&now, &t);
-
             if (cmd == "SOT")
             {
                 ;
@@ -80,7 +77,7 @@ namespace gr
                 return;
             }
 
-            fprintf(stderr, "[%02d:%02d:%02d] Strange message received\n", t.tm_hour, t.tm_min, t.tm_sec);
+            m17_log(alias_set() ? alias() : std::string("M17_C2_DEC"), "Unknown control message ignored");
         }
 
         void codec2_decoder_impl::init_state(void)

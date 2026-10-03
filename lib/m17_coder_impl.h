@@ -109,9 +109,13 @@ namespace gr
 			void set_aes_subtype(int aes_subtype, int encr_type);
 			void set_can(int can);
 			void set_debug(bool debug);
+			bool start() override;
 			void set_signed(bool signed_str);
 			void switch_state(const pmt::pmt_t &msg);
 			void init_state(void);
+			std::string tag() const;
+			bool _started = false; // flowgraph started: setters report runtime changes
+			int _tx_frames = 0;		// data frames of the current transmission
 			void new_nonce(void);
 			void encrypt_payload(uint8_t *data);
 			void update_digest(const uint8_t *data);

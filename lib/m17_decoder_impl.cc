@@ -28,6 +28,7 @@
 #include <string.h>
 
 #include "m17.h"
+#include "m17_log.h"
 
 namespace gr
 {
@@ -72,6 +73,54 @@ namespace gr
 			message_port_register_out(pmt::mp("fields"));
 		}
 
+		// tag for console output: the block alias if set in GRC, otherwise M17_DEC
+		std::string m17_decoder_impl::tag() const
+		{
+			return alias_set() ? alias() : std::string("M17_DEC");
+		}
+
+		bool m17_decoder_impl::start()
+		{
+			uint8_t zero[64] = {0};
+			std::string aes = memcmp(_key, zero, sizeof(_key)) ? "AES key set" : "no AES key";
+			std::string scr = _scrambler_key ? "scrambler seed " + std::to_string(8 * (_scrambler_subtype + 1)) + "-bit" : "no scrambler seed";
+			std::string pub = memcmp(_pub_key, zero, sizeof(_pub_key)) ? "public key set" : "no public key";
+			std::string dbg;
+			if (_debug_data)
+				dbg += ", debug data on";
+			if (_debug_ctrl)
+				dbg += ", debug control on";
+
+			m17_log(tag(), "Ready: syncword threshold %.1f, Viterbi threshold %.1f, %s, %s, %s%s",
+					_sw_threshold, _vt_threshold, aes.c_str(), scr.c_str(), pub.c_str(), dbg.c_str());
+			_started = true;
+			return gr::block::start();
+		}
+
+		// a new transmission (or the end of one): clear the reception summary
+		void m17_decoder_impl::rx_reset(void)
+		{
+			_rx_frames = 0;
+			_rx_max_e = 0.0f;
+			_rx_sig.clear();
+			_rx_lsf_seen = false;
+		}
+
+		// publish the LSF fields on the 'fields' message port
+		void m17_decoder_impl::publish_fields(void)
+		{
+			char dst[10] = {0}, src[10] = {0};
+			decode_callsign_bytes(dst, _lsf.dst);
+			decode_callsign_bytes(src, _lsf.src);
+
+			pmt::pmt_t dict = pmt::make_dict();
+			dict = pmt::dict_add(dict, pmt::mp("src"), pmt::intern(src));
+			dict = pmt::dict_add(dict, pmt::mp("dst"), pmt::intern(dst));
+			dict = pmt::dict_add(dict, pmt::mp("type"), pmt::init_u8vector(2, _lsf.type));
+			dict = pmt::dict_add(dict, pmt::mp("meta"), pmt::init_u8vector(14, _lsf.meta));
+			message_port_pub(pmt::mp("fields"), dict);
+		}
+
 		/*
 		 * Our virtual destructor.
 		 */
@@ -82,31 +131,25 @@ namespace gr
 		void m17_decoder_impl::set_sw_threshold(float sw_threshold)
 		{
 			_sw_threshold = sw_threshold;
-			fprintf(stderr, "Syncword threshold: %.1f\n", _sw_threshold);
+			if (_started)
+				m17_log(tag(), "Syncword threshold changed: %.1f", _sw_threshold);
 		}
 
 		void m17_decoder_impl::set_vt_threshold(float vt_threshold)
 		{
 			_vt_threshold = vt_threshold;
-			fprintf(stderr, "Viterbi threshold: %.1f\n", _vt_threshold);
+			if (_started)
+				m17_log(tag(), "Viterbi threshold changed: %.1f", _vt_threshold);
 		}
 
 		void m17_decoder_impl::set_debug_data(bool debug)
 		{
 			_debug_data = debug;
-			if (_debug_data == true)
-				fprintf(stderr, "Data debug: true\n");
-			else
-				fprintf(stderr, "Data debug: false\n");
 		}
 
 		void m17_decoder_impl::set_debug_ctrl(bool debug)
 		{
 			_debug_ctrl = debug;
-			if (_debug_ctrl == true)
-				fprintf(stderr, "Debug control: true\n");
-			else
-				fprintf(stderr, "Debug control: false\n");
 		}
 
 		void m17_decoder_impl::set_encr_type(int encr_type)
@@ -115,38 +158,29 @@ namespace gr
 			{
 			case 0:
 				_encr_type = ENCR_NONE;
-				fprintf(stderr, "Encryption type: none\n");
 				break;
 			case 1:
 				_encr_type = ENCR_SCRAM;
-				fprintf(stderr, "Encryption type: scrambler\n");
 				break;
 			case 2:
 				_encr_type = ENCR_AES;
-				fprintf(stderr, "Encryption type: AES\n");
 				break;
 			case 3:
 				_encr_type = ENCR_RES;
-				fprintf(stderr, "Encryption type: reserved\n");
 				break;
 			default:
 				_encr_type = ENCR_NONE;
-				fprintf(stderr, "Encryption type: none\n");
 			}
 		}
 
 		void m17_decoder_impl::set_callsign(bool callsign)
 		{
 			_callsign = callsign;
-			if (_callsign == true)
-				fprintf(stderr, "Display callsigns\n");
 		}
 
 		void m17_decoder_impl::set_signed(bool signed_str)
 		{
 			_signed_str = signed_str;
-			if (_signed_str == true)
-				fprintf(stderr, "Signed stream\n");
 		}
 
 		void m17_decoder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
@@ -176,7 +210,8 @@ namespace gr
 			length = j; // index from 0 to length-1
 
 			// the key itself is never printed
-			fprintf(stderr, "AES key loaded (%d bytes)\n", length);
+			if (_started)
+				m17_log(tag(), "AES key changed (%d bytes)", length);
 
 			fflush(stdout);
 		}
@@ -187,8 +222,6 @@ namespace gr
 
 			if (!length)
 				return;
-
-			fprintf(stderr, "Public key ");
 
 			int i = 0, j = 0;
 			while ((j < (int)sizeof(_pub_key)) && (i < length))
@@ -209,10 +242,8 @@ namespace gr
 
 			length = j; // index from 0 to length-1
 
-			fprintf(stderr, "%d bytes: ", length);
-			for (i = 0; i < length; i++)
-				fprintf(stderr, "%02X ", _pub_key[i]);
-			fprintf(stderr, "\n");
+			if (_started)
+				m17_log(tag(), "Public key changed (%d bytes)", length);
 
 			fflush(stdout);
 		}
@@ -250,9 +281,10 @@ namespace gr
 			_scrambler_subtype = length - 1;
 			_scrambler_seed = _scrambler_key;
 
-			fprintf(stderr, "Scrambler seed: 0x%0*X (%d-bit)\n", 2 * length, _scrambler_key, 8 * length);
+			if (_started)
+				m17_log(tag(), "Scrambler seed changed (%d-bit)", 8 * length);
 			if (_scrambler_key == 0)
-				fprintf(stderr, "WARNING: an all-zero scrambler seed produces no scrambling\n");
+				m17_log(tag(), "WARNING: an all-zero scrambler seed produces no scrambling");
 
 			_encr_type = ENCR_SCRAM; // Scrambler key was passed
 		}
@@ -316,14 +348,6 @@ namespace gr
 
 			// the LFSR size (_scrambler_subtype) comes from the seed length or the received TYPE, never from the value
 			// TODO: Set Frame Type based on scrambler_subtype value
-			if (_debug_ctrl == true)
-			{
-				fprintf(stderr,
-						"\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d;",
-						_scrambler_seed, lfsr, _scrambler_subtype);
-				fprintf(stderr, "\n pN: ");
-			}
-
 			// run pN sequence with taps specified
 			for (i = 0; i < 128; i++)
 			{
@@ -356,14 +380,6 @@ namespace gr
 				_scrambler_seed &= 0xFFFF;
 			else if (_scrambler_subtype == 2)
 				_scrambler_seed &= 0xFFFFFF;
-
-			if (_debug_ctrl == true)
-			{
-				// debug packed bytes
-				for (i = 0; i < PAYLOAD_BYTES; i++)
-					fprintf(stderr, " %02X", _scr_bytes[i]);
-				fprintf(stderr, "\n");
-			}
 		}
 
 		// convert a user string (as hex octets) into a uint8_t array for key
@@ -564,15 +580,13 @@ namespace gr
 
 							// dump data
 							if (_debug_data == true)
+								m17_log(tag(), "FN %04X  %s  e=%.1f", _fn, m17_hex(_stream_frame_data, PAYLOAD_BYTES, 4).c_str(), (float)e / 0xFFFF);
+
+							if ((_fn & 0x7FFF) < 0x7FFC) // data frame (not a signature frame)
 							{
-								fprintf(stderr, "RX FN: %04X PLD: ", _fn);
-
-								for (uint8_t i = 0; i < PAYLOAD_BYTES; i++)
-								{
-									fprintf(stderr, "%02X", _stream_frame_data[i]);
-								}
-
-								fprintf(stderr, " e=%1.1f\n", (float)e / 0xFFFF);
+								_rx_frames++;
+								if ((float)e / 0xFFFF > _rx_max_e)
+									_rx_max_e = (float)e / 0xFFFF;
 							}
 
 							// set a threshold on the Viterbi metric to prevent sound artifacts
@@ -592,100 +606,24 @@ namespace gr
 							lich_chunks_rcvd |= (1 << _lich_cnt);
 							memcpy((uint8_t *)&_lsf + _lich_cnt * 5, _lich_b, 5);
 
-							// debug - dump LICH
+							// complete LSF rebuilt from the LICH
 							if (lich_chunks_rcvd == 0x3F) // all 6 chunks received?
 							{
-								// handle message output
-								pmt::pmt_t msg;
-								decode_callsign_bytes(d_dst, _lsf.dst);
-								decode_callsign_bytes(d_src, _lsf.src);
-
-								pmt::pmt_t dict = pmt::make_dict();
-								dict = pmt::dict_add(dict, pmt::mp("src"), pmt::intern((char *)d_src));
-								dict = pmt::dict_add(dict, pmt::mp("dst"), pmt::intern((char *)d_dst));
-
-								msg = pmt::init_u8vector(2, _lsf.type);
-								dict = pmt::dict_add(dict, pmt::mp("type"), msg);
-								msg = pmt::init_u8vector(14, _lsf.meta);
-								dict = pmt::dict_add(dict, pmt::mp("meta"), msg);
-
-								message_port_pub(pmt::mp("fields"), dict);
-
-								// debug data display
-								if (_callsign == true)
+								if (CRC_M17((uint8_t *)&_lsf, sizeof(_lsf)))
 								{
 									if (_debug_ctrl == true)
-									{
-										fprintf(stderr, "DST: %-9s ", d_dst); // DST
-										fprintf(stderr, "SRC: %-9s ", d_src); // SRC
-									}
+										m17_log(tag(), "LSF (LICH): CRC error");
+								}
+								else if (!_rx_lsf_seen || memcmp(&_lsf, &_rx_lsf, sizeof(_lsf)))
+								{
+									// late entry (no LSF frame received) or the LSF has changed
+									m17_log(tag(), "%s %s", _rx_lsf_seen ? "LSF changed:" : "RX start (late entry):", m17_lsf_str(_lsf, _callsign).c_str());
+									_rx_lsf = _lsf;
+									_rx_lsf_seen = true;
+									publish_fields();
 								}
 								else if (_debug_ctrl == true)
-								{
-									fprintf(stderr, "DST: "); // DST
-									for (uint8_t i = 0; i < 6; i++)
-										fprintf(stderr, "%02X", ((uint8_t *)_lsf.dst)[i]);
-									fprintf(stderr, " ");
-									fprintf(stderr, "SRC: "); // SRC
-									for (uint8_t i = 0; i < 6; i++)
-										fprintf(stderr, "%02X", ((uint8_t *)_lsf.src)[i]);
-									fprintf(stderr, " ");
-								}
-
-								// TYPE
-								if (_debug_ctrl == true)
-								{
-									fprintf(stderr, "TYPE: %04X (", type);
-									if (type & 1)
-										fprintf(stderr, "STREAM: ");
-									else
-									{
-										fprintf(stderr, "PACKET) ");
-										goto detour1;
-									}
-									if (((type >> 1) & 3) == 1)
-										fprintf(stderr, "DATA, ");
-									else if (((type >> 1) & 3) == 2)
-										fprintf(stderr, "VOICE, ");
-									else if (((type >> 1) & 3) == 3)
-										fprintf(stderr, "VOICE+DATA, ");
-									fprintf(stderr, "ENCR: ");
-									if (((type >> 3) & 3) == 0)
-										fprintf(stderr, "PLAIN, ");
-									else if (((type >> 3) & 3) == 1)
-									{
-										fprintf(stderr, "SCRAM ");
-										if (((type >> 5) & 3) == 0)
-											fprintf(stderr, "8-bit, ");
-										else if (((type >> 5) & 3) == 1)
-											fprintf(stderr, "16-bit, ");
-										else if (((type >> 5) & 3) == 2)
-											fprintf(stderr, "24-bit, ");
-									}
-									else if (((type >> 3) & 3) == 2)
-										fprintf(stderr, "AES, ");
-									else
-										fprintf(stderr, "UNK, ");
-									fprintf(stderr, "CAN: %d", (type >> 7) & 0xF);
-									if ((type >> 11) & 1)
-										fprintf(stderr, ", SIGNED");
-									fprintf(stderr, ") ");
-								}
-
-							detour1:
-								// META
-								if (_debug_ctrl == true)
-								{
-									fprintf(stderr, "META: ");
-									for (uint8_t i = 0; i < 14; i++)
-										fprintf(stderr, "%02X", ((uint8_t *)_lsf.meta)[i]);
-
-									if (CRC_M17((uint8_t *)&_lsf, sizeof(_lsf))) // CRC
-										fprintf(stderr, " LSF_CRC_ERR");
-									else
-										fprintf(stderr, " LSF_CRC_OK ");
-									fprintf(stderr, "\n");
-								}
+									m17_log(tag(), "LSF (LICH) unchanged");
 							}
 
 							// if the contents of the payload is now digital signature, not data/voice
@@ -695,146 +633,50 @@ namespace gr
 
 								if (_fn == (0x7FFF | 0x8000))
 								{
-									// dump data
-									/*fprintf(stderr, "DEC-Digest: ");
-									   for(uint8_t i=0; i<sizeof(digest); i++)
-									   fprintf(stderr, "%02X", digest[i]);
-									   fprintf(stderr, "\n");
-
-									   fprintf(stderr, "Key: ");
-									   for(uint8_t i=0; i<sizeof(pub_key); i++)
-									   fprintf(stderr, "%02X", pub_key[i]);
-									   fprintf(stderr, "\n");
-
-									   fprintf(stderr, "Signature: ");
-									   for(uint8_t i=0; i<sizeof(sig); i++)
-									   fprintf(stderr, "%02X", sig[i]);
-									   fprintf(stderr, "\n"); */
 
 									bool have_key = false;
 									for (uint8_t i = 0; i < 64; i++)
 										have_key |= (_pub_key[i] != 0);
 
 									if (!have_key)
-										fprintf(stderr, "Signature received - no public key set, not verified\n");
+										_rx_sig = ", signature not verified (no public key set)";
 									else if (uECC_verify(_pub_key, _digest, sizeof(_digest), _sig, _curve))
-										fprintf(stderr, "Signature OK\n");
+										_rx_sig = ", signature OK";
 									else
-										fprintf(stderr, "Signature invalid\n");
+										_rx_sig = ", signature INVALID";
 								}
 							}
 
 							_expected_next_fn = (_fn + 1) % 0x8000;
+
+							// end of stream (EOS bit; for signed streams the last signature frame)
+							if (_fn & 0x8000)
+							{
+								m17_log(tag(), "RX end: %d frames, max e=%.1f%s", _rx_frames, _rx_max_e, _rx_sig.c_str());
+								rx_reset();
+							}
 						}
 
 						else if (flp == 1) // lsf
 						{
-							if (_debug_ctrl == true)
-							{
-								fprintf(stderr, "{LSF} ");
-							}
-							// decode
 							_pkt_wr_offs = 0; // a new transmission starts - discard any partial packet
 							uint32_t e = decode_LSF(&_lsf, _pld);
 
-							// dump data
-							if (_callsign == true)
-							{
-								decode_callsign_bytes(d_dst, _lsf.dst);
-								decode_callsign_bytes(d_src, _lsf.src);
-								if (_debug_ctrl == true)
-								{
-									fprintf(stderr, "DST: %-9s ", d_dst); // DST
-									fprintf(stderr, "SRC: %-9s ", d_src); // SRC
-								}
-							}
+							if (CRC_M17((uint8_t *)&_lsf, sizeof(_lsf)))
+								m17_log(tag(), "LSF received with CRC error, e=%.1f", (float)e / 0xFFFF);
 							else
 							{
+								uint16_t type = ((uint16_t)_lsf.type[0] << 8) + _lsf.type[1];
+								_signed_str = (type >> 11) & 1;
+
+								rx_reset();
 								if (_debug_ctrl == true)
-								{
-									fprintf(stderr, "DST: "); // DST
-									for (uint8_t i = 0; i < 6; i++)
-										fprintf(stderr, "%02X", ((uint8_t *)_lsf.dst)[i]);
-									fprintf(stderr, " ");
-
-									// SRC
-									fprintf(stderr, "SRC: ");
-									for (uint8_t i = 0; i < 6; i++)
-										fprintf(stderr, "%02X", ((uint8_t *)_lsf.src)[i]);
-									fprintf(stderr, " ");
-								}
-							}
-							// TYPE
-							uint16_t type = ((uint16_t)_lsf.type[0] << 8) + _lsf.type[1];
-							if (_debug_ctrl == true)
-							{
-								fprintf(stderr, "TYPE: %04X (", type);
-								if (type & 1)
-									fprintf(stderr, "STREAM: ");
+									m17_log(tag(), "RX start: %s, e=%.1f", m17_lsf_str(_lsf, _callsign).c_str(), (float)e / 0xFFFF);
 								else
-								{
-									fprintf(stderr, "PACKET) ");
-									goto detour2;
-								}
-								if (((type >> 1) & 3) == 1)
-									fprintf(stderr, "DATA, ");
-								else if (((type >> 1) & 3) == 2)
-									fprintf(stderr, "VOICE, ");
-								else if (((type >> 1) & 3) == 3)
-									fprintf(stderr, "VOICE+DATA, ");
-								fprintf(stderr, "ENCR: ");
-								if (((type >> 3) & 3) == 0)
-									fprintf(stderr, "PLAIN, ");
-								else if (((type >> 3) & 3) == 1)
-								{
-									fprintf(stderr, "SCRAM ");
-									if (((type >> 5) & 3) == 0)
-										fprintf(stderr, "8-bit, ");
-									else if (((type >> 5) & 3) == 1)
-										fprintf(stderr, "16-bit, ");
-									else if (((type >> 5) & 3) == 2)
-										fprintf(stderr, "24-bit, ");
-								}
-								else if (((type >> 3) & 3) == 2)
-								{
-									fprintf(stderr, "AES");
-									if (((type >> 5) & 3) == 0)
-										fprintf(stderr, "128");
-									else if (((type >> 5) & 3) == 1)
-										fprintf(stderr, "192");
-									else if (((type >> 5) & 3) == 2)
-										fprintf(stderr, "256");
-
-									fprintf(stderr, ", ");
-								}
-								else
-									fprintf(stderr, "UNK, ");
-								fprintf(stderr, "CAN: %d", (type >> 7) & 0xF);
-								if ((type >> 11) & 1)
-								{
-									fprintf(stderr, ", SIGNED");
-									_signed_str = 1;
-								}
-								else
-									_signed_str = 0;
-								fprintf(stderr, ") ");
-
-							detour2:
-								// META
-								fprintf(stderr, "META: ");
-								for (uint8_t i = 0; i < 14; i++)
-									fprintf(stderr, "%02X", ((uint8_t *)_lsf.meta)[i]);
-								fprintf(stderr, " ");
-								// CRC
-								// fprintf(stderr, "CRC: ");
-								// for(uint8_t i=0; i<2; i++)
-								// fprintf(stderr, "%02X", lsf[28+i]);
-								if (CRC_M17((uint8_t *)&_lsf, 30))
-									fprintf(stderr, "LSF_CRC_ERR");
-								else
-									fprintf(stderr, "LSF_CRC_OK ");
-								// Viterbi decoder errors
-								fprintf(stderr, " e=%1.1f\n", (float)e / 0xFFFF);
+									m17_log(tag(), "RX start: %s", m17_lsf_str(_lsf, _callsign).c_str());
+								_rx_lsf = _lsf;
+								_rx_lsf_seen = true;
+								publish_fields();
 							}
 						}
 
@@ -854,7 +696,7 @@ namespace gr
 								// frames must arrive in order (counter = index) and fit into 33 frames
 								if (pkt_fn != _pkt_wr_offs / 25 || _pkt_wr_offs + 25 > 33 * 25)
 								{
-									fprintf(stderr, "Packet frame out of sequence - packet dropped\n");
+									m17_log(tag(), "Packet frame out of sequence - packet dropped");
 									_pkt_wr_offs = 0;
 									frame_ok = false;
 								}
@@ -867,7 +709,7 @@ namespace gr
 
 							else if (pkt_fn < 1 || pkt_fn > 25 || _pkt_wr_offs + pkt_fn > 33 * 25)
 							{
-								fprintf(stderr, "Invalid last packet frame - packet dropped\n");
+								m17_log(tag(), "Invalid last packet frame - packet dropped");
 								_pkt_wr_offs = 0;
 								frame_ok = false;
 							}
@@ -898,26 +740,24 @@ namespace gr
 									dict = pmt::dict_add(dict, pmt::mp("sms"), pmt::intern((char *)&rcvd_msg[1]));
 
 									message_port_pub(pmt::mp("fields"), dict);
+
+									std::string sms((char *)&rcvd_msg[1]);
+									m17_log(tag(), "RX SMS: %s -> %s, %zu bytes: %s", (char *)d_src, (char *)d_dst, sms.size(), sms.c_str());
 								}
 
 								else
-									fprintf(stderr, "Packet CRC error or unsupported protocol - packet dropped\n");
+									m17_log(tag(), "Packet CRC error or unsupported protocol - packet dropped");
 
 								_pkt_wr_offs = 0;
 							}
 
-							if (!frame_ok)
-								;
-							else if (!eof)
+							if (frame_ok && _debug_ctrl == true)
 							{
-								fprintf(stderr, "Packet frame: %d", pkt_fn);
+								if (!eof)
+									m17_log(tag(), "Packet frame %d, e=%.1f", pkt_fn, (float)e / 0xFFFF);
+								else
+									m17_log(tag(), "Packet frame last, %d bytes, e=%.1f", pkt_fn, (float)e / 0xFFFF);
 							}
-							else
-							{
-								fprintf(stderr, "Packet frame: last (%d bytes)", pkt_fn);
-							}
-
-							fprintf(stderr, " e=%1.1f\n", (float)e / 0xFFFF);
 						}
 
 						// job done

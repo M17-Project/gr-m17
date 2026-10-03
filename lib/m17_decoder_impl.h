@@ -89,6 +89,16 @@ namespace gr
 			~m17_decoder_impl();
 			void set_debug_data(bool debug);
 			void set_key(std::string arg);
+			bool start() override;
+			std::string tag() const;
+			void rx_reset(void);
+			void publish_fields(void);
+			bool _started = false;	   // flowgraph started: setters report runtime changes
+			int _rx_frames = 0;		   // data frames of the current transmission
+			float _rx_max_e = 0.0f;	   // highest Viterbi metric seen in it
+			std::string _rx_sig;	   // signature verification result
+			lsf_t _rx_lsf;			   // last reported LSF
+			bool _rx_lsf_seen = false; // LSF of the current transmission reported?
 			void set_pub_key(std::string arg);
 			void set_seed(std::string seed);
 			void set_debug_ctrl(bool debug);
