@@ -38,10 +38,10 @@ namespace gr
 		m17_decoder::sptr
 		m17_decoder::make(bool debug_data, bool debug_ctrl, float sw_threshold,
 						  float vt_threshold, bool callsign, bool signed_str, int encr_type,
-						  std::string key, std::string seed, std::string pub_key)
+						  std::string key, std::string seed, std::string pub_key, int undecodable_out)
 		{
 			return gnuradio::get_initial_sptr(new m17_decoder_impl(debug_data, debug_ctrl, sw_threshold, vt_threshold, callsign,
-																   signed_str, encr_type, key, seed, pub_key));
+																   signed_str, encr_type, key, seed, pub_key, undecodable_out));
 		}
 
 		/*
@@ -51,7 +51,7 @@ namespace gr
 										   float sw_threshold, float vt_threshold,
 										   bool callsign, bool signed_str,
 										   int encr_type,
-										   std::string key, std::string seed, std::string pub_key) : gr::block("m17_decoder",
+										   std::string key, std::string seed, std::string pub_key, int undecodable_out) : gr::block("m17_decoder",
 																						  gr::io_signature::make(1, 1, sizeof(float)),
 																						  gr::io_signature::make(1, 1, sizeof(char))),
 																				_debug_data(debug_data), _debug_ctrl(debug_ctrl),
@@ -66,6 +66,7 @@ namespace gr
 			set_signed(signed_str);
 			set_key(key);
 			set_pub_key(pub_key);
+			_undecodable_out = (undecodable_out >= 0 && undecodable_out <= 2) ? undecodable_out : 0;
 			set_seed(seed);
 			set_encr_type(encr_type);
 			_expected_next_fn = 0;
@@ -82,8 +83,8 @@ namespace gr
 		bool m17_decoder_impl::start()
 		{
 			uint8_t zero[64] = {0};
-			std::string aes = memcmp(_key, zero, sizeof(_key)) ? "AES key set" : "no AES key";
-			std::string scr = _scrambler_key ? "scrambler seed " + std::to_string(8 * (_scrambler_subtype + 1)) + "-bit" : "no scrambler seed";
+			std::string aes = _key_len ? "AES key " + std::to_string(_key_len) + " bytes" : "no AES key";
+			std::string scr = _seed_len ? "scrambler seed " + std::to_string(8 * _seed_len) + "-bit" : "no scrambler seed";
 			std::string pub = memcmp(_pub_key, zero, sizeof(_pub_key)) ? "public key set" : "no public key";
 			std::string dbg;
 			if (_debug_data)
@@ -95,6 +96,37 @@ namespace gr
 					_sw_threshold, _vt_threshold, aes.c_str(), scr.c_str(), pub.c_str(), dbg.c_str());
 			_started = true;
 			return gr::block::start();
+		}
+
+		// the encryption is taken from the received TYPE: warn if the configured key/seed cannot decrypt it
+		void m17_decoder_impl::check_keys(uint16_t type)
+		{
+			if (!(type & 1)) // packet mode: no encryption
+				return;
+			uint8_t encr = (type >> 3) & 3, sub = (type >> 5) & 3;
+			if (encr == ENCR_AES && sub < 3)
+			{
+				int need = 16 + 8 * sub;
+				if (!_key_len)
+					m17_log(tag(), "WARNING: AES-%d stream, but no AES key is set - the payload cannot be decrypted", 8 * need);
+				else if (_key_len != need)
+					m17_log(tag(), "WARNING: AES-%d stream, but the AES key is %d bytes (%d needed)", 8 * need, _key_len, need);
+			}
+			else if (encr == ENCR_SCRAM && sub < 3)
+			{
+				if (!_seed_len)
+					m17_log(tag(), "WARNING: %d-bit scrambled stream, but no scrambler seed is set - the payload cannot be descrambled", 8 * (sub + 1));
+				else if (_seed_len != sub + 1)
+					m17_log(tag(), "WARNING: %d-bit scrambled stream, but the scrambler seed is %d-bit", 8 * (sub + 1), 8 * _seed_len);
+			}
+		}
+
+		void m17_decoder_impl::set_undecodable_out(int mode)
+		{
+			static const char *name[3] = {"Codec2 silence", "zeros", "nothing"};
+			_undecodable_out = (mode >= 0 && mode <= 2) ? mode : 0;
+			if (_started)
+				m17_log(tag(), "Undecryptable/signature frames: output %s", name[_undecodable_out]);
 		}
 
 		// a new transmission (or the end of one): clear the reception summary
@@ -210,6 +242,7 @@ namespace gr
 			length = j; // index from 0 to length-1
 
 			// the key itself is never printed
+			_key_len = length;
 			if (_started)
 				m17_log(tag(), "AES key changed (%d bytes)", length);
 
@@ -279,6 +312,7 @@ namespace gr
 			for (i = 0; i < length; i++)
 				_scrambler_key = (_scrambler_key << 8) | _seed[i];
 			_scrambler_subtype = length - 1;
+			_seed_len = length;
 			_scrambler_seed = _scrambler_key;
 
 			if (_started)
@@ -589,12 +623,31 @@ namespace gr
 									_rx_max_e = (float)e / 0xFFFF;
 							}
 
-							// set a threshold on the Viterbi metric to prevent sound artifacts
-							if ((float)e / 0xFFFF <= _vt_threshold)
-								memcpy(&out[countout], _stream_frame_data, PAYLOAD_BYTES);
-							else
+							// output: signature frames and frames that cannot be decrypted -> Codec2 silence, zeros or nothing
+							// (user setting); frames over the Viterbi threshold -> Codec2 silence; everything else -> payload
+							static const uint8_t c2_silence[8] = {0x01, 0x00, 0x09, 0x43, 0x9C, 0xE4, 0x21, 0x08}; // Codec2 3200, 20 ms
+							bool sig_frame = _signed_str && (_fn & 0x7FFF) >= 0x7FFC;
+							bool undecryptable = (rx_encr == ENCR_AES && (rx_encr_sub > 2 || _key_len != 16 + 8 * rx_encr_sub)) ||
+												 (rx_encr == ENCR_SCRAM && (rx_encr_sub > 2 || _seed_len != rx_encr_sub + 1)) ||
+												 rx_encr == ENCR_RES;
+							if ((sig_frame || undecryptable) && _undecodable_out == 2)
+								; // output nothing
+							else if ((sig_frame || undecryptable) && _undecodable_out == 1)
+							{
 								memset(&out[countout], 0, PAYLOAD_BYTES);
-							countout += PAYLOAD_BYTES;
+								countout += PAYLOAD_BYTES;
+							}
+							else if (sig_frame || undecryptable || (float)e / 0xFFFF > _vt_threshold)
+							{
+								memcpy(&out[countout], c2_silence, 8);
+								memcpy(&out[countout + 8], c2_silence, 8);
+								countout += PAYLOAD_BYTES;
+							}
+							else
+							{
+								memcpy(&out[countout], _stream_frame_data, PAYLOAD_BYTES);
+								countout += PAYLOAD_BYTES;
+							}
 
 							// send codec2 stream to stdout
 							// fwrite(_stream_frame_data, PAYLOAD_BYTES, 1, stdout);
@@ -618,6 +671,7 @@ namespace gr
 								{
 									// late entry (no LSF frame received) or the LSF has changed
 									m17_log(tag(), "%s %s", _rx_lsf_seen ? "LSF changed:" : "RX start (late entry):", m17_lsf_str(_lsf, _callsign).c_str());
+									check_keys(((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]);
 									_rx_lsf = _lsf;
 									_rx_lsf_seen = true;
 									publish_fields();
@@ -677,6 +731,7 @@ namespace gr
 								_rx_lsf = _lsf;
 								_rx_lsf_seen = true;
 								publish_fields();
+								check_keys(type);
 							}
 						}
 

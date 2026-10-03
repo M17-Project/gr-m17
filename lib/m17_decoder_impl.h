@@ -85,7 +85,7 @@ namespace gr
 		public:
 			m17_decoder_impl(bool debug_data, bool debug_ctrl, float sw_threshold,
 							 float vt_threshold, bool callsign, bool signed_str, int encr_type,
-							 std::string key, std::string seed, std::string pub_key);
+							 std::string key, std::string seed, std::string pub_key, int undecodable_out);
 			~m17_decoder_impl();
 			void set_debug_data(bool debug);
 			void set_key(std::string arg);
@@ -93,6 +93,9 @@ namespace gr
 			std::string tag() const;
 			void rx_reset(void);
 			void publish_fields(void);
+			void check_keys(uint16_t type);
+			int _key_len = 0;  // AES key length in bytes (0 = none)
+			int _seed_len = 0; // scrambler seed length in bytes (0 = none)
 			bool _started = false;	   // flowgraph started: setters report runtime changes
 			int _rx_frames = 0;		   // data frames of the current transmission
 			float _rx_max_e = 0.0f;	   // highest Viterbi metric seen in it
@@ -100,6 +103,8 @@ namespace gr
 			lsf_t _rx_lsf;			   // last reported LSF
 			bool _rx_lsf_seen = false; // LSF of the current transmission reported?
 			void set_pub_key(std::string arg);
+			void set_undecodable_out(int mode);
+			int _undecodable_out = 0; // undecryptable/signature frames: 0 = Codec2 silence, 1 = zeros, 2 = nothing
 			void set_seed(std::string seed);
 			void set_debug_ctrl(bool debug);
 			void set_callsign(bool callsign);

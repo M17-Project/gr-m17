@@ -39,6 +39,9 @@ static const char *__doc_gr_m17_m17_decoder_set_key = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_decoder_set_pub_key = R"doc()doc";
 
+
+static const char *__doc_gr_m17_m17_decoder_set_undecodable_out = R"doc()doc";
+
 static const char *__doc_gr_m17_m17_decoder_set_seed = R"doc()doc";
 
 static const char *__doc_gr_m17_m17_decoder_parse_raw_key_string = R"doc()doc";

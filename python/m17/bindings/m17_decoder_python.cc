@@ -16,7 +16,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(0) */
 /* BINDTOOL_USE_PYGCCXML(0) */
 /* BINDTOOL_HEADER_FILE(m17_decoder.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(cd0d719f72483cf815c323524c45fcf9) */
+/* BINDTOOL_HEADER_FILE_HASH(1345ed0d691c88407bd02cf1c6cf2d67) */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -39,7 +39,7 @@ void bind_m17_decoder(py::module &m) {
       .def(py::init(&m17_decoder::make), py::arg("debug_data"),
            py::arg("debug_ctrl"), py::arg("sw_threshold"),
            py::arg("vt_threshold"), py::arg("callsign"), py::arg("signed_str"),
-           py::arg("encr_type"), py::arg("key"), py::arg("seed"), py::arg("pub_key") = "",
+           py::arg("encr_type"), py::arg("key"), py::arg("seed"), py::arg("pub_key") = "", py::arg("undecodable_out") = 0,
            D(m17_decoder, make))
 
       .def("set_debug_data", &m17_decoder::set_debug_data, py::arg("debug"),
@@ -65,6 +65,9 @@ void bind_m17_decoder(py::module &m) {
 
       .def("set_pub_key", &m17_decoder::set_pub_key, py::arg("pub_key"),
            D(m17_decoder, set_pub_key))
+
+      .def("set_undecodable_out", &m17_decoder::set_undecodable_out, py::arg("mode"),
+           D(m17_decoder, set_undecodable_out))
 
       .def("set_seed", &m17_decoder::set_seed, py::arg("seed"),
            D(m17_decoder, set_seed))

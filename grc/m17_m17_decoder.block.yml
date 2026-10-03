@@ -20,26 +20,24 @@ parameters:
   dtype: bool
   default: False
   options: ['True', 'False']
-# --- Encryption ---
-- id: encr_type
-  label: Encryption
-  category: Encryption
+- id: undecodable_out
+  label: Undecryptable/signature frames
+  category: General
   dtype: int
   default: 0
-  options: ['0', '1', '2', '3']
-  option_labels: ['None', 'Scrambler', 'AES', 'Other/Reserved']
-- id: seed
-  label: Scrambler seed (hex, 2/4/6 digits = 8/16/24-bit)
-  category: Encryption
-  dtype: string
-  default: ''
-  hide: ${ 'none' if encr_type == 1 else 'all' }
+  options: ['0', '1', '2']
+  option_labels: ['Output Codec2 silence', 'Output zeros', 'Output nothing']
+# --- Encryption (the encryption type and key size are taken from the received stream) ---
 - id: key
-  label: AES key (hex)
+  label: AES key (hex, optional)
   category: Encryption
   dtype: string
   default: ''
-  hide: ${ 'none' if encr_type == 2 else 'all' }
+- id: seed
+  label: Scrambler seed (hex, optional)
+  category: Encryption
+  dtype: string
+  default: ''
 # --- Signing ---
 - id: pub_key
   label: Public key (hex, 64 bytes, optional)
@@ -61,26 +59,26 @@ parameters:
   options: ['True', 'False']
 
 asserts:
-    # hex fields are only checked when they are in use
-    - ${ encr_type != 1 or (all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (2, 4, 6) and int(seed.replace(' ', ''), 16) != 0) }
-    - ${ encr_type != 2 or (all(c in '0123456789abcdefABCDEF' for c in key.replace(' ', '')) and len(key.replace(' ', '')) in (32, 48, 64)) }
+    - ${ all(c in '0123456789abcdefABCDEF' for c in key.replace(' ', '')) and len(key.replace(' ', '')) in (0, 32, 48, 64) }
+    - ${ all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (0, 2, 4, 6) and (len(seed.replace(' ', '')) == 0 or int(seed.replace(' ', ''), 16) != 0) }
     - ${ all(c in '0123456789abcdefABCDEF' for c in pub_key.replace(' ', '')) and len(pub_key.replace(' ', '')) in (0, 128) }
 
 templates:
   imports: from gnuradio import m17
-  # Signed/unsigned is read from each received LSF, so it is not a parameter (False = initial state).
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},False,${encr_type},bytes.fromhex(${key} if ${encr_type} == 2 else '').decode('latin-1'),bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'),bytes.fromhex(${pub_key}).decode('latin-1'))
+  # Signed/unsigned and the encryption type/size are read from each received LSF, so they are not parameters
+  # (signed_str=False and encr_type=0 are just initial values).
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},False,0,bytes.fromhex(${key}).decode('latin-1'),bytes.fromhex(${seed}).decode('latin-1'),bytes.fromhex(${pub_key}).decode('latin-1'),${undecodable_out})
 
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
-    - set_encr_type(${encr_type})
-    - set_key(bytes.fromhex(${key} if ${encr_type} == 2 else '').decode('latin-1'))
+    - set_key(bytes.fromhex(${key}).decode('latin-1'))
     - set_pub_key(bytes.fromhex(${pub_key}).decode('latin-1'))
     - set_callsign(${callsign})
-    - set_seed(bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'))
+    - set_seed(bytes.fromhex(${seed}).decode('latin-1'))
     - set_sw_threshold(${sw_threshold})
     - set_vt_threshold(${vt_threshold})
+    - set_undecodable_out(${undecodable_out})
 
 #  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
 #  Keys include:
@@ -107,10 +105,11 @@ outputs:
   optional: true
 
 documentation: |-
-     The decoder reads a stream of symbols (as floats) at 4800 Hz and outputs the decoded payload (as bytes). Decoded LSF fields are also published on the 'fields' message port.
+     The decoder reads a stream of symbols (as floats) at 4800 Hz and outputs the decoded payload (as bytes). Decoded LSF fields are published on the 'fields' message port when a transmission starts and whenever the LSF changes.
      Syncword threshold: maximum Euclidean (L2) distance between the received symbols and a syncword for a frame to be detected (0 = perfect match).
-     Viterbi threshold: maximum accumulated Viterbi error for a decoded frame to be accepted.
-     Encryption: the AES key (32/48/64 hex digits) or scrambler seed (2/4/6 hex digits) used to decrypt the stream.
+     Viterbi threshold: maximum accumulated Viterbi error for a decoded frame to be accepted; rejected frames are replaced with Codec2 (3200) encoded silence.
+     Undecryptable/signature frames: what to output for frames that cannot be decrypted (AES key or scrambler seed missing or of the wrong size) and for the signature frames of signed streams - Codec2 encoded silence or zeros (both keep the timing), or nothing.
+     Encryption: whether a stream is encrypted, and how (scrambler size, AES key length), is read from its LSF. Enter the AES key (32/48/64 hex digits) and/or the scrambler seed (2/4/6 hex digits) needed to decrypt the streams you expect; the decoder warns when a received stream needs a key that is missing or has the wrong length.
      Public key: 64-byte secp256r1 public key used to verify signed streams. Whether a stream is signed is read from its LSF.
 
 #  'file_format' specifies the version of the GRC yml format used in the file
