@@ -37,10 +37,10 @@ namespace gr
 		m17_decoder::sptr
 		m17_decoder::make(bool debug_data, bool debug_ctrl, float sw_threshold,
 						  float vt_threshold, bool callsign, bool signed_str, int encr_type,
-						  std::string key, std::string seed)
+						  std::string key, std::string seed, std::string pub_key)
 		{
 			return gnuradio::get_initial_sptr(new m17_decoder_impl(debug_data, debug_ctrl, sw_threshold, vt_threshold, callsign,
-																   signed_str, encr_type, key, seed));
+																   signed_str, encr_type, key, seed, pub_key));
 		}
 
 		/*
@@ -50,7 +50,7 @@ namespace gr
 										   float sw_threshold, float vt_threshold,
 										   bool callsign, bool signed_str,
 										   int encr_type,
-										   std::string key, std::string seed) : gr::block("m17_decoder",
+										   std::string key, std::string seed, std::string pub_key) : gr::block("m17_decoder",
 																						  gr::io_signature::make(1, 1, sizeof(float)),
 																						  gr::io_signature::make(1, 1, sizeof(char))),
 																				_debug_data(debug_data), _debug_ctrl(debug_ctrl),
@@ -64,6 +64,7 @@ namespace gr
 			set_callsign(callsign);
 			set_signed(signed_str);
 			set_key(key);
+			set_pub_key(pub_key);
 			set_seed(seed);
 			set_encr_type(encr_type);
 			_expected_next_fn = 0;
@@ -155,8 +156,6 @@ namespace gr
 			if (!length)
 				return;
 
-			fprintf(stderr, "Encryption key ");
-
 			int i = 0, j = 0;
 			while ((j < (int)sizeof(_key)) && (i < length))
 			{
@@ -176,9 +175,43 @@ namespace gr
 
 			length = j; // index from 0 to length-1
 
+			// the key itself is never printed
+			fprintf(stderr, "AES key loaded (%d bytes)\n", length);
+
+			fflush(stdout);
+		}
+
+		void m17_decoder_impl::set_pub_key(std::string arg) // *UTF-8* encoded byte array
+		{
+			int length = arg.size();
+
+			if (!length)
+				return;
+
+			fprintf(stderr, "Public key ");
+
+			int i = 0, j = 0;
+			while ((j < (int)sizeof(_pub_key)) && (i < length))
+			{
+				if ((unsigned int)arg.data()[i] < 0xc2) // https://www.utf8-chartable.de/
+				{
+					_pub_key[j] = arg.data()[i];
+					i++;
+					j++;
+				}
+				else
+				{
+					_pub_key[j] = (arg.data()[i] - 0xc2) * 0x40 + arg.data()[i + 1];
+					i += 2;
+					j++;
+				}
+			}
+
+			length = j; // index from 0 to length-1
+
 			fprintf(stderr, "%d bytes: ", length);
 			for (i = 0; i < length; i++)
-				fprintf(stderr, "%02X ", _key[i]);
+				fprintf(stderr, "%02X ", _pub_key[i]);
 			fprintf(stderr, "\n");
 
 			fflush(stdout);
@@ -496,8 +529,9 @@ namespace gr
 							// AES
 							if (rx_encr == ENCR_AES)
 							{
-								memcpy(_iv, _lsf.meta, 14);
-								_iv[14] = (_fn >> 8) & 0x7F; // TODO: check if this is the right byte order
+								_aes_subtype = rx_encr_sub; // key size as signalled by the transmitter
+								memcpy(_iv, _lsf.meta, 14);   // 112-bit nonce from META
+								_iv[14] = (_fn >> 8) & 0x7F;  // 16-bit FN, EOS bit cleared
 								_iv[15] = (_fn & 0xFF) & 0xFF;
 
 								if (_signed_str && (_fn % 0x8000) < 0x7FFC) // signed stream
@@ -679,11 +713,11 @@ namespace gr
 
 									bool have_key = false;
 									for (uint8_t i = 0; i < 64; i++)
-										have_key |= (_key[i] != 0);
+										have_key |= (_pub_key[i] != 0);
 
 									if (!have_key)
 										fprintf(stderr, "Signature received - no public key set, not verified\n");
-									else if (uECC_verify(_key, _digest, sizeof(_digest), _sig, _curve))
+									else if (uECC_verify(_pub_key, _digest, sizeof(_digest), _sig, _curve))
 										fprintf(stderr, "Signature OK\n");
 									else
 										fprintf(stderr, "Signature invalid\n");

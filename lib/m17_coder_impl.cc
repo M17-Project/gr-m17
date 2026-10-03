@@ -25,6 +25,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <algorithm>
+#include <random>
 #include <unistd.h>
 
 #include "m17.h"
@@ -74,13 +75,6 @@ namespace gr
 			set_debug(debug);
 			set_output_multiple(SYM_PER_FRA);
 
-			if (_encr_type == ENCR_AES)
-			{
-				for (uint8_t i = 0; i < 4; i++)
-					_iv[i] = ((uint32_t)(time(NULL) & 0xFFFFFFFF) - (uint32_t)epoch) >> (24 - (i * 8));
-				for (uint8_t i = 3; i < 14; i++)
-					_iv[i] = rand() & 0xFF; // 10 random bytes
-			}
 
 			/*
 			uint16_t ccrc = LSF_CRC (&_lsf);
@@ -395,8 +389,6 @@ namespace gr
 			if (!length)
 				return;
 
-			fprintf(stderr, "Encryption key ");
-
 			int i = 0, j = 0;
 			while ((j < 32) && (i < length))
 			{
@@ -416,10 +408,8 @@ namespace gr
 
 			length = j; // index from 0 to length-1
 
-			fprintf(stderr, "(%d bytes): ", length);
-			for (i = 0; i < length; i++)
-				fprintf(stderr, "%02X ", _key[i]);
-			fprintf(stderr, "\n");
+			// the key itself is never printed
+			fprintf(stderr, "AES key loaded (%d bytes)\n", length);
 
 			fflush(stdout);
 		}
@@ -476,6 +466,9 @@ namespace gr
 		void m17_coder_impl::set_meta(std::string meta) // Text Data (as-is) if encr_subtype==0, otherwise a *UTF-8* encoded byte array
 		{
 			int length = 0;
+
+			if (_encr_type == ENCR_AES) // with AES, META carries the nonce (set at the start of every transmission)
+				return;
 
 			memset(_lsf.meta, 0, sizeof(_lsf.meta));
 
@@ -751,12 +744,36 @@ namespace gr
 			}
 		}
 
+		// AES nonce (spec 2.0.x): 32-bit timestamp (seconds since 2020-01-01 UTC) + 80 random bits,
+		// stored in META; regenerated for every transmission
+		void m17_coder_impl::new_nonce(void)
+		{
+			uint32_t ts = (uint32_t)(time(NULL) - epoch);
+			_lsf.meta[0] = ts >> 24;
+			_lsf.meta[1] = ts >> 16;
+			_lsf.meta[2] = ts >> 8;
+			_lsf.meta[3] = ts;
+			std::random_device rd; // non-deterministic source (/dev/urandom on Linux)
+			for (uint8_t i = 4; i < 14; i++)
+				_lsf.meta[i] = rd() & 0xFF;
+			update_LSF_CRC(&_lsf);
+
+			if (_debug)
+			{
+				fprintf(stderr, "AES nonce: ");
+				for (uint8_t i = 0; i < 14; i++)
+					fprintf(stderr, "%02X", _lsf.meta[i]);
+				fprintf(stderr, "\n");
+			}
+		}
+
 		// encrypt one payload block in place, according to the selected encryption type
 		void m17_coder_impl::encrypt_payload(uint8_t *data)
 		{
 			if (_encr_type == ENCR_AES)
 			{
-				memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
+				// 128-bit counter: 112-bit nonce (META) followed by the 16-bit FN (EOS bit cleared)
+				memcpy(_iv, _lsf.meta, 14);
 				_iv[14] = (_fn >> 8) & 0x7F;
 				_iv[15] = (_fn >> 0) & 0xFF;
 				aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
@@ -896,6 +913,10 @@ namespace gr
 					gen_preamble(out, &countout, PREAM_LSF); // 0 - LSF preamble, as opposed to 1 - BERT preamble
 					_send_preamble = false;
 				}
+
+				// AES: a fresh nonce for every transmission, carried in META
+				if (_encr_type == ENCR_AES)
+					new_nonce();
 
 				gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
 				countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192

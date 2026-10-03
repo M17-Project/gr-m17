@@ -31,8 +31,8 @@ namespace gr
 			float _vt_threshold = 30.0;
 			bool _callsign = false;
 			bool _signed_str = false;
-			// uint8_t _key[32];
-			uint8_t _key[64] = {0}; // public key
+			uint8_t _key[32] = {0};		// AES key
+			uint8_t _pub_key[64] = {0}; // ECDSA public key (signature verification)
 			uint8_t _iv[16];
 			encr_t _encr_type = ENCR_NONE;
 			// used for signatures
@@ -84,10 +84,11 @@ namespace gr
 		public:
 			m17_decoder_impl(bool debug_data, bool debug_ctrl, float sw_threshold,
 							 float vt_threshold, bool callsign, bool signed_str, int encr_type,
-							 std::string key, std::string seed);
+							 std::string key, std::string seed, std::string pub_key);
 			~m17_decoder_impl();
 			void set_debug_data(bool debug);
 			void set_key(std::string arg);
+			void set_pub_key(std::string arg);
 			void set_seed(std::string seed);
 			void set_debug_ctrl(bool debug);
 			void set_callsign(bool callsign);

@@ -69,14 +69,14 @@ asserts:
 templates:
   imports: from gnuradio import m17
   # Signed/unsigned is read from each received LSF, so it is not a parameter (False = initial state).
-  # The block keeps one key buffer: the AES key when AES is selected, the public key otherwise.
-  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},False,${encr_type},bytes.fromhex(${key} if ${encr_type} == 2 else ${pub_key}).decode('latin-1'),bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'))
+  make: m17.m17_decoder(${debug_data},${debug_ctrl},${sw_threshold},${vt_threshold},${callsign},False,${encr_type},bytes.fromhex(${key} if ${encr_type} == 2 else '').decode('latin-1'),bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'),bytes.fromhex(${pub_key}).decode('latin-1'))
 
   callbacks:
     - set_debug_data(${debug_data})
     - set_debug_ctrl(${debug_ctrl})
     - set_encr_type(${encr_type})
-    - set_key(bytes.fromhex(${key} if ${encr_type} == 2 else ${pub_key}).decode('latin-1'))
+    - set_key(bytes.fromhex(${key} if ${encr_type} == 2 else '').decode('latin-1'))
+    - set_pub_key(bytes.fromhex(${pub_key}).decode('latin-1'))
     - set_callsign(${callsign})
     - set_seed(bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'))
     - set_sw_threshold(${sw_threshold})

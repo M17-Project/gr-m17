@@ -44,7 +44,7 @@ namespace gr
 				AES192,
 				AES256
 			} aes_t;
-			uint8_t _key[32];
+			uint8_t _key[32] = {0};
 			uint8_t _iv[PAYLOAD_BYTES];
 			const time_t epoch = 1577836800L; // Jan 1, 2020, 00:00:00 UTC
 
@@ -102,6 +102,7 @@ namespace gr
 			void set_signed(bool signed_str);
 			void switch_state(const pmt::pmt_t &msg);
 			void init_state(void);
+			void new_nonce(void);
 			void encrypt_payload(uint8_t *data);
 			void update_digest(const uint8_t *data);
 
