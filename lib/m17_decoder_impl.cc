@@ -368,7 +368,6 @@ namespace gr
 				_scrambler_seed &= 0xFFFFFF;
 
 			// debug
-			// fprintf (stderr, "\nScrambler Key: 0x%06X; Seed: 0x%06X; Subtype: %02d; FN: %05d; ", key, lfsr, subtype, fn);
 
 			return lfsr;
 		}
@@ -508,7 +507,6 @@ namespace gr
 
 					if (dist < _sw_threshold) // stream frame syncword detected
 					{
-						// fprintf(stderr, "str_sync_symbols dist: %3.5f\n", dist);
 						syncd = 1;
 						pushed = 0;
 						flp = 0;
@@ -520,7 +518,6 @@ namespace gr
 
 					if (dist < _sw_threshold) // LSF syncword
 					{
-						// fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
 						syncd = 1;
 						pushed = 0;
 						flp = 1;
@@ -532,7 +529,6 @@ namespace gr
 
 					if (dist < _sw_threshold) // packet frame syncword
 					{
-						// fprintf(stderr, "lsf_sync dist: %3.5f\n", dist);
 						syncd = 1;
 						pushed = 0;
 						flp = 2;

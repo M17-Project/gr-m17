@@ -28,7 +28,6 @@ namespace gr
 
 			char _src_id[10], _dst_id[10]; // 9 character callsign
 			int _mode, _data;
-			uint16_t _type;
 			uint16_t _send_preamble;
 			int _encr_subtype;
 

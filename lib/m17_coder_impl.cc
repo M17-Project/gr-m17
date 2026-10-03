@@ -80,81 +80,12 @@ namespace gr
 			set_debug(debug);
 			set_output_multiple(SYM_PER_FRA);
 
-
-			/*
-			uint16_t ccrc = LSF_CRC (&_lsf);
-			_lsf.crc[0] = ccrc >> 8;
-			_lsf.crc[1] = ccrc & 0xFF;
-			*/
 			init_state();
 			message_port_register_in(pmt::mp("transmission_control"));
 			set_msg_handler(
 				pmt::mp("transmission_control"),
 				boost::bind(&m17_coder_impl::switch_state, this,
 							boost::placeholders::_1));
-
-			if (_debug == true && _got_lsf != 0)
-			{
-				// destination set to "@ALL"
-				encode_callsign_bytes(_lsf.dst, "@ALL");
-
-				// source set to "N0CALL"
-				encode_callsign_bytes(_lsf.src, "N0CALL");
-
-				// no enc or subtype field, normal 3200 voice
-				_type = M17_TYPE_STREAM | M17_TYPE_VOICE | M17_TYPE_CAN(0);
-
-				if (_encr_type == ENCR_AES) // AES ENC, 3200 voice
-				{
-					_type |= M17_TYPE_ENCR_AES;
-					if (_aes_subtype == 0)
-						_type |= M17_TYPE_ENCR_AES128;
-					else if (_aes_subtype == 1)
-						_type |= M17_TYPE_ENCR_AES192;
-					else if (_aes_subtype == 2)
-						_type |= M17_TYPE_ENCR_AES256;
-				}
-				else
-
-					if (_encr_type == ENCR_SCRAM) // Scrambler ENC, 3200 Voice
-				{
-					_type |= M17_TYPE_ENCR_SCRAM;
-					if (_scrambler_subtype == 0)
-						_type |= M17_TYPE_ENCR_SCRAM_8;
-					else if (_scrambler_subtype == 1)
-						_type |= M17_TYPE_ENCR_SCRAM_16;
-					else if (_scrambler_subtype == 2)
-						_type |= M17_TYPE_ENCR_SCRAM_24;
-				}
-
-				// a signature key is loaded, OR this bit
-				if (_priv_key_loaded)
-				{
-					_signed_str = 1;
-					_type |= M17_TYPE_SIGNED;
-				}
-
-				_lsf.type[0] = (uint16_t)_type >> 8;
-				_lsf.type[1] = (uint16_t)_type & 0xFF;
-
-				// calculate LSF CRC (unclear whether or not this is only
-				// needed here for debug, or if this is missing on every initial LSF)
-				update_LSF_CRC(&_lsf);
-			}
-
-			if (_encr_type == ENCR_AES)
-			{
-				memcpy(&(_lsf.meta), _iv, 14);
-				_iv[14] = (_fn >> 8) & 0x7F;
-				_iv[15] = (_fn >> 0) & 0xFF;
-
-				// re-calculate LSF CRC with IV insertion
-				update_LSF_CRC(&_lsf);
-			}
-
-			// srand(time(NULL));	//random number generator (for IV rand() seed value)
-			// memset(_key, 0, 32 * sizeof(uint8_t));
-			// memset(_iv, 0, 16 * sizeof(uint8_t));
 		}
 
 		void m17_coder_impl::switch_state(const pmt::pmt_t &msg)
@@ -542,18 +473,7 @@ namespace gr
 			if (encr_type == ENCR_NONE)
 				return;
 
-			_aes_subtype = aes_subtype;
-
-			if (encr_type == ENCR_AES) // AES ENC, 3200 voice
-			{
-				_type |= M17_TYPE_ENCR_AES;
-				if (_aes_subtype == 0)
-					_type |= M17_TYPE_ENCR_AES128;
-				else if (_aes_subtype == 1)
-					_type |= M17_TYPE_ENCR_AES192;
-				else if (_aes_subtype == 2)
-					_type |= M17_TYPE_ENCR_AES256;
-			}
+			_aes_subtype = aes_subtype; // the key size reaches TYPE through the encryption subtype (see set_type())
 		}
 
 		void m17_coder_impl::set_can(int can)
