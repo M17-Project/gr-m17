@@ -62,6 +62,7 @@ namespace gr
 			bool _debug = 0;
 			bool _signed_str = false;
 			bool _finalizing = false;
+			bool _stale_flushed = false;
 			std::atomic<bool> _finished = false, _active = false;
 
 			uint8_t _digest[PAYLOAD_BYTES] = {0}; // 16-byte field for the stream digest
@@ -100,6 +101,8 @@ namespace gr
 			void set_signed(bool signed_str);
 			void switch_state(const pmt::pmt_t &msg);
 			void init_state(void);
+			void encrypt_payload(uint8_t *data);
+			void update_digest(const uint8_t *data);
 
 			m17_coder_impl(std::string src_id, std::string dst_id,
 						   int data, int encr_type, int encr_subtype, int aes_subtype, int can,

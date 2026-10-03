@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <algorithm>
 #include <unistd.h>
 
 #include "m17.h"
@@ -245,6 +246,7 @@ namespace gr
 			_active.store(false, std::memory_order_relaxed);
 			_finished.store(false, std::memory_order_relaxed);
 			_send_preamble = true; // send preamble once in the work function
+			_stale_flushed = false; // drop stale input on the first work call after SOT
 		}
 
 		void m17_coder_impl::set_encr_type(int encr_type)
@@ -621,8 +623,11 @@ namespace gr
 			}
 			else
 			{
-				// stream mode
-				ninput_items_required[0] = noutput_items / 12; // 16 in -> 192 out
+				// stream mode: the end of a stream (last frame, signature, EoT) needs no new input
+				if (_active.load(std::memory_order_acquire) && _finished.load(std::memory_order_acquire))
+					ninput_items_required[0] = 0;
+				else
+					ninput_items_required[0] = noutput_items / 12; // 16 in -> 192 out
 			}
 		}
 
@@ -755,6 +760,35 @@ namespace gr
 			}
 		}
 
+		// encrypt one payload block in place, according to the selected encryption type
+		void m17_coder_impl::encrypt_payload(uint8_t *data)
+		{
+			if (_encr_type == ENCR_AES)
+			{
+				memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
+				_iv[14] = (_fn >> 8) & 0x7F;
+				_iv[15] = (_fn >> 0) & 0xFF;
+				aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
+			}
+			else if (_encr_type == ENCR_SCRAM)
+			{
+				scrambler_sequence_generator();
+				for (uint8_t i = 0; i < PAYLOAD_BYTES; i++)
+					data[i] ^= _scr_bytes[i];
+			}
+		}
+
+		// fold one payload block into the stream digest (signed streams)
+		void m17_coder_impl::update_digest(const uint8_t *data)
+		{
+			for (uint8_t i = 0; i < sizeof(_digest); i++)
+				_digest[i] ^= data[i];
+			uint8_t tmp = _digest[0];
+			for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
+				_digest[i] = _digest[i + 1];
+			_digest[sizeof(_digest) - 1] = tmp;
+		}
+
 		int
 		m17_coder_impl::general_work(int noutput_items,
 									 gr_vector_int &ninput_items,
@@ -837,220 +871,163 @@ namespace gr
 			}
 
 			//-------stream mode-------
-			if (_finalizing)
-			{
-				consume_each(0);
-			}
-
-			// drop any stale input if we just transitioned to active
-			if (_active.load(std::memory_order_acquire) && !_got_lsf && ninput_items[0] > 0)
-			{
-				// first work call after SOT, flush old data
-				consume_each(ninput_items[0]);
-			}
-
-			if (_active.load(std::memory_order_acquire))
-			{
-				if (_send_preamble == true)
-				{
-					gen_preamble(out, &countout, PREAM_LSF); // 0 - LSF preamble, as opposed to 1 - BERT preamble
-					_send_preamble = false;
-				}
-
-				while (countout < (uint32_t)noutput_items)
-				{
-					uint8_t data[PAYLOAD_BYTES]; // raw payload, packed bits
-
-					if (!_finalizing)
-					{
-						if (ninput_items[0] < countin + PAYLOAD_BYTES) // not enough input
-						{
-							if (_finished.load(std::memory_order_acquire) == false)
-							{
-								break;
-							}
-						}
-
-						if (!_got_lsf) // stream frames
-						{
-							// send LSF
-							gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
-							countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
-
-							// check the SIGNED STREAM flag
-							_signed_str = (_lsf.type[0] >> 3) & 1;
-
-							// set the flag
-							_got_lsf = 1;
-						}
-
-						if (ninput_items[0] >= countin + PAYLOAD_BYTES)
-						{
-							// get new data
-							memcpy(data, in + countin, PAYLOAD_BYTES);
-							countin += PAYLOAD_BYTES;
-
-							if (countin > PAYLOAD_BYTES)
-								continue;
-							// else
-							// printf("[DBG] Consumed 16 bytes FN=%u, total countin=%d\n", _fn, countin);
-						}
-
-						// TODO if debug_mode==1 from lines 520 to 570
-						// TODO add aes_subtype as user argument
-
-						if (_encr_type == ENCR_AES)
-						{
-							memcpy(&(_next_lsf.meta), _iv, 14); // TODO: I suspect that this does not work
-							_iv[14] = (_fn >> 8) & 0x7F;
-							_iv[15] = (_fn >> 0) & 0xFF;
-							aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
-						}
-						else
-							// Scrambler
-							if (_encr_type == ENCR_SCRAM)
-							{
-								scrambler_sequence_generator();
-								for (uint8_t i = 0; i < PAYLOAD_BYTES; i++)
-								{
-									data[i] ^= _scr_bytes[i];
-								}
-							}
-
-						/*fprintf(stderr, "Payload FN=%u: ", _fn);
-						for (int i = 0; i < PAYLOAD_BYTES; i++)
-						  fprintf(stderr, "%02X ", data[i]);
-						fprintf(stderr, "\n");*/
-					}
-
-					if (_finished.load(std::memory_order_acquire) == false)
-					{
-						gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
-						countout += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
-						_fn = (_fn + 1) % 0x8000;		 // increment FN
-						_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
-
-						// update the stream digest if required
-						if (_signed_str)
-						{
-							for (uint8_t i = 0; i < sizeof(_digest); i++)
-								_digest[i] ^= data[i];
-							uint8_t tmp = _digest[0];
-							for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-								_digest[i] = _digest[i + 1];
-							_digest[sizeof(_digest) - 1] = tmp;
-						}
-
-						// update LSF every 6 frames (superframe boundary)
-						if (_fn > 0 && _lich_cnt == 0)
-						{
-							// TODO: fix the _next_lsf contents before uncommenting lines below
-							//_lsf = _next_lsf;
-							// update_LSF_CRC(&_lsf);
-						}
-					}
-					else // send last frame(s)
-					{
-						// prevent further input consumption
-						countin = 0;
-
-						// enter finalization only once
-						if (!_finalizing)
-						{
-							fprintf(stderr, "Sending last frame(s) plus EoT(s)\n");
-							_finalizing = true; // mark that we already printed and started finishing
-						}
-
-						/* Determine how many frames we will emit in total:
-						   - one final data frame
-						   - if signed stream: 4 signature frames
-						   - one (or more) EOT frames generated by gen_eot()
-						*/
-						int frames_needed = 1 + (_signed_str ? 4 : 0) + _eot_cnt;
-						int samples_needed = frames_needed * SYM_PER_FRA;
-
-						if ((noutput_items - (int)countout) < samples_needed)
-						{
-							// Not enough room to emit the entire remaining sequence.
-							// Wait for next general_work() with a larger buffer.
-							consume_each(0); // wake scheduler to retry
-							return countout;
-						}
-
-						// prevent re-entry before generating EOT
-						_active.store(false, std::memory_order_release);
-
-						if (!_signed_str)
-							_fn |= 0x8000;
-						gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
-						countout += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
-						_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
-
-						// if we are done, and the stream is signed, so we need to transmit the signature (4 frames)
-						if (_signed_str)
-						{
-							// update digest
-							for (uint8_t i = 0; i < sizeof(_digest); i++)
-								_digest[i] ^= data[i];
-							uint8_t tmp = _digest[0];
-							for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-								_digest[i] = _digest[i + 1];
-							_digest[sizeof(_digest) - 1] = tmp;
-
-							// sign the digest
-							uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
-
-							// 4 frames with 512-bit signature
-							_fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
-							for (uint8_t i = 0; i < 4; i++)
-							{
-								gen_frame(out + countout, &_sig[i * PAYLOAD_BYTES], FRAME_STR, &_lsf, _lich_cnt, _fn);
-								countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
-								_fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
-								_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
-							}
-
-							if (_debug == true)
-							{
-								fprintf(stderr, "Signature: ");
-								for (uint8_t i = 0; i < sizeof(_sig); i++)
-								{
-									if (i == 16 || i == 32 || i == 48)
-										fprintf(stderr, "\n           ");
-									fprintf(stderr, "%02X", _sig[i]);
-								}
-
-								fprintf(stderr, "\n");
-							}
-						}
-
-						// send EOT frame(s)
-						for (uint8_t i = 0; i < _eot_cnt; i++)
-						{
-							uint32_t tmp = 0;
-							gen_eot(out + countout, &tmp);
-							countout += tmp; // tmp should equal SYM_PER_FRA (192)
-						}
-
-						fprintf(stderr, "Stopping symbol generation\n");
-						consume_each(countin);
-						init_state();
-						_finalizing = false;
-						return countout;
-					} // finished == true
-				} // loop on input data
-
-				// Tell runtime system how many input items we consumed on
-				// each input stream.
-				consume_each(countin);
-			}
-			else
+			if (!_active.load(std::memory_order_acquire))
 			{
 				usleep(10e3);				   // TODO: fix this
 				consume_each(ninput_items[0]); // consume input at idle to prevent buffer from filling with a lot of data
 				return 0;
 			}
 
+			// first work call after SOT: the input present now arrived before SOT - drop it and return,
+			// the stream (preamble, LSF, frames) starts with the next input
+			if (!_stale_flushed)
+			{
+				_stale_flushed = true;
+				consume_each(ninput_items[0]);
+				return 0;
+			}
+
+			const bool finished = _finished.load(std::memory_order_acquire);
+			auto room = [&](int frames)
+			{ return (uint32_t)noutput_items >= countout + frames * SYM_PER_FRA; };
+
+			// start of stream: preamble and LSF go out together with the first frame
+			if (!_got_lsf)
+			{
+				if ((!finished && ninput_items[0] < PAYLOAD_BYTES) || !room(3))
+				{
+					consume_each(0);
+					return 0;
+				}
+
+				if (_send_preamble == true)
+				{
+					gen_preamble(out, &countout, PREAM_LSF); // 0 - LSF preamble, as opposed to 1 - BERT preamble
+					_send_preamble = false;
+				}
+
+				gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
+				countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
+
+				// check the SIGNED STREAM flag
+				_signed_str = (_lsf.type[0] >> 3) & 1;
+
+				_got_lsf = 1;
+			}
+
+			// stream frames: exactly one frame per PAYLOAD_BYTES of input, nothing is skipped
+			while (!finished && room(1) && (ninput_items[0] - countin) >= PAYLOAD_BYTES)
+			{
+				uint8_t data[PAYLOAD_BYTES]; // raw payload, packed bits
+				memcpy(data, in + countin, PAYLOAD_BYTES);
+				countin += PAYLOAD_BYTES;
+
+				encrypt_payload(data);
+
+				gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+				countout += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
+				_fn = (_fn + 1) % 0x8000;		 // increment FN
+				_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
+
+				// update the stream digest if required
+				if (_signed_str)
+					update_digest(data);
+
+				// update LSF every 6 frames (superframe boundary)
+				if (_fn > 0 && _lich_cnt == 0)
+				{
+					// TODO: fix the _next_lsf contents before uncommenting lines below
+					//_lsf = _next_lsf;
+					// update_LSF_CRC(&_lsf);
+				}
+			}
+
+			// end of stream: last frame, signature (if signed), EoT(s) - all in one go
+			if (finished)
+			{
+				if (!_finalizing)
+				{
+					fprintf(stderr, "Sending last frame(s) plus EoT(s)\n");
+					_finalizing = true; // print only once
+				}
+
+				// one final data frame, 4 signature frames if signed, then the EoT frame(s)
+				int frames_needed = 1 + (_signed_str ? 4 : 0) + _eot_cnt;
+				if (!room(frames_needed))
+				{
+					// not enough room for the entire remaining sequence, wait for a larger buffer
+					consume_each(countin);
+					return countout;
+				}
+
+				// the last frame carries the next block of input, zero-padded if less is available
+				uint8_t data[PAYLOAD_BYTES] = {0};
+				int take = std::min((int)ninput_items[0] - countin, (int)PAYLOAD_BYTES);
+				if (take > 0)
+				{
+					memcpy(data, in + countin, take);
+					countin += take;
+				}
+
+				encrypt_payload(data);
+
+				// prevent re-entry before generating EOT
+				_active.store(false, std::memory_order_release);
+
+				if (!_signed_str)
+					_fn |= 0x8000;
+				gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+				countout += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
+				_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
+
+				// if the stream is signed, transmit the signature (4 frames)
+				if (_signed_str)
+				{
+					update_digest(data);
+
+					// sign the digest
+					uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
+
+					// 4 frames with 512-bit signature
+					_fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
+					for (uint8_t i = 0; i < 4; i++)
+					{
+						gen_frame(out + countout, &_sig[i * PAYLOAD_BYTES], FRAME_STR, &_lsf, _lich_cnt, _fn);
+						countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
+						_fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
+						_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
+					}
+
+					if (_debug == true)
+					{
+						fprintf(stderr, "Signature: ");
+						for (uint8_t i = 0; i < sizeof(_sig); i++)
+						{
+							if (i == 16 || i == 32 || i == 48)
+								fprintf(stderr, "\n           ");
+							fprintf(stderr, "%02X", _sig[i]);
+						}
+
+						fprintf(stderr, "\n");
+					}
+				}
+
+				// send EOT frame(s)
+				for (uint8_t i = 0; i < _eot_cnt; i++)
+				{
+					uint32_t tmp = 0;
+					gen_eot(out + countout, &tmp);
+					countout += tmp; // tmp should equal SYM_PER_FRA (192)
+				}
+
+				fprintf(stderr, "Stopping symbol generation\n");
+				init_state();
+				_finalizing = false;
+			}
+
+			// Tell runtime system how many input items we consumed on
+			// each input stream.
+			consume_each(countin);
 			return countout;
 
 			// https://lists.gnu.org/archive/html/discuss-gnuradio/2016-12/msg00206.html
