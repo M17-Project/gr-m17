@@ -31,6 +31,13 @@ parameters:
   category: General
   dtype: int
   default: 1
+- id: continuous
+  label: Transmission control
+  category: General
+  dtype: bool
+  default: 'False'
+  options: ['False', 'True']
+  option_labels: ['Messages (SOT/EOT/SMS)', 'Continuous']
 # --- Encryption ---
 - id: encr_type
   label: Encryption
@@ -180,7 +187,7 @@ templates:
   # META is assembled by m17.build_meta() from the Meta tab fields;
   # key/seed/priv_key are entered as hex text and converted to byte strings here;
   # fields that are not in use are passed as '' so hidden values have no effect
-  make: m17.m17_coder(${src_id},${dst_id},${type},${encr_type},(${encr_subtype} if ${encr_type} == 0 else len(${seed}.replace(' ', '')) // 2 - 1 if ${encr_type} == 1 else ${aes_subtype} if ${encr_type} == 2 else 0),${aes_subtype},${can},m17.build_meta(${encr_type}, ${encr_subtype}, ${meta}, ${meta_lat}, ${meta_lon}, ${meta_alt}, ${meta_speed}, ${meta_bearing}, ${meta_station}, ${meta_source}, ${meta_cf1}, ${meta_cf2}, ${meta_hex}),bytes.fromhex(${key} if ${encr_type} == 2 else '').decode('latin-1'),bytes.fromhex(${priv_key} if ${signed_str} else '').decode('latin-1'),${debug},${signed_str},bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'),${eot_cnt})
+  make: m17.m17_coder(${src_id},${dst_id},${type},${encr_type},(${encr_subtype} if ${encr_type} == 0 else len(${seed}.replace(' ', '')) // 2 - 1 if ${encr_type} == 1 else ${aes_subtype} if ${encr_type} == 2 else 0),${aes_subtype},${can},m17.build_meta(${encr_type}, ${encr_subtype}, ${meta}, ${meta_lat}, ${meta_lon}, ${meta_alt}, ${meta_speed}, ${meta_bearing}, ${meta_station}, ${meta_source}, ${meta_cf1}, ${meta_cf2}, ${meta_hex}),bytes.fromhex(${key} if ${encr_type} == 2 else '').decode('latin-1'),bytes.fromhex(${priv_key} if ${signed_str} else '').decode('latin-1'),${debug},${signed_str},bytes.fromhex(${seed} if ${encr_type} == 1 else '').decode('latin-1'),${eot_cnt},${continuous})
   callbacks:
     - set_src_id(${src_id})
     - set_dst_id(${dst_id})
@@ -212,7 +219,7 @@ inputs:
   optional: 0
 - label: transmission_control
   domain: message
-  optional: 0
+  optional: ${ continuous }
 
 outputs:
 - label: out

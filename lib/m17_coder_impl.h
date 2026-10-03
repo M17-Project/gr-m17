@@ -115,6 +115,9 @@ namespace gr
 			void init_state(void);
 			std::string tag() const;
 			bool _started = false; // flowgraph started: setters report runtime changes
+			bool _continuous = false; // continuous mode: one stream from flowgraph start to end of input
+			bool input_done();
+			bool stop() override;
 			int _tx_frames = 0;		// data frames of the current transmission
 			void new_nonce(void);
 			void encrypt_payload(uint8_t *data);
@@ -123,7 +126,7 @@ namespace gr
 			m17_coder_impl(std::string src_id, std::string dst_id,
 						   int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 						   std::string meta, std::string key, std::string priv_key,
-						   bool debug, bool signed_str, std::string seed, int eot_cnt);
+						   bool debug, bool signed_str, std::string seed, int eot_cnt, bool continuous);
 			~m17_coder_impl();
 
 			// Where all the action really happens

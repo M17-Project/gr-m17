@@ -30,6 +30,8 @@
 
 #include "m17.h"
 #include "m17_log.h"
+#include <gnuradio/block_detail.h>
+#include <gnuradio/buffer_reader.h>
 #include "aes.h"
 #include "uECC.h"
 
@@ -42,10 +44,11 @@ namespace gr
 		m17_coder::make(std::string src_id, std::string dst_id,
 						int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 						std::string meta, std::string key,
-						std::string priv_key, bool debug, bool signed_str, std::string seed, int eot_cnt)
+						std::string priv_key, bool debug, bool signed_str, std::string seed, int eot_cnt,
+						bool continuous)
 		{
 			return gnuradio::get_initial_sptr(new m17_coder_impl(src_id, dst_id, data, encr_type, encr_subtype,
-																 aes_subtype, can, meta, key, priv_key, debug, signed_str, seed, eot_cnt));
+																 aes_subtype, can, meta, key, priv_key, debug, signed_str, seed, eot_cnt, continuous));
 		}
 
 		/*
@@ -57,11 +60,12 @@ namespace gr
 									   std::string meta, std::string key,
 									   std::string priv_key, bool debug,
 									   bool signed_str, std::string seed,
-									   int eot_cnt) : gr::block("m17_coder", gr::io_signature::make(1, 1, sizeof(char)),
+									   int eot_cnt, bool continuous) : gr::block("m17_coder", gr::io_signature::make(1, 1, sizeof(char)),
 																gr::io_signature::make(1, 1, sizeof(float))),
 													  _mode(M17_TYPE_STREAM), _data(data), _encr_subtype(encr_subtype), _aes_subtype(aes_subtype), _can(can), _meta(meta), _debug(debug),
 													  _signed_str(signed_str), _eot_cnt(eot_cnt)
 		{
+			_continuous = continuous;
 			set_encr_type(encr_type); // overwritten by set_seed()
 			set_type(M17_TYPE_STREAM, data, _encr_type, encr_subtype, can); // default mode: STREAM
 			set_aes_subtype(aes_subtype, encr_type);
@@ -169,6 +173,12 @@ namespace gr
 				const pmt::pmt_t &cdr = pmt::cdr(msg);
 				if (pmt::is_symbol(cdr))
 					val = pmt::symbol_to_string(cdr);
+			}
+
+			if (_continuous)
+			{
+				m17_log(tag(), "%s ignored (continuous mode)", cmd.size() ? cmd.c_str() : "Control message");
+				return;
 			}
 
 			if (cmd == "SOT")
@@ -568,6 +578,19 @@ namespace gr
 				m17_log(tag(), "TYPE changed: %04X (%s)", tmptype, m17_type_str(tmptype).c_str());
 		}
 
+		// has the upstream block finished (no more input will ever arrive)?
+		bool m17_coder_impl::input_done()
+		{
+			return detail() && detail()->input(0) && detail()->input(0)->done();
+		}
+
+		bool m17_coder_impl::stop()
+		{
+			if (_continuous && _active.load(std::memory_order_acquire))
+				m17_log(tag(), "TX end: flowgraph stopped during the stream - no EoT sent (%d frames)", (int)(_fn & 0x7FFF));
+			return gr::block::stop();
+		}
+
 		// tag for console output: the block alias if set in GRC, otherwise M17_ENC
 		std::string m17_coder_impl::tag() const
 		{
@@ -606,6 +629,15 @@ namespace gr
 			}
 
 			_started = true;
+
+			if (_continuous)
+			{
+				init_state();
+				_stale_flushed = true; // all input belongs to the stream
+				_active.store(true, std::memory_order_release);
+				m17_log(tag(), "TX start: stream (continuous mode)");
+			}
+
 			return gr::block::start();
 		}
 
@@ -628,7 +660,8 @@ namespace gr
 			else
 			{
 				// stream mode: the end of a stream (last frame, signature, EoT) needs no new input
-				if (_active.load(std::memory_order_acquire) && _finished.load(std::memory_order_acquire))
+				if (_active.load(std::memory_order_acquire) &&
+					(_finished.load(std::memory_order_acquire) || (_continuous && input_done())))
 					ninput_items_required[0] = 0;
 				else
 					ninput_items_required[0] = noutput_items / 12; // 16 in -> 192 out
@@ -885,6 +918,10 @@ namespace gr
 				consume_each(ninput_items[0]);
 				return 0;
 			}
+
+			// continuous mode: when the source has ended and less than a full frame is left, end the stream
+			if (_continuous && !_finished.load(std::memory_order_acquire) && input_done() && ninput_items[0] < PAYLOAD_BYTES)
+				_finished.store(true, std::memory_order_release);
 
 			const bool finished = _finished.load(std::memory_order_acquire);
 			auto room = [&](int frames)

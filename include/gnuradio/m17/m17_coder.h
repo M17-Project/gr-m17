@@ -44,7 +44,8 @@ namespace gr
       static sptr make (std::string src_id, std::string dst_id,
 			int data, int encr_type, int encr_subtype, int aes_subtype, int can,
 			std::string meta, std::string key,
-			std::string priv_key, bool debug, bool signed_str, std::string seed, int eot_cnt);
+			std::string priv_key, bool debug, bool signed_str, std::string seed, int eot_cnt,
+			bool continuous = false);
       virtual void set_key (std::string meta) = 0;
       virtual void set_priv_key (std::string meta) = 0;
       virtual void set_seed (std::string dst_id) = 0;
