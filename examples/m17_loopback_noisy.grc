@@ -1,29 +1,25 @@
 options:
   parameters:
+    alias: ''
     author: Wojciech SP5WWP
     catch_exceptions: 'True'
-    category: '[GRC Hier Blocks]'
-    cmake_opt: ''
     comment: ''
-    copyright: M17 Foundation 2025
+    copyright: M17 Foundation 2026
     description: ''
-    gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
+    generator_class_name: PythonQtGuiGenerator
+    generator_module: gnuradio.grc.workflows.python_qt_gui
     hier_block_src_path: '.:'
     id: m17_noisy
     max_nouts: '0'
     output_language: python
-    placement: (0,0)
     qt_qss_theme: ''
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
-    run_options: prompt
-    sizing_mode: fixed
     thread_safe_setters: ''
     title: M17 loopback demo
-    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -37,6 +33,7 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
+    entry_signal: editingFinished
     gui_hint: ''
     label: DST
     type: string
@@ -52,6 +49,7 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
+    entry_signal: editingFinished
     gui_hint: ''
     label: META
     type: string
@@ -100,6 +98,7 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
+    entry_signal: editingFinished
     gui_hint: ''
     label: SRC
     type: string
@@ -115,6 +114,7 @@ blocks:
   id: variable_qtgui_entry
   parameters:
     comment: ''
+    entry_signal: editingFinished
     gui_hint: ''
     label: TYPE
     type: int
@@ -142,7 +142,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 388.0]
+    coordinate: [512, 368.0]
     rotation: 0
     state: true
 - name: blocks_add_xx_0
@@ -160,7 +160,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 232.0]
+    coordinate: [712, 232.0]
     rotation: 0
     state: true
 - name: blocks_file_sink_0
@@ -178,7 +178,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 212.0]
+    coordinate: [1208, 208.0]
     rotation: 0
     state: disabled
 - name: blocks_message_debug_0
@@ -193,7 +193,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 304.0]
+    coordinate: [1208, 296.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -210,7 +210,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 168.0]
+    coordinate: [1208, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -231,7 +231,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 196.0]
+    coordinate: [200, 192.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -252,7 +252,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 196.0]
+    coordinate: [8, 192.0]
     rotation: 0
     state: true
 - name: btn0
@@ -261,16 +261,34 @@ blocks:
     comment: ''
     gui_hint: ''
     label: Stop
-    msgName: pressed
+    msgName: EOT
     relBackgroundColor: default
     relFontColor: default
     type: string
-    value: '1'
+    value: ''
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [136, 292.0]
+    coordinate: [160, 288.0]
+    rotation: 0
+    state: true
+- name: btn1
+  id: variable_qtgui_msg_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Start
+    msgName: SOT
+    relBackgroundColor: default
+    relFontColor: default
+    type: string
+    value: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 392.0]
     rotation: 0
     state: true
 - name: m17_m17_coder_0
@@ -281,15 +299,26 @@ blocks:
     alias: ''
     can: '0'
     comment: ''
+    continuous: 'False'
     debug: 'False'
     dst_id: dst_str
     encr_subtype: '0'
     encr_type: '0'
+    eot_cnt: '1'
     key: ''
     maxoutbuf: '0'
     meta: meta_str
+    meta_alt: '0.0'
+    meta_bearing: '0'
+    meta_cf1: ''
+    meta_cf2: ''
+    meta_hex: ''
+    meta_lat: '0.0'
+    meta_lon: '0.0'
+    meta_source: '0'
+    meta_speed: '0.0'
+    meta_station: '0'
     minoutbuf: '0'
-    mode: '1'
     priv_key: ''
     seed: ''
     signed_str: 'False'
@@ -299,7 +328,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [376, 124.0]
+    coordinate: [384, 140.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -311,18 +340,19 @@ blocks:
     comment: ''
     debug_ctrl: 'False'
     debug_data: 'False'
-    encr_type: '0'
     key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    pub_key: ''
     seed: ''
-    signed_str: 'False'
-    threshold: '2.0'
+    sw_threshold: '2.0'
+    undecodable_out: '0'
+    vt_threshold: '30.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 188.0]
+    coordinate: [816, 172.0]
     rotation: 0
     state: enabled
 - name: qtgui_eye_sink_x_0
@@ -418,7 +448,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 348.0]
+    coordinate: [816, 368.0]
     rotation: 0
     state: true
 
@@ -428,7 +458,8 @@ connections:
 - [blocks_add_xx_0, '0', qtgui_eye_sink_x_0, '0']
 - [blocks_throttle2_0, '0', m17_m17_coder_0, '0']
 - [blocks_vector_source_x_0_2, '0', blocks_throttle2_0, '0']
-- [btn0, pressed, m17_m17_coder_0, end_of_transmission]
+- [btn0, pressed, m17_m17_coder_0, transmission_control]
+- [btn1, pressed, m17_m17_coder_0, transmission_control]
 - [m17_m17_coder_0, '0', blocks_add_xx_0, '0']
 - [m17_m17_decoder_0, '0', blocks_file_sink_0, '0']
 - [m17_m17_decoder_0, '0', blocks_null_sink_0, '0']
@@ -436,4 +467,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.7.0
+  grc_version: 3.10.12.0

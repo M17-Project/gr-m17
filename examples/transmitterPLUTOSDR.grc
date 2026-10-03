@@ -1,29 +1,25 @@
 options:
   parameters:
+    alias: ''
     author: Wojciech Kaczmarski SP5WWP
     catch_exceptions: 'True'
-    category: '[GRC Hier Blocks]'
-    cmake_opt: ''
     comment: ''
-    copyright: ''
+    copyright: M17 Foundation 2026
     description: ''
-    gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
+    generator_class_name: PythonQtGuiGenerator
+    generator_module: gnuradio.grc.workflows.python_qt_gui
     hier_block_src_path: '.:'
     id: transmitterPLUTOSDR
     max_nouts: '0'
     output_language: python
-    placement: (0,0)
     qt_qss_theme: ''
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
-    run_options: prompt
-    sizing_mode: fixed
     thread_safe_setters: ''
     title: Simple M17 transmitter for ADALM Pluto
-    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -186,7 +182,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 264.0]
+    coordinate: [880, 288.0]
     rotation: 0
     state: true
 - name: analog_sig_source_x_0
@@ -209,7 +205,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 112.0]
+    coordinate: [8, 216.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -227,23 +223,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1064, 264.0]
-    rotation: 0
-    state: true
-- name: blocks_pack_k_bits_bb_0
-  id: blocks_pack_k_bits_bb
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    k: '8'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [232, 248.0]
+    coordinate: [1048, 288.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -264,43 +244,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 248.0]
+    coordinate: [8, 352.0]
     rotation: 0
     state: disabled
-- name: blocks_vector_to_stream_0
-  id: blocks_vector_to_stream
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_items: '64'
-    type: byte
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [232, 208.0]
-    rotation: 180
-    state: enabled
 - name: end_of_transmission
   id: variable_qtgui_msg_push_button
   parameters:
     comment: ''
     gui_hint: ''
     label: End of Transmission
-    msgName: end_of_transmission
+    msgName: EOT
     relBackgroundColor: default
     relFontColor: default
     type: string
-    value: end_of_transmission
+    value: ''
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 336.0]
+    coordinate: [8, 440.0]
     rotation: 0
     state: enabled
 - name: iio_pluto_sink_0_0
@@ -326,7 +288,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1384, 204.0]
+    coordinate: [1384, 228.0]
     rotation: 0
     state: enabled
 - name: import_0
@@ -342,6 +304,21 @@ blocks:
     coordinate: [280, 12.0]
     rotation: 0
     state: enabled
+- name: m17_codec2_encoder_0
+  id: m17_codec2_encoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 264.0]
+    rotation: 0
+    state: enabled
 - name: m17_m17_coder_0_0
   id: m17_m17_coder
   parameters:
@@ -350,6 +327,7 @@ blocks:
     alias: ''
     can: '0'
     comment: ''
+    continuous: 'False'
     debug: 'False'
     dst_id: dst
     encr_subtype: '0'
@@ -358,8 +336,17 @@ blocks:
     key: ''
     maxoutbuf: '0'
     meta: ''
+    meta_alt: '0.0'
+    meta_bearing: '0'
+    meta_cf1: ''
+    meta_cf2: ''
+    meta_hex: ''
+    meta_lat: '0.0'
+    meta_lon: '0.0'
+    meta_source: '0'
+    meta_speed: '0.0'
+    meta_station: '0'
     minoutbuf: '0'
-    mode: '1'
     priv_key: ''
     seed: ''
     signed_str: 'False'
@@ -369,7 +356,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [456, 144.0]
+    coordinate: [376, 204.0]
     rotation: 0
     state: enabled
 - name: note_0_2
@@ -395,7 +382,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [176, 96.0]
+    coordinate: [176, 200.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0_0
@@ -476,7 +463,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1392, 376.0]
+    coordinate: [1384, 400.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -573,7 +560,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [944, 144.0]
+    coordinate: [928, 168.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0_0
@@ -593,7 +580,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1216, 240.0]
+    coordinate: [1200, 264.0]
     rotation: 0
     state: true
 - name: root_raised_cosine_filter_0
@@ -616,9 +603,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [696, 224.0]
+    coordinate: [680, 248.0]
     rotation: 0
     state: true
+- name: start_of_transmission
+  id: variable_qtgui_msg_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Start of Transmission
+    msgName: SOT
+    relBackgroundColor: default
+    relFontColor: default
+    type: string
+    value: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 544.0]
+    rotation: 0
+    state: enabled
 - name: uhd_usrp_sink_0
   id: uhd_usrp_sink
   parameters:
@@ -893,41 +898,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1376, 88.0]
-    rotation: 0
-    state: enabled
-- name: vocoder_codec2_encode_sp_0
-  id: vocoder_codec2_encode_sp
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    mode: codec2.MODE_3200
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [200, 152.0]
+    coordinate: [1384, 112.0]
     rotation: 0
     state: enabled
 
 connections:
 - [analog_frequency_modulator_fc_0_0, '0', blocks_multiply_const_vxx_0, '0']
-- [analog_sig_source_x_0, '0', vocoder_codec2_encode_sp_0, '0']
+- [analog_sig_source_x_0, '0', m17_codec2_encoder_0, '0']
 - [blocks_multiply_const_vxx_0, '0', rational_resampler_xxx_0_0, '0']
-- [blocks_pack_k_bits_bb_0, '0', m17_m17_coder_0_0, '0']
 - [blocks_vector_source_x_0_2, '0', m17_m17_coder_0_0, '0']
-- [blocks_vector_to_stream_0, '0', blocks_pack_k_bits_bb_0, '0']
 - [end_of_transmission, pressed, m17_m17_coder_0_0, transmission_control]
+- [m17_codec2_encoder_0, '0', m17_m17_coder_0_0, '0']
 - [m17_m17_coder_0_0, '0', root_raised_cosine_filter_0, '0']
 - [rational_resampler_xxx_0_0, '0', iio_pluto_sink_0_0, '0']
 - [rational_resampler_xxx_0_0, '0', qtgui_freq_sink_x_0_0, '0']
 - [rational_resampler_xxx_0_0, '0', uhd_usrp_sink_0, '0']
 - [root_raised_cosine_filter_0, '0', analog_frequency_modulator_fc_0_0, '0']
 - [root_raised_cosine_filter_0, '0', qtgui_time_sink_x_0_0, '0']
-- [vocoder_codec2_encode_sp_0, '0', blocks_vector_to_stream_0, '0']
+- [start_of_transmission, pressed, m17_m17_coder_0_0, transmission_control]
 
 metadata:
   file_format: 1

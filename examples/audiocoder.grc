@@ -1,34 +1,30 @@
 options:
   parameters:
+    alias: ''
     author: ''
     catch_exceptions: 'True'
-    category: '[GRC Hier Blocks]'
-    cmake_opt: ''
     comment: ''
     copyright: ''
     description: ''
-    gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
+    generator_class_name: PythonQtGuiGenerator
+    generator_module: gnuradio.grc.workflows.python_qt_gui
     hier_block_src_path: '.:'
     id: audiocoder
     max_nouts: '0'
     output_language: python
-    placement: (0,0)
     qt_qss_theme: ''
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
-    run_options: prompt
-    sizing_mode: fixed
     thread_safe_setters: ''
-    title: Not titled yet
-    window_size: (1000,1000)
+    title: Speech codec demo
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 40.0]
+    coordinate: [8, 8.0]
     rotation: 0
     state: enabled
 
@@ -51,7 +47,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 40.0]
+    coordinate: [248, 8.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -63,7 +59,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [176, 40.0]
+    coordinate: [160, 8.0]
     rotation: 0
     state: enabled
 - name: x
@@ -84,7 +80,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 40.0]
+    coordinate: [368, 8.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0
@@ -107,7 +103,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 128.0]
+    coordinate: [16, 232.0]
     rotation: 0
     state: enabled
 - name: audio_sink_0
@@ -124,7 +120,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1216, 248.0]
+    coordinate: [1208, 352.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0
@@ -142,7 +138,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 272.0]
+    coordinate: [1008, 376.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_const_vxx_0_0
@@ -160,7 +156,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 168.0]
+    coordinate: [1008, 272.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0
@@ -177,7 +173,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 168.0]
+    coordinate: [664, 272.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0_0
@@ -194,7 +190,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [664, 64.0]
+    coordinate: [640, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_short_to_float_0_1
@@ -211,7 +207,37 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 272.0]
+    coordinate: [648, 376.0]
+    rotation: 0
+    state: enabled
+- name: m17_codec2_decoder_0
+  id: m17_codec2_decoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 264.0]
+    rotation: 0
+    state: enabled
+- name: m17_codec2_encoder_0
+  id: m17_codec2_encoder
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 264.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -292,7 +318,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1160, 64.0]
+    coordinate: [1152, 168.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0
@@ -312,7 +338,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [848, 144.0]
+    coordinate: [840, 248.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0_0
@@ -332,7 +358,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [848, 40.0]
+    coordinate: [840, 144.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0_1
@@ -352,58 +378,26 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [848, 248.0]
-    rotation: 0
-    state: enabled
-- name: vocoder_codec2_decode_ps_0
-  id: vocoder_codec2_decode_ps
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    mode: codec2.MODE_3200
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [480, 168.0]
-    rotation: 0
-    state: enabled
-- name: vocoder_codec2_encode_sp_0
-  id: vocoder_codec2_encode_sp
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    mode: codec2.MODE_3200
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [288, 168.0]
+    coordinate: [840, 352.0]
     rotation: 0
     state: enabled
 
 connections:
 - [analog_sig_source_x_0, '0', blocks_short_to_float_0_0, '0']
 - [analog_sig_source_x_0, '0', blocks_short_to_float_0_1, '0']
-- [analog_sig_source_x_0, '0', vocoder_codec2_encode_sp_0, '0']
+- [analog_sig_source_x_0, '0', m17_codec2_encoder_0, '0']
 - [blocks_multiply_const_vxx_0, '0', audio_sink_0, '1']
 - [blocks_multiply_const_vxx_0_0, '0', audio_sink_0, '0']
 - [blocks_short_to_float_0, '0', rational_resampler_xxx_0, '0']
 - [blocks_short_to_float_0_0, '0', rational_resampler_xxx_0_0, '0']
 - [blocks_short_to_float_0_1, '0', rational_resampler_xxx_0_1, '0']
+- [m17_codec2_decoder_0, '0', blocks_short_to_float_0, '0']
+- [m17_codec2_encoder_0, '0', m17_codec2_decoder_0, '0']
 - [rational_resampler_xxx_0, '0', blocks_multiply_const_vxx_0_0, '0']
 - [rational_resampler_xxx_0, '0', qtgui_freq_sink_x_0, '1']
 - [rational_resampler_xxx_0_0, '0', qtgui_freq_sink_x_0, '0']
 - [rational_resampler_xxx_0_1, '0', blocks_multiply_const_vxx_0, '0']
-- [vocoder_codec2_decode_ps_0, '0', blocks_short_to_float_0, '0']
-- [vocoder_codec2_encode_sp_0, '0', vocoder_codec2_decode_ps_0, '0']
 
 metadata:
   file_format: 1
-  grc_version: 3.10.10.0
+  grc_version: 3.10.12.0

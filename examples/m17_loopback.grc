@@ -1,29 +1,25 @@
 options:
   parameters:
+    alias: ''
     author: Wojciech SP5WWP
     catch_exceptions: 'True'
-    category: '[GRC Hier Blocks]'
-    cmake_opt: ''
     comment: ''
-    copyright: M17 Project, Jan 2024
+    copyright: M17 Foundation 2026
     description: ''
-    gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
+    generator_class_name: PythonQtGuiGenerator
+    generator_module: gnuradio.grc.workflows.python_qt_gui
     hier_block_src_path: '.:'
     id: m17_loopback
     max_nouts: '0'
     output_language: python
-    placement: (0,0)
     qt_qss_theme: ''
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
-    run_options: prompt
-    sizing_mode: fixed
     thread_safe_setters: ''
     title: M17 loopback demo
-    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -76,7 +72,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [376, 428.0]
+    coordinate: [632, 404.0]
     rotation: 0
     state: enabled
 - name: enc_type
@@ -106,7 +102,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 428.0]
+    coordinate: [496, 404.0]
     rotation: 0
     state: enabled
 - name: mode
@@ -136,7 +132,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 468.0]
+    coordinate: [264, 444.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -171,7 +167,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 432.0]
+    coordinate: [792, 408.0]
     rotation: 0
     state: enabled
 - name: src_str
@@ -217,7 +213,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [112, 428.0]
+    coordinate: [368, 404.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -235,7 +231,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1056, 184.0]
+    coordinate: [1136, 168.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -252,7 +248,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1072, 120.0]
+    coordinate: [1136, 120.0]
     rotation: 0
     state: disabled
 - name: blocks_throttle2_0
@@ -273,7 +269,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 192.0]
+    coordinate: [600, 192.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0_2
@@ -303,11 +299,11 @@ blocks:
     comment: ''
     gui_hint: ''
     label: End of Transmission
-    msgName: end_of_transmission
+    msgName: EOT
     relBackgroundColor: default
     relFontColor: default
     type: string
-    value: end_of_transmission
+    value: ''
   states:
     bus_sink: false
     bus_source: false
@@ -322,29 +318,37 @@ blocks:
     affinity: ''
     alias: ''
     can: '0'
-    comment: 'since Meta can be a byte array, it cannot be fed with a QT GUI Entry
-
-      string but must be a "\x00" string in the Encoder block'
+    comment: since Meta can be a byte array, it cannot be fed with a QT GUI Entry
+    continuous: 'False'
     debug: 'True'
     dst_id: dst_str
     encr_subtype: enc_subtype
     encr_type: enc_type
+    eot_cnt: '1'
     key: 00006541B093FF000000000000000000
     maxoutbuf: '0'
     meta: ''
+    meta_alt: '0.0'
+    meta_bearing: '0'
+    meta_cf1: ''
+    meta_cf2: ''
     meta_hex: 00006541B093FF00
+    meta_lat: '0.0'
+    meta_lon: '0.0'
+    meta_source: '0'
+    meta_speed: '0.0'
+    meta_station: '0'
     minoutbuf: '0'
-    mode: mode
     priv_key: ''
     seed: ''
     signed_str: signed_str
     src_id: src_str
-    type: type_val
+    type: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 96.0]
+    coordinate: [304, 116.0]
     rotation: 0
     state: true
 - name: m17_m17_decoder_0
@@ -356,18 +360,19 @@ blocks:
     comment: ''
     debug_ctrl: 'True'
     debug_data: 'True'
-    encr_type: '0'
     key: ''
     maxoutbuf: '0'
     minoutbuf: '0'
+    pub_key: ''
     seed: ''
-    signed_str: 'False'
-    threshold: '2.0'
+    sw_threshold: '2.0'
+    undecodable_out: '0'
+    vt_threshold: '30.0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 140.0]
+    coordinate: [752, 132.0]
     rotation: 0
     state: true
 - name: note_0_2
@@ -380,17 +385,36 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 88.0]
+    coordinate: [192, 136.0]
     rotation: 0
     state: true
+- name: start_of_transmission
+  id: variable_qtgui_msg_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Start of Transmission
+    msgName: SOT
+    relBackgroundColor: default
+    relFontColor: default
+    type: string
+    value: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 376.0]
+    rotation: 0
+    state: enabled
 
 connections:
 - [blocks_throttle2_0, '0', m17_m17_decoder_0, '0']
 - [blocks_vector_source_x_0_2, '0', m17_m17_coder_0, '0']
-- [end_of_transmission, pressed, m17_m17_coder_0, end_of_transmission]
+- [end_of_transmission, pressed, m17_m17_coder_0, transmission_control]
 - [m17_m17_coder_0, '0', blocks_throttle2_0, '0']
 - [m17_m17_decoder_0, '0', blocks_file_sink_0, '0']
 - [m17_m17_decoder_0, '0', blocks_null_sink_0, '0']
+- [start_of_transmission, pressed, m17_m17_coder_0, transmission_control]
 
 metadata:
   file_format: 1
