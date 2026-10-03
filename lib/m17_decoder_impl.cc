@@ -64,6 +64,7 @@ namespace gr
 			set_callsign(callsign);
 			set_signed(signed_str);
 			set_key(key);
+			set_seed(seed);
 			set_encr_type(encr_type);
 			_expected_next_fn = 0;
 
@@ -190,8 +191,6 @@ namespace gr
 			if (!length)
 				return;
 
-			fprintf(stderr, "Scrambler seed ");
-
 			int i = 0, j = 0;
 			while ((j < 3) && (i < length))
 			{
@@ -210,25 +209,17 @@ namespace gr
 			}
 			length = j; // index from 0 to length-1
 
-			fprintf(stderr, "%d bytes: ", length);
+			// the seed is the initial LFSR value; its length selects the LFSR (spec 2.0.x):
+			// 1 byte = 8-bit, 2 bytes = 16-bit, 3 bytes = 24-bit
+			_scrambler_key = 0;
 			for (i = 0; i < length; i++)
-				fprintf(stderr, "%02X ", _seed[i]);
-			fprintf(stderr, "\n");
+				_scrambler_key = (_scrambler_key << 8) | _seed[i];
+			_scrambler_subtype = length - 1;
+			_scrambler_seed = _scrambler_key;
 
-			fflush(stdout);
-
-			if (length <= 2)
-			{
-				_scrambler_seed = _scrambler_seed >> 16;
-				fprintf(stderr, "Scrambler key: 0x%02X (8-bit)\n", _scrambler_seed);
-			}
-			else if (length <= 4)
-			{
-				_scrambler_seed = _scrambler_seed >> 8;
-				fprintf(stderr, "Scrambler key: 0x%04X (16-bit)\n", _scrambler_seed);
-			}
-			else
-				fprintf(stderr, "Scrambler key: 0x%06X (24-bit)\n", _scrambler_seed);
+			fprintf(stderr, "Scrambler seed: 0x%0*X (%d-bit)\n", 2 * length, _scrambler_key, 8 * length);
+			if (_scrambler_key == 0)
+				fprintf(stderr, "WARNING: an all-zero scrambler seed produces no scrambling\n");
 
 			_encr_type = ENCR_SCRAM; // Scrambler key was passed
 		}
@@ -290,20 +281,7 @@ namespace gr
 			uint32_t lfsr, bit;
 			lfsr = _scrambler_seed;
 
-			// only set if not initially set (first run), it is possible (and observed) that the scrambler_subtype can
-			// change on subsequent passes if the current SEED for the LFSR falls below one of these thresholds
-			if (_scrambler_subtype == -1)
-			{
-				if (lfsr > 0 && lfsr <= 0xFF)
-					_scrambler_subtype = 0; // 8-bit key
-				else if (lfsr > 0xFF && lfsr <= 0xFFFF)
-					_scrambler_subtype = 1; // 16-bit key
-				else if (lfsr > 0xFFFF && lfsr <= 0xFFFFFF)
-					_scrambler_subtype = 2; // 24-bit key
-				else
-					_scrambler_subtype = 0; // 8-bit key (default)
-			}
-
+			// the LFSR size (_scrambler_subtype) comes from the seed length or the received TYPE, never from the value
 			// TODO: Set Frame Type based on scrambler_subtype value
 			if (_debug_ctrl == true)
 			{
@@ -493,6 +471,11 @@ namespace gr
 							uint16_t type = ((uint16_t)_lsf.type[0] << 8) + _lsf.type[1];
 							_signed_str = (type >> 11) & 1;
 
+							// encryption type and subtype are taken from the received TYPE field
+							// (only the AES key / scrambler seed come from the block's settings)
+							const uint8_t rx_encr = (type >> 3) & 3;
+							const uint8_t rx_encr_sub = (type >> 5) & 3;
+
 							/// if the stream is signed (process before decryption)
 							if (_signed_str && _fn < 0x7FFC)
 							{
@@ -511,7 +494,7 @@ namespace gr
 							// The Signature is not encrypted
 
 							// AES
-							if (_encr_type == ENCR_AES)
+							if (rx_encr == ENCR_AES)
 							{
 								memcpy(_iv, _lsf.meta, 14);
 								_iv[14] = (_fn >> 8) & 0x7F; // TODO: check if this is the right byte order
@@ -524,8 +507,9 @@ namespace gr
 							}
 
 							// Scrambler
-							if (_encr_type == ENCR_SCRAM)
+							if (rx_encr == ENCR_SCRAM)
 							{
+								_scrambler_subtype = rx_encr_sub; // LFSR size as signalled by the transmitter
 								if (_fn != 0 && (_fn % 0x8000) != _expected_next_fn) // frame skip, etc
 									_scrambler_seed = scrambler_seed_calculation(_scrambler_subtype, _scrambler_key, _fn & 0x7FFF);
 								else if (_fn == 0)
@@ -637,11 +621,11 @@ namespace gr
 									else if (((type >> 3) & 3) == 1)
 									{
 										fprintf(stderr, "SCRAM ");
-										if (((type >> 5) & 3) == 1)
+										if (((type >> 5) & 3) == 0)
 											fprintf(stderr, "8-bit, ");
-										else if (((type >> 5) & 3) == 2)
+										else if (((type >> 5) & 3) == 1)
 											fprintf(stderr, "16-bit, ");
-										else if (((type >> 5) & 3) == 3)
+										else if (((type >> 5) & 3) == 2)
 											fprintf(stderr, "24-bit, ");
 									}
 									else if (((type >> 3) & 3) == 2)

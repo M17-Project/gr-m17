@@ -250,6 +250,7 @@ namespace gr
 			_send_preamble = true; // send preamble once in the work function
 			_stale_flushed = false; // drop stale input on the first work call after SOT
 			memset(_digest, 0, sizeof(_digest)); // every stream starts with an all-zero digest
+			_scrambler_seed = _scrambler_key;	  // every stream restarts the scrambler keystream from the seed
 		}
 
 		void m17_coder_impl::set_encr_type(int encr_type)
@@ -430,8 +431,6 @@ namespace gr
 			if (!length)
 				return;
 
-			fprintf(stderr, "Scrambler seed ");
-
 			int i = 0, j = 0;
 			while ((j < 3) && (i < length))
 			{
@@ -451,25 +450,17 @@ namespace gr
 
 			length = j; // index from 0 to length-1
 
-			fprintf(stderr, "(%d bytes): ", length);
+			// the seed is the initial LFSR value; its length selects the LFSR (spec 2.0.x):
+			// 1 byte = 8-bit, 2 bytes = 16-bit, 3 bytes = 24-bit
+			_scrambler_key = 0;
 			for (i = 0; i < length; i++)
-				fprintf(stderr, "%02X ", _seed[i]);
-			fprintf(stderr, "\n");
+				_scrambler_key = (_scrambler_key << 8) | _seed[i];
+			_scrambler_subtype = length - 1;
+			_scrambler_seed = _scrambler_key;
 
-			fflush(stdout);
-
-			if (length <= 2)
-			{
-				_scrambler_seed = _scrambler_seed >> 16;
-				fprintf(stderr, "Scrambler key: 0x%02X (8-bit)\n", _scrambler_seed);
-			}
-			else if (length <= 4)
-			{
-				_scrambler_seed = _scrambler_seed >> 8;
-				fprintf(stderr, "Scrambler key: 0x%04X (16-bit)\n", _scrambler_seed);
-			}
-			else
-				fprintf(stderr, "Scrambler key: 0x%06X (24-bit)\n", _scrambler_seed);
+			fprintf(stderr, "Scrambler seed: 0x%0*X (%d-bit)\n", 2 * length, _scrambler_key, 8 * length);
+			if (_scrambler_key == 0)
+				fprintf(stderr, "WARNING: an all-zero scrambler seed produces no scrambling\n");
 
 			_encr_type = ENCR_SCRAM; // Scrambler key was passed
 		}
@@ -651,20 +642,7 @@ namespace gr
 			uint32_t lfsr, bit;
 			lfsr = _scrambler_seed;
 
-			// only set if not initially set (first run), it is possible (and observed) that the scrambler_subtype can
-			// change on subsequent passes if the current SEED for the LFSR falls below one of these thresholds
-			if (_scrambler_subtype == -1)
-			{
-				if (lfsr > 0 && lfsr <= 0xFF)
-					_scrambler_subtype = 0; // 8-bit key
-				else if (lfsr > 0xFF && lfsr <= 0xFFFF)
-					_scrambler_subtype = 1; // 16-bit key
-				else if (lfsr > 0xFFFF && lfsr <= 0xFFFFFF)
-					_scrambler_subtype = 2; // 24-bit key
-				else
-					_scrambler_subtype = 0; // 8-bit key (default)
-			}
-
+			// the LFSR size (_scrambler_subtype) comes from the seed length or the received TYPE, never from the value
 			// TODO: Set Frame Type based on scrambler_subtype value
 			if (_debug == true)
 			{

@@ -164,7 +164,7 @@ asserts:
     - ${ len(dst_id) < 10 }
     - ${ len(src_id) < 10 }
     # hex fields are only checked when they are in use (hidden values are ignored)
-    - ${ encr_type != 1 or (all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (2, 4, 6)) }
+    - ${ encr_type != 1 or (all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (2, 4, 6) and int(seed.replace(' ', ''), 16) != 0) }
     - ${ encr_type != 2 or (all(c in '0123456789abcdefABCDEF' for c in key.replace(' ', '')) and len(key.replace(' ', '')) == 32 + 16 * aes_subtype) }
     - ${ not signed_str or (all(c in '0123456789abcdefABCDEF' for c in priv_key.replace(' ', '')) and len(priv_key.replace(' ', '')) == 64) }
     # Meta fields are only checked when they are in use

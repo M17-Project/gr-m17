@@ -62,7 +62,7 @@ parameters:
 
 asserts:
     # hex fields are only checked when they are in use
-    - ${ encr_type != 1 or (all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (2, 4, 6)) }
+    - ${ encr_type != 1 or (all(c in '0123456789abcdefABCDEF' for c in seed.replace(' ', '')) and len(seed.replace(' ', '')) in (2, 4, 6) and int(seed.replace(' ', ''), 16) != 0) }
     - ${ encr_type != 2 or (all(c in '0123456789abcdefABCDEF' for c in key.replace(' ', '')) and len(key.replace(' ', '')) in (32, 48, 64)) }
     - ${ all(c in '0123456789abcdefABCDEF' for c in pub_key.replace(' ', '')) and len(pub_key.replace(' ', '')) in (0, 128) }
 

@@ -77,6 +77,7 @@ namespace gr
 			uint8_t _scr_bytes[PAYLOAD_BYTES];
 			uint8_t _scrambler_pn[128];
 			uint32_t _scrambler_seed = 0;
+			uint32_t _scrambler_key = 0; // initial LFSR value (the seed)
 			int8_t _scrambler_subtype = -1;
 
 		public:
