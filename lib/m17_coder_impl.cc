@@ -636,10 +636,15 @@ namespace gr
 			}
 			else
 			{
-				// stream mode: the end of a stream (last frame, signature, EoT) needs no new input
-				if (_active.load(std::memory_order_acquire) &&
-					(_finished.load(std::memory_order_acquire) || (_continuous && input_done())))
+				bool active = _active.load(std::memory_order_acquire);
+
+				// first call after SOT: runs right away (no input needed) and drops only input older than the SOT;
+				// end of a stream (last frame, signature, EoT): needs no new input
+				if (active && (!_stale_flushed || _finished.load(std::memory_order_acquire) || (_continuous && input_done())))
 					ninput_items_required[0] = 0;
+				// start of a stream: preamble, LSF and the first frame need just one frame of input
+				else if (active && !_got_lsf)
+					ninput_items_required[0] = PAYLOAD_BYTES;
 				else
 					ninput_items_required[0] = noutput_items / 12; // 16 in -> 192 out
 			}
@@ -833,7 +838,7 @@ namespace gr
 			int countin = 0;
 			uint32_t countout = 0;
 
-			std::unique_lock<std::recursive_mutex> lock(_mtx); // settings cannot change while frames are generated
+			std::lock_guard<std::recursive_mutex> lock(_mtx); // settings cannot change while frames are generated
 
 			//-------packet mode-------
 			// preamble, LSF, 1..33 Packet Frames, EoT(s); continued across work calls if the output buffer is short
@@ -913,8 +918,6 @@ namespace gr
 			//-------stream mode-------
 			if (!_active.load(std::memory_order_acquire))
 			{
-				lock.unlock();				   // setters need not wait for the idle sleep
-				usleep(10e3);				   // TODO: fix this
 				consume_each(ninput_items[0]); // consume input at idle to prevent buffer from filling with a lot of data
 				return 0;
 			}
