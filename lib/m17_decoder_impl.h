@@ -9,6 +9,7 @@
 #define INCLUDED_M17_M17_DECODER_IMPL_H
 
 #include <gnuradio/m17/m17_decoder.h>
+#include <mutex>
 
 #include "m17.h"
 #include "aes.h"
@@ -109,6 +110,7 @@ namespace gr
 			bool _rx_lsf_seen = false; // LSF of the current transmission reported?
 			void set_pub_key(std::string arg);
 			void set_undecodable_out(int mode);
+			std::recursive_mutex _mtx; // setters (any thread) vs. work (block thread)
 			int _undecodable_out = 0; // undecryptable/signature frames: 0 = Codec2 silence, 1 = zeros, 2 = nothing
 			void set_seed(std::string seed);
 			void set_debug_ctrl(bool debug);

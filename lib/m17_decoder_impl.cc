@@ -82,6 +82,7 @@ namespace gr
 
 		bool m17_decoder_impl::start()
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			uint8_t zero[64] = {0};
 			std::string aes = _key_len ? "AES key " + std::to_string(_key_len) + " bytes" : "no AES key";
 			std::string scr = _seed_len ? "scrambler seed " + std::to_string(8 * _seed_len) + "-bit" : "no scrambler seed";
@@ -123,6 +124,7 @@ namespace gr
 
 		void m17_decoder_impl::set_undecodable_out(int mode)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			static const char *name[3] = {"Codec2 silence", "zeros", "nothing"};
 			_undecodable_out = (mode >= 0 && mode <= 2) ? mode : 0;
 			if (_started)
@@ -213,6 +215,7 @@ namespace gr
 
 		void m17_decoder_impl::set_sw_threshold(float sw_threshold)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_sw_threshold = sw_threshold;
 			if (_started)
 				m17_log(tag(), "Syncword threshold changed: %.1f", _sw_threshold);
@@ -220,6 +223,7 @@ namespace gr
 
 		void m17_decoder_impl::set_vt_threshold(float vt_threshold)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_vt_threshold = vt_threshold;
 			if (_started)
 				m17_log(tag(), "Viterbi threshold changed: %.1f", _vt_threshold);
@@ -227,16 +231,19 @@ namespace gr
 
 		void m17_decoder_impl::set_debug_data(bool debug)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_debug_data = debug;
 		}
 
 		void m17_decoder_impl::set_debug_ctrl(bool debug)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_debug_ctrl = debug;
 		}
 
 		void m17_decoder_impl::set_encr_type(int encr_type)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			switch (encr_type)
 			{
 			case 0:
@@ -258,16 +265,19 @@ namespace gr
 
 		void m17_decoder_impl::set_callsign(bool callsign)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_callsign = callsign;
 		}
 
 		void m17_decoder_impl::set_signed(bool signed_str)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_signed_str = signed_str;
 		}
 
 		void m17_decoder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length = arg.size();
 
 			if (!length)
@@ -302,6 +312,7 @@ namespace gr
 
 		void m17_decoder_impl::set_pub_key(std::string arg) // *UTF-8* encoded byte array
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length = arg.size();
 
 			if (!length)
@@ -334,6 +345,7 @@ namespace gr
 
 		void m17_decoder_impl::set_seed(std::string arg) // *UTF-8* encoded byte array
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length = arg.size();
 
 			if (!length)
@@ -530,6 +542,7 @@ namespace gr
 									   gr_vector_const_void_star &input_items,
 									   gr_vector_void_star &output_items)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx); // settings cannot change while frames are decoded
 			const float *in = (const float *)input_items[0];
 			char *out = (char *)output_items[0];
 			int countout = 0;

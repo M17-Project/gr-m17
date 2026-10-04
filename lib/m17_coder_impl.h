@@ -9,6 +9,7 @@
 #define INCLUDED_M17_M17_CODER_IMPL_H
 
 #include <atomic>
+#include <mutex>
 #include <gnuradio/m17/m17_coder.h>
 
 #include "m17.h" // lsf_t declaration
@@ -48,7 +49,9 @@ namespace gr
 			const time_t epoch = 1577836800L; // Jan 1, 2020, 00:00:00 UTC
 
 			int _can;
-			lsf_t _lsf;
+			lsf_t _lsf;	 // configured LSF (changed by the setters)
+			lsf_t _lsf_tx; // LSF of the stream in progress (takes over _lsf changes at superframe boundaries)
+			std::recursive_mutex _mtx; // setters (any thread) vs. work/message handling (block thread)
 			uint8_t _meta_block[4][14]; // Text Data blocks (Control Byte + 13 bytes)
 			int _meta_blocks = 0;		  // number of Text Data blocks (0: no text)
 			int _meta_idx = 0;			  // block currently in META
@@ -124,6 +127,7 @@ namespace gr
 			bool stop() override;
 			int _tx_frames = 0;		// data frames of the current transmission
 			void new_nonce(void);
+			void latch_lsf(bool stream_start);
 			void encrypt_payload(uint8_t *data);
 			void update_digest(const uint8_t *data);
 

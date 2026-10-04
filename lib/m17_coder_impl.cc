@@ -90,6 +90,7 @@ namespace gr
 
 		void m17_coder_impl::switch_state(const pmt::pmt_t &msg)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			std::string cmd = "", val = "";
 
 			if (pmt::is_symbol(msg))
@@ -188,16 +189,12 @@ namespace gr
 			_stale_flushed = false; // drop stale input on the first work call after SOT
 			memset(_digest, 0, sizeof(_digest)); // every stream starts with an all-zero digest
 			_scrambler_seed = _scrambler_key;	  // every stream restarts the scrambler keystream from the seed
-			if (_meta_blocks > 1)				  // multi-block Text Data starts with block 1
-			{
-				_meta_idx = 0;
-				memcpy(_lsf.meta, _meta_block[0], 14);
-				update_LSF_CRC(&_lsf);
-			}
+			_meta_idx = 0;						  // multi-block Text Data starts with block 1
 		}
 
 		void m17_coder_impl::set_encr_type(int encr_type)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			switch (encr_type)
 			{
 			case 0:
@@ -219,17 +216,20 @@ namespace gr
 
 		void m17_coder_impl::set_signed(bool signed_str)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_signed_str = signed_str;
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can); // update the SIGNED bit in TYPE
 		}
 
 		void m17_coder_impl::set_debug(bool debug)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_debug = debug;
 		}
 
 		void m17_coder_impl::set_src_id(std::string src_id)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length;
 
 			memset(_src_id, 0, sizeof(_src_id));
@@ -249,10 +249,14 @@ namespace gr
 			uint16_t ccrc = LSF_CRC(&_lsf);
 			_lsf.crc[0] = ccrc >> 8;
 			_lsf.crc[1] = ccrc & 0xFF;
+
+			if (_started && _active.load(std::memory_order_acquire))
+				m17_log(tag(), "SRC changed: %s - applies to the next transmission", _src_id);
 		}
 
 		void m17_coder_impl::set_dst_id(std::string dst_id)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length;
 
 			memset(_dst_id, 0, sizeof(_dst_id));
@@ -272,10 +276,14 @@ namespace gr
 			uint16_t ccrc = LSF_CRC(&_lsf);
 			_lsf.crc[0] = ccrc >> 8;
 			_lsf.crc[1] = ccrc & 0xFF;
+
+			if (_started && _active.load(std::memory_order_acquire))
+				m17_log(tag(), "DST changed: %s - applies to the next transmission", _dst_id);
 		}
 
 		void m17_coder_impl::set_priv_key(std::string arg) // *UTF-8* encoded byte array
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length = arg.size();
 
 			if (!length)
@@ -319,6 +327,7 @@ namespace gr
 
 		void m17_coder_impl::set_key(std::string arg) // *UTF-8* encoded byte array
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length = arg.size();
 
 			if (!length)
@@ -352,6 +361,7 @@ namespace gr
 
 		void m17_coder_impl::set_seed(std::string arg) // *UTF-8* encoded byte array
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length = arg.size();
 
 			if (!length)
@@ -394,6 +404,7 @@ namespace gr
 
 		void m17_coder_impl::set_eot_cnt(int arg)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			if (arg > 0)
 				_eot_cnt = arg;
 			else
@@ -402,6 +413,7 @@ namespace gr
 
 		void m17_coder_impl::set_meta(std::string meta) // plain UTF-8 text (up to 52 bytes) if encr_subtype==0, otherwise a *UTF-8* encoded byte array
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			int length = 0;
 
 			if (_encr_type == ENCR_AES) // with AES, META carries the nonce (set at the start of every transmission)
@@ -478,24 +490,28 @@ namespace gr
 
 		void m17_coder_impl::set_mode(int mode)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_mode = mode;
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
 
 		void m17_coder_impl::set_data(int data)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_data = data;
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
 
 		void m17_coder_impl::set_encr_subtype(int encr_subtype)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_encr_subtype = encr_subtype;
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
 
 		void m17_coder_impl::set_aes_subtype(int aes_subtype, int encr_type)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			if (encr_type == ENCR_NONE)
 				return;
 
@@ -504,6 +520,7 @@ namespace gr
 
 		void m17_coder_impl::set_can(int can)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			_can = can;
 			set_type(_mode, _data, _encr_type, _encr_subtype, _can);
 		}
@@ -511,6 +528,7 @@ namespace gr
 		void m17_coder_impl::set_type(int mode, int data, encr_t encr_type,
 									  int encr_subtype, int can)
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			uint16_t prev = ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1];
 			uint16_t tmptype;
 			tmptype =
@@ -521,7 +539,8 @@ namespace gr
 			_lsf.crc[0] = ccrc >> 8;
 			_lsf.crc[1] = ccrc & 0xFF;
 			if (_started && tmptype != prev)
-				m17_log(tag(), "TYPE changed: %04X (%s)", tmptype, m17_type_str(tmptype).c_str());
+				m17_log(tag(), "TYPE changed: %04X (%s)%s", tmptype, m17_type_str(tmptype).c_str(),
+						_active.load(std::memory_order_acquire) ? " - applies to the next transmission" : "");
 		}
 
 		// has the upstream block finished (no more input will ever arrive)?
@@ -532,6 +551,7 @@ namespace gr
 
 		bool m17_coder_impl::stop()
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			if (_continuous && _active.load(std::memory_order_acquire))
 				m17_log(tag(), "TX end: flowgraph stopped during the stream - no EoT sent (%d frames)", (int)(_fn & 0x7FFF));
 			return gr::block::stop();
@@ -555,6 +575,7 @@ namespace gr
 
 		bool m17_coder_impl::start()
 		{
+			std::lock_guard<std::recursive_mutex> lock(_mtx);
 			uint16_t type = ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1];
 			char src[10] = {0}, dst[10] = {0};
 			decode_callsign_bytes(src, _lsf.src);
@@ -729,31 +750,60 @@ namespace gr
 		void m17_coder_impl::new_nonce(void)
 		{
 			uint32_t ts = (uint32_t)(time(NULL) - epoch);
-			_lsf.meta[0] = ts >> 24;
-			_lsf.meta[1] = ts >> 16;
-			_lsf.meta[2] = ts >> 8;
-			_lsf.meta[3] = ts;
+			_lsf_tx.meta[0] = ts >> 24;
+			_lsf_tx.meta[1] = ts >> 16;
+			_lsf_tx.meta[2] = ts >> 8;
+			_lsf_tx.meta[3] = ts;
 			std::random_device rd; // non-deterministic source (/dev/urandom on Linux)
 			for (uint8_t i = 4; i < 14; i++)
-				_lsf.meta[i] = rd() & 0xFF;
-			update_LSF_CRC(&_lsf);
+				_lsf_tx.meta[i] = rd() & 0xFF;
+			update_LSF_CRC(&_lsf_tx);
 
 			if (_debug)
-				m17_log(tag(), "AES nonce: %s", m17_hex(_lsf.meta, 14).c_str());
+				m17_log(tag(), "AES nonce: %s", m17_hex(_lsf_tx.meta, 14).c_str());
+		}
+
+		// the stream's working copy of the LSF (spec 2.0.x): DST, SRC and TYPE are taken once, at the start of a
+		// transmission, and stay constant; only META may change, at superframe boundaries (so every superframe's
+		// LICH chunks belong to one LSF). META changes are taken over only while the configured TYPE still
+		// matches the transmission's TYPE, as TYPE determines how META is interpreted.
+		void m17_coder_impl::latch_lsf(bool stream_start)
+		{
+			bool aes;
+			if (stream_start)
+			{
+				_lsf_tx = _lsf;
+				aes = (((_lsf_tx.type[1] >> 3) & 3) == ENCR_AES);
+				if (aes)
+					new_nonce(); // a fresh nonce for every transmission
+			}
+			else
+			{
+				aes = (((_lsf_tx.type[1] >> 3) & 3) == ENCR_AES);
+				if (aes || memcmp(_lsf.type, _lsf_tx.type, 2))
+					return; // AES: the nonce stays for the whole transmission; TYPE changed: META waits as well
+				memcpy(_lsf_tx.meta, _lsf.meta, 14);
+			}
+
+			if (!aes && _meta_blocks > 1 && !memcmp(_lsf.type, _lsf_tx.type, 2)) // multi-block Text Data: the current block
+				memcpy(_lsf_tx.meta, _meta_block[_meta_idx], 14);
+
+			update_LSF_CRC(&_lsf_tx);
 		}
 
 		// encrypt one payload block in place, according to the selected encryption type
 		void m17_coder_impl::encrypt_payload(uint8_t *data)
 		{
-			if (_encr_type == ENCR_AES)
+			uint8_t encr = (_lsf_tx.type[1] >> 3) & 3; // as signalled in the LSF of this superframe
+			if (encr == ENCR_AES)
 			{
 				// 128-bit counter: 112-bit nonce (META) followed by the 16-bit FN (EOS bit cleared)
-				memcpy(_iv, _lsf.meta, 14);
+				memcpy(_iv, _lsf_tx.meta, 14);
 				_iv[14] = (_fn >> 8) & 0x7F;
 				_iv[15] = (_fn >> 0) & 0xFF;
 				aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
 			}
-			else if (_encr_type == ENCR_SCRAM)
+			else if (encr == ENCR_SCRAM)
 			{
 				scrambler_sequence_generator();
 				for (uint8_t i = 0; i < PAYLOAD_BYTES; i++)
@@ -782,6 +832,8 @@ namespace gr
 			float *out = (float *)output_items[0];
 			int countin = 0;
 			uint32_t countout = 0;
+
+			std::unique_lock<std::recursive_mutex> lock(_mtx); // settings cannot change while frames are generated
 
 			//-------packet mode-------
 			// preamble, LSF, 1..33 Packet Frames, EoT(s); continued across work calls if the output buffer is short
@@ -861,6 +913,7 @@ namespace gr
 			//-------stream mode-------
 			if (!_active.load(std::memory_order_acquire))
 			{
+				lock.unlock();				   // setters need not wait for the idle sleep
 				usleep(10e3);				   // TODO: fix this
 				consume_each(ninput_items[0]); // consume input at idle to prevent buffer from filling with a lot of data
 				return 0;
@@ -898,23 +951,21 @@ namespace gr
 					_send_preamble = false;
 				}
 
-				// AES: a fresh nonce for every transmission, carried in META
-				if (_encr_type == ENCR_AES)
-					new_nonce();
+				// working copy of the LSF for this stream (AES: with a fresh nonce for every transmission)
+				latch_lsf(true);
 
-				gen_frame(out + countout, NULL, FRAME_LSF, &_lsf, 0, 0);
+				gen_frame(out + countout, NULL, FRAME_LSF, &_lsf_tx, 0, 0);
 				countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
 
 				// multi-block Text Data: the LSF frame carried block 1, so the first superframe continues with block 2
-				if (_meta_blocks > 1 && _encr_type != ENCR_AES)
+				if (_meta_blocks > 1 && ((_lsf_tx.type[1] >> 3) & 3) != ENCR_AES)
 				{
 					_meta_idx = 1;
-					memcpy(_lsf.meta, _meta_block[1], 14);
-					update_LSF_CRC(&_lsf);
+					latch_lsf(false);
 				}
 
 				// check the SIGNED STREAM flag
-				_signed_str = (_lsf.type[0] >> 3) & 1;
+				_signed_str = (_lsf_tx.type[0] >> 3) & 1;
 				if (_signed_str && !_priv_key_loaded)
 					m17_log(tag(), "WARNING: signed stream without a private key - the signature will not verify");
 
@@ -930,7 +981,7 @@ namespace gr
 
 				encrypt_payload(data);
 
-				gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+				gen_frame(out + countout, data, FRAME_STR, &_lsf_tx, _lich_cnt, _fn);
 				countout += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
 				_fn = (_fn + 1) % 0x8000;		 // increment FN
 				_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
@@ -939,12 +990,12 @@ namespace gr
 				if (_signed_str)
 					update_digest(data);
 
-				// superframe boundary: multi-block Text Data moves on to the next block (one block per superframe)
-				if (_lich_cnt == 0 && _meta_blocks > 1 && _encr_type != ENCR_AES)
+				// superframe boundary: setting changes take effect, multi-block Text Data moves on to the next block
+				if (_lich_cnt == 0)
 				{
-					_meta_idx = (_meta_idx + 1) % _meta_blocks;
-					memcpy(_lsf.meta, _meta_block[_meta_idx], 14);
-					update_LSF_CRC(&_lsf);
+					if (_meta_blocks > 1)
+						_meta_idx = (_meta_idx + 1) % _meta_blocks;
+					latch_lsf(false);
 				}
 			}
 
@@ -979,7 +1030,7 @@ namespace gr
 				_tx_frames = (_fn & 0x7FFF) + 1; // data frames in this transmission, the last one included
 				if (!_signed_str)
 					_fn |= 0x8000;
-				gen_frame(out + countout, data, FRAME_STR, &_lsf, _lich_cnt, _fn);
+				gen_frame(out + countout, data, FRAME_STR, &_lsf_tx, _lich_cnt, _fn);
 				countout += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
 				_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
 
@@ -995,7 +1046,7 @@ namespace gr
 					_fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
 					for (uint8_t i = 0; i < 4; i++)
 					{
-						gen_frame(out + countout, &_sig[i * PAYLOAD_BYTES], FRAME_STR, &_lsf, _lich_cnt, _fn);
+						gen_frame(out + countout, &_sig[i * PAYLOAD_BYTES], FRAME_STR, &_lsf_tx, _lich_cnt, _fn);
 						countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
 						_fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
 						_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
