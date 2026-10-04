@@ -26,7 +26,6 @@
 #include <stdint.h>
 #include <algorithm>
 #include <random>
-#include <unistd.h>
 
 #include "m17.h"
 #include "m17_log.h"
@@ -294,7 +293,7 @@ namespace gr
 			int i = 0, j = 0;
 			while ((j < 32) && (i < length))
 			{
-				if ((unsigned int)arg.data()[i] < 0xC2) // https://www.utf8-chartable.de/ TODO: why 0xC2?
+				if ((unsigned int)arg.data()[i] < 0xC2) // 0x00-0xC1: a byte as-is (0xC2 is the lowest lead byte of a 2-byte UTF-8 character, 0xC0/0xC1 would be overlong)
 				{
 					_priv_key[j] = arg.data()[i];
 					i++;
@@ -658,7 +657,6 @@ namespace gr
 			lfsr = _scrambler_seed;
 
 			// the LFSR size (_scrambler_subtype) comes from the seed length or the received TYPE, never from the value
-			// TODO: Set Frame Type based on scrambler_subtype value
 			// run PN sequence with taps specified
 			for (i = 0; i < 128; i++)
 			{

@@ -23,7 +23,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -443,7 +442,6 @@ namespace gr
 			lfsr = _scrambler_seed;
 
 			// the LFSR size (_scrambler_subtype) comes from the seed length or the received TYPE, never from the value
-			// TODO: Set Frame Type based on scrambler_subtype value
 			// run pN sequence with taps specified
 			for (i = 0; i < 128; i++)
 			{
@@ -549,8 +547,14 @@ namespace gr
 
 			float sample; // last raw sample from the stdin
 
-			for (int counterin = 0; counterin < ninput_items[0]; counterin++)
+			int counterin = 0;
+			for (; counterin < ninput_items[0]; counterin++)
 			{
+				// a decoded frame writes up to PAYLOAD_BYTES: stop while there is no room for that, and continue
+				// with the remaining input once the downstream block has consumed some output
+				if (countout + PAYLOAD_BYTES > noutput_items)
+					break;
+
 				// wait for another symbol
 				sample = in[counterin];
 
@@ -843,7 +847,7 @@ namespace gr
 								len = _pkt_wr_offs + pkt_fn;
 								rcvd_msg[len] = 0; // guard: the SMS text is always null-terminated
 
-								// TODO: we use last LSF data that might be outdated
+								// _lsf is the LSF of this packet transmission (every LSF resets the reassembly, packet mode has no LICH)
 								if (rcvd_msg[0] == 0x05 && CRC_M17((uint8_t *)rcvd_msg, len) == 0)
 								{
 									// handle message output (for a text message)
@@ -894,7 +898,7 @@ namespace gr
 			}
 			// Tell runtime system how many input items we consumed on
 			// each input stream.
-			consume_each(ninput_items[0]);
+			consume_each(counterin); // only the symbols actually processed
 
 			// Tell runtime system how many output items we produced.
 			return countout;
