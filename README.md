@@ -87,3 +87,18 @@ from the ``gr-m17`` directory, assuming ``gr_modtool bind`` works, otherwise che
 The coder block is an interpolating block outputting 12 times more symbols than input bytes (16 bytes per frame become 192 symbols). The (well named) ``noutput_items``
 is the **output** buffer size which fills much faster than the input stream so we fill ``out`` until ``noutput_items`` are reached, then
 send this to the GNU Radio scheduler, and consume the few input samples needed to fill the output buffer. The ring buffer mechanism of GNU Radio makes sure the dataflow is consistent.
+
+## License
+
+gr-m17 is licensed under the GNU General Public License v3.0 or later (`GPL-3.0-or-later`), see [`LICENSE`](LICENSE).
+
+The bundled submodules keep their own licenses:
+
+| Submodule | License |
+|---|---|
+| [libm17](https://github.com/M17-Project/libm17) | GPL-2.0-or-later |
+| [micro-ecc](https://github.com/M17-Project/micro-ecc) | BSD-2-Clause |
+| [tinier-aes](https://github.com/lwvmobile/tinier-aes) | Public domain (Unlicense) |
+| [Codec2-mod](https://github.com/M17-Project/Codec2-mod) | LGPL-2.1 |
+
+All of them are compatible with GPL-3.0, and the combined module is distributed under GPL-3.0-or-later.
