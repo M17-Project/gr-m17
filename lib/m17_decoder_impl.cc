@@ -23,6 +23,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "m17_decoder_impl.h"
+#include "m17_codec2.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -692,7 +693,6 @@ namespace gr
 
 							// output: signature frames and frames that cannot be decrypted -> Codec2 silence, zeros or nothing
 							// (user setting); frames over the Viterbi threshold -> Codec2 silence; everything else -> payload
-							static const uint8_t c2_silence[8] = {0x01, 0x00, 0x09, 0x43, 0x9C, 0xE4, 0x21, 0x08}; // Codec2 3200, 20 ms
 							bool sig_frame = _signed_str && (_fn & 0x7FFF) >= 0x7FFC;
 							bool undecryptable = (rx_encr == ENCR_AES && (rx_encr_sub > 2 || _key_len != 16 + 8 * rx_encr_sub)) ||
 												 (rx_encr == ENCR_SCRAM && (rx_encr_sub > 2 || _seed_len != rx_encr_sub + 1)) ||
@@ -706,8 +706,8 @@ namespace gr
 							}
 							else if (sig_frame || undecryptable || (float)e / 0xFFFF > _vt_threshold)
 							{
-								memcpy(&out[countout], c2_silence, 8);
-								memcpy(&out[countout + 8], c2_silence, 8);
+								memcpy(&out[countout], C2_SILENCE, C2_FRAME_BYTES);
+								memcpy(&out[countout + C2_FRAME_BYTES], C2_SILENCE, C2_FRAME_BYTES);
 								countout += PAYLOAD_BYTES;
 							}
 							else

@@ -23,6 +23,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "m17_coder_impl.h"
+#include "m17_codec2.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -1017,13 +1018,20 @@ namespace gr
 					return countout;
 				}
 
-				// the last frame carries the next block of input, zero-padded if less is available
+				// the last frame carries the next block of input; if less is available, the rest is padded:
+				// voice (Codec2 3200) with encoded silence for every 20 ms frame that is not complete
+				// (zero bytes would decode as a loud burst), data with zeros
 				uint8_t data[PAYLOAD_BYTES] = {0};
 				int take = std::min((int)ninput_items[0] - countin, (int)PAYLOAD_BYTES);
 				if (take > 0)
 				{
 					memcpy(data, in + countin, take);
 					countin += take;
+				}
+				if ((_lsf_tx.type[1] & (3 << 1)) == M17_TYPE_VOICE)
+				{
+					for (int i = (take / C2_FRAME_BYTES) * C2_FRAME_BYTES; i < PAYLOAD_BYTES; i += C2_FRAME_BYTES)
+						memcpy(&data[i], C2_SILENCE, C2_FRAME_BYTES);
 				}
 
 				encrypt_payload(data);
