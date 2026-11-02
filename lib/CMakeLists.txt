@@ -84,6 +84,23 @@ message(STATUS "Using install prefix: ${CMAKE_INSTALL_PREFIX}")
 message(STATUS "Building for version: ${VERSION} / ${LIBVER}")
 
 ########################################################################
+# micro-ecc tests (run with `make test` or `ctest`)
+# Known-answer and self tests from the micro-ecc submodule. They fail if a
+# submodule update changes the ECDSA key/signature byte order or arithmetic,
+# which would break interoperability with other M17 implementations.
+########################################################################
+option(ENABLE_UECC_TESTS "Build and run the micro-ecc tests" ON)
+set(UECC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../micro-ecc)
+if(ENABLE_UECC_TESTS)
+    if(EXISTS ${UECC_DIR}/CMakeLists.txt)
+        set(UECC_BUILD_TESTS ON)
+        add_subdirectory(${UECC_DIR} ${CMAKE_CURRENT_BINARY_DIR}/micro-ecc)
+    else()
+        message(WARNING "micro-ecc submodule has no tests - update it to enable them")
+    endif()
+endif()
+
+########################################################################
 # Build and register unit test
 ########################################################################
 include(GrTest)
