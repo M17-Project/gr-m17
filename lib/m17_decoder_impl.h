@@ -58,6 +58,7 @@ namespace gr
 
 			lsf_t _lsf;					  // complete LSF (one byte extra needed for the Viterbi decoder), only CRC-checked data
 			lsf_t _lich_lsf;			  // LSF being rebuilt from LICH chunks, copied to _lsf once its CRC is valid
+			viterbi_ctx_t _vit_ctx;		  // Viterbi decoder state of this block (libm17's shared one is not reentrant)
 			uint16_t lich_chunk[96];	  // raw, soft LSF chunk extracted from the LICH
 			uint8_t _lich_b[6];			  // 48-bit decoded LICH
 			uint8_t _lich_cnt;			  // LICH_CNT

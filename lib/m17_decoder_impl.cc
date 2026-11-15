@@ -75,6 +75,7 @@ namespace gr
 			_expected_next_fn = 0;
 
 			message_port_register_out(pmt::mp("fields"));
+			viterbi_reset_ctx(&_vit_ctx);
 		}
 
 		// tag for console output: the block alias if set in GRC, otherwise M17_DEC
@@ -617,7 +618,7 @@ namespace gr
 						if (flp == 0)
 						{
 							// decode
-							uint32_t e = decode_str_frame(_stream_frame_data, _lich_b, &_fn, &_lich_cnt, _pld);
+							uint32_t e = decode_str_frame_ctx(&_vit_ctx, _stream_frame_data, _lich_b, &_fn, &_lich_cnt, _pld);
 
 							// TYPE of a valid LSF only (LSF frame or rebuilt from the LICH). Before one has been
 							// received (late entry), treat the stream as plain voice, never act on unchecked data.
@@ -725,7 +726,7 @@ namespace gr
 							if ((_lich_cnt == 0) || ((_fn % 0x8000) != _expected_next_fn && _fn < 0x7FFC))
 								lich_chunks_rcvd = 0;
 
-							// LICH_CNT is 0..5, decode_str_frame() returns 0xFF when the Golay decoding fails
+							// LICH_CNT is 0..5, decode_str_frame_ctx() returns 0xFF when the Golay decoding fails
 							if (_lich_cnt <= 5)
 							{
 								lich_chunks_rcvd |= (1 << _lich_cnt);
@@ -800,7 +801,7 @@ namespace gr
 						{
 							_pkt_wr_offs = 0; // a new transmission starts - discard any partial packet
 							lsf_t lsf;
-							uint32_t e = decode_LSF(&lsf, _pld);
+							uint32_t e = decode_LSF_ctx(&_vit_ctx, &lsf, _pld);
 
 							if (CRC_M17((uint8_t *)&lsf, sizeof(lsf)))
 							{
@@ -836,7 +837,7 @@ namespace gr
 							uint8_t pkt_fn = 0;
 							uint16_t len = 0;
 
-							uint32_t e = decode_pkt_frame(frame_data, &eof, &pkt_fn, _pld);
+							uint32_t e = decode_pkt_frame_ctx(&_vit_ctx, frame_data, &eof, &pkt_fn, _pld);
 
 							bool frame_ok = true;
 							if (!eof)
