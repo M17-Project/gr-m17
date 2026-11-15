@@ -186,6 +186,7 @@ namespace gr
 		{
 			_got_lsf = 0; // have we filled the LSF struct yet?
 			_fn = 0;	  // 16-bit Frame Number (for the stream mode)
+			_lich_cnt = 0; // LICH_CNT follows the Frame Number, every stream starts with chunk 0
 			_active.store(false, std::memory_order_relaxed);
 			_finished.store(false, std::memory_order_relaxed);
 			_send_preamble = true; // send preamble once in the work function
