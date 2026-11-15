@@ -32,6 +32,7 @@
 
 #include "m17.h"
 #include "m17_log.h"
+#include "m17_aes_lock.h"
 
 namespace gr
 {
@@ -655,6 +656,7 @@ namespace gr
 								_iv[14] = (_fn >> 8) & 0x7F;  // 16-bit FN, EOS bit cleared
 								_iv[15] = (_fn & 0xFF) & 0xFF;
 
+								std::lock_guard<std::mutex> aes_lock(aes_mutex());
 								if (_signed_str && (_fn % 0x8000) < 0x7FFC) // signed stream
 									aes_ctr_bytewise_payload_crypt(_iv, _key, _stream_frame_data, _aes_subtype);
 								else if (!_signed_str) // non-signed stream

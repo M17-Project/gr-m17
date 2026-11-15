@@ -33,6 +33,7 @@
 
 #include "m17.h"
 #include "m17_log.h"
+#include "m17_aes_lock.h"
 #include <gnuradio/block_detail.h>
 #include <gnuradio/buffer_reader.h>
 #include "aes.h"
@@ -809,6 +810,7 @@ namespace gr
 				memcpy(_iv, _lsf_tx.meta, 14);
 				_iv[14] = (_fn >> 8) & 0x7F;
 				_iv[15] = (_fn >> 0) & 0xFF;
+				std::lock_guard<std::mutex> aes_lock(aes_mutex());
 				aes_ctr_bytewise_payload_crypt(_iv, _key, data, _aes_subtype);
 			}
 			else if (encr == ENCR_SCRAM)
