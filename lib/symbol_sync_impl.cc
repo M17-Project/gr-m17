@@ -198,7 +198,9 @@ namespace gr
                     d_interp_tick = 0;
             }
 
-            consume_each(ii);
+            // keep the current base sample in[ii] and its predecessor in[ii - 1]
+            // for the next call, which starts at in[1] (interp_cubic reads x[-1])
+            consume_each(ii - 1);
             return oo;
         }
     } /* namespace m17 */
