@@ -619,7 +619,9 @@ namespace gr
 							// decode
 							uint32_t e = decode_str_frame(_stream_frame_data, _lich_b, &_fn, &_lich_cnt, _pld);
 
-							uint16_t type = ((uint16_t)_lsf.type[0] << 8) + _lsf.type[1];
+							// TYPE of a valid LSF only (LSF frame or rebuilt from the LICH). Before one has been
+							// received (late entry), treat the stream as plain voice, never act on unchecked data.
+							uint16_t type = _rx_lsf_seen ? (((uint16_t)_lsf.type[0] << 8) + _lsf.type[1]) : 0;
 							_signed_str = (type >> 11) & 1;
 
 							// encryption type and subtype are taken from the received TYPE field
@@ -723,39 +725,48 @@ namespace gr
 							if ((_lich_cnt == 0) || ((_fn % 0x8000) != _expected_next_fn && _fn < 0x7FFC))
 								lich_chunks_rcvd = 0;
 
-							lich_chunks_rcvd |= (1 << _lich_cnt);
-							memcpy((uint8_t *)&_lsf + _lich_cnt * 5, _lich_b, 5);
+							// LICH_CNT is 0..5, decode_str_frame() returns 0xFF when the Golay decoding fails
+							if (_lich_cnt <= 5)
+							{
+								lich_chunks_rcvd |= (1 << _lich_cnt);
+								memcpy((uint8_t *)&_lich_lsf + _lich_cnt * 5, _lich_b, 5);
+							}
 
 							// complete LSF rebuilt from the LICH
 							if (lich_chunks_rcvd == 0x3F) // all 6 chunks received?
 							{
-								if (CRC_M17((uint8_t *)&_lsf, sizeof(_lsf)))
+								if (CRC_M17((uint8_t *)&_lich_lsf, sizeof(_lich_lsf)))
 								{
 									if (_debug_ctrl == true)
 										m17_log(tag(), "LSF (LICH): CRC error");
 								}
-								else if (!_rx_lsf_seen || !same_lsf(_lsf, _rx_lsf))
-								{
-									// late entry (no LSF frame received) or the LSF has changed
-									m17_log(tag(), "%s %s", _rx_lsf_seen ? "LSF changed:" : "RX start (late entry):", m17_lsf_str(_lsf, _callsign).c_str());
-									check_keys(((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]);
-									_rx_lsf = _lsf;
-									_rx_lsf_seen = true;
-									publish_fields();
-									text_block(_lsf);
-								}
 								else
 								{
-									if (_debug_ctrl == true)
-										m17_log(tag(), multi_block_text(_lsf) ? "LSF (LICH) unchanged, %s" : "LSF (LICH) unchanged%s",
-												multi_block_text(_lsf) ? m17_meta_str(_lsf.meta, ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]).c_str() : "");
-									_rx_lsf = _lsf;
-									text_block(_lsf);
+									_lsf = _lich_lsf; // valid LSF rebuilt from the LICH
+
+									if (!_rx_lsf_seen || !same_lsf(_lsf, _rx_lsf))
+									{
+										// late entry (no LSF frame received) or the LSF has changed
+										m17_log(tag(), "%s %s", _rx_lsf_seen ? "LSF changed:" : "RX start (late entry):", m17_lsf_str(_lsf, _callsign).c_str());
+										check_keys(((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]);
+										_rx_lsf = _lsf;
+										_rx_lsf_seen = true;
+										publish_fields();
+										text_block(_lsf);
+									}
+									else
+									{
+										if (_debug_ctrl == true)
+											m17_log(tag(), multi_block_text(_lsf) ? "LSF (LICH) unchanged, %s" : "LSF (LICH) unchanged%s",
+													multi_block_text(_lsf) ? m17_meta_str(_lsf.meta, ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1]).c_str() : "");
+										_rx_lsf = _lsf;
+										text_block(_lsf);
+									}
 								}
 							}
 
 							// if the contents of the payload is now digital signature, not data/voice
-							if (_fn >= 0x7FFC && _signed_str == true)
+							if ((_fn & 0x7FFF) >= 0x7FFC && _signed_str == true)
 							{
 								memcpy(&_sig[((_fn & 0x7FFF) - 0x7FFC) * PAYLOAD_BYTES], _stream_frame_data, PAYLOAD_BYTES);
 
@@ -788,12 +799,19 @@ namespace gr
 						else if (flp == 1) // lsf
 						{
 							_pkt_wr_offs = 0; // a new transmission starts - discard any partial packet
-							uint32_t e = decode_LSF(&_lsf, _pld);
+							lsf_t lsf;
+							uint32_t e = decode_LSF(&lsf, _pld);
 
-							if (CRC_M17((uint8_t *)&_lsf, sizeof(_lsf)))
+							if (CRC_M17((uint8_t *)&lsf, sizeof(lsf)))
+							{
+								// a new transmission whose LSF is unknown: forget the previous one,
+								// the LICH may still provide it (late entry)
+								rx_reset();
 								m17_log(tag(), "LSF received with CRC error, e=%.1f", (float)e / 0xFFFF);
+							}
 							else
 							{
+								_lsf = lsf;
 								uint16_t type = ((uint16_t)_lsf.type[0] << 8) + _lsf.type[1];
 								_signed_str = (type >> 11) & 1;
 
@@ -854,17 +872,27 @@ namespace gr
 								if (rcvd_msg[0] == 0x05 && CRC_M17((uint8_t *)rcvd_msg, len) == 0)
 								{
 									// handle message output (for a text message)
+									// without a valid LSF, publish empty callsigns and zero TYPE and META
+									lsf_t pkt_lsf;
+									memset(&pkt_lsf, 0, sizeof(pkt_lsf));
+									if (_rx_lsf_seen)
+										pkt_lsf = _lsf;
 									pmt::pmt_t msg;
-									decode_callsign_bytes(d_dst, _lsf.dst);
-									decode_callsign_bytes(d_src, _lsf.src);
+									memset(d_dst, 0, sizeof(d_dst));
+									memset(d_src, 0, sizeof(d_src));
+									if (_rx_lsf_seen)
+									{
+										decode_callsign_bytes(d_dst, pkt_lsf.dst);
+										decode_callsign_bytes(d_src, pkt_lsf.src);
+									}
 
 									pmt::pmt_t dict = pmt::make_dict();
 									dict = pmt::dict_add(dict, pmt::mp("src"), pmt::intern((char *)d_src));
 									dict = pmt::dict_add(dict, pmt::mp("dst"), pmt::intern((char *)d_dst));
 
-									msg = pmt::init_u8vector(2, _lsf.type);
+									msg = pmt::init_u8vector(2, pkt_lsf.type);
 									dict = pmt::dict_add(dict, pmt::mp("type"), msg);
-									msg = pmt::init_u8vector(14, _lsf.meta);
+									msg = pmt::init_u8vector(14, pkt_lsf.meta);
 									dict = pmt::dict_add(dict, pmt::mp("meta"), msg);
 
 									dict = pmt::dict_add(dict, pmt::mp("sms"), pmt::intern((char *)&rcvd_msg[1]));
