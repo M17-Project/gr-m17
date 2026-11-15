@@ -41,7 +41,7 @@ find_package(Gnuradio "3.10" REQUIRED)
 set(VERSION_MAJOR 1)
 set(VERSION_API   0)
 set(VERSION_ABI   0)
-set(VERSION_PATCH 0)
+set(VERSION_PATCH 1)
 # cmake-format: on
 
 cmake_policy(SET CMP0011 NEW)
