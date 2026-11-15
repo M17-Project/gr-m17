@@ -85,7 +85,14 @@ namespace gr
 			bool _priv_key_loaded = false;		  // do we have a sig key loaded?
 			uint8_t _priv_key[32] = {0};		  // private key
 			uint8_t _sig[64] = {0};				  // ECDSA signature
+			static constexpr int MAX_EOT_CNT = 32; // upper limit for set_eot_cnt(), sizes _tail
 			int _eot_cnt = 1;
+
+			// end of a stream (last frame, 4 signature frames if signed, EoT frames), generated at once
+			// and handed out across work calls if the output buffer is shorter
+			float _tail[(1 + 4 + MAX_EOT_CNT) * SYM_PER_FRA];
+			uint32_t _tail_len = 0, _tail_pos = 0;
+			int _tail_eot_cnt = 1; // EoT frames in _tail (for the TX end report)
 			bool _init_frame;
 
 			// Scrambler
@@ -119,6 +126,7 @@ namespace gr
 			void set_signed(bool signed_str);
 			void switch_state(const pmt::pmt_t &msg);
 			void init_state(void);
+			uint32_t drain_tail(float *out, uint32_t countout, int noutput_items);
 			std::string tag() const;
 			std::string meta_desc(uint16_t type);
 			bool _started = false; // flowgraph started: setters report runtime changes

@@ -410,7 +410,12 @@ namespace gr
 		void m17_coder_impl::set_eot_cnt(int arg)
 		{
 			std::lock_guard<std::recursive_mutex> lock(_mtx);
-			if (arg > 0)
+			if (arg > MAX_EOT_CNT)
+			{
+				m17_log(tag(), "EoT count %d too large, using %d", arg, MAX_EOT_CNT);
+				_eot_cnt = MAX_EOT_CNT;
+			}
+			else if (arg > 0)
 				_eot_cnt = arg;
 			else
 				_eot_cnt = 1;
@@ -630,11 +635,37 @@ namespace gr
 		{
 		}
 
+		// copy as much of the generated stream end as fits, finish the transmission once all of it is out
+		uint32_t m17_coder_impl::drain_tail(float *out, uint32_t countout, int noutput_items)
+		{
+			uint32_t space = (uint32_t)noutput_items > countout ? (uint32_t)noutput_items - countout : 0;
+			uint32_t n = std::min(_tail_len - _tail_pos, space);
+			memcpy(out + countout, &_tail[_tail_pos], n * sizeof(float));
+			_tail_pos += n;
+
+			if (_tail_pos == _tail_len)
+			{
+				m17_log(tag(), "TX end: %d frames, %.2f s%s", _tx_frames, 0.04 * (2 + _tx_frames + (_signed_str ? 4 : 0) + _tail_eot_cnt),
+						_signed_str ? ", signed" : "");
+				_tail_len = 0;
+				_tail_pos = 0;
+				init_state();
+				_finalizing = false;
+			}
+
+			return countout + n;
+		}
+
 		void
 		m17_coder_impl::forecast(int noutput_items,
 								 gr_vector_int &ninput_items_required)
 		{
-			if (_pkt_pend.load(std::memory_order_acquire))
+			if (_tail_pos < _tail_len)
+			{
+				// the rest of a stream end is being sent, no input needed
+				ninput_items_required[0] = 0;
+			}
+			else if (_pkt_pend.load(std::memory_order_acquire))
 			{
 				// packet emission does not require stream input
 				ninput_items_required[0] = 0;
@@ -845,6 +876,15 @@ namespace gr
 
 			std::lock_guard<std::recursive_mutex> lock(_mtx); // settings cannot change while frames are generated
 
+			//-------end of a stream, continued-------
+			// the rest of the last frame, signature and EoT frames that did not fit the previous call
+			if (_tail_pos < _tail_len)
+			{
+				countout = drain_tail(out, countout, noutput_items);
+				consume_each(0);
+				return countout;
+			}
+
 			//-------packet mode-------
 			// preamble, LSF, 1..33 Packet Frames, EoT(s); continued across work calls if the output buffer is short
 			if (_pkt_pend.load(std::memory_order_acquire))
@@ -1007,19 +1047,13 @@ namespace gr
 				}
 			}
 
-			// end of stream: last frame, signature (if signed), EoT(s) - all in one go
+			// end of stream: last frame, signature (if signed), EoT(s), generated into _tail
+			// at once and sent out as far as the output buffer allows (the rest in the next calls)
 			if (finished)
 			{
 				_finalizing = true;
-
-				// one final data frame, 4 signature frames if signed, then the EoT frame(s)
-				int frames_needed = 1 + (_signed_str ? 4 : 0) + _eot_cnt;
-				if (!room(frames_needed))
-				{
-					// not enough room for the entire remaining sequence, wait for a larger buffer
-					consume_each(countin);
-					return countout;
-				}
+				_tail_len = 0;
+				_tail_pos = 0;
 
 				// the last frame carries the next block of input; if less is available, the rest is padded:
 				// voice (Codec2 3200) with encoded silence for every 20 ms frame that is not complete
@@ -1045,8 +1079,8 @@ namespace gr
 				_tx_frames = (_fn & 0x7FFF) + 1; // data frames in this transmission, the last one included
 				if (!_signed_str)
 					_fn |= 0x8000;
-				gen_frame(out + countout, data, FRAME_STR, &_lsf_tx, _lich_cnt, _fn);
-				countout += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
+				gen_frame(_tail + _tail_len, data, FRAME_STR, &_lsf_tx, _lich_cnt, _fn);
+				_tail_len += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
 				_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
 
 				// if the stream is signed, transmit the signature (4 frames)
@@ -1061,8 +1095,8 @@ namespace gr
 					_fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)
 					for (uint8_t i = 0; i < 4; i++)
 					{
-						gen_frame(out + countout, &_sig[i * PAYLOAD_BYTES], FRAME_STR, &_lsf_tx, _lich_cnt, _fn);
-						countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
+						gen_frame(_tail + _tail_len, &_sig[i * PAYLOAD_BYTES], FRAME_STR, &_lsf_tx, _lich_cnt, _fn);
+						_tail_len += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
 						_fn = (_fn < 0x7FFE) ? _fn + 1 : (0x7FFF | 0x8000);
 						_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
 					}
@@ -1072,17 +1106,15 @@ namespace gr
 				}
 
 				// send EOT frame(s)
+				_tail_eot_cnt = _eot_cnt;
 				for (uint8_t i = 0; i < _eot_cnt; i++)
 				{
 					uint32_t tmp = 0;
-					gen_eot(out + countout, &tmp);
-					countout += tmp; // tmp should equal SYM_PER_FRA (192)
+					gen_eot(_tail + _tail_len, &tmp);
+					_tail_len += tmp; // tmp should equal SYM_PER_FRA (192)
 				}
 
-				m17_log(tag(), "TX end: %d frames, %.2f s%s", _tx_frames, 0.04 * (2 + _tx_frames + (_signed_str ? 4 : 0) + _eot_cnt),
-						_signed_str ? ", signed" : "");
-				init_state();
-				_finalizing = false;
+				countout = drain_tail(out, countout, noutput_items);
 			}
 
 			// Tell runtime system how many input items we consumed on
