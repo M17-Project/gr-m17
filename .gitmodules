@@ -10,3 +10,6 @@
 [submodule "codec2-mod"]
 	path = codec2-mod
 	url = https://github.com/M17-Project/Codec2-mod
+[submodule "sha-2"]
+	path = sha-2
+	url = https://github.com/amosnier/sha-2

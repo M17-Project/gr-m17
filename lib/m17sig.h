@@ -4,9 +4,9 @@
  * Copyright 2026 Wojciech Kaczmarski
  * SPDX-License-Identifier: MIT
  *
- * Self-contained: SHA-256 (FIPS 180-4) + the M17 stream hash + Authentication Frame helpers.
- * The same two files are used by gr-m17, M17_Implementations, the SDR# plugin and AtoM17;
- * keep the copies identical.
+ * Uses the SHA-256 implementation from https://github.com/amosnier/sha-2 (sha-256.c/.h,
+ * Unlicense or 0BSD), included as a git submodule. The same two m17sig files are used by
+ * gr-m17, M17_Implementations, the SDR# plugin and AtoM17; keep the copies identical.
  *
  *   H = SHA-256( "M17-SIG-v2" || FN_0 || P_0 || ... || FN_{N-1} || P_{N-1} || FN_A || P_A )
  *
@@ -17,12 +17,16 @@
  *
  * The signature frames (FN 0x7FFC..0x7FFE, 0xFFFF) are not hashed. H is signed with ECDSA over
  * secp256r1, used directly as the message hash: signature = r || s (32 + 32 bytes, MSB first).
+ *
+ * NOTE: an m17sig_ctx_t holds pointers into itself - do not copy it (or move it in memory)
+ * between m17sig_init() and m17sig_final().
  */
 #ifndef M17SIG_H
 #define M17SIG_H
 
 #include <stdint.h>
 #include <stddef.h>
+#include "sha-256.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,15 +35,14 @@ extern "C" {
 #define M17SIG_PAYLOAD_LEN 16
 #define M17SIG_HASH_LEN    32
 #define M17SIG_SIG_LEN     64
-#define M17SIG_FN_AUTH     0x7FFBU /* Authentication Frame */
-#define M17SIG_FN_SIG      0x7FFCU /* first of the 4 signature frames (0x7FFC..0x7FFE, 0xFFFF) */
+#define M17SIG_FN_AUTH     0x7FFBU     /* Authentication Frame */
+#define M17SIG_FN_SIG      0x7FFCU     /* first of the 4 signature frames (0x7FFC..0x7FFE, 0xFFFF) */
 #define M17SIG_EPOCH       1577836800L /* 2020-01-01T00:00:00Z as a Unix time */
 
 typedef struct
 {
-    uint32_t state[8];
-    uint64_t length;  /* bytes hashed so far */
-    uint8_t  buf[64]; /* pending, not yet compressed bytes */
+    struct Sha_256 sha;
+    uint8_t out[SIZE_OF_SHA_256_HASH];
 } m17sig_ctx_t;
 
 /* stream hash: init at FN 0, one m17sig_frame() per stream frame and for the Authentication Frame */
@@ -53,10 +56,7 @@ void m17sig_auth_build(uint8_t payload[M17SIG_PAYLOAD_LEN], const uint8_t signer
 void m17sig_auth_parse(const uint8_t payload[M17SIG_PAYLOAD_LEN], uint8_t signer[6],
                        uint8_t dst[6], uint32_t *timestamp);
 
-/* plain SHA-256, exposed for reuse and tests */
-void m17sig_sha256(const uint8_t *data, size_t len, uint8_t out[32]);
-
-/* known answer tests (FIPS 180-4 SHA-256, spec 2.1.0 test vector hash): 0 = pass */
+/* known answer tests (FIPS 180-4 SHA-256, M17 spec 2.1.0 test vector hash): 0 = pass */
 int m17sig_selftest(void);
 
 #ifdef __cplusplus
