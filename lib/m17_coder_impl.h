@@ -15,6 +15,7 @@
 #include "m17.h" // lsf_t declaration
 #include "aes.h"
 #include "uECC.h"
+#include "m17sig.h"
 
 namespace gr
 {
@@ -81,16 +82,16 @@ namespace gr
 			bool _stale_flushed = false;
 			std::atomic<bool> _finished = false, _active = false;
 
-			uint8_t _digest[PAYLOAD_BYTES] = {0}; // 16-byte field for the stream digest
+			m17sig_ctx_t _sig_ctx;				  // stream hash (signed streams, spec 2.1.0)
 			bool _priv_key_loaded = false;		  // do we have a sig key loaded?
 			uint8_t _priv_key[32] = {0};		  // private key
 			uint8_t _sig[64] = {0};				  // ECDSA signature
 			static constexpr int MAX_EOT_CNT = 32; // upper limit for set_eot_cnt(), sizes _tail
 			int _eot_cnt = 1;
 
-			// end of a stream (last frame, 4 signature frames if signed, EoT frames), generated at once
-			// and handed out across work calls if the output buffer is shorter
-			float _tail[(1 + 4 + MAX_EOT_CNT) * SYM_PER_FRA];
+			// end of a stream (last frame, Authentication Frame and 4 signature frames if signed, EoT frames),
+			// generated at once and handed out across work calls if the output buffer is shorter
+			float _tail[(1 + 1 + 4 + MAX_EOT_CNT) * SYM_PER_FRA];
 			uint32_t _tail_len = 0, _tail_pos = 0;
 			int _tail_eot_cnt = 1; // EoT frames in _tail (for the TX end report)
 			bool _init_frame;
@@ -137,7 +138,6 @@ namespace gr
 			void new_nonce(void);
 			void latch_lsf(bool stream_start);
 			void encrypt_payload(uint8_t *data);
-			void update_digest(const uint8_t *data);
 
 			m17_coder_impl(std::string src_id, std::string dst_id,
 						   int data, int encr_type, int encr_subtype, int aes_subtype, int can,

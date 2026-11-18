@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <time.h>
 #include <string.h>
 
 #include "m17.h"
@@ -143,9 +144,47 @@ namespace gr
 			_rx_max_e = 0.0f;
 			_rx_sig.clear();
 			_rx_lsf_seen = false;
+			_hash_ok = false;
+			_auth_seen = false;
 			_txt_used = 0;
 			_txt_have = 0;
 			_txt_done = false;
+		}
+
+		// Authentication Frame contents for the RX end report (spec 2.1.0, Receiver Display):
+		// signer, destination, time of signing, Timestamp check against the system clock,
+		// and a warning when the signer is not the originator named by the LSD
+		std::string m17_decoder_impl::auth_report(void)
+		{
+			uint8_t signer[6], dst[6];
+			uint32_t ts;
+			m17sig_auth_parse(_auth, signer, dst, &ts);
+
+			char s_call[10] = {0}, d_call[10] = {0}, o_call[10] = {0};
+			decode_callsign_bytes(s_call, signer);
+			decode_callsign_bytes(d_call, dst);
+
+			// originator: Callsign Field 1 of the Extended Callsign Data if present, SRC otherwise
+			const uint16_t type = ((uint16_t)_lsf.type[0] << 8) | _lsf.type[1];
+			const bool ecd = ((type >> 3) & 3) == 0 && ((type >> 5) & 3) == 2;
+			const uint8_t *orig = ecd ? &_lsf.meta[0] : _lsf.src;
+			decode_callsign_bytes(o_call, orig);
+
+			time_t t = (time_t)M17SIG_EPOCH + (time_t)ts;
+			struct tm utc;
+			char when[32];
+			gmtime_r(&t, &utc);
+			strftime(when, sizeof(when), "%Y-%m-%d %H:%M:%S UTC", &utc);
+
+			long age = (long)(time(NULL) - t);
+			char buf[160];
+			snprintf(buf, sizeof(buf), ", signer %s, to %s, signed %s (%s, %+ld s vs. the system clock)",
+					 s_call, d_call, when, (age > SIG_TIME_WINDOW || age < -SIG_TIME_WINDOW) ? "STALE" : "time OK", age);
+
+			std::string r = buf;
+			if (memcmp(signer, orig, 6))
+				r += std::string(", WARNING: the signer is not the originator ") + o_call;
+			return r;
 		}
 
 		// publish the LSF fields on the 'fields' message port
@@ -631,22 +670,32 @@ namespace gr
 							const uint8_t rx_encr = (type >> 3) & 3;
 							const uint8_t rx_encr_sub = (type >> 5) & 3;
 
-							/// if the stream is signed (process before decryption)
-							if (_signed_str && _fn < 0x7FFC)
+							// signed streams end with the Authentication Frame (FN 0x7FFB) and 4 signature frames
+							const bool auth_frame = _signed_str && (_fn & 0x7FFF) == M17SIG_FN_AUTH;
+							const bool sig_frame = _signed_str && (_fn & 0x7FFF) >= M17SIG_FN_SIG;
+
+							// stream hash over the FN and the payload as received (before decryption)
+							if (_signed_str && !sig_frame)
 							{
 								if (_fn == 0)
-									memset(_digest, 0, sizeof(_digest));
+								{
+									m17sig_init(&_sig_ctx);
+									_hash_ok = true;
+									_auth_seen = false;
+								}
+								else if (!auth_frame && (_fn % 0x8000) != _expected_next_fn)
+									_hash_ok = false; // a frame is missing: the hash can't be rebuilt
 
-								for (uint8_t i = 0; i < sizeof(_digest); i++)
-									_digest[i] ^= _stream_frame_data[i];
-								uint8_t tmp = _digest[0];
-								for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-									_digest[i] = _digest[i + 1];
-								_digest[sizeof(_digest) - 1] = tmp;
+								m17sig_frame(&_sig_ctx, _fn, _stream_frame_data);
+
+								if (auth_frame)
+								{
+									memcpy(_auth, _stream_frame_data, sizeof(_auth));
+									_auth_seen = true;
+								}
 							}
 
-							// NOTE: Don't attempt decryption when a signed stream is >= 0x7FFC
-							// The Signature is not encrypted
+							// NOTE: the Authentication Frame and the signature frames are not encrypted
 
 							// AES
 							if (rx_encr == ENCR_AES)
@@ -657,7 +706,7 @@ namespace gr
 								_iv[15] = (_fn & 0xFF) & 0xFF;
 
 								std::lock_guard<std::mutex> aes_lock(aes_mutex());
-								if (_signed_str && (_fn % 0x8000) < 0x7FFC) // signed stream
+								if (_signed_str && (_fn % 0x8000) < M17SIG_FN_AUTH) // signed stream
 									aes_ctr_bytewise_payload_crypt(_iv, _key, _stream_frame_data, _aes_subtype);
 								else if (!_signed_str) // non-signed stream
 									aes_ctr_bytewise_payload_crypt(_iv, _key, _stream_frame_data, _aes_subtype);
@@ -672,12 +721,12 @@ namespace gr
 								else if (_fn == 0)
 									_scrambler_seed = _scrambler_key; // reset back to key value
 
-								if (_signed_str && (_fn % 0x8000) < 0x7FFC) // signed stream
+								if (_signed_str && (_fn % 0x8000) < M17SIG_FN_AUTH) // signed stream
 									scrambler_sequence_generator();
 								else if (!_signed_str) // non-signed stream
 									scrambler_sequence_generator();
 								else
-									memset(_scr_bytes, 0, sizeof(_scr_bytes)); // zero out stale scrambler bytes so they aren't applied to the sig frames
+									memset(_scr_bytes, 0, sizeof(_scr_bytes)); // zero out stale scrambler bytes so they aren't applied to the auth/sig frames
 
 								for (uint8_t i = 0; i < PAYLOAD_BYTES; i++)
 								{
@@ -689,7 +738,7 @@ namespace gr
 							if (_debug_data == true)
 								m17_log(tag(), "FN %04X  %s  e=%.1f", _fn, m17_hex(_stream_frame_data, PAYLOAD_BYTES, 4).c_str(), (float)e / 0xFFFF);
 
-							if ((_fn & 0x7FFF) < 0x7FFC) // data frame (not a signature frame)
+							if (!auth_frame && !sig_frame) // data frame (not an Authentication or signature frame)
 							{
 								_rx_frames++;
 								if ((float)e / 0xFFFF > _rx_max_e)
@@ -698,18 +747,18 @@ namespace gr
 
 							// output: signature frames and frames that cannot be decrypted -> Codec2 silence, zeros or nothing
 							// (user setting); frames over the Viterbi threshold -> Codec2 silence; everything else -> payload
-							bool sig_frame = _signed_str && (_fn & 0x7FFF) >= 0x7FFC;
+							const bool ctrl_frame = auth_frame || sig_frame; // no audio/data in these
 							bool undecryptable = (rx_encr == ENCR_AES && (rx_encr_sub > 2 || _key_len != 16 + 8 * rx_encr_sub)) ||
 												 (rx_encr == ENCR_SCRAM && (rx_encr_sub > 2 || _seed_len != rx_encr_sub + 1)) ||
 												 rx_encr == ENCR_RES;
-							if ((sig_frame || undecryptable) && _undecodable_out == 2)
+							if ((ctrl_frame || undecryptable) && _undecodable_out == 2)
 								; // output nothing
-							else if ((sig_frame || undecryptable) && _undecodable_out == 1)
+							else if ((ctrl_frame || undecryptable) && _undecodable_out == 1)
 							{
 								memset(&out[countout], 0, PAYLOAD_BYTES);
 								countout += PAYLOAD_BYTES;
 							}
-							else if (sig_frame || undecryptable || (float)e / 0xFFFF > _vt_threshold)
+							else if (ctrl_frame || undecryptable || (float)e / 0xFFFF > _vt_threshold)
 							{
 								memcpy(&out[countout], C2_SILENCE, C2_FRAME_BYTES);
 								memcpy(&out[countout + C2_FRAME_BYTES], C2_SILENCE, C2_FRAME_BYTES);
@@ -725,7 +774,7 @@ namespace gr
 							// fwrite(_stream_frame_data, PAYLOAD_BYTES, 1, stdout);
 
 							// If we're at the start of a superframe, or we missed a frame, reset the LICH state
-							if ((_lich_cnt == 0) || ((_fn % 0x8000) != _expected_next_fn && _fn < 0x7FFC))
+							if ((_lich_cnt == 0) || ((_fn % 0x8000) != _expected_next_fn && _fn < 0x7FFC && !auth_frame))
 								lich_chunks_rcvd = 0;
 
 							// LICH_CNT is 0..5, decode_str_frame_ctx() returns 0xFF when the Golay decoding fails
@@ -769,9 +818,9 @@ namespace gr
 							}
 
 							// if the contents of the payload is now digital signature, not data/voice
-							if ((_fn & 0x7FFF) >= 0x7FFC && _signed_str == true)
+							if (sig_frame)
 							{
-								memcpy(&_sig[((_fn & 0x7FFF) - 0x7FFC) * PAYLOAD_BYTES], _stream_frame_data, PAYLOAD_BYTES);
+								memcpy(&_sig[((_fn & 0x7FFF) - M17SIG_FN_SIG) * PAYLOAD_BYTES], _stream_frame_data, PAYLOAD_BYTES);
 
 								if (_fn == (0x7FFF | 0x8000))
 								{
@@ -780,12 +829,22 @@ namespace gr
 									for (uint8_t i = 0; i < 64; i++)
 										have_key |= (_pub_key[i] != 0);
 
-									if (!have_key)
-										_rx_sig = ", signature not verified (no public key set)";
-									else if (uECC_verify(_pub_key, _digest, sizeof(_digest), _sig, _curve))
-										_rx_sig = ", signature OK";
+									if (!_hash_ok || !_auth_seen)
+										_rx_sig = ", signature not verified (frames missing or late entry)";
 									else
-										_rx_sig = ", signature INVALID";
+									{
+										uint8_t hash[M17SIG_HASH_LEN];
+										m17sig_final(&_sig_ctx, hash);
+
+										if (!have_key)
+											_rx_sig = ", signature not verified (no public key set)";
+										else if (uECC_verify(_pub_key, hash, sizeof(hash), _sig, _curve))
+											_rx_sig = ", signature OK";
+										else
+											_rx_sig = ", signature INVALID";
+
+										_rx_sig += auth_report();
+									}
 								}
 							}
 

@@ -33,6 +33,7 @@ list(APPEND m17_sources
     ../libm17/phy/sync.c
     ../libm17/phy/slice.c
     ../micro-ecc/uECC.c
+    m17sig.c
     ../tinier-aes/aes.c
     ../codec2-mod/src/analysis.c
     ../codec2-mod/src/codec2_mod.c
@@ -99,6 +100,13 @@ if(ENABLE_UECC_TESTS)
         message(WARNING "micro-ecc submodule has no tests - update it to enable them")
     endif()
 endif()
+
+# stream signature hash (m17sig.c): SHA-256 known answers and the M17 spec 2.1.0 test vector
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/m17sig_selftest.c
+    "#include \"m17sig.h\"\nint main(void) { return m17sig_selftest(); }\n")
+add_executable(m17sig_selftest ${CMAKE_CURRENT_BINARY_DIR}/m17sig_selftest.c m17sig.c)
+target_include_directories(m17sig_selftest PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME m17sig_selftest COMMAND m17sig_selftest)
 
 ########################################################################
 # Build and register unit test

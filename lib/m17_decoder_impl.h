@@ -14,6 +14,7 @@
 #include "m17.h"
 #include "aes.h"
 #include "uECC.h"
+#include "m17sig.h"
 
 namespace gr
 {
@@ -37,7 +38,12 @@ namespace gr
 			uint8_t _iv[16];
 			encr_t _encr_type = ENCR_NONE;
 			// used for signatures
-			uint8_t _digest[16] = {0};	 // 16-byte field for the stream digest
+			m17sig_ctx_t _sig_ctx;		 // stream hash (spec 2.1.0)
+			bool _hash_ok = false;		 // the hash covers every frame from FN 0 (no late entry, no gaps)
+			bool _auth_seen = false;	 // Authentication Frame received
+			uint8_t _auth[16] = {0};	 // Authentication Frame payload
+			static constexpr long SIG_TIME_WINDOW = 300; // s, accepted Timestamp offset (spec default)
+			std::string auth_report(void);
 			uint8_t _sig[64] = {0};		 // ECDSA signature
 			uint32_t _scrambler_key = 0; // keep set to initial value for seed calculation function
 

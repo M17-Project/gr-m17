@@ -101,8 +101,8 @@ documentation: |-
      The decoder reads a stream of symbols (as floats) at 4800 Hz and outputs the decoded payload (as bytes). Decoded LSF fields are published on the 'fields' message port when a transmission starts and whenever the LSF changes.
      Syncword threshold: maximum Euclidean (L2) distance between the received symbols and a syncword for a frame to be detected (0 = perfect match).
      Viterbi threshold: maximum accumulated Viterbi error for a decoded frame to be accepted; rejected frames are replaced with Codec2 (3200) encoded silence.
-     Undecryptable/signature frames: what to output for frames that cannot be decrypted (AES key or scrambler seed missing or of the wrong size) and for the signature frames of signed streams - Codec2 encoded silence or zeros (both keep the timing), or nothing.
+     Undecryptable/signature frames: what to output for frames that cannot be decrypted (AES key or scrambler seed missing or of the wrong size) and for the Authentication and signature frames of signed streams - Codec2 encoded silence or zeros (both keep the timing), or nothing.
      Encryption: whether a stream is encrypted, and how (scrambler size, AES key length), is read from its LSF. Enter the AES key (32/48/64 hex digits) and/or the scrambler seed (2/4/6 hex digits) needed to decrypt the streams you expect; the decoder warns when a received stream needs a key that is missing or has the wrong length.
-     Public key: 64-byte secp256r1 public key used to verify signed streams. Whether a stream is signed is read from its LSF.
+     Public key: 64-byte secp256r1 public key used to verify signed streams (M17 spec 2.1.0). Whether a stream is signed is read from its LSF. At the end of a signed stream the decoder reports the result, the signer, the destination and the time of signing (checked against the system clock, ±300 s).
 
 file_format: 1

@@ -38,6 +38,7 @@
 #include <gnuradio/buffer_reader.h>
 #include "aes.h"
 #include "uECC.h"
+#include "m17sig.h"
 
 namespace gr
 {
@@ -192,7 +193,7 @@ namespace gr
 			_finished.store(false, std::memory_order_relaxed);
 			_send_preamble = true; // send preamble once in the work function
 			_stale_flushed = false; // drop stale input on the first work call after SOT
-			memset(_digest, 0, sizeof(_digest)); // every stream starts with an all-zero digest
+			m17sig_init(&_sig_ctx);				  // every stream starts a new stream hash
 			_scrambler_seed = _scrambler_key;	  // every stream restarts the scrambler keystream from the seed
 			_meta_idx = 0;						  // multi-block Text Data starts with block 1
 		}
@@ -645,7 +646,7 @@ namespace gr
 
 			if (_tail_pos == _tail_len)
 			{
-				m17_log(tag(), "TX end: %d frames, %.2f s%s", _tx_frames, 0.04 * (2 + _tx_frames + (_signed_str ? 4 : 0) + _tail_eot_cnt),
+				m17_log(tag(), "TX end: %d frames, %.2f s%s", _tx_frames, 0.04 * (2 + _tx_frames + (_signed_str ? 5 : 0) + _tail_eot_cnt),
 						_signed_str ? ", signed" : "");
 				_tail_len = 0;
 				_tail_pos = 0;
@@ -852,17 +853,6 @@ namespace gr
 			}
 		}
 
-		// fold one payload block into the stream digest (signed streams)
-		void m17_coder_impl::update_digest(const uint8_t *data)
-		{
-			for (uint8_t i = 0; i < sizeof(_digest); i++)
-				_digest[i] ^= data[i];
-			uint8_t tmp = _digest[0];
-			for (uint8_t i = 0; i < sizeof(_digest) - 1; i++)
-				_digest[i] = _digest[i + 1];
-			_digest[sizeof(_digest) - 1] = tmp;
-		}
-
 		int
 		m17_coder_impl::general_work(int noutput_items,
 									 gr_vector_int &ninput_items,
@@ -1030,13 +1020,14 @@ namespace gr
 				encrypt_payload(data);
 
 				gen_frame(out + countout, data, FRAME_STR, &_lsf_tx, _lich_cnt, _fn);
-				countout += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
+				countout += SYM_PER_FRA; // gen frame always writes SYM_PER_FRA symbols = 192
+
+				// stream hash over the FN and the payload as transmitted (encrypted, if enabled)
+				if (_signed_str)
+					m17sig_frame(&_sig_ctx, _fn, data);
+
 				_fn = (_fn + 1) % 0x8000;		 // increment FN
 				_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
-
-				// update the stream digest if required
-				if (_signed_str)
-					update_digest(data);
 
 				// superframe boundary: setting changes take effect, multi-block Text Data moves on to the next block
 				if (_lich_cnt == 0)
@@ -1083,13 +1074,33 @@ namespace gr
 				_tail_len += SYM_PER_FRA;		 // gen frame always writes SYM_PER_FRA symbols = 192
 				_lich_cnt = (_lich_cnt + 1) % 6; // continue with next LICH_CNT
 
-				// if the stream is signed, transmit the signature (4 frames)
+				// if the stream is signed, transmit the Authentication Frame and the signature (4 frames)
 				if (_signed_str)
 				{
-					update_digest(data);
+					m17sig_frame(&_sig_ctx, _fn, data); // the last data frame
 
-					// sign the digest
-					uECC_sign(_priv_key, _digest, sizeof(_digest), _sig, _curve);
+					// Authentication Frame (FN 0x7FFB): signer, destination, time of signing - not encrypted
+					uint8_t auth[PAYLOAD_BYTES];
+					m17sig_auth_build(auth, _lsf_tx.src, _lsf_tx.dst, (uint32_t)(time(NULL) - epoch));
+					gen_frame(_tail + _tail_len, auth, FRAME_STR, &_lsf_tx, _lich_cnt, M17SIG_FN_AUTH);
+					_tail_len += SYM_PER_FRA;
+					_lich_cnt = (_lich_cnt + 1) % 6;
+					m17sig_frame(&_sig_ctx, M17SIG_FN_AUTH, auth);
+
+					// sign the stream hash (ECDSA, secp256r1, random k)
+					uint8_t hash[M17SIG_HASH_LEN];
+					m17sig_final(&_sig_ctx, hash);
+					if (!uECC_sign(_priv_key, hash, sizeof(hash), _sig, _curve))
+					{
+						m17_log(tag(), "WARNING: signing failed - the signature will not verify");
+						memset(_sig, 0, sizeof(_sig));
+					}
+
+					if (_debug == true)
+					{
+						m17_log(tag(), "Authentication Frame: %s", m17_hex(auth, sizeof(auth)).c_str());
+						m17_log(tag(), "Stream hash: %s", m17_hex(hash, sizeof(hash)).c_str());
+					}
 
 					// 4 frames with 512-bit signature
 					_fn = 0x7FFC; // signature has to start at 0x7FFC to end at 0x7FFF (0xFFFF with EoT marker set)

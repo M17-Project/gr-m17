@@ -61,8 +61,12 @@ or raw bytes (hex), selected with *Meta type*. With AES, META carries the nonce.
 (= 8/16/24-bit), ECDSA private key (encoder) 64 hex digits, public key (decoder) 128 hex digits. With *Debug* enabled, the
 encoder prints the public key derived from the private key.
 * **M17 Decoder**: the encryption type and key size are taken from the received stream; enter the AES key and/or scrambler seed
-needed. Frames over the Viterbi threshold are output as Codec2 encoded silence; frames that cannot be decrypted and signature
-frames are output as Codec2 silence, zeros or nothing (selectable).
+needed. Frames over the Viterbi threshold are output as Codec2 encoded silence; frames that cannot be decrypted and the
+Authentication and signature frames of signed streams are output as Codec2 silence, zeros or nothing (selectable).
+* **Signed streams** follow M17 Specification 2.1.0: a SHA-256 hash over the Frame Numbers and payloads, an Authentication
+Frame (signer, destination, time of signing) and an ECDSA (secp256r1) signature. The decoder reports the verification result,
+the signer, destination and time of signing (checked against the system clock, ±300 s), and warns when the signer is not
+the originator of the stream. Signatures made before version 1.1.0 (XOR digest) do not verify.
 * **Console output**: one line per event, ``HH:MM:SS.mmm [TAG] message``, with ``TAG`` being ``M17_ENC``/``M17_DEC``
 (or the block alias, if set). *Debug data*/*Debug control* add per-frame details.
 

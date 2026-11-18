@@ -226,5 +226,6 @@ documentation: |-
      Transmission control: in Messages mode, SOT and EOT messages on the transmission_control port start and end a stream, and SMS messages send a text message (up to 821 bytes) as a packet transmission; in Continuous mode, the stream starts with the flowgraph and ends when the input ends.
      Source and destination are callsigns of up to 9 characters. META (Meta tab) carries text (up to 52 bytes, sent as up to 4 blocks, one per superframe), a GNSS position, extended callsign data or raw bytes; with AES it carries the nonce, generated for every transmission.
      Keys and seeds are entered as hex: AES key 32/48/64 digits, scrambler seed 2/4/6 digits (8/16/24-bit LFSR), ECDSA private key 64 digits.
+     Signed streams (M17 spec 2.1.0) end with an Authentication Frame (source callsign as the signer, destination, time of signing) and 4 signature frames over a SHA-256 hash of the stream.
 
 file_format: 1
